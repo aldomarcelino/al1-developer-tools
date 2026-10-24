@@ -30,7 +30,6 @@ import {
   ShieldCheck,
   Strikethrough,
   Table,
-  Trash2,
   Upload,
   WrapText,
 } from "lucide-react";
@@ -40,6 +39,7 @@ import {
   sampleMarkdown,
 } from "@/lib/markdown";
 import { ToolHeader } from "@/components/tool-header";
+import { ClearButton } from "@/components/clear-button";
 
 export function MarkdownWorkspace() {
   const [input, setInput] = useState(sampleMarkdown);
@@ -497,9 +497,7 @@ ${html}
           >
             <Upload size={14} />
           </button>
-          <button className="format-btn" onClick={handleClear} title="Clear editor">
-            <Trash2 size={14} />
-          </button>
+          <ClearButton size="sm" onClick={handleClear} title="Clear editor" />
         </div>
       </div>
 

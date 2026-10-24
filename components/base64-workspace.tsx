@@ -11,7 +11,6 @@ import {
   Info,
   ShieldCheck,
   Sparkles,
-  Trash2,
   Upload,
 } from "lucide-react";
 import {
@@ -22,6 +21,8 @@ import {
 } from "@/lib/base64-url";
 import { CustomSelect } from "@/components/custom-select";
 import { ToolHeader } from "@/components/tool-header";
+import { ClearButton } from "@/components/clear-button";
+import { SegmentedTabs } from "@/components/segmented-tabs";
 
 export function Base64Workspace() {
   const [mode, setMode] = useState<EncodingMode>("base64");
@@ -127,28 +128,17 @@ export function Base64Workspace() {
       <div className="workspace-toolbar">
         <div className="toolbar-group">
           {/* Direction Toggle (Encode vs Decode) */}
-          <div className="base64-direction-toggle">
-            <button
-              className={`base64-direction-btn ${direction === "encode" ? "active" : ""}`}
-              onClick={() => {
-                setDirection("encode");
-                setNoticeWithTimeout("Switched to Encode mode.");
-              }}
-              title="Encode plaintext to encoded format"
-            >
-              Encode
-            </button>
-            <button
-              className={`base64-direction-btn ${direction === "decode" ? "active" : ""}`}
-              onClick={() => {
-                setDirection("decode");
-                setNoticeWithTimeout("Switched to Decode mode.");
-              }}
-              title="Decode encoded format back to plaintext"
-            >
-              Decode
-            </button>
-          </div>
+          <SegmentedTabs<EncodingDirection>
+            value={direction}
+            onChange={(val) => {
+              setDirection(val);
+              setNoticeWithTimeout(`Switched to ${val === "encode" ? "Encode" : "Decode"} mode.`);
+            }}
+            options={[
+              { value: "encode", label: "Encode", title: "Encode plaintext to encoded format" },
+              { value: "decode", label: "Decode", title: "Decode encoded format back to plaintext" },
+            ]}
+          />
 
           {/* Mode Selector */}
           <CustomSelect
@@ -175,17 +165,13 @@ export function Base64Workspace() {
             Swap
           </button>
 
-          <button
-            className="button"
+          <ClearButton
             onClick={() => {
               setInput("");
               setNoticeWithTimeout("Cleared input.");
             }}
             title="Clear input text"
-          >
-            <Trash2 size={14} />
-            Clear
-          </button>
+          />
         </div>
 
         {/* Toolbar Right: Copy & Download Output */}
@@ -283,13 +269,14 @@ export function Base64Workspace() {
               >
                 <Upload size={14} />
               </button>
-              <button
-                className="icon-btn"
-                onClick={() => setInput("")}
+              <ClearButton
+                size="sm"
+                onClick={() => {
+                  setInput("");
+                  setNoticeWithTimeout("Cleared input.");
+                }}
                 title="Clear input"
-              >
-                <Trash2 size={14} />
-              </button>
+              />
             </div>
           </div>
           <div className="editor-body" style={{ height: "100%", flex: 1 }}>

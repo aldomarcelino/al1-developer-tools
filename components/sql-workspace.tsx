@@ -14,7 +14,6 @@ import {
   Play,
   ShieldCheck,
   Sparkles,
-  Trash2,
   Upload,
   WrapText,
 } from "lucide-react";
@@ -28,6 +27,7 @@ import {
 } from "@/lib/sql";
 import { CustomSelect, SelectOption } from "@/components/custom-select";
 import { ToolHeader } from "@/components/tool-header";
+import { ClearButton } from "@/components/clear-button";
 
 const dialectOptions: SelectOption[] = [
   { value: "postgresql", label: "PostgreSQL" },
@@ -378,15 +378,11 @@ export function SqlWorkspace() {
               >
                 <Upload size={16} />
               </button>
-              <button
-                type="button"
-                className="icon-button"
+              <ClearButton
+                size="sm"
                 onClick={handleClear}
                 title="Clear input"
-                aria-label="Clear input"
-              >
-                <Trash2 size={16} />
-              </button>
+              />
             </div>
           </div>
 

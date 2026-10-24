@@ -13,13 +13,14 @@ import {
   ShieldCheck,
   Sparkles,
   Terminal,
-  Trash2,
   Upload,
   WrapText,
 } from "lucide-react";
 import { CodeTarget, convertCurl, sampleCurlCommands, TARGET_OPTIONS } from "@/lib/curl";
 import { CustomSelect, SelectOption } from "@/components/custom-select";
 import { ToolHeader } from "@/components/tool-header";
+import { ClearButton } from "@/components/clear-button";
+import { SegmentedTabs } from "@/components/segmented-tabs";
 
 const targetSelectOptions: SelectOption[] = TARGET_OPTIONS.map((opt) => ({
   value: opt.value,
@@ -213,18 +214,11 @@ export function CurlWorkspace() {
       <div className="workspace-toolbar">
         <div className="toolbar-group" style={{ alignItems: "center", flexWrap: "wrap" }}>
           {/* Quick Target Tabs */}
-          <div className="regex-toggle-group">
-            {quickTargets.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                className={`regex-toggle-btn ${target === opt.value ? "active" : ""}`}
-                onClick={() => setTarget(opt.value)}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
+          <SegmentedTabs<CodeTarget>
+            value={target}
+            onChange={(val) => setTarget(val)}
+            options={quickTargets}
+          />
 
           {/* Full Target Dropdown */}
           <CustomSelect
@@ -329,15 +323,11 @@ export function CurlWorkspace() {
               >
                 <Upload size={16} />
               </button>
-              <button
-                type="button"
-                className="icon-button"
+              <ClearButton
+                size="sm"
                 onClick={handleClear}
                 title="Clear input"
-                aria-label="Clear input"
-              >
-                <Trash2 size={16} />
-              </button>
+              />
             </div>
           </div>
 

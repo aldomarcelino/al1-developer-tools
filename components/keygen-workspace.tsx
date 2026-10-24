@@ -21,6 +21,7 @@ import {
   KeyItem,
 } from "@/lib/keygen";
 import { ToolHeader } from "@/components/tool-header";
+import { SegmentedTabs } from "@/components/segmented-tabs";
 
 export function KeygenWorkspace() {
   const [keys, setKeys] = useState<KeyItem[]>([]);
@@ -242,42 +243,18 @@ export function KeygenWorkspace() {
       </div>
 
       {/* Category Tabs */}
-      <div className="keygen-tabs">
-        <button
-          type="button"
-          className={`keygen-tab-btn ${activeCategory === "all" ? "active" : ""}`}
-          onClick={() => setActiveCategory("all")}
-        >
-          All Keys ({keys.length})
-        </button>
-        <button
-          type="button"
-          className={`keygen-tab-btn ${activeCategory === "passwords" ? "active" : ""}`}
-          onClick={() => setActiveCategory("passwords")}
-        >
-          Passwords & Phrases
-        </button>
-        <button
-          type="button"
-          className={`keygen-tab-btn ${activeCategory === "keys" ? "active" : ""}`}
-          onClick={() => setActiveCategory("keys")}
-        >
-          Cryptographic & Hex Secrets
-        </button>
-        <button
-          type="button"
-          className={`keygen-tab-btn ${activeCategory === "tokens" ? "active" : ""}`}
-          onClick={() => setActiveCategory("tokens")}
-        >
-          UUIDs & Tokens
-        </button>
-        <button
-          type="button"
-          className={`keygen-tab-btn ${activeCategory === "numeric" ? "active" : ""}`}
-          onClick={() => setActiveCategory("numeric")}
-        >
-          PINs & Numeric
-        </button>
+      <div style={{ marginBottom: "1rem", overflowX: "auto", paddingBottom: "2px" }}>
+        <SegmentedTabs<string>
+          value={activeCategory}
+          onChange={(val) => setActiveCategory(val)}
+          options={[
+            { value: "all", label: "All Keys", badge: keys.length },
+            { value: "passwords", label: "Passwords & Phrases" },
+            { value: "keys", label: "Cryptographic & Hex Secrets" },
+            { value: "tokens", label: "UUIDs & Tokens" },
+            { value: "numeric", label: "PINs & Numeric" },
+          ]}
+        />
       </div>
 
       {/* Key Items List */}

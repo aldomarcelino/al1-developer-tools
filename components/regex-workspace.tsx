@@ -12,10 +12,11 @@ import {
   Regex as RegexIcon,
   Replace,
   Sparkles,
-  Trash2,
 } from "lucide-react";
 import { flagsToString, patternLibrary, RegexFlags, testRegex } from "@/lib/regex";
 import { ToolHeader } from "@/components/tool-header";
+import { ClearButton } from "@/components/clear-button";
+import { SegmentedTabs } from "@/components/segmented-tabs";
 
 const quickTokens = [
   { label: "\\d", title: "Digit [0-9]" },
@@ -295,44 +296,40 @@ export function RegexWorkspace() {
 
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               {/* Toggle Edit vs Live Highlight Preview */}
-              <div className="regex-toggle-group">
-                <button
-                  type="button"
-                  className={`regex-toggle-btn ${viewMode === "highlight" ? "active" : ""}`}
-                  onClick={() => setViewMode("highlight")}
-                  title="View test string with matched segments highlighted"
-                >
-                  <Eye size={12} />
-                  Live Highlight
-                </button>
-                <button
-                  type="button"
-                  className={`regex-toggle-btn ${viewMode === "edit" ? "active" : ""}`}
-                  onClick={() => setViewMode("edit")}
-                  title="Directly edit text"
-                >
-                  <PenLine size={12} />
-                  Edit Text
-                </button>
-              </div>
+              <SegmentedTabs<"highlight" | "edit">
+                size="sm"
+                value={viewMode}
+                onChange={(val) => setViewMode(val)}
+                options={[
+                  {
+                    value: "highlight",
+                    label: (
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                        <Eye size={12} /> Live Highlight
+                      </span>
+                    ),
+                    title: "View test string with matched segments highlighted",
+                  },
+                  {
+                    value: "edit",
+                    label: (
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                        <PenLine size={12} /> Edit Text
+                      </span>
+                    ),
+                    title: "Directly edit text",
+                  },
+                ]}
+              />
 
-              <button
-                type="button"
-                className="button"
+              <ClearButton
+                size="sm"
                 onClick={() => {
                   setTestString("");
                   setNoticeWithTimeout("Cleared test string.");
                 }}
                 title="Clear test text"
-                style={{
-                  padding: "4px 10px",
-                  fontSize: "12px",
-                  minHeight: "28px",
-                }}
-              >
-                <Trash2 size={13} />
-                Clear
-              </button>
+              />
             </div>
           </div>
 
@@ -389,24 +386,30 @@ export function RegexWorkspace() {
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <span className="pane-dot green" />
               {/* Tab Switcher: Matches vs Replace */}
-              <div className="regex-toggle-group">
-                <button
-                  type="button"
-                  className={`regex-toggle-btn ${activeTab === "matches" ? "active" : ""}`}
-                  onClick={() => setActiveTab("matches")}
-                >
-                  <Code2 size={12} />
-                  Match Inspector ({testResult.matchCount})
-                </button>
-                <button
-                  type="button"
-                  className={`regex-toggle-btn ${activeTab === "replace" ? "active" : ""}`}
-                  onClick={() => setActiveTab("replace")}
-                >
-                  <Replace size={12} />
-                  Substitution (Replace)
-                </button>
-              </div>
+              <SegmentedTabs<"matches" | "replace">
+                size="sm"
+                value={activeTab}
+                onChange={(val) => setActiveTab(val)}
+                options={[
+                  {
+                    value: "matches",
+                    label: (
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                        <Code2 size={12} /> Match Inspector
+                      </span>
+                    ),
+                    badge: testResult.matchCount,
+                  },
+                  {
+                    value: "replace",
+                    label: (
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                        <Replace size={12} /> Substitution (Replace)
+                      </span>
+                    ),
+                  },
+                ]}
+              />
 
               {testResult.valid && (
                 <span
