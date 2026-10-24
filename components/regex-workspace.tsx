@@ -12,10 +12,10 @@ import {
   Regex as RegexIcon,
   Replace,
   Sparkles,
+  Trash2,
 } from "lucide-react";
 import { flagsToString, patternLibrary, RegexFlags, testRegex } from "@/lib/regex";
 import { ToolHeader } from "@/components/tool-header";
-import { ClearButton } from "@/components/clear-button";
 import { SegmentedTabs } from "@/components/segmented-tabs";
 
 const quickTokens = [
@@ -322,14 +322,23 @@ export function RegexWorkspace() {
                 ]}
               />
 
-              <ClearButton
-                size="sm"
+              <button
+                type="button"
+                className="button"
                 onClick={() => {
                   setTestString("");
                   setNoticeWithTimeout("Cleared test string.");
                 }}
                 title="Clear test text"
-              />
+                style={{
+                  padding: "4px 10px",
+                  fontSize: "12px",
+                  minHeight: "28px",
+                }}
+              >
+                <Trash2 size={13} />
+                Clear
+              </button>
             </div>
           </div>
 

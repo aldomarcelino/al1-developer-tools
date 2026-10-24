@@ -12,6 +12,7 @@ import {
   Play,
   ShieldCheck,
   Sparkles,
+  Trash2,
   Upload,
 } from "lucide-react";
 import {
@@ -26,7 +27,6 @@ import {
 } from "@/lib/diff";
 import { CustomSelect } from "@/components/custom-select";
 import { ToolHeader } from "@/components/tool-header";
-import { ClearButton } from "@/components/clear-button";
 
 export function DiffWorkspace() {
   const [screen, setScreen] = useState<"input" | "diff">("input");
@@ -191,14 +191,18 @@ export function DiffWorkspace() {
           </button>
 
           {screen === "input" && (
-            <ClearButton
+            <button
+              className="button"
               onClick={() => {
                 setOriginal("");
                 setModified("");
                 setNoticeWithTimeout("Cleared both inputs.");
               }}
               title="Clear both inputs"
-            />
+            >
+              <Trash2 size={14} />
+              Clear
+            </button>
           )}
         </div>
 
@@ -319,14 +323,13 @@ export function DiffWorkspace() {
                   >
                     <Upload size={14} />
                   </button>
-                  <ClearButton
-                    size="sm"
-                    onClick={() => {
-                      setOriginal("");
-                      setNoticeWithTimeout("Cleared original text.");
-                    }}
+                  <button
+                    className="icon-btn"
+                    onClick={() => setOriginal("")}
                     title="Clear original text"
-                  />
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
               </div>
               <div className="editor-body" style={{ height: "100%", flex: 1 }}>
@@ -361,14 +364,13 @@ export function DiffWorkspace() {
                   >
                     <Upload size={14} />
                   </button>
-                  <ClearButton
-                    size="sm"
-                    onClick={() => {
-                      setModified("");
-                      setNoticeWithTimeout("Cleared modified text.");
-                    }}
+                  <button
+                    className="icon-btn"
+                    onClick={() => setModified("")}
                     title="Clear modified text"
-                  />
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
               </div>
               <div className="editor-body" style={{ height: "100%", flex: 1 }}>

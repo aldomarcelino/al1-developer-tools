@@ -10,11 +10,11 @@ import {
   Info,
   ShieldCheck,
   Sparkles,
+  Trash2,
   Upload,
 } from "lucide-react";
 import { jsonToTypeScript, sampleJsonForTs } from "@/lib/json-to-ts";
 import { ToolHeader } from "@/components/tool-header";
-import { ClearButton } from "@/components/clear-button";
 import { SegmentedTabs } from "@/components/segmented-tabs";
 
 export function JsonToTsWorkspace() {
@@ -144,13 +144,18 @@ export function JsonToTsWorkspace() {
             ]}
           />
 
-          <ClearButton
+          <button
+            type="button"
+            className="button"
             onClick={() => {
               setJsonInput("");
               setNoticeWithTimeout("Cleared input.");
             }}
             title="Clear JSON input"
-          />
+          >
+            <Trash2 size={14} />
+            Clear
+          </button>
         </div>
 
         {/* Toolbar Right: Copy & Download Output */}
@@ -251,14 +256,13 @@ export function JsonToTsWorkspace() {
               >
                 <Upload size={14} />
               </button>
-              <ClearButton
-                size="sm"
-                onClick={() => {
-                  setJsonInput("");
-                  setNoticeWithTimeout("Cleared input.");
-                }}
+              <button
+                className="icon-btn"
+                onClick={() => setJsonInput("")}
                 title="Clear input"
-              />
+              >
+                <Trash2 size={14} />
+              </button>
             </div>
           </div>
           <div className="editor-body" style={{ height: "100%", flex: 1 }}>

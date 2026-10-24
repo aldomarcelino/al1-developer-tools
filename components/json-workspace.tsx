@@ -11,13 +11,13 @@ import {
   Loader2,
   Play,
   ShieldCheck,
+  Trash2,
   Upload,
   WrapText,
 } from "lucide-react";
 import { JsonErrorInfo, parseJsonError, sampleJson, transformJson } from "@/lib/json";
 import { CustomSelect } from "@/components/custom-select";
 import { ToolHeader } from "@/components/tool-header";
-import { ClearButton } from "@/components/clear-button";
 
 const indentOptions = [
   { value: "2", label: "2 spaces" },
@@ -221,10 +221,10 @@ export function JsonWorkspace() {
                 hidden
                 onChange={(e) => readFile(e.target.files?.[0])}
               />
-              <ClearButton
-                size="sm"
+              <button
+                className="icon-button"
+                aria-label="Clear JSON"
                 title="Clear JSON"
-                ariaLabel="Clear JSON"
                 onClick={() => {
                   setInput("");
                   setOutput("");
@@ -233,7 +233,9 @@ export function JsonWorkspace() {
                   setValid(false);
                   setNotice("Editor cleared. Paste JSON to begin.");
                 }}
-              />
+              >
+                <Trash2 size={16} />
+              </button>
             </div>
           </div>
           <div className="editor-body">

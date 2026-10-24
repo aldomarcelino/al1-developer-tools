@@ -11,6 +11,7 @@ import {
   Info,
   ShieldCheck,
   Sparkles,
+  Trash2,
   Upload,
 } from "lucide-react";
 import {
@@ -21,7 +22,6 @@ import {
 } from "@/lib/base64-url";
 import { CustomSelect } from "@/components/custom-select";
 import { ToolHeader } from "@/components/tool-header";
-import { ClearButton } from "@/components/clear-button";
 import { SegmentedTabs } from "@/components/segmented-tabs";
 
 export function Base64Workspace() {
@@ -165,13 +165,17 @@ export function Base64Workspace() {
             Swap
           </button>
 
-          <ClearButton
+          <button
+            className="button"
             onClick={() => {
               setInput("");
               setNoticeWithTimeout("Cleared input.");
             }}
             title="Clear input text"
-          />
+          >
+            <Trash2 size={14} />
+            Clear
+          </button>
         </div>
 
         {/* Toolbar Right: Copy & Download Output */}
@@ -269,14 +273,13 @@ export function Base64Workspace() {
               >
                 <Upload size={14} />
               </button>
-              <ClearButton
-                size="sm"
-                onClick={() => {
-                  setInput("");
-                  setNoticeWithTimeout("Cleared input.");
-                }}
+              <button
+                className="icon-btn"
+                onClick={() => setInput("")}
                 title="Clear input"
-              />
+              >
+                <Trash2 size={14} />
+              </button>
             </div>
           </div>
           <div className="editor-body" style={{ height: "100%", flex: 1 }}>

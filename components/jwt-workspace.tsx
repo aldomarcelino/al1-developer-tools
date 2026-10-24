@@ -11,12 +11,12 @@ import {
   Info,
   Lock,
   ShieldCheck,
+  Trash2,
   Upload,
   XCircle,
 } from "lucide-react";
 import { parseJwt, sampleTokens } from "@/lib/jwt";
 import { ToolHeader } from "@/components/tool-header";
-import { ClearButton } from "@/components/clear-button";
 
 export function JwtWorkspace() {
   const [token, setToken] = useState(sampleTokens.valid);
@@ -113,13 +113,17 @@ export function JwtWorkspace() {
             {copiedAll ? <Check size={14} /> : <Code size={14} />}
             Copy All JSON
           </button>
-          <ClearButton
+          <button
+            className="button"
             onClick={() => {
               setToken("");
               setNoticeWithTimeout("Cleared token.");
             }}
             title="Clear token input"
-          />
+          >
+            <Trash2 size={14} />
+            Clear
+          </button>
         </div>
       </div>
 
