@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Design Tokens & Themes
+   ========================================================================== */
+
+:root {
+  --bg: #f7f8fa;
+  --surface: #fff;
+  --text: #232527;
+  --muted: #747b80;
+  --border: #e5e8e9;
+  --green: #0e363c;
+  --lime: #e1ffc1;
+  --accent: #0e363c;
+  --soft: #eef3f2;
+  --success: #176c4b;
+  --error: #b42318;
+  --font-ui: "Manrope", sans-serif;
+  --font-code: "JetBrains Mono", monospace;
+  --section: #0e363c;
+  --section-card: #184148;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0e191d;
+  --surface: #14252a;
+  --text: #f2f6f4;
+  --muted: #afbec0;
+  --border: #30484d;
+  --green: #d9f5c3;
+  --soft: #20363b;
+  --accent: #d9f5c3;
+  --success: #a5e2b6;
+  --error: #ffc0b5;
+  color-scheme: dark;
+}

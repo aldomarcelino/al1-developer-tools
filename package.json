@@ -1,0 +1,49 @@
+{
+  "name": "al1-developer-tools",
+  "version": "1.0.0",
+  "description": "a tools to help developer",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build --webpack",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,css,md,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,css,md,json}\"",
+    "test": "node --experimental-strip-types --test lib/json.test.ts lib/markdown.test.ts lib/diff.test.ts lib/jwt.test.ts lib/base64-url.test.ts lib/regex.test.ts lib/timestamp.test.ts lib/keygen.test.ts lib/json-to-ts.test.ts lib/sql.test.ts lib/curl.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aldomarcelino/al1-developer-tools.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/aldomarcelino/al1-developer-tools/issues"
+  },
+  "homepage": "https://github.com/aldomarcelino/al1-developer-tools#readme",
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "lucide-react": "^1.61.0",
+    "next": "^16.4.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.3",
+    "prettier": "^3.9.10",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
+  }
+}

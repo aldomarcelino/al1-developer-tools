@@ -1,0 +1,383 @@
+/* ==========================================================================
+   Regex Tester Specialized Studio Styles
+   ========================================================================== */
+
+/* Template Pills Bar */
+.regex-template-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+
+.regex-template-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.regex-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 550;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.regex-chip-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--soft);
+}
+
+.regex-chip-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  font-weight: 650;
+  box-shadow: 0 2px 6px rgba(14, 54, 60, 0.25);
+}
+
+[data-theme="dark"] .regex-chip-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0e363c;
+  box-shadow: 0 2px 6px rgba(217, 245, 195, 0.25);
+}
+
+/* Pattern Hero Card */
+.regex-hero-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 18px 22px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-bottom: 18px;
+}
+
+.regex-hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.regex-input-box {
+  display: flex;
+  align-items: center;
+  background: var(--soft);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 0 16px;
+  font-family: var(--font-code);
+  font-size: 15px;
+  transition: all 0.15s ease;
+}
+
+.regex-input-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3.5px rgba(164, 216, 129, 0.22);
+  background: var(--surface);
+}
+
+.regex-input-box.has-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3.5px rgba(239, 68, 68, 0.18);
+}
+
+.regex-slash {
+  color: #8c9680;
+  font-weight: 700;
+  user-select: none;
+  font-size: 20px;
+}
+
+.regex-hero-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 13px 12px;
+  font-family: var(--font-code);
+  font-size: 15px;
+  color: var(--text);
+  min-width: 0;
+}
+
+.regex-flags-pillbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
+}
+
+.regex-flag-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  font-family: var(--font-code);
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.regex-flag-pill:hover {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.regex-flag-pill.active {
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 800;
+  box-shadow: 0 1px 4px rgba(14, 54, 60, 0.2);
+}
+
+[data-theme="dark"] .regex-flag-pill.active {
+  background: var(--accent);
+  color: #0e363c;
+  box-shadow: 0 1px 4px rgba(217, 245, 195, 0.2);
+}
+
+/* Cheat Sheet Quick Insert Tokens */
+.regex-quick-tokens {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.regex-token-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-right: 4px;
+}
+
+.regex-token-btn {
+  font-family: var(--font-code);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.regex-token-btn:hover {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+/* Studio Layout (Top Text String + Bottom Inspector) */
+.regex-studio-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.regex-pane-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.regex-pane-header {
+  height: 46px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Test String Inline Highlight Area */
+.regex-highlight-preview {
+  padding: 16px;
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-y: auto;
+  color: var(--text);
+}
+
+.regex-highlight-preview mark {
+  background: rgba(164, 216, 129, 0.35);
+  color: #143306;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 1px solid rgba(164, 216, 129, 0.6);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .regex-highlight-preview mark {
+  background: rgba(164, 216, 129, 0.25);
+  color: #c0f498;
+  border-color: rgba(164, 216, 129, 0.45);
+}
+
+/* Match Cards Grid */
+.regex-matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+  max-height: 380px;
+}
+
+.regex-card-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--soft);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.regex-card-item:hover {
+  border-color: rgba(164, 216, 129, 0.5);
+  transform: translateY(-1px);
+}
+
+.regex-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.regex-card-match-val {
+  font-family: var(--font-code);
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(164, 216, 129, 0.2);
+  color: #143306;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(164, 216, 129, 0.35);
+  word-break: break-all;
+}
+
+[data-theme="dark"] .regex-card-match-val {
+  background: rgba(164, 216, 129, 0.18);
+  color: #a4d881;
+}
+
+.regex-groups-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+}
+
+.regex-group-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-family: var(--font-code);
+}
+
+.regex-group-tag {
+  color: var(--muted);
+  font-weight: 600;
+  min-width: 65px;
+}
+
+.regex-group-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  border-radius: 5px;
+  color: var(--text);
+  word-break: break-all;
+  flex: 1;
+}
+
+/* Empty matches state */
+.regex-empty-matches {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Specialized Segmented Toggle for Regex */
+.regex-toggle-group {
+  display: inline-flex;
+  align-items: center;
+  background: var(--soft);
+  padding: 3px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  gap: 2px;
+}
+
+.regex-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 550;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.regex-toggle-btn:hover {
+  color: var(--text);
+}
+
+.regex-toggle-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+}

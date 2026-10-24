@@ -1,0 +1,242 @@
+/* ==========================================================================
+   Button Primitives & Interactive Micro-Interactions
+   ========================================================================== */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 46px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: var(--surface);
+  padding: 12px 23px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  backface-visibility: hidden;
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.button:hover {
+  background-color: var(--soft);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+}
+
+.button:active {
+  transform: translateY(0.5px) scale(0.99);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition-duration: 0.08s;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.button svg {
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.button:hover .lucide-arrow-up-right {
+  transform: translate(2px, -2px);
+}
+
+.button:active .lucide-arrow-up-right {
+  transform: translate(0, 0);
+  transition-duration: 0.08s;
+}
+
+.button.primary {
+  background-color: #0e363c;
+  border-color: #16464e;
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 2px 6px rgba(14, 54, 60, 0.2);
+}
+
+.button.primary:hover {
+  background-color: #174b53;
+  border-color: #23636d;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 6px 18px rgba(14, 54, 60, 0.32);
+  transform: translateY(-1px);
+}
+
+.button.primary:active {
+  background-color: #0c2f34;
+  transform: translateY(0.5px) scale(0.99);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.25),
+    0 1px 3px rgba(14, 54, 60, 0.18);
+  transition-duration: 0.08s;
+}
+
+.header-cta {
+  font-size: 12px;
+  min-height: 45px;
+  padding: 11px 21px;
+}
+
+.button.secondary {
+  color: var(--green);
+  border-color: var(--border);
+}
+
+.button.secondary:hover {
+  border-color: var(--green);
+  color: var(--accent);
+  background-color: var(--soft);
+}
+
+.lime-button {
+  background-color: #e1ffc1;
+  border-color: #c8f59a;
+  color: #0e363c;
+  margin-top: 26px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 2px 6px rgba(164, 216, 129, 0.25);
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.lime-button:hover {
+  background-color: #d4f8ab;
+  border-color: #baef85;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 6px 18px rgba(164, 216, 129, 0.4);
+}
+
+.lime-button:active {
+  background-color: #c5f196;
+  transform: translateY(0.5px) scale(0.99);
+  box-shadow: 0 1px 3px rgba(164, 216, 129, 0.2);
+  transition-duration: 0.08s;
+}
+
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.text-button:hover {
+  color: var(--accent);
+  transform: translateX(2px);
+}
+
+.text-button:active {
+  transform: translateX(0);
+}
+
+.icon-button {
+  height: 36px;
+  width: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+  backface-visibility: hidden;
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.icon-button:hover {
+  background: var(--soft);
+  color: var(--text);
+  transform: scale(1.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.icon-button:active {
+  transform: scale(0.94);
+  box-shadow: none;
+  transition-duration: 0.08s;
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-button {
+  width: 40px;
+  height: 40px;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.small-button {
+  font-size: 9px;
+  color: var(--muted);
+  padding: 7px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  cursor: pointer;
+  user-select: none;
+  backface-visibility: hidden;
+  transition:
+    transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.small-button:hover {
+  background: var(--soft);
+  color: var(--text);
+  transform: translateY(-0.5px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.small-button:active {
+  transform: translateY(0.5px);
+  transition-duration: 0.08s;
+}
+
+.copy-button {
+  border: 1px solid var(--border);
+  margin-left: 4px;
+}
+
+.copy-button:hover {
+  border-color: var(--green);
+  color: var(--accent);
+}

@@ -1,0 +1,233 @@
+/* ==========================================================================
+   Random Key & Secret Generator (RanKeyGen) Specialized Styles
+   ========================================================================== */
+
+/* Top Generator Control Bar */
+.keygen-control-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 18px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.keygen-control-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Category Filter Tabs */
+.keygen-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-bottom: 20px;
+}
+
+.keygen-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.keygen-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 550;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.keygen-tab-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--soft);
+}
+
+.keygen-tab-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  font-weight: 650;
+  box-shadow: 0 2px 6px rgba(14, 54, 60, 0.25);
+}
+
+[data-theme="dark"] .keygen-tab-btn.active {
+  color: #0e363c;
+  box-shadow: 0 2px 6px rgba(217, 245, 195, 0.25);
+}
+
+/* Custom Password Generator Box */
+.keygen-custom-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--soft);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.keygen-custom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.keygen-custom-options {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.keygen-custom-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.keygen-custom-options input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.keygen-custom-output-box {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 12px;
+  gap: 10px;
+}
+
+.keygen-custom-val {
+  flex: 1;
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  word-break: break-all;
+  user-select: all;
+}
+
+/* Key Items List */
+.keygen-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.keygen-item-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.keygen-item-card:hover {
+  border-color: rgba(164, 216, 129, 0.6);
+  transform: translateY(-1px);
+}
+
+.keygen-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.keygen-item-title {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.keygen-item-desc {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.keygen-item-val-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.keygen-item-val {
+  font-family: var(--font-code);
+  font-size: 13px;
+  color: var(--text);
+  word-break: break-all;
+  user-select: all;
+}
+
+.keygen-copy-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.keygen-copy-pill:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+[data-theme="dark"] .keygen-copy-pill:hover {
+  color: #0e363c;
+}
+
+.keygen-copy-pill.copied {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+}

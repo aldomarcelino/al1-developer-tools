@@ -1,0 +1,253 @@
+/* ==========================================================================
+   Header, Brand, Navigation & Tools Dropdown
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 40;
+  border-bottom: 1px solid transparent;
+}
+.header-inner {
+  max-width: 1400px;
+  padding: 0 60px;
+  margin: auto;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.6px;
+  white-space: nowrap;
+}
+.brand-name {
+  font-weight: 450;
+  letter-spacing: -0.6px;
+}
+.brand-mark-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.2s ease;
+}
+.brand:hover .brand-mark-wrapper {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 12px rgba(164, 216, 129, 0.25));
+}
+.brand-logo-svg {
+  display: block;
+}
+@keyframes pulseDot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+.brand-status-dot circle:first-child {
+  transform-origin: 32.5px 7.5px;
+  animation: pulseDot 3s ease-in-out infinite;
+}
+.brand-mark {
+  width: 37px;
+  height: 37px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.header-nav {
+  display: flex;
+  gap: 34px;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 14px;
+  color: var(--muted);
+}
+.header-nav > a {
+  padding: 12px 0;
+}
+.header-nav > a:hover,
+.header-nav > a[aria-current="page"] {
+  color: var(--green);
+}
+.nav-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.nav-trigger:hover,
+.nav-trigger.is-open {
+  color: var(--green);
+}
+.nav-trigger svg {
+  transition: transform 0.2s ease;
+}
+.nav-trigger.is-open svg {
+  transform: rotate(180deg);
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.header-menu {
+  position: absolute;
+  top: calc(100% - 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1040px, calc(100% - 64px));
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 18px 45px #0e363c14;
+  max-height: calc(100dvh - 82px);
+  overflow-y: auto;
+  animation: menuFadeIn 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.header-menu::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
+}
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header-menu {
+    animation: none;
+  }
+  .nav-trigger svg {
+    transition: none;
+  }
+}
+.menu-heading {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 3px 10px 17px;
+}
+.menu-heading > span:last-child {
+  letter-spacing: 0;
+}
+.menu-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+.menu-tool-grid a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 12px;
+  border-radius: 12px;
+  color: var(--green);
+  min-height: 70px;
+  border: 1px solid transparent;
+  position: relative;
+  backface-visibility: hidden;
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.menu-tool-grid a:hover {
+  background: var(--soft);
+  border-color: var(--border);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 14px rgba(14, 54, 60, 0.06);
+}
+.menu-tool-grid a:active {
+  transform: translateY(0.5px) scale(0.99);
+  transition-duration: 0.08s;
+}
+.menu-tool-grid a[aria-current="page"] {
+  background: var(--soft);
+  border-color: var(--border);
+}
+.menu-tool-grid a > svg:first-child {
+  flex-shrink: 0;
+  transition:
+    transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 0.22s ease;
+}
+.menu-tool-grid a:hover > svg:first-child {
+  transform: scale(1.14);
+  color: var(--accent);
+}
+.menu-tool-grid a > span {
+  font-size: 12px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+.menu-tool-grid a:hover > span {
+  color: var(--text);
+}
+.menu-tool-grid small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 5px;
+  transition: color 0.2s ease;
+}
+.menu-tool-grid a:hover small {
+  color: var(--green);
+}
+.menu-tool-grid a > svg:last-child {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--muted);
+  opacity: 0.45;
+  transform: translate(0, 0);
+  transition:
+    transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 0.22s ease,
+    opacity 0.22s ease;
+}
+.menu-tool-grid a:hover > svg:last-child {
+  color: var(--accent);
+  opacity: 1;
+  transform: translate(3px, -3px) scale(1.18);
+}
+.menu-tool-grid a:active > svg:last-child {
+  transform: translate(1px, -1px);
+  transition-duration: 0.08s;
+}
+.mobile-nav-links {
+  display: none;
+}

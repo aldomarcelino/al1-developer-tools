@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Modular CSS Architecture
+   ========================================================================== */
+@import "../styles/tokens.css";
+@import "../styles/base.css";
+@import "../styles/buttons.css";
+@import "../styles/header.css";
+@import "../styles/home.css";
+@import "../styles/workspace.css";
+@import "../styles/markdown.css";
+@import "../styles/diff.css";
+@import "../styles/jwt.css";
+@import "../styles/base64.css";
+@import "../styles/regex.css";
+@import "../styles/timestamp.css";
+@import "../styles/keygen.css";
+@import "../styles/json-to-ts.css";
+@import "../styles/search-modal.css";
+@import "../styles/responsive.css";

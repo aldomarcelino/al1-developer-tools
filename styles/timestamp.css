@@ -1,0 +1,202 @@
+/* ==========================================================================
+   Timestamp Converter Specialized Styles
+   ========================================================================== */
+
+/* Live Epoch Clock Hero */
+.timestamp-live-clock-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 20px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.timestamp-live-clock-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.timestamp-pulsing-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  animation: timestampPulse 2s infinite;
+}
+
+@keyframes timestampPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+.timestamp-live-value {
+  font-family: var(--font-code);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.timestamp-live-subtext {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Quick Jump Pills */
+.timestamp-jump-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.timestamp-jump-pill {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.timestamp-jump-pill:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--soft);
+}
+
+/* Two Column Two-Way Converter Grid */
+.timestamp-converter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .timestamp-converter-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.timestamp-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.timestamp-card-header {
+  height: 48px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.timestamp-card-body {
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+/* Big Input Box */
+.timestamp-big-input {
+  width: 100%;
+  background: var(--soft);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: var(--font-code);
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.timestamp-big-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(164, 216, 129, 0.2);
+  background: var(--surface);
+}
+
+/* Results Breakdown Table */
+.timestamp-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timestamp-result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.timestamp-result-label {
+  color: var(--muted);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timestamp-result-val {
+  font-family: var(--font-code);
+  font-size: 12px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  word-break: break-all;
+}
+
+.timestamp-copy-inline-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.timestamp-copy-inline-btn:hover {
+  color: var(--text);
+  background: var(--surface);
+}
