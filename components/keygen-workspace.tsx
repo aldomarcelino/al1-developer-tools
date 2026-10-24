@@ -29,6 +29,9 @@ export function KeygenWorkspace() {
   const [masked, setMasked] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [notice, setNotice] = useState("Cryptographically secure keys generated.");
+  const [isGeneratingAll, setIsGeneratingAll] = useState(false);
+  const [isGeneratingCustom, setIsGeneratingCustom] = useState(false);
+  const [spinningId, setSpinningId] = useState<string | null>(null);
 
   // Custom key generator state
   const [customOptions, setCustomOptions] = useState<CustomKeyOptions>({
@@ -60,13 +63,28 @@ export function KeygenWorkspace() {
   };
 
   const handleRegenerateAll = () => {
+    setIsGeneratingAll(true);
     setKeys(generateKeySuite());
     setCustomKey(generateCustomKey(customOptions));
     setNoticeWithTimeout("Generated fresh batch of cryptographically secure keys.");
+    setTimeout(() => setIsGeneratingAll(false), 550);
   };
 
   const handleRegenerateCustom = (opts = customOptions) => {
+    setIsGeneratingCustom(true);
     setCustomKey(generateCustomKey(opts));
+    setTimeout(() => setIsGeneratingCustom(false), 550);
+  };
+
+  const handleRegenerateSingle = (id: string, title: string) => {
+    setSpinningId(id);
+    const freshSuite = generateKeySuite();
+    const target = freshSuite.find((k) => k.id === id);
+    if (target) {
+      setKeys((prev) => prev.map((k) => (k.id === id ? target : k)));
+      setNoticeWithTimeout(`Regenerated ${title}.`);
+    }
+    setTimeout(() => setSpinningId(null), 550);
   };
 
   const handleCopy = async (text: string, id: string, label: string) => {
@@ -100,7 +118,7 @@ export function KeygenWorkspace() {
             onClick={handleRegenerateAll}
             title="Generate new random keys"
           >
-            <RefreshCw size={14} />
+            <RefreshCw size={14} className={isGeneratingAll ? "spin-icon" : ""} />
             Generate New Keys
           </button>
 
@@ -221,7 +239,7 @@ export function KeygenWorkspace() {
               marginLeft: "auto",
             }}
           >
-            <RefreshCw size={12} />
+            <RefreshCw size={12} className={isGeneratingCustom ? "spin-icon" : ""} />
             Regenerate
           </button>
         </div>
@@ -274,17 +292,31 @@ export function KeygenWorkspace() {
               <span className="keygen-item-val">
                 {masked ? "•".repeat(item.value.length) : item.value}
               </span>
-              <button
-                type="button"
-                className={`keygen-copy-pill ${copiedId === item.id ? "copied" : ""}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCopy(item.value, item.id, item.title);
-                }}
-              >
-                {copiedId === item.id ? <Check size={12} /> : <Copy size={12} />}
-                {copiedId === item.id ? "Copied!" : "Copy"}
-              </button>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
+                <button
+                  type="button"
+                  className="keygen-action-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRegenerateSingle(item.id, item.title);
+                  }}
+                  title="Regenerate this key"
+                  aria-label={`Regenerate ${item.title}`}
+                >
+                  <RefreshCw size={12} className={spinningId === item.id ? "spin-icon" : ""} />
+                </button>
+                <button
+                  type="button"
+                  className={`keygen-copy-pill ${copiedId === item.id ? "copied" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopy(item.value, item.id, item.title);
+                  }}
+                >
+                  {copiedId === item.id ? <Check size={12} /> : <Copy size={12} />}
+                  {copiedId === item.id ? "Copied!" : "Copy"}
+                </button>
+              </div>
             </div>
           </div>
         ))}
