@@ -25,12 +25,24 @@
   border-radius: 50%;
   background: var(--green);
 }
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .hero h1 {
   font-size: 64px;
   line-height: 1.19;
   letter-spacing: -2.8px;
   font-weight: 650;
-  margin-top: 25px;
+  margin-top: 0;
+  animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .hero h1 > span {
   color: var(--green);
@@ -40,6 +52,7 @@
   line-height: 1.9;
   color: var(--muted);
   margin-top: 25px;
+  animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
 }
 .hero-actions {
   display: flex;
@@ -47,6 +60,7 @@
   justify-content: center;
   gap: 12px;
   margin-top: 29px;
+  animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
 }
 .hero-actions .button {
   min-width: 158px;
@@ -63,6 +77,7 @@
   color: var(--muted);
   font-size: 11px;
   margin-top: 25px;
+  animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
 }
 .hero-bottom span {
   display: flex;
@@ -82,6 +97,7 @@
   align-items: end;
   margin-top: 57px;
   text-align: left;
+  animation: heroFadeUp 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
 }
 .hero-showcase > a,
 .hero-showcase > div {
@@ -206,6 +222,29 @@
 .mini-bool {
   color: #8073a4;
 }
+.mini-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 13px;
+  vertical-align: -2px;
+  margin-left: 2px;
+  background-color: var(--accent);
+  border-radius: 1px;
+  animation: cursorBlink 1.05s steps(1) infinite;
+}
+
+[data-theme="dark"] .mini-cursor {
+  background-color: #a4d881;
+}
+
+@keyframes cursorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
 .mini-editor-status {
   display: flex;
   justify-content: space-between;
@@ -233,9 +272,15 @@
   gap: 17px;
 }
 .count-spark {
+  display: inline-block;
   font-size: 40px;
   color: #e1ffc1;
   line-height: 1;
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.showcase-count:hover .count-spark {
+  transform: rotate(30deg) scale(1.1);
 }
 .showcase-count .showcase-number {
   font-size: 42px;
@@ -257,6 +302,10 @@
   bottom: 25px;
   right: 22px;
   color: #e1ffc1;
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.showcase-count:hover > svg {
+  transform: translateY(3px) scale(1.12);
 }
 .tool-discovery {
   background: var(--section);
@@ -346,6 +395,13 @@
   border-radius: 5px;
   padding: 4px 5px;
   white-space: nowrap;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.search-box:focus-within kbd {
+  opacity: 0.45;
+  transform: scale(0.92);
 }
 .search-hint {
   font-size: 11px;
@@ -364,23 +420,20 @@
   gap: 8px;
   border-radius: 999px;
   font-size: 12px;
+  font-weight: 550;
   min-height: 40px;
   padding: 9px 17px;
   border: 1px solid transparent;
+  background: transparent;
   color: #bfd2d2;
   cursor: pointer;
   user-select: none;
   position: relative;
   backface-visibility: hidden;
-  transition:
-    background-color 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
-    color 0.22s ease,
-    border-color 0.22s ease,
-    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.categories button:hover {
-  background: #21484e;
+.categories button:hover:not(.selected) {
+  background: #1e454b;
   color: #fff;
   border-color: rgba(255, 255, 255, 0.08);
   transform: translateY(-1px);
@@ -392,9 +445,10 @@
 .categories button.selected {
   color: #0e363c;
   background: #e1ffc1;
-  font-weight: 600;
+  font-weight: 550;
   border-color: #c9f19e;
   box-shadow: 0 2px 10px rgba(164, 216, 129, 0.28);
+  transform: translateY(-1px);
 }
 .categories button.selected:hover {
   background: #d4f8ab;
@@ -413,9 +467,7 @@
   justify-content: center;
   font-size: 9px;
   font-weight: 700;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .categories button:not(.selected) span {
   background: rgba(255, 255, 255, 0.12);
@@ -428,43 +480,43 @@
 @keyframes cardPopIn {
   0% {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translateY(8px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 .tool-grid-wrapper .tool-card {
-  animation: cardPopIn 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: cardPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: opacity, transform;
 }
 .tool-grid-wrapper .tool-card:nth-child(1) {
-  animation-delay: 0.02s;
+  animation-delay: 0.01s;
 }
 .tool-grid-wrapper .tool-card:nth-child(2) {
-  animation-delay: 0.05s;
+  animation-delay: 0.025s;
 }
 .tool-grid-wrapper .tool-card:nth-child(3) {
-  animation-delay: 0.08s;
+  animation-delay: 0.04s;
 }
 .tool-grid-wrapper .tool-card:nth-child(4) {
-  animation-delay: 0.11s;
+  animation-delay: 0.055s;
 }
 .tool-grid-wrapper .tool-card:nth-child(5) {
-  animation-delay: 0.14s;
+  animation-delay: 0.07s;
 }
 .tool-grid-wrapper .tool-card:nth-child(6) {
-  animation-delay: 0.17s;
+  animation-delay: 0.085s;
 }
 .tool-grid-wrapper .tool-card:nth-child(7) {
-  animation-delay: 0.2s;
+  animation-delay: 0.1s;
 }
 .tool-grid-wrapper .tool-card:nth-child(8) {
-  animation-delay: 0.23s;
+  animation-delay: 0.115s;
 }
 .tool-grid-wrapper .tool-card:nth-child(9) {
-  animation-delay: 0.26s;
+  animation-delay: 0.13s;
 }
 .tool-grid-wrapper .webhook-feature {
   animation: cardPopIn 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s both;
@@ -715,10 +767,35 @@
   margin-left: 9px;
 }
 .request-preview i {
-  width: 4px;
-  height: 4px;
-  background: #587d3e;
+  width: 5px;
+  height: 5px;
+  background: #3c6f40;
   border-radius: 50%;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.request-preview i::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid #3c6f40;
+  animation: radarPulse 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  box-sizing: border-box;
+}
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.85;
+  }
+  60%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
 }
 .phase-note {
   color: #a2bfc0;

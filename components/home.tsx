@@ -120,6 +120,7 @@ export function Home() {
               <span className="mini-line">04</span>{" "}
               <span className="mini-key">"distractions"</span>:{" "}
               <span className="mini-bool">0</span>
+              <span className="mini-cursor" aria-hidden="true" />
               <br />
               <span className="mini-line">05</span> {"}"}
             </pre>
