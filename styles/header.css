@@ -76,8 +76,6 @@
   display: flex;
   gap: 34px;
   align-items: center;
-  margin-left: auto;
-  margin-right: auto;
   font-size: 14px;
   color: var(--muted);
 }
@@ -108,8 +106,20 @@
 }
 .header-actions {
   display: flex;
+  margin-left: auto;
   align-items: center;
   gap: 13px;
+}
+
+@media (min-width: 851px) {
+  .header-inner-home {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .header-inner-home .header-actions {
+    margin-left: 0;
+    justify-self: end;
+  }
 }
 .header-menu {
   position: absolute;

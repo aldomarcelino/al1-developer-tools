@@ -83,7 +83,7 @@
     padding: 0 30px;
   }
   .brand-name {
-    display: none;
+    display: inline;
   }
   .brand {
     font-size: 21px;
@@ -261,6 +261,12 @@
 
   .search-hint {
     font-size: 10px;
+  }
+}
+/* Keep the full wordmark and navigation readable on narrow tablets. */
+@media (min-width: 641px) and (max-width: 740px) {
+  .header-cta {
+    display: none;
   }
 }
 @media (max-width: 640px) {

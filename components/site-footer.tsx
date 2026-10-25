@@ -11,7 +11,7 @@ export function SiteFooter() {
           <div className="footer-identity">
             <Link href="/" className="brand footer-logo">
               <BrandLogo size={32} />
-              <span>Al1 Developer Tools</span>
+              <span>Al1 Tools</span>
             </Link>
             <p className="footer-tagline">Less friction. More building.</p>
           </div>
@@ -55,7 +55,7 @@ export function SiteFooter() {
         </div>
         <div className="footer-bottom">
           <span className="footer-copyright">
-            © {new Date().getFullYear()} Al1 Developer Tools
+            © {new Date().getFullYear()} Al1 Tools
           </span>
           <p className="footer-maker">
             Designed &amp; built by{" "}

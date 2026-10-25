@@ -173,15 +173,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         Skip to content
       </a>
       <header className="site-header" ref={header}>
-        <div className="header-inner">
+        <div className={`header-inner${path === "/" ? " header-inner-home" : ""}`}>
           <div className="brand header-brand">
             <PianoLogo />
             <Link
               href="/"
               className="brand-wordmark"
-              aria-label="Al1 Developer Tools home"
+              aria-label="Al1 Tools home"
             >
-              Al1 <span className="brand-name">Developer Tools</span>
+              Al1 <span className="brand-name">Tools</span>
             </Link>
           </div>
           <nav className="header-nav" aria-label="Main navigation">
