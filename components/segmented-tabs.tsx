@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export interface TabOption<T extends string = string> {
   value: T;
@@ -43,7 +43,7 @@ export function SegmentedTabs<T extends string = string>({
   const [isReady, setIsReady] = useState(false);
 
   // Position indicator over the currently active tab
-  const updateIndicator = () => {
+  const updateIndicator = useCallback(() => {
     const activeBtn = tabRefs.current.get(value);
     if (!activeBtn || !containerRef.current) return;
 
@@ -53,11 +53,11 @@ export function SegmentedTabs<T extends string = string>({
       width: activeBtn.offsetWidth,
     });
     setIsReady(true);
-  };
+  }, [value]);
 
   useIsomorphicLayoutEffect(() => {
     updateIndicator();
-  }, [value, options]);
+  }, [updateIndicator, options]);
 
   // Keep indicator aligned on window resize or container size change
   useEffect(() => {
@@ -67,7 +67,7 @@ export function SegmentedTabs<T extends string = string>({
     });
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, [value]);
+  }, [updateIndicator]);
 
   return (
     <div
@@ -104,12 +104,25 @@ export function SegmentedTabs<T extends string = string>({
             tabIndex={isActive ? 0 : -1}
             className={`segmented-tab-btn ${isActive ? "active" : ""}`}
             onClick={() => onChange(opt.value)}
+            onKeyDown={(event) => {
+              const keys = ["ArrowLeft", "ArrowRight", "Home", "End"];
+              if (!keys.includes(event.key)) return;
+              event.preventDefault();
+              const current = options.findIndex((option) => option.value === value);
+              const next =
+                event.key === "Home"
+                  ? 0
+                  : event.key === "End"
+                    ? options.length - 1
+                    : (current + (event.key === "ArrowRight" ? 1 : -1) + options.length) %
+                      options.length;
+              onChange(options[next].value);
+              tabRefs.current.get(options[next].value)?.focus();
+            }}
             title={opt.title}
           >
             <span>{opt.label}</span>
-            {opt.badge !== undefined && (
-              <span className="tab-badge">{opt.badge}</span>
-            )}
+            {opt.badge !== undefined && <span className="tab-badge">{opt.badge}</span>}
           </button>
         );
       })}

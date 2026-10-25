@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
 import { CurlWorkspace } from "@/components/curl-workspace";
+import { toolMetadata } from "@/lib/seo";
+import { ToolStructuredData } from "@/components/seo-structured-data";
+import { ToolContext } from "@/components/tool-context";
 
-export const metadata: Metadata = {
-  title: "cURL to Code",
-  description:
-    "Convert cURL command lines into idiomatic request code for JavaScript Fetch, Axios, TypeScript, Python Requests, Go net/http, and PHP cURL.",
-};
-
-export default function CurlToCodePage() {
-  return <CurlWorkspace />;
+export const metadata = toolMetadata("curl-to-code");
+export default function Page() {
+  return (
+    <>
+      <ToolStructuredData slug="curl-to-code" />
+      <CurlWorkspace />
+      <ToolContext slug="curl-to-code" />
+    </>
+  );
 }

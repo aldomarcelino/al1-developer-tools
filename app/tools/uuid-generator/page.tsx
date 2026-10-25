@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
 import { KeygenWorkspace } from "@/components/keygen-workspace";
+import { toolMetadata } from "@/lib/seo";
+import { ToolStructuredData } from "@/components/seo-structured-data";
+import { ToolContext } from "@/components/tool-context";
 
-export const metadata: Metadata = {
-  title: "Random Keygen & Secret Generator",
-  description:
-    "Generate cryptographically secure passwords, API tokens, HMAC keys, UUIDs, and secrets completely client-side.",
-};
-
-export default function UuidGeneratorPage() {
-  return <KeygenWorkspace />;
+export const metadata = toolMetadata("uuid-generator");
+export default function Page() {
+  return (
+    <>
+      <ToolStructuredData slug="uuid-generator" />
+      <KeygenWorkspace />
+      <ToolContext slug="uuid-generator" />
+    </>
+  );
 }

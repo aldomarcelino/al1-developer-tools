@@ -488,3 +488,10 @@
     display: none;
   }
 }
+
+/* Collapse the search label before tablet navigation runs out of space. */
+@media (min-width: 641px) and (max-width: 850px) {
+  .search-trigger-text, .search-trigger-kbd { display: none; }
+  .header-search-trigger { padding: 0; width: 40px; height: 40px; justify-content: center; }
+  .header-nav > a { white-space: nowrap; }
+}

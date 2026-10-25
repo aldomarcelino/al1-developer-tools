@@ -1,0 +1,316 @@
+.creator-credit {
+  max-width: 1400px;
+  margin: 0 auto 30px;
+  padding: 0 60px 30px;
+  border-bottom: 1px solid #304346;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
+}
+.creator-credit > div > span {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #a3b8b5;
+}
+.creator-credit p {
+  color: #c8d5d2;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.8;
+}
+.creator-credit p a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #e1ffc1;
+  font-weight: 650;
+}
+.creator-credit small {
+  font-size: 12px;
+}
+.creator-credit nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 12px;
+}
+.creator-credit a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.maker-page {
+  padding-top: 32px;
+  padding-bottom: 72px;
+}
+.maker-back {
+  color: var(--muted);
+  font-size: 12px;
+}
+.maker-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr);
+  gap: 80px;
+  align-items: center;
+  padding: 72px 0;
+}
+.maker-eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  color: var(--accent);
+}
+.maker-intro h1 {
+  font-size: clamp(36px, 4.7vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -2.5px;
+  margin: 24px 0 30px;
+  font-weight: 600;
+}
+.maker-intro h1 span {
+  color: var(--accent);
+}
+.maker-intro p {
+  font-size: 15px;
+  line-height: 1.95;
+  color: var(--muted);
+  max-width: 580px;
+}
+.maker-intro .maker-lead {
+  color: var(--text);
+  font-size: 18px;
+}
+.maker-lead strong {
+  font-weight: 600;
+}
+.maker-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 26px;
+}
+.maker-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 650;
+}
+.maker-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.maker-signature {
+  background: var(--section);
+  color: #f0f5ef;
+  padding: 40px 32px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 300px;
+}
+.maker-signature > svg {
+  color: var(--lime);
+  margin-bottom: 36px;
+}
+.maker-signature > span {
+  font: 9px var(--font-code);
+  letter-spacing: 1.5px;
+  color: #b2c6c5;
+}
+.maker-signature > strong {
+  font-size: 25px;
+  font-weight: 550;
+  letter-spacing: -1px;
+  margin-top: 12px;
+}
+.maker-signature > p {
+  font-size: 12px;
+  color: #c5d5d2;
+  margin-bottom: 28px;
+}
+.maker-signature > .maker-signature-note {
+  margin-top: auto;
+  font-size: 10px;
+  letter-spacing: 0;
+  border-top: 1px solid #416064;
+  padding-top: 20px;
+  width: 100%;
+}
+.maker-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 36px;
+}
+.maker-principles article {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+.maker-principles article > span {
+  font: 10px var(--font-code);
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.maker-principles h2 {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  margin: 20px 0 12px;
+}
+.maker-principles p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.9;
+}
+.maker-contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 28px;
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  padding-top: 36px;
+}
+.maker-contact h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin: 14px 0 20px;
+}
+.maker-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(14px, 2vw, 21px);
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+.maker-contact > .text-button {
+  font-size: 12px;
+}
+.tool-context {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 56px;
+  padding-top: 28px;
+  padding-bottom: 48px;
+}
+.tool-context h2,
+.tool-context h3 {
+  font-size: 14px;
+  font-weight: 650;
+  margin: 0 0 10px;
+}
+.tool-context p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.9;
+  max-width: 650px;
+  margin: 0;
+}
+.tool-context nav > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+.tool-context nav a {
+  font-size: 12px;
+  color: var(--accent);
+  padding: 5px 0;
+}
+.tool-context nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 1150px) {
+  .creator-credit {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .maker-intro {
+    gap: 40px;
+  }
+}
+@media (max-width: 850px) {
+  .creator-credit {
+    padding-left: 30px;
+    padding-right: 30px;
+    align-items: start;
+  }
+  .creator-credit nav {
+    max-width: 210px;
+    gap: 16px;
+  }
+  .maker-intro {
+    gap: 28px;
+  }
+  .maker-signature {
+    padding: 30px 24px;
+  }
+  .maker-signature > strong {
+    font-size: 21px;
+  }
+  .maker-principles {
+    gap: 24px;
+  }
+  .tool-context {
+    gap: 28px;
+  }
+}
+@media (max-width: 640px) {
+  .creator-credit {
+    padding-left: 23px;
+    padding-right: 23px;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .creator-credit nav {
+    max-width: none;
+    gap: 18px;
+  }
+  .creator-credit p {
+    font-size: 13px;
+  }
+  .creator-credit small {
+    font-size: 11px;
+  }
+  .maker-page {
+    padding-top: 24px;
+    padding-bottom: 48px;
+  }
+  .maker-intro {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 40px 0;
+    gap: 32px;
+  }
+  .maker-intro h1 {
+    font-size: 39px;
+    letter-spacing: -1.8px;
+  }
+  .maker-intro .maker-lead {
+    font-size: 17px;
+  }
+  .maker-signature {
+    min-height: 260px;
+  }
+  .maker-principles {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .maker-contact {
+    margin-top: 36px;
+  }
+  .maker-email {
+    font-size: 14px;
+    gap: 8px;
+  }
+  .tool-context {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+}

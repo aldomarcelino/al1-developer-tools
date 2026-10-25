@@ -34,7 +34,7 @@ export function Home() {
       (category === "All tools" || t.category === category) &&
       `${t.name} ${t.description}`.toLowerCase().includes(query.toLowerCase())
   );
-  const activeToolCount = tools.filter((t) => t.slug !== "webhook-inspector").length;
+  const activeToolCount = tools.filter((t) => t.status === "available").length;
   return (
     <div className="home">
       <section className="hero page-width">
@@ -98,37 +98,41 @@ export function Home() {
               </p>
             </div>
           </div>
-          <Link href="/tools/json-formatter" className="showcase-editor">
+          <Link
+            href="/tools/markdown-editor"
+            className="showcase-editor showcase-markdown"
+            aria-label="Open Markdown Editor and live preview"
+          >
             <div className="mini-editor-bar">
               <span>
                 <i />
                 <i />
                 <i />
               </span>
-              <span>hello.json</span>
+              <span>hello.md</span>
               <ArrowUpRight size={17} />
             </div>
-            <pre>
-              <span className="mini-line">01</span> {"{"}
+            <pre aria-hidden="true">
+              <span className="mini-line">01</span>{" "}
+              <span className="mini-key"># Hello, developer.</span>
               <br />
-              <span className="mini-line">02</span>{" "}
-              <span className="mini-key">"hello"</span>:{" "}
-              <span className="mini-string">"developer"</span>,<br />
-              <span className="mini-line">03</span>{" "}
-              <span className="mini-key">"readyToBuild"</span>:{" "}
-              <span className="mini-bool">true</span>,<br />
-              <span className="mini-line">04</span>{" "}
-              <span className="mini-key">"distractions"</span>:{" "}
-              <span className="mini-bool">0</span>
-              <span className="mini-cursor" aria-hidden="true" />
+              <span className="mini-line">02</span>
               <br />
-              <span className="mini-line">05</span> {"}"}
+              <span className="mini-line">03</span> A little{" "}
+              <span className="mini-string">**clarity**</span>.<br />
+              <span className="mini-line">04</span> More room to build.
+              <br />
+              <span className="mini-line">05</span>
+              <br />
+              <span className="mini-line">06</span>{" "}
+              <span className="mini-string">- [x]</span> Make something useful.
+              <span className="mini-cursor" />
             </pre>
             <div className="mini-editor-status">
               <span>
-                <Check size={13} /> Valid JSON
+                <Check size={13} /> Live Markdown preview
               </span>
-              <span>All clear. Carry on.</span>
+              <span>Write. Preview. Create.</span>
             </div>
           </Link>
           <a href="#tools" className="showcase-count">
@@ -201,12 +205,12 @@ export function Home() {
           <div key={`${category}-${query}`} className="tool-grid-wrapper">
             <div className="tool-grid">
               {filtered
-                .filter((t) => t.slug !== "webhook-inspector")
+                .filter((t) => t.status === "available")
                 .map((t) => (
                   <Link
                     href={`/tools/${t.slug}`}
                     key={t.slug}
-                    className={`tool-card ${t.phase === 1 ? "available" : ""}`}
+                    className={`tool-card ${t.status === "available" ? "available" : ""}`}
                   >
                     <div className="card-top">
                       <span className={`tool-icon icon-${t.icon}`}>
@@ -225,7 +229,7 @@ export function Home() {
                     <p>{t.description}</p>
                     <div className="card-bottom">
                       <span>{t.category}</span>
-                      {t.phase === 1 ? (
+                      {t.status === "available" ? (
                         <span className="ready">
                           Open tool <ArrowRight size={13} />
                         </span>
@@ -291,8 +295,7 @@ export function Home() {
             )}
           </div>
           <p className="phase-note">
-            The toolkit is growing. JSON Formatter is ready today; more essentials are on
-            the way.
+            {activeToolCount} tools are ready to use. Webhook Inspector is in the works.
           </p>
         </div>
       </section>
@@ -318,7 +321,8 @@ export function Home() {
             </span>
             <h3>Your input. Your business.</h3>
             <p>
-              JSON formatting happens on your device. Your data never leaves this browser.
+              The available utilities process your input on your device. The planned
+              webhook tool will clearly explain its server-side storage.
             </p>
           </div>
           <div>

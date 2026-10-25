@@ -3,8 +3,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ChevronDown, Menu, Moon, Search, Sun, X } from "lucide-react";
+import { creator } from "@/lib/creator";
 import { tools } from "@/lib/tools";
 import { ToolIcon } from "./icon";
+import { PianoLogo } from "./piano-logo";
 import { BrandLogo } from "./brand-logo";
 import { SearchModal } from "./search-modal";
 
@@ -85,7 +87,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
   useEffect(() => {
-    const stored = localStorage.getItem("al1-theme");
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem("al1-theme");
+    } catch {
+      /* Storage may be disabled. */
+    }
     setDark(stored === "dark");
     document.documentElement.dataset.theme = stored === "dark" ? "dark" : "light";
   }, []);
@@ -149,7 +156,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   function theme() {
     setDark(!dark);
     document.documentElement.dataset.theme = dark ? "light" : "dark";
-    localStorage.setItem("al1-theme", dark ? "light" : "dark");
+    try {
+      localStorage.setItem("al1-theme", dark ? "light" : "dark");
+    } catch {
+      /* Theme still works without persistence. */
+    }
   }
   function closeMenu() {
     clearCloseTimer();
@@ -162,12 +173,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </a>
       <header className="site-header" ref={header}>
         <div className="header-inner">
-          <Link href="/" className="brand" aria-label="Al1 Developer Tools home">
-            <BrandLogo size={36} />
-            <span>
+          <div className="brand header-brand">
+            <PianoLogo />
+            <Link
+              href="/"
+              className="brand-wordmark"
+              aria-label="Al1 Developer Tools home"
+            >
               Al1 <span className="brand-name">Developer Tools</span>
-            </span>
-          </Link>
+            </Link>
+          </div>
           <nav className="header-nav" aria-label="Main navigation">
             <Link
               href="/"
@@ -275,7 +290,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   <span>
                     {tool.name}
                     <small>
-                      {tool.phase === 1
+                      {tool.status === "available"
                         ? tool.description
                         : "Coming soon (In development)"}
                     </small>
@@ -289,6 +304,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
       <main id="main">{children}</main>
       <footer className="site-footer">
+        <div className="creator-credit">
+          <div>
+            <p>
+              Designed & built by{" "}
+              <Link href="/about" rel="author">
+                {creator.name}
+              </Link>
+            </p>
+          </div>
+          <nav aria-label="Connect with the creator">
+            <a href={creator.linkedin} target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </a>
+            <a href={creator.github} target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+            <a href={`mailto:${creator.email}`}>Email</a>
+            <a href="/audio/ATTRIBUTION.txt">Sound credits</a>
+          </nav>
+        </div>
         <div className="footer-inner">
           <Link href="/" className="brand footer-brand">
             <BrandLogo size={32} />

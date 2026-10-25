@@ -1,0 +1,3 @@
+# Copy to .dev.vars for local Cloudflare preview; never commit actual secrets.
+SITE_URL=
+INDEX_SITE=false

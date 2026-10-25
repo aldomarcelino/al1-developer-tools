@@ -1,6 +1,7 @@
 import nextConfig from "eslint-config-next";
 
 const eslintConfig = [
+  { ignores: ["dist/**", ".cloudflare/**", ".vinext/**", ".wrangler/**", ".next/**", "next-env.d.ts", "worker-configuration.d.ts"] },
   ...nextConfig,
   {
     files: ["**/*.ts", "**/*.tsx"],

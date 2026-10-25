@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
 import { TimestampWorkspace } from "@/components/timestamp-workspace";
+import { toolMetadata } from "@/lib/seo";
+import { ToolStructuredData } from "@/components/seo-structured-data";
+import { ToolContext } from "@/components/tool-context";
 
-export const metadata: Metadata = {
-  title: "Timestamp Converter",
-  description:
-    "Convert effortlessly between Unix epoch timestamps and human-readable dates across local, UTC, and ISO 8601 formats.",
-};
-
-export default function TimestampConverterPage() {
-  return <TimestampWorkspace />;
+export const metadata = toolMetadata("timestamp-converter");
+export default function Page() {
+  return (
+    <>
+      <ToolStructuredData slug="timestamp-converter" />
+      <TimestampWorkspace />
+      <ToolContext slug="timestamp-converter" />
+    </>
+  );
 }

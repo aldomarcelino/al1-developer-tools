@@ -1,11 +1,15 @@
 import { DiffWorkspace } from "@/components/diff-workspace";
+import { toolMetadata } from "@/lib/seo";
+import { ToolStructuredData } from "@/components/seo-structured-data";
+import { ToolContext } from "@/components/tool-context";
 
-export const metadata = {
-  title: "Text & JSON Diff Viewer — Side-by-side & Unified Comparison",
-  description:
-    "Find exactly what changed between two texts, documents, or JSON payloads with side-by-side and unified diff views. 100% private and client-side.",
-};
-
+export const metadata = toolMetadata("diff-viewer");
 export default function Page() {
-  return <DiffWorkspace />;
+  return (
+    <>
+      <ToolStructuredData slug="diff-viewer" />
+      <DiffWorkspace />
+      <ToolContext slug="diff-viewer" />
+    </>
+  );
 }

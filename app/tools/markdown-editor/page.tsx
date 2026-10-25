@@ -1,11 +1,15 @@
 import { MarkdownWorkspace } from "@/components/markdown-workspace";
+import { toolMetadata } from "@/lib/seo";
+import { ToolStructuredData } from "@/components/seo-structured-data";
+import { ToolContext } from "@/components/tool-context";
 
-export const metadata = {
-  title: "Markdown Editor & Preview — Live GFM Editor",
-  description:
-    "Write, preview, and export GitHub-flavored Markdown in real time. 100% client-side with word counter, task lists, tables, and HTML export.",
-};
-
+export const metadata = toolMetadata("markdown-editor");
 export default function Page() {
-  return <MarkdownWorkspace />;
+  return (
+    <>
+      <ToolStructuredData slug="markdown-editor" />
+      <MarkdownWorkspace />
+      <ToolContext slug="markdown-editor" />
+    </>
+  );
 }

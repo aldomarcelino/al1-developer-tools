@@ -7,6 +7,7 @@ export const tools = [
     icon: "json",
     tag: "Popular",
     phase: 1,
+    status: "available",
   },
   {
     slug: "markdown-editor",
@@ -15,6 +16,7 @@ export const tools = [
     category: "Text",
     icon: "markdown",
     phase: 1,
+    status: "available",
   },
   {
     slug: "diff-viewer",
@@ -23,6 +25,7 @@ export const tools = [
     category: "Text",
     icon: "diff",
     phase: 1,
+    status: "available",
   },
   {
     slug: "jwt-decoder",
@@ -31,6 +34,7 @@ export const tools = [
     category: "Security",
     icon: "key",
     phase: 1,
+    status: "available",
   },
   {
     slug: "base64-url",
@@ -39,6 +43,7 @@ export const tools = [
     category: "Encoding",
     icon: "code",
     phase: 1,
+    status: "available",
   },
   {
     slug: "regex-tester",
@@ -47,6 +52,7 @@ export const tools = [
     category: "Text",
     icon: "regex",
     phase: 1,
+    status: "available",
   },
   {
     slug: "timestamp-converter",
@@ -55,6 +61,7 @@ export const tools = [
     category: "Utilities",
     icon: "clock",
     phase: 1,
+    status: "available",
   },
   {
     slug: "uuid-generator",
@@ -63,6 +70,7 @@ export const tools = [
     category: "Security",
     icon: "key",
     phase: 1,
+    status: "available",
   },
   {
     slug: "json-to-typescript",
@@ -71,6 +79,7 @@ export const tools = [
     category: "Data",
     icon: "types",
     phase: 1,
+    status: "available",
   },
   {
     slug: "sql-formatter",
@@ -79,6 +88,7 @@ export const tools = [
     category: "Database",
     icon: "database",
     phase: 1,
+    status: "available",
   },
   {
     slug: "curl-to-code",
@@ -88,6 +98,7 @@ export const tools = [
     category: "Network",
     icon: "terminal",
     phase: 1,
+    status: "available",
   },
   {
     slug: "webhook-inspector",
@@ -96,6 +107,7 @@ export const tools = [
     category: "Network",
     icon: "webhook",
     phase: 3,
+    status: "planned",
   },
 ] as const;
 

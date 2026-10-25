@@ -1,11 +1,15 @@
 import { JwtWorkspace } from "@/components/jwt-workspace";
+import { toolMetadata } from "@/lib/seo";
+import { ToolStructuredData } from "@/components/seo-structured-data";
+import { ToolContext } from "@/components/tool-context";
 
-export const metadata = {
-  title: "JWT Decoder — Inspect & Validate JSON Web Tokens",
-  description:
-    "Decode and inspect JSON Web Tokens (JWT) client-side. Check expiration timestamps, claims descriptions, headers, and signatures with 100% privacy.",
-};
-
+export const metadata = toolMetadata("jwt-decoder");
 export default function Page() {
-  return <JwtWorkspace />;
+  return (
+    <>
+      <ToolStructuredData slug="jwt-decoder" />
+      <JwtWorkspace />
+      <ToolContext slug="jwt-decoder" />
+    </>
+  );
 }

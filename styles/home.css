@@ -818,6 +818,19 @@
   color: #b4c9ca;
   font-size: 13px;
 }
+.empty-state .button {
+  color: #0e363c;
+  background-color: #e1ffc1;
+  border-color: #c8f59a;
+}
+.empty-state .button:hover {
+  color: #0e363c;
+  background-color: #c8f59a;
+  border-color: #b9e68b;
+}
+.empty-state .button:active {
+  background-color: #b9e68b;
+}
 .tool-discovery :is(a, button):focus-visible {
   outline-color: #e1ffc1;
 }

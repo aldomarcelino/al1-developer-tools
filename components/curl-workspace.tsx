@@ -8,7 +8,6 @@ import {
   Check,
   Code2,
   Copy,
-  FileCode2,
   Info,
   ShieldCheck,
   Sparkles,

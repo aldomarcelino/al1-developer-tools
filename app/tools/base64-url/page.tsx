@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
 import { Base64Workspace } from "@/components/base64-workspace";
+import { toolMetadata } from "@/lib/seo";
+import { ToolStructuredData } from "@/components/seo-structured-data";
+import { ToolContext } from "@/components/tool-context";
 
-export const metadata: Metadata = {
-  title: "Base64 & URL Encoder/Decoder",
-  description:
-    "Encode and decode standard Base64, URL-Safe Base64, URL percent-encoding, and Hex strings with full UTF-8 support.",
-};
-
-export default function Base64UrlPage() {
-  return <Base64Workspace />;
+export const metadata = toolMetadata("base64-url");
+export default function Page() {
+  return (
+    <>
+      <ToolStructuredData slug="base64-url" />
+      <Base64Workspace />
+      <ToolContext slug="base64-url" />
+    </>
+  );
 }

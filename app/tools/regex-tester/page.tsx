@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
 import { RegexWorkspace } from "@/components/regex-workspace";
+import { toolMetadata } from "@/lib/seo";
+import { ToolStructuredData } from "@/components/seo-structured-data";
+import { ToolContext } from "@/components/tool-context";
 
-export const metadata: Metadata = {
-  title: "Regex Tester",
-  description:
-    "Test, debug, and explore regular expressions with live match breakdown, capture groups, and replacement preview.",
-};
-
-export default function RegexTesterPage() {
-  return <RegexWorkspace />;
+export const metadata = toolMetadata("regex-tester");
+export default function Page() {
+  return (
+    <>
+      <ToolStructuredData slug="regex-tester" />
+      <RegexWorkspace />
+      <ToolContext slug="regex-tester" />
+    </>
+  );
 }

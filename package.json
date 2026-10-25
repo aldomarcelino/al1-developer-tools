@@ -1,18 +1,28 @@
 {
   "name": "al1-developer-tools",
   "version": "1.0.0",
-  "description": "a tools to help developer",
+  "description": "Thoughtful, browser-first developer utilities.",
   "main": "index.js",
   "scripts": {
     "dev": "next dev --hostname 0.0.0.0",
     "build": "next build --webpack",
     "start": "next start --hostname 0.0.0.0",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit --incremental false",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,css,md,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,css,md,json}\"",
-    "test": "node --experimental-strip-types --test lib/json.test.ts lib/markdown.test.ts lib/diff.test.ts lib/jwt.test.ts lib/base64-url.test.ts lib/regex.test.ts lib/timestamp.test.ts lib/keygen.test.ts lib/json-to-ts.test.ts lib/sql.test.ts lib/curl.test.ts"
+    "test": "node --experimental-strip-types --test lib/json.test.ts lib/markdown.test.ts lib/diff.test.ts lib/jwt.test.ts lib/base64-url.test.ts lib/regex.test.ts lib/timestamp.test.ts lib/keygen.test.ts lib/json-to-ts.test.ts lib/sql.test.ts lib/curl.test.ts",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy",
+    "build:cloudflare": "vite build",
+    "preview:cloudflare": "vite preview --host 127.0.0.1 --port 8787",
+    "deploy": "vinext-cloudflare deploy",
+    "deploy:dry-run": "vinext-cloudflare deploy --dry-run",
+    "cf:typegen": "cf workers types",
+    "test:seo": "node scripts/check-seo.mjs"
   },
   "repository": {
     "type": "git",
@@ -30,20 +40,37 @@
     "@fontsource/inter": "^5.3.0",
     "@fontsource/jetbrains-mono": "^5.3.0",
     "@fontsource/manrope": "^5.3.0",
+    "@vinext/cloudflare": "^1.2.0",
     "lucide-react": "^1.61.0",
     "next": "^16.4.3",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-server-dom-webpack": "^19.3.1",
+    "vinext": "^1.3.0"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^2.0.0-beta.v.4",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitejs/plugin-rsc": "^0.5.38",
+    "cf": "^1.0.0-beta.21",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.4.3",
     "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=24.22.0 <25"
+  },
+  "overrides": {
+    "fflate": "0.8.3",
+    "undici": "7.30.1",
+    "zod": "4.6.7"
   }
 }
