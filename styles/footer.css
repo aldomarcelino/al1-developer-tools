@@ -1,10 +1,7 @@
 .site-footer {
-  background: #0e363c;
+  background: #0b1619;
   color: #bbcece;
   padding: 32px 0 16px;
-}
-:root[data-theme="dark"] .site-footer {
-  background: #0b1d22;
 }
 .footer-main {
   display: flex;
