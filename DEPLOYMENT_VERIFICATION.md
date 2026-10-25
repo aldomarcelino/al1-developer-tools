@@ -1,6 +1,22 @@
 # Production deployment verification — 25 October 2026
 
-## Deployment
+## Latest release — Notes and workspace UI
+
+- Application commit: `31e4c33` on `main`, pushed to `origin/main` before publishing.
+- Production URL: https://al1-developer-tools.aldomarcelino.workers.dev
+- Cloudflare version: `305630f3-1a03-49a0-9677-6d6c5345d262`, tagged `31e4c33`.
+- Runtime used for checks and build: Node.js `24.22.1`.
+- Scope: rich-text browser-local Notes (fourth tool), versioned import/export and storage handling, Privacy Policy and Terms of Use, compact responsive footer, OS-aware shortcut labels, readable processing badge, custom 404, related-tool links, and copy/reset toolbar feedback.
+- Checks passed: lint, type-check, all **93 tests**, Cloudflare production build, and a prebuilt deployment dry-run.
+- Deployment command: `npx cf deploy --prebuilt --mode production --provision=false --tag 31e4c33`, with the existing account selected through `CLOUDFLARE_ACCOUNT_ID`. Build settings retain the confirmed production `SITE_URL` and `INDEX_SITE=true`.
+- Local Workers-runtime and live production SEO checks both passed **17 pages**, security headers, two redirects, robots, sitemap, 404, assets, and social image. The production sitemap contains **16 entries**, excluding the webhook preview.
+- Browser verification: the built local Worker created a rich-text note with a heading and checklist, successfully saved it, and retained its content and formatting after reload. On production, Notes initialized correctly, the processing badge opened Privacy Policy, Terms navigation and the “Contact us” mail link worked, and Notes/Terms had no horizontal overflow at 390 px. The live desktop footer had no horizontal overflow at 1280 px and its maker credit computed to 12 px. These browser checks recorded no console errors or warnings; they are a bounded smoke test, not an exhaustive test of every utility option.
+- Upload: **1,776.49 KiB uncompressed / 522.21 KiB gzip**. Cloudflare reported **12 ms startup time**, which is not per-request CPU. Only `ASSETS` is bound; no new database, storage binding, or paid resource was provisioned. Webhook Inspector remains an offline preview.
+- Screenshot: [published footer](artifacts/production-footer.png).
+
+The sections below record the previous deployment and its resource observations, not new measurements for this release.
+
+## Previous deployment
 
 - URL: https://al1-developer-tools.aldomarcelino.workers.dev
 - Worker: `al1-developer-tools`; Cloudflare account ID `622855f00c13692819df3d3145a89e57`.
