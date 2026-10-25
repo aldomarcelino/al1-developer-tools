@@ -23,18 +23,28 @@ import { ToolHeader } from "@/components/tool-header";
 import { CustomSelect } from "@/components/custom-select";
 
 export function TimestampWorkspace() {
-  const [nowSec, setNowSec] = useState(() => Math.floor(Date.now() / 1000));
+  const [nowSec, setNowSec] = useState<number | null>(null);
   const [clockPaused, setClockPaused] = useState(false);
 
   // Card 1: Timestamp to Date state
-  const [tsInput, setTsInput] = useState(() => String(Math.floor(Date.now() / 1000)));
+  const [tsInput, setTsInput] = useState("");
   const [unitMode, setUnitMode] = useState<"auto" | TimestampUnit>("auto");
 
   // Card 2: Date to Timestamp state
-  const [dateInput, setDateInput] = useState(() => new Date().toISOString().slice(0, 19));
+  const [dateInput, setDateInput] = useState("");
 
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [notice, setNotice] = useState("Timestamp Converter ready. Live epoch active.");
+
+  // The cached server render cannot know the browser's current time or timezone.
+  // Initialize both conversions from the same instant after hydration.
+  useEffect(() => {
+    const now = new Date();
+    const seconds = Math.floor(now.getTime() / 1000);
+    setNowSec(seconds);
+    setTsInput(String(seconds));
+    setDateInput(now.toISOString());
+  }, []);
 
   // Live clock ticker
   useEffect(() => {
@@ -82,9 +92,10 @@ export function TimestampWorkspace() {
   };
 
   const handleSetNow = () => {
-    const currentNow = Math.floor(Date.now() / 1000);
+    const now = new Date();
+    const currentNow = Math.floor(now.getTime() / 1000);
     setTsInput(String(currentNow));
-    setDateInput(new Date().toISOString().slice(0, 19));
+    setDateInput(now.toISOString());
     setNoticeWithTimeout("Reset inputs to current time.");
   };
 
@@ -99,9 +110,7 @@ export function TimestampWorkspace() {
           <span className="timestamp-pulsing-dot" />
           <div>
             <div className="timestamp-live-subtext">CURRENT UNIX EPOCH TIME</div>
-            <div className="timestamp-live-value" suppressHydrationWarning>
-              {nowSec}
-            </div>
+            <div className="timestamp-live-value">{nowSec ?? "—"}</div>
           </div>
         </div>
 
@@ -118,6 +127,7 @@ export function TimestampWorkspace() {
           <button
             type="button"
             className="button primary"
+            disabled={nowSec === null}
             onClick={() => handleCopy(String(nowSec), "current epoch")}
             title="Copy current epoch seconds"
           >

@@ -13,7 +13,7 @@ The app supports Aldo's international remote software-engineering applications. 
 - Use Node 24.22.1 (`.nvmrc`). The system Node may differ; avoid validating Cloudflare tooling with unsupported Node 25.
 - Root directory is the repository root, NOT `app/`.
 - `vite.config.ts` + `cloudflare.config.ts` target a single Worker named `al1-developer-tools`. Frontend and future Route Handlers can remain in this repository.
-- No live Cloudflare deployment has been verified in this chat. No database, capture API, replay service, R2, KV, image service, or paid resources are provisioned by this implementation.
+- Production was deployed and verified on 25 October 2026 at https://al1-developer-tools.aldomarcelino.workers.dev. Final Worker version: `29fef5f3-1898-4e99-ab2b-e585bb97ff7d`. See [verification record](DEPLOYMENT_VERIFICATION.md). No database, capture API, replay service, R2, KV, image service, or paid resources are provisioned by this implementation.
 - Eleven catalog tools are implemented. Webhook Inspector is an explicitly offline/sample-only coming-soon preview, excluded from sitemap and marked noindex.
 - SEO is in `lib/seo.ts`; creator identity is in `lib/creator.ts`. Name: Aldo Marcelino NF Lubis, short name Aldo Marcelino; email: aldomarcelinolubis@gmail.com. Verified LinkedIn/GitHub links are in creator data.
 - Unique metadata, social image, WebSite/Person/ProfilePage/WebApplication/breadcrumb schema, /about, related tools, robots and sitemap exist. /tools/base64 redirects to /tools/base64-url; /tools/random-keygen redirects to /tools/uuid-generator.
@@ -23,6 +23,8 @@ The app supports Aldo's international remote software-engineering applications. 
 - Transitive dependency security overrides (fflate, undici, zod) are deliberate; review before removing. vinext is beta and emits upstream build/sourcemap warnings; runtime checks are required.
 
 ## Next: publish the existing toolbox
+
+The initial publication checklist below is now completed. Retain it for subsequent deployments; `.env.production.local` now holds the confirmed origin and production indexing setting locally and remains gitignored. The next implementation strategy is in [WEBHOOK_ROADMAP.md](WEBHOOK_ROADMAP.md). Cloudflare Git integration and Search Console setup have not been configured by this deployment.
 
 1. Inspect git status, AGENTS.md, README, config, and current Cloudflare documentation/CLI. Preserve unrelated changes.
 2. Run npm ci with supported Node; npm run lint; npm run typecheck; npm test; npm run build:cloudflare; npm run deploy:dry-run. The dry-run validates configuration only: it neither builds nor publishes.
@@ -38,6 +40,7 @@ The app supports Aldo's international remote software-engineering applications. 
 First agree a bounded MVP, data-retention policy and cost guardrails. Keep API routes in the same app initially; add D1 only when storage is implemented. No separate backend repository is required by default.
 
 Phase A: capture + inspect.
+
 - Temporary random capture endpoint plus a distinct owner/read secret. Knowing a public capture URL must not grant history access or deletion rights.
 - D1 migrations for endpoints, captured requests and expiry. Store bounded raw bodies and carefully selected headers; keep secrets out of logs.
 - Owner-authorized history/detail/delete APIs and dashboard. Start with manual refresh rather than continuous polling.
@@ -45,11 +48,13 @@ Phase A: capture + inspect.
 - Return capture results only after successful storage. Handle invalid/expired endpoints, quota exhaustion and database errors clearly. Test ownership isolation and expiry.
 
 Phase B: controlled replay.
+
 - Manual one-shot replay first; automatic retry/queues only when needed.
 - Restrict destinations and redirects to prevent SSRF/proxy abuse, including private/internal/link-local targets. Do not assume a platform flag alone solves destination validation.
 - Strip dangerous/hop-by-hop headers; set timeouts and response-size limits. Store bounded results, require owner authorization, and prevent double-submission.
 - Validate using controlled test endpoints; never replay real payment/production events accidentally.
 
 Phase C: polish + production hardening.
+
 - Accessible real UI, failure/retry feedback, deletion controls, retention/privacy copy, monitoring without payload leakage, usage/cost checks, tests and deployment verification.
 - Remove coming-soon/noindex only when capture and inspection actually work; expose replay only after its safeguards pass. Keep browser-only tool privacy claims distinct from server-stored webhook data.

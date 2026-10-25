@@ -2,6 +2,8 @@
 
 A browser-first developer toolkit built with Next.js App Router, React, TypeScript, and Tailwind CSS. Cloudflare Workers is the deployment target; frontend and future API routes stay in this repository.
 
+Production: [al1-developer-tools.aldomarcelino.workers.dev](https://al1-developer-tools.aldomarcelino.workers.dev). First deployed and verified on 25 October 2026. See [deployment verification](DEPLOYMENT_VERIFICATION.md) for the deployed version, checks, resource findings, and remaining operational limits; see [webhook strategy](WEBHOOK_ROADMAP.md) for the proposed backend.
+
 ## Local development
 
 Use Node.js 24.22+ (`nvm use`), then `npm ci` and `npm run dev`. The existing Next.js development command remains available; Cloudflare scripts use vinext, whose compatibility check passes for this app. vinext is beta: production builds and Workers-runtime smoke checks are required before release.
@@ -28,7 +30,7 @@ Tool availability is centralized in `lib/tools.ts` (`status`). Add a tool entry 
 Use the **repository root**, not `app/`, as the project root. The `app` folder alone is missing dependencies, config, components, and utilities.
 
 1. Run `npm ci` with Node.js 24.22+.
-2. Copy `.env.example` to `.env.local` if needed. Set `SITE_URL` to the actual HTTPS public origin and `INDEX_SITE=true` only for production. Leave indexing false for previews. No domain is invented; use your assigned workers.dev origin initially.
+2. For local production builds, copy `.env.example` to `.env.production.local`. Set `SITE_URL=https://al1-developer-tools.aldomarcelino.workers.dev` and `INDEX_SITE=true`. This ignored file is read only in production mode; previews must explicitly use `INDEX_SITE=false` and their own mode. For CI, supply these values as production build variables instead. Rebuild after changing the public origin.
 3. Run the checks above. Cloudflare deployment uses `vite.config.ts` and `cloudflare.config.ts`.
 4. Authenticate locally using `npx cf auth login`, then run `npm run deploy`. This publishes the build. Never commit API tokens.
 5. For Workers Git integration: root directory `/`, build command `npm run build:cloudflare`, deploy command `npx cf deploy --prebuilt --mode production`; use Node.js 24.22+. Supply the build variables above. These public SEO settings are baked into the build; changing them requires a rebuild. Preview environments must keep `INDEX_SITE=false`.

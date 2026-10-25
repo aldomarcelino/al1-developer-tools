@@ -33,6 +33,16 @@ function attributes(tag) {
 for (const path of paths) {
   const response = await fetch(new URL(path, base));
   assert.equal(response.status, 200, path);
+  assert.equal(
+    response.headers.get("x-content-type-options"),
+    "nosniff",
+    `${path}: MIME protection`
+  );
+  assert.equal(
+    response.headers.get("x-frame-options"),
+    "DENY",
+    `${path}: frame protection`
+  );
   const html = await response.text();
   const title = html.match(/<title>(.*?)<\/title>/s)?.[1];
   const tags = [...html.matchAll(/<meta\s[^>]*>/g)].map(([tag]) => attributes(tag));
@@ -131,6 +141,34 @@ if (origin) {
   );
   assert.ok(sitemap.includes(new URL("/about", origin).href));
 } else assert.equal((sitemap.match(/<loc>/g) || []).length, 0);
+const robotsResponse = await fetch(new URL("/robots.txt", base));
+assert.equal(robotsResponse.status, 200, "robots status");
+const robots = await robotsResponse.text();
+assert.match(robots, /User-Agent: \*/i, "robots user agent");
+if (origin) {
+  assert.ok(
+    robots.includes(new URL("/sitemap.xml", origin).href),
+    "robots production sitemap"
+  );
+  const locations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+  for (const location of locations) {
+    assert.equal(new URL(location).origin, new URL(origin).origin, "sitemap origin");
+  }
+} else assert.ok(!robots.includes("Sitemap:"), "preview has no sitemap advertisement");
+const missing = await fetch(new URL("/deployment-check-missing-page", base));
+assert.equal(missing.status, 404, "unknown page");
+for (const [path, contentType] of [
+  ["/audio/piano-do-c4.mp3", "audio/mpeg"],
+  ["/audio/ATTRIBUTION.txt", "text/plain"],
+  ["/favicon.ico", "image/"],
+]) {
+  const response = await fetch(new URL(path, base));
+  assert.equal(response.status, 200, `${path}: asset status`);
+  assert.ok(
+    response.headers.get("content-type")?.includes(contentType),
+    `${path}: content type`
+  );
+}
 const image = await fetch(new URL("/social-preview.jpg", base));
 assert.equal(image.status, 200);
 assert.ok(image.headers.get("content-type")?.includes("image/jpeg"));
@@ -146,4 +184,6 @@ for (let offset = 2; offset < bytes.byteLength - 8;) {
   offset += 2 + bytes.getUint16(offset + 2);
 }
 assert.deepEqual(dimensions, [1200, 630], "social image dimensions");
-console.log("SEO checks passed: 14 pages, 2 redirects, sitemap, and social image.");
+console.log(
+  "SEO checks passed: 14 pages, security headers, 2 redirects, robots, sitemap, 404, assets, and social image."
+);
