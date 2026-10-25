@@ -258,7 +258,10 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
               <span>close</span>
             </span>
           </div>
-          <span className="search-footer-meta">11 tools • 100% Client-Side</span>
+          <span className="search-footer-meta">
+            {tools.filter((tool) => tool.status === "available").length} tools •
+            Browser-local
+          </span>
         </div>
       </div>
     </div>

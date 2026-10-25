@@ -5,10 +5,13 @@ const origin = process.argv[3];
 const paths = [
   "/",
   "/about",
+  "/privacy",
+  "/terms",
   ...[
     "json-formatter",
     "markdown-editor",
     "diff-viewer",
+    "notes",
     "jwt-decoder",
     "base64-url",
     "regex-tester",
@@ -65,6 +68,10 @@ for (const path of paths) {
   assert.ok(
     html.includes('href="/about"') && html.includes("Designed &amp; built by"),
     `${path}: visible maker credit`
+  );
+  assert.ok(
+    html.includes('href="/privacy"') && html.includes('href="/terms"'),
+    `${path}: legal links`
   );
   const canonical = [...html.matchAll(/<link\s[^>]*>/g)]
     .map(([tag]) => attributes(tag))
@@ -136,8 +143,8 @@ assert.ok(!sitemap.includes("webhook-inspector"), "coming soon excluded from sit
 if (origin) {
   assert.equal(
     (sitemap.match(/<loc>/g) || []).length,
-    13,
-    "homepage, maker, and 11 tools"
+    paths.filter((path) => path !== "/tools/webhook-inspector").length,
+    "homepage, maker, legal pages, and available tools"
   );
   assert.ok(sitemap.includes(new URL("/about", origin).href));
 } else assert.equal((sitemap.match(/<loc>/g) || []).length, 0);
@@ -185,5 +192,5 @@ for (let offset = 2; offset < bytes.byteLength - 8;) {
 }
 assert.deepEqual(dimensions, [1200, 630], "social image dimensions");
 console.log(
-  "SEO checks passed: 14 pages, security headers, 2 redirects, robots, sitemap, 404, assets, and social image."
+  `SEO checks passed: ${paths.length} pages, security headers, 2 redirects, robots, sitemap, 404, assets, and social image.`
 );

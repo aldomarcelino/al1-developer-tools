@@ -53,10 +53,14 @@ export function ToolHeader({
           </h1>
         </div>
         {privacyBadge && (
-          <span className="privacy-badge">
+          <Link
+            href="/privacy"
+            className="privacy-badge"
+            title="Tool inputs are processed on your device. Read about browser storage and website hosting."
+          >
             <ShieldCheck size={15} />
-            100% client-side
-          </span>
+            Processed in your browser
+          </Link>
         )}
       </div>
     </>

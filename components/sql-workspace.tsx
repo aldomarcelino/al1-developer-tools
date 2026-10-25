@@ -1,4 +1,5 @@
 "use client";
+import { useShortcutModifier } from "@/components/use-shortcut-modifier";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -103,6 +104,7 @@ function highlightSql(sql: string) {
 }
 
 export function SqlWorkspace() {
+  const modifier = useShortcutModifier();
   const [sqlInput, setSqlInput] = useState(sampleSqlQueries.analytics);
   const [dialect, setDialect] = useState<SqlDialect>("postgresql");
   const [keywordCase, setKeywordCase] = useState<KeywordCase>("upper");
@@ -262,7 +264,7 @@ export function SqlWorkspace() {
           >
             <Play size={14} />
             <span>Format SQL</span>
-            <kbd>⌘ ↵</kbd>
+            <kbd>{modifier} ↵</kbd>
           </button>
 
           <button
@@ -362,7 +364,9 @@ export function SqlWorkspace() {
       {/* Dual Editor Panes */}
       <div className="editor-layout" style={{ minHeight: "560px", height: "640px" }}>
         {/* Left Pane: SQL Input */}
-        <section className={`editor-pane ${activeTab === "input" ? "mobile-active" : ""}`}>
+        <section
+          className={`editor-pane ${activeTab === "input" ? "mobile-active" : ""}`}
+        >
           <div className="editor-header">
             <span>
               <span className="pane-dot" />
@@ -433,7 +437,9 @@ export function SqlWorkspace() {
             <span>
               <span className={`pane-dot ${result.code ? "green" : ""}`} />
               Formatted SQL{" "}
-              {result.code && <small className="valid-tag">{dialect.toUpperCase()}</small>}
+              {result.code && (
+                <small className="valid-tag">{dialect.toUpperCase()}</small>
+              )}
             </span>
             <div>
               <button
@@ -547,9 +553,9 @@ export function SqlWorkspace() {
         <div>
           <h2>Production-Grade SQL Beautifier</h2>
           <p>
-            Clean, standardize, and format complex database queries locally in your browser.
-            Handles subqueries, window functions, CTEs, and multi-statement transaction
-            scripts with precision.
+            Clean, standardize, and format complex database queries locally in your
+            browser. Handles subqueries, window functions, CTEs, and multi-statement
+            transaction scripts with precision.
           </p>
         </div>
 

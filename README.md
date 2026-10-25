@@ -10,11 +10,21 @@ Use Node.js 24.22+ (`nvm use`), then `npm ci` and `npm run dev`. The existing Ne
 
 ## Available tools
 
-JSON Formatter, Markdown Editor, Diff Viewer, JWT Decoder, Base64/URL, Regex Tester, Timestamp Converter, Random Keygen (including UUIDs), JSON to TypeScript, SQL Formatter, and cURL to Code. Processing is browser-local. Generated cURL code is text; the converter does not execute network requests. JSON follows native JavaScript number precision and duplicate-key behavior. JWT decoding does not verify signatures.
+JSON Formatter, Markdown Editor, Diff Viewer, Notes, JWT Decoder, Base64/URL, Regex Tester, Timestamp Converter, Random Keygen (including UUIDs), JSON to TypeScript, SQL Formatter, and cURL to Code. Processing is browser-local. Generated cURL code is text; the converter does not execute network requests. JSON follows native JavaScript number precision and duplicate-key behavior. JWT decoding does not verify signatures.
 
 Webhook Inspector is **not operational**. Its interactive preview only switches between bundled sample events, with no network requests, endpoint creation, storage, or replay. No backend or database is provisioned for this release.
 
 Tool availability is centralized in `lib/tools.ts` (`status`). Add a tool entry and its explicit `app/tools/<slug>/page.tsx`; the catalog count, navigation labels, and sitemap derive from the data. Only planned tools use the fallback route.
+
+## Notes
+
+`/tools/notes` is the fourth catalog tool. Notes persist only in the current browser under `al1-local-notes`, using a validated `{ version: 2, notes: [...] }` schema (legacy version 1 exports remain supported). Each note has an ID, title, searchable plain-text content, optional validated rich-text document, created/updated timestamps in milliseconds, and a pinned flag. Only title/content/formatting changes update the last-edited timestamp. Autosave is debounced by 500 ms and flushes when the page hides or the workspace unmounts; “Saved” is shown only after a successful write. There are no notes API requests or backend dependencies.
+
+The borderless rich-text editor supports H1–H3, paragraphs, bold, italic, underline, strikethrough, bullet/numbered lists, checklists, quotes, inline code, code blocks, dividers, and undo/redo. Note actions live in the list with keyboard-accessible tooltips. Formatting is stored as validated editor JSON, never arbitrary HTML.
+
+JSON import validates all fields before showing a preview. “Add as copies” preserves existing notes and creates fresh IDs. Merge overwrites matching IDs only after the user chooses it; replace requires an explicit destructive choice. Delete also requires confirmation. Malformed stored data is left untouched, with an original-data download before an explicit reset. Storage access/quota errors retain edits in memory and offer retry/export. Cross-tab changes are detected and require an explicit choice when this tab has unsaved edits.
+
+Notes are not encrypted or synced. Clearing browser storage removes them, so export backups and avoid secrets or sensitive credentials. Limits: 500 notes, 200 title characters, 100,000 content characters per note, and 5 MB per collection/import. Browser quota can be lower. Unit tests cover CRUD, timestamp behavior, search/sort, validation/import modes, unavailable storage, quota failures, and cross-tab conflict detection.
 
 ## Checks
 
@@ -52,7 +62,7 @@ Cloudflare tooling currently requires patched transitive overrides for `fflate`,
 
 `lib/seo.ts` centralizes unique metadata and accurate usage notes for every canonical tool. Tool pages include related links, WebApplication and breadcrumb JSON-LD. The maker page uses ProfilePage/Person; the site uses WebSite. No ratings, testimonials, or usage counts are fabricated. JWT decoding explicitly does not validate signatures. The webhook preview is noindex until it becomes a working tool.
 
-`/tools/base64` and `/tools/random-keygen` permanently redirect to their canonical tool pages to consolidate duplicate content. The sitemap includes the homepage, maker profile, and available tools only. `SITE_URL` is required to emit real canonical URLs, schema URL IDs, and social-image URLs; `INDEX_SITE=true` enables production indexing. Keep previews false. Optionally set `GOOGLE_SITE_VERIFICATION` to a Search Console tag value. Rebuild when these public settings change.
+`/tools/base64` and `/tools/random-keygen` permanently redirect to their canonical tool pages to consolidate duplicate content. The sitemap includes the homepage, maker profile, Privacy Policy, Terms of Use, and available tools only. `SITE_URL` is required to emit real canonical URLs, schema URL IDs, and social-image URLs; `INDEX_SITE=true` enables production indexing. Keep previews false. Optionally set `GOOGLE_SITE_VERIFICATION` to a Search Console tag value. Rebuild when these public settings change.
 
 After publishing, verify the production domain in Google Search Console, submit `/sitemap.xml`, and inspect the homepage, `/about`, and a tool URL. Link this toolkit from your real LinkedIn/GitHub/portfolio profiles. Name searches depend on crawling, competition, and reputation; metadata cannot guarantee rankings, especially for the broad name “Aldo”. Meta keywords are intentionally omitted: Google does not use them for ranking.
 
@@ -65,3 +75,7 @@ With the built app running, `npm run test:seo -- http://127.0.0.1:8787` checks u
 The maker profile contains a keyboard-accessible digital business card. Connect reveals real LinkedIn/email/GitHub actions; Copy email reports clipboard failures, Save contact downloads a local vCard, and the issue link opens GitHub's new-issue page without submitting anything automatically. The homepage's second editor preview opens Markdown Editor.
 
 The header logo icon plays the locally bundled C4 piano sample only on interaction and releases a bounded burst of decorative music notes. The adjacent wordmark still links home. Repeated clicks restart one player rather than stacking audio; particles clear after the animation. Reduced motion disables the particle and card transitions. Sample attribution is available from the footer at `/audio/ATTRIBUTION.txt`.
+
+## Privacy and terms
+
+`/privacy` and `/terms` use a shared reading layout with content in `lib/legal.ts`, footer links, metadata, and sitemap entries. The privacy notice distinguishes local tool inputs, browser-stored Notes/theme preferences, external Markdown images, support correspondence, and Cloudflare delivery metadata. Webhook Inspector is explicitly described as a preview. Update these documents when data handling, hosting, or backend features change. Tool headers link to the policy using “Processed in your browser”. Keyboard shortcut labels use the device convention: ⌘ on Apple devices and Ctrl elsewhere.

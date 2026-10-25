@@ -76,12 +76,6 @@
   .principles-intro h2 {
     font-size: 38px;
   }
-  .footer-inner {
-    padding: 0 40px;
-  }
-  .footer-inner > span:nth-child(2) {
-    display: none;
-  }
 }
 @media (max-width: 850px) {
   .header-inner {
@@ -264,9 +258,7 @@
   .button kbd {
     display: none;
   }
-  .footer-inner {
-    padding: 0 30px;
-  }
+
   .search-hint {
     font-size: 10px;
   }
@@ -636,44 +628,7 @@
   .principles-list p {
     font-size: 12px;
   }
-  .site-footer {
-    padding: 30px 0;
-  }
-  .footer-inner {
-    padding: 0 23px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 23px 15px;
-    font-size: 10px;
-  }
-  .footer-brand {
-    font-size: 12px;
-    gap: 8px;
-  }
-  .footer-brand .brand-mark-wrapper,
-  .footer-brand .brand-mark {
-    width: 26px !important;
-    height: 26px !important;
-    min-width: 26px !important;
-    min-height: 26px !important;
-  }
-  .footer-brand .brand-mark-wrapper svg {
-    width: 26px;
-    height: 26px;
-  }
-  .footer-inner > span:nth-child(2) {
-    display: block;
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .footer-inner > a:last-child {
-    grid-column: 2;
-    grid-row: 2;
-    font-size: 10px;
-  }
-  .footer-inner > span:nth-child(3) {
-    text-align: right;
-  }
+
   .workspace-page {
     padding-top: 14px;
     padding-bottom: 5px;

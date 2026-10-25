@@ -11,6 +11,7 @@ import {
   Webhook,
   Database,
   Terminal,
+  StickyNote,
 } from "lucide-react";
 const icons = {
   json: Braces,
@@ -25,6 +26,7 @@ const icons = {
   webhook: Webhook,
   database: Database,
   terminal: Terminal,
+  notes: StickyNote,
 };
 export function ToolIcon({ name, size = 20 }: { name: string; size?: number }) {
   const Icon = icons[name as keyof typeof icons] || Braces;

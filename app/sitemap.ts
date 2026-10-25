@@ -6,6 +6,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     "/",
     "/about",
+    "/privacy",
+    "/terms",
     ...tools
       .filter((tool) => tool.status === "available")
       .map((tool) => `/tools/${tool.slug}`),

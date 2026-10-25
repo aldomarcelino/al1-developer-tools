@@ -200,3 +200,13 @@
   color: var(--text);
   background: var(--surface);
 }
+
+.timestamp-reset-icon {
+  display: inline-flex;
+  transition: transform 450ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .timestamp-reset-icon {
+    transition: none;
+  }
+}

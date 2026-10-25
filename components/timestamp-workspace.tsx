@@ -25,6 +25,7 @@ import { CustomSelect } from "@/components/custom-select";
 export function TimestampWorkspace() {
   const [nowSec, setNowSec] = useState<number | null>(null);
   const [clockPaused, setClockPaused] = useState(false);
+  const [resetTurns, setResetTurns] = useState(0);
 
   // Card 1: Timestamp to Date state
   const [tsInput, setTsInput] = useState("");
@@ -92,6 +93,7 @@ export function TimestampWorkspace() {
   };
 
   const handleSetNow = () => {
+    setResetTurns((turns) => turns + 1);
     const now = new Date();
     const currentNow = Math.floor(now.getTime() / 1000);
     setTsInput(String(currentNow));
@@ -356,7 +358,13 @@ export function TimestampWorkspace() {
               title="Reset to current date"
               style={{ padding: "4px 10px", fontSize: "11px", minHeight: "26px" }}
             >
-              <RotateCcw size={12} />
+              <span
+                className="timestamp-reset-icon"
+                style={{ transform: `rotate(${-360 * resetTurns}deg)` }}
+                aria-hidden="true"
+              >
+                <RotateCcw size={12} />
+              </span>
               Reset
             </button>
           </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { availableTool, toolSeo, type ToolSlug } from "@/lib/seo";
 import { tools } from "@/lib/tools";
 
@@ -23,8 +24,10 @@ export function ToolContext({ slug }: { slug: ToolSlug }) {
         <div>
           {related.map((entry) => (
             <Link key={entry.slug} href={`/tools/${entry.slug}`}>
-              {entry.name}
-              <span aria-hidden="true"> ↗</span>
+              <span>{entry.name}</span>
+              <span className="related-tool-arrow" aria-hidden="true">
+                <ArrowRight size={14} strokeWidth={1.7} />
+              </span>
             </Link>
           ))}
         </div>

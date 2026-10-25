@@ -1,17 +1,18 @@
 "use client";
+import { useShortcutModifier } from "@/components/use-shortcut-modifier";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ChevronDown, Menu, Moon, Search, Sun, X } from "lucide-react";
-import { creator } from "@/lib/creator";
 import { tools } from "@/lib/tools";
 import { ToolIcon } from "./icon";
 import { PianoLogo } from "./piano-logo";
-import { BrandLogo } from "./brand-logo";
+import { SiteFooter } from "./site-footer";
 import { SearchModal } from "./search-modal";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
+  const modifier = useShortcutModifier();
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -216,13 +217,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 type="button"
                 className="header-search-trigger"
                 onClick={() => setSearchModalOpen(true)}
-                aria-label="Search tools (⌘K)"
-                title="Search tools (⌘K)"
+                aria-label={`Search tools (${modifier}+K)`}
+                title={`Search tools (${modifier}+K)`}
               >
                 <Search size={15} />
                 <span className="search-trigger-text">Search…</span>
                 <span className="search-trigger-kbd">
-                  <kbd>⌘</kbd>
+                  <kbd>{modifier}</kbd>
                   <kbd>K</kbd>
                 </span>
               </button>
@@ -303,39 +304,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
       <main id="main">{children}</main>
-      <footer className="site-footer">
-        <div className="creator-credit">
-          <div>
-            <p>
-              Designed & built by{" "}
-              <Link href="/about" rel="author">
-                {creator.name}
-              </Link>
-            </p>
-          </div>
-          <nav aria-label="Connect with the creator">
-            <a href={creator.linkedin} target="_blank" rel="noopener noreferrer">
-              LinkedIn
-            </a>
-            <a href={creator.github} target="_blank" rel="noopener noreferrer">
-              GitHub
-            </a>
-            <a href={`mailto:${creator.email}`}>Email</a>
-            <a href="/audio/ATTRIBUTION.txt">Sound credits</a>
-          </nav>
-        </div>
-        <div className="footer-inner">
-          <Link href="/" className="brand footer-brand">
-            <BrandLogo size={32} />
-            <span>Al1 Developer Tools</span>
-          </Link>
-          <span>Less friction. More building.</span>
-          <span>© {new Date().getFullYear()} Al1</span>
-          <Link href="/#tools">
-            Explore the toolkit <ArrowUpRight size={14} />
-          </Link>
-        </div>
-      </footer>
+      <SiteFooter />
       {/* Quick Tool Search Modal (Accessible anywhere outside homepage) */}
       <SearchModal isOpen={searchModalOpen} onClose={() => setSearchModalOpen(false)} />
     </>

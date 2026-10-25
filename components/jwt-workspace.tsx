@@ -5,7 +5,6 @@ import {
   AlertCircle,
   Check,
   CheckCircle2,
-  Code,
   Copy,
   FileKey,
   Info,
@@ -23,6 +22,7 @@ export function JwtWorkspace() {
   const [copiedPayload, setCopiedPayload] = useState(false);
   const [copiedHeader, setCopiedHeader] = useState(false);
   const [copiedAll, setCopiedAll] = useState(false);
+  const [copiedToken, setCopiedToken] = useState(false);
   const [notice, setNotice] = useState("Paste your JWT to inspect.");
 
   const uploadRef = useRef<HTMLInputElement>(null);
@@ -35,7 +35,10 @@ export function JwtWorkspace() {
     setTimeout(() => setNotice(""), 3500);
   };
 
-  const handleCopy = async (text: string, type: "payload" | "header" | "all") => {
+  const handleCopy = async (
+    text: string,
+    type: "payload" | "header" | "all" | "token"
+  ) => {
     try {
       await navigator.clipboard.writeText(text);
       if (type === "payload") {
@@ -44,6 +47,9 @@ export function JwtWorkspace() {
       } else if (type === "header") {
         setCopiedHeader(true);
         setTimeout(() => setCopiedHeader(false), 2000);
+      } else if (type === "token") {
+        setCopiedToken(true);
+        setTimeout(() => setCopiedToken(false), 2000);
       } else {
         setCopiedAll(true);
         setTimeout(() => setCopiedAll(false), 2000);
@@ -90,14 +96,7 @@ export function JwtWorkspace() {
         <div className="toolbar-group">
           <button
             className="button primary"
-            onClick={() => handleCopy(decoded.payloadJson, "payload")}
-            title="Copy decoded payload JSON"
-          >
-            {copiedPayload ? <Check size={14} /> : <Copy size={14} />}
-            {copiedPayload ? "Copied!" : "Copy Payload"}
-          </button>
-          <button
-            className="button"
+            disabled={!decoded.isValidFormat}
             onClick={() =>
               handleCopy(
                 JSON.stringify(
@@ -110,8 +109,8 @@ export function JwtWorkspace() {
             }
             title="Copy all decoded JSON"
           >
-            {copiedAll ? <Check size={14} /> : <Code size={14} />}
-            Copy All JSON
+            {copiedAll ? <Check size={14} /> : <Copy size={14} />}
+            {copiedAll ? "Copied!" : "Copy All JSON"}
           </button>
           <button
             className="button"
@@ -148,10 +147,12 @@ export function JwtWorkspace() {
               </button>
               <button
                 className="icon-btn"
-                onClick={() => handleCopy(token, "all")}
-                title="Copy raw token"
+                onClick={() => handleCopy(token, "token")}
+                disabled={!token}
+                title={copiedToken ? "Copied raw token" : "Copy raw token"}
+                aria-label={copiedToken ? "Copied raw token" : "Copy raw token"}
               >
-                <Copy size={14} />
+                {copiedToken ? <Check size={14} /> : <Copy size={14} />}
               </button>
             </div>
           </div>

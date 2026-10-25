@@ -162,16 +162,6 @@ export function JsonToTsWorkspace() {
         <div className="toolbar-group">
           <button
             type="button"
-            className="button"
-            onClick={handleCopy}
-            disabled={!result.code || !result.success}
-            title="Copy TypeScript definitions"
-          >
-            {copied ? <Check size={14} /> : <Copy size={14} />}
-            {copied ? "Copied!" : "Copy TypeScript"}
-          </button>
-          <button
-            type="button"
             className="button primary"
             onClick={handleDownload}
             disabled={!result.code || !result.success}
@@ -296,9 +286,10 @@ export function JsonToTsWorkspace() {
                 className="icon-btn"
                 onClick={handleCopy}
                 disabled={!result.code}
-                title="Copy TypeScript"
+                title={copied ? "Copied TypeScript" : "Copy TypeScript"}
+                aria-label={copied ? "Copied TypeScript" : "Copy TypeScript"}
               >
-                <Copy size={14} />
+                {copied ? <Check size={14} /> : <Copy size={14} />}
               </button>
             </div>
           </div>

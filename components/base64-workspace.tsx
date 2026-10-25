@@ -132,11 +132,21 @@ export function Base64Workspace() {
             value={direction}
             onChange={(val) => {
               setDirection(val);
-              setNoticeWithTimeout(`Switched to ${val === "encode" ? "Encode" : "Decode"} mode.`);
+              setNoticeWithTimeout(
+                `Switched to ${val === "encode" ? "Encode" : "Decode"} mode.`
+              );
             }}
             options={[
-              { value: "encode", label: "Encode", title: "Encode plaintext to encoded format" },
-              { value: "decode", label: "Decode", title: "Decode encoded format back to plaintext" },
+              {
+                value: "encode",
+                label: "Encode",
+                title: "Encode plaintext to encoded format",
+              },
+              {
+                value: "decode",
+                label: "Decode",
+                title: "Decode encoded format back to plaintext",
+              },
             ]}
           />
 
@@ -163,18 +173,6 @@ export function Base64Workspace() {
           >
             <ArrowLeftRight size={14} />
             Swap
-          </button>
-
-          <button
-            className="button"
-            onClick={() => {
-              setInput("");
-              setNoticeWithTimeout("Cleared input.");
-            }}
-            title="Clear input text"
-          >
-            <Trash2 size={14} />
-            Clear
           </button>
         </div>
 
@@ -320,9 +318,10 @@ export function Base64Workspace() {
                 className="icon-btn"
                 onClick={handleCopy}
                 disabled={!result.output}
-                title="Copy output"
+                title={copied ? "Copied output" : "Copy output"}
+                aria-label={copied ? "Copied output" : "Copy output"}
               >
-                <Copy size={14} />
+                {copied ? <Check size={14} /> : <Copy size={14} />}
               </button>
             </div>
           </div>

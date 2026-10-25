@@ -28,6 +28,16 @@ export const tools = [
     status: "available",
   },
   {
+    slug: "notes",
+    name: "Notes",
+    description:
+      "Capture ideas and meeting notes. Format, pin, and save them in your browser.",
+    category: "Text",
+    icon: "notes",
+    phase: 1,
+    status: "available",
+  },
+  {
     slug: "jwt-decoder",
     name: "JWT Decoder",
     description: "Look inside your tokens. Inspect headers, payloads, and expiry.",

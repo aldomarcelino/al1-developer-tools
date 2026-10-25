@@ -1,4 +1,5 @@
 "use client";
+import { useShortcutModifier } from "@/components/use-shortcut-modifier";
 import { useEffect, useRef, useState } from "react";
 import {
   AlertCircle,
@@ -25,6 +26,7 @@ const indentOptions = [
   { value: "tab", label: "Tabs" },
 ];
 export function JsonWorkspace() {
+  const modifier = useShortcutModifier();
   const [input, setInput] = useState(sampleJson);
   const [output, setOutput] = useState(() => transformJson(sampleJson));
   const [indent, setIndent] = useState("2");
@@ -168,7 +170,7 @@ export function JsonWorkspace() {
             disabled={busy}
           >
             {busy ? <Loader2 className="spin" size={15} /> : <Play size={14} />}
-            Format JSON <kbd>⌘ ↵</kbd>
+            Format JSON <kbd>{modifier} ↵</kbd>
           </button>
           <button className="button" onClick={() => run("minify")} disabled={busy}>
             Minify
@@ -442,9 +444,9 @@ export function JsonWorkspace() {
             </span>
           </p>
           <p>
-            <span className="shortcut-key">⌘ ↵</span>
+            <span className="shortcut-key">{modifier} ↵</span>
             <span>
-              <strong>Keep your hands on the keyboard</strong>Use Cmd/Ctrl + Enter to
+              <strong>Keep your hands on the keyboard</strong>Use {modifier} + Enter to
               format from anywhere on this page.
             </span>
           </p>

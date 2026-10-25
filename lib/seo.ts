@@ -8,6 +8,12 @@ export const homeTitle = "Free Developer Tools by Aldo Marcelino";
 export const homeDescription =
   "Free browser-based developer tools by Aldo Marcelino NF Lubis: format JSON, preview Markdown, compare text, decode JWTs, and simplify everyday coding tasks.";
 export const toolSeo = {
+  notes: {
+    title: "Notes — Rich Text & Meeting Notes",
+    description:
+      "Write meeting notes and ideas with headings, checklists, bold, italic, and code. Save in your browser and import or export JSON backups without an account.",
+    note: "Format meeting notes and ideas with headings, lists, checklists, quotes, and code. Pin important notes and search by title or content. Changes save to this browser after a short pause. Export JSON backups regularly: notes do not sync, and clearing site data removes them. Avoid passwords, API keys, and sensitive credentials.",
+  },
   "json-formatter": {
     title: "JSON Formatter & Validator Online",
     description:
