@@ -33,7 +33,7 @@ import {
   TextCursorInput,
   type LucideIcon,
 } from "lucide-react";
-import type { Tool } from "@/config/tools";
+import type { ToolIcon } from "@/config/tools";
 
 /** Each registered tool has its own distinct icon across discovery, search, and menus. */
 export const toolIcons = {
@@ -69,4 +69,4 @@ export const toolIcons = {
   terminal: Terminal,
   notes: StickyNote,
   text: TextCursorInput,
-} satisfies Record<Tool["icon"], LucideIcon>;
+} satisfies Record<ToolIcon, LucideIcon>;

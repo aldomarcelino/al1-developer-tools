@@ -1,0 +1,614 @@
+[
+  {
+    "slug": "qa-bug-report",
+    "name": "QA Bug Capture & Handoff",
+    "description": "Connect bug markers with captured requests, review redacted evidence, and export a local report.",
+    "keywords": [
+      "bug report",
+      "qa",
+      "har viewer",
+      "devtools capture",
+      "screenshot annotation",
+      "screenshot crop",
+      "blur screenshot",
+      "quick capture",
+      "request evidence",
+      "curl handoff",
+      "laporan bug"
+    ],
+    "category": "Network",
+    "icon": "bug",
+    "phase": 2,
+    "status": "available"
+  },
+  {
+    "slug": "svg-optimizer",
+    "name": "SVG Optimizer, Viewer & JSX Converter",
+    "description": "Optimize SVGs, inspect a live preview, and export React, Vue, or Data URI code locally.",
+    "keywords": [
+      "svg",
+      "svgo",
+      "svg optimizer",
+      "svg viewer",
+      "svg to jsx",
+      "svg to tsx",
+      "react svg",
+      "vue svg",
+      "data uri",
+      "currentcolor",
+      "vector",
+      "optimize icon",
+      "optimasi svg"
+    ],
+    "category": "Design",
+    "icon": "vector",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "ip-inspector",
+    "name": "What Is My IP & System Inspector",
+    "description": "Inspect your public IP, network location, browser, device, and WebRTC candidates.",
+    "keywords": [
+      "my ip",
+      "ip address",
+      "ip lookup",
+      "asn",
+      "isp",
+      "webrtc",
+      "vpn",
+      "system inspector",
+      "alamat ip"
+    ],
+    "category": "Network",
+    "icon": "network",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "fake-data-generator",
+    "name": "Fake Data & Mock Generator",
+    "description": "Build a schema and generate localized mock data as JSON, CSV, SQL, or TypeScript.",
+    "keywords": [
+      "faker",
+      "fake data",
+      "mock data",
+      "dummy data",
+      "schema builder",
+      "sql insert",
+      "fixtures",
+      "data palsu"
+    ],
+    "category": "Data",
+    "icon": "mock",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "unit-converter",
+    "name": "Unit Converter",
+    "description": "Convert length, weight, temperature, area, and decimal or binary data sizes instantly.",
+    "keywords": [
+      "units",
+      "length",
+      "weight",
+      "temperature",
+      "area",
+      "celsius",
+      "fahrenheit",
+      "kelvin",
+      "kilometres",
+      "kg",
+      "pounds",
+      "KB",
+      "KiB",
+      "MB",
+      "MiB",
+      "konversi satuan",
+      "panjang",
+      "berat",
+      "suhu",
+      "luas"
+    ],
+    "category": "Utilities",
+    "icon": "ruler",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "cron-builder",
+    "name": "Cron Builder & Explainer",
+    "description": "Build and explain five-field cron expressions and preview upcoming runs in your timezone.",
+    "keywords": [
+      "cron",
+      "crontab",
+      "schedule",
+      "scheduler",
+      "cron expression",
+      "cron explainer",
+      "five field",
+      "timezone",
+      "dst",
+      "jadwal",
+      "penjadwalan"
+    ],
+    "category": "Utilities",
+    "icon": "schedule",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "json-yaml-converter",
+    "name": "JSON ↔ YAML Converter",
+    "description": "Convert JSON and YAML, validate structured data, and open or export local files.",
+    "keywords": [
+      "json to yaml",
+      "yaml to json",
+      "json yaml",
+      "yml",
+      "configuration",
+      "convert yaml",
+      "konversi yaml"
+    ],
+    "category": "Data",
+    "icon": "yaml",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "image-to-pdf",
+    "name": "Image to PDF",
+    "description": "Arrange JPG and PNG images into a PDF with page size, orientation, and margin controls.",
+    "keywords": ["jpg to pdf", "png to pdf", "photos pdf", "gambar ke pdf", "image pdf"],
+    "category": "Documents",
+    "icon": "imagepdf",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "date-calculator",
+    "name": "Date Calculator",
+    "description": "Calculate date differences, add or subtract days, and count weekday business days.",
+    "keywords": [
+      "date difference",
+      "business days",
+      "working days",
+      "add days",
+      "selisih tanggal",
+      "hari kerja"
+    ],
+    "category": "Utilities",
+    "icon": "calendar",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "pdf-merge-split",
+    "name": "PDF Merge & Split",
+    "description": "Merge PDFs, reorder pages, extract a selection, or split into single-page files.",
+    "keywords": [
+      "pdf",
+      "merge pdf",
+      "split pdf",
+      "extract pages",
+      "reorder",
+      "gabung pdf",
+      "pisah pdf"
+    ],
+    "category": "Documents",
+    "icon": "pdf",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "color-tools",
+    "name": "Color Tools",
+    "description": "Convert HEX, RGB, and HSL colors and check text contrast side by side.",
+    "keywords": [
+      "color picker",
+      "hex",
+      "rgb",
+      "hsl",
+      "contrast",
+      "wcag",
+      "warna",
+      "accessibility"
+    ],
+    "category": "Design",
+    "icon": "palette",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "timezone-planner",
+    "name": "Timezone Planner",
+    "description": "Compare cities, check date differences, and find shared working hours for meetings.",
+    "keywords": [
+      "timezone",
+      "time zone",
+      "meeting",
+      "world clock",
+      "city time",
+      "dst",
+      "zona waktu",
+      "jadwal meeting"
+    ],
+    "category": "Utilities",
+    "icon": "globe",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "csv-json-converter",
+    "name": "CSV ↔ JSON Converter",
+    "description": "Convert CSV and JSON with quoted fields, custom delimiters, and local file export.",
+    "keywords": [
+      "csv to json",
+      "json to csv",
+      "tsv",
+      "semicolon",
+      "table",
+      "spreadsheet",
+      "data converter"
+    ],
+    "category": "Data",
+    "icon": "table",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "hash-generator",
+    "name": "Hash & Checksum Generator",
+    "description": "Generate SHA-256, SHA-384, or SHA-512 hashes for text and files.",
+    "keywords": [
+      "sha256",
+      "sha384",
+      "sha512",
+      "sha-256",
+      "hash",
+      "checksum",
+      "file integrity",
+      "digest"
+    ],
+    "category": "Security",
+    "icon": "hash",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "percentage-calculator",
+    "name": "Percentage Calculator",
+    "description": "Calculate percentages, discounts, and changes between two values.",
+    "keywords": [
+      "percent",
+      "percentage",
+      "discount",
+      "increase",
+      "decrease",
+      "persen",
+      "diskon",
+      "calculator"
+    ],
+    "category": "Utilities",
+    "icon": "percent",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "qr-code-generator",
+    "name": "QR Code Generator",
+    "description": "Create QR codes for links, text, and Wi-Fi. Download PNG or SVG.",
+    "keywords": ["qr", "qrcode", "wifi", "wi-fi", "barcode", "link qr"],
+    "category": "Utilities",
+    "icon": "qr",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "text-cleaner",
+    "name": "Text Cleaner & Case Converter",
+    "description": "Clean up whitespace, remove duplicate lines, and change text case.",
+    "keywords": [
+      "uppercase",
+      "lowercase",
+      "camelCase",
+      "snake_case",
+      "kebab-case",
+      "sort lines",
+      "remove duplicates",
+      "trim",
+      "case converter",
+      "rapikan teks"
+    ],
+    "category": "Text",
+    "icon": "clean",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "image-compressor",
+    "name": "Image Compressor & Converter",
+    "description": "Compress, resize, and convert JPG, PNG, and WebP on your device.",
+    "keywords": [
+      "bulk images",
+      "batch compression",
+      "download images zip",
+      "image",
+      "compress",
+      "resize",
+      "jpg",
+      "jpeg",
+      "png",
+      "webp",
+      "gambar",
+      "foto",
+      "convert image"
+    ],
+    "category": "Image",
+    "icon": "image",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "json-formatter",
+    "name": "JSON Formatter",
+    "description": "Bring structure to your JSON. Format, validate, and minify in a click.",
+    "keywords": [
+      "json validator",
+      "json beautifier",
+      "pretty print",
+      "minify json",
+      "lint json",
+      "format json",
+      "rapikan json"
+    ],
+    "category": "Data",
+    "icon": "json",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "markdown-editor",
+    "name": "Markdown Editor",
+    "description": "A distraction-free editor with a live preview of your writing.",
+    "keywords": [
+      "md",
+      "markdown preview",
+      "github flavored markdown",
+      "gfm",
+      "writing",
+      "readme",
+      "tables",
+      "checklists",
+      "editor markdown"
+    ],
+    "category": "Text",
+    "icon": "markdown",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "diff-viewer",
+    "name": "Diff Viewer",
+    "description": "Find exactly what changed. Compare text and JSON side by side.",
+    "keywords": [
+      "compare text",
+      "compare json",
+      "text difference",
+      "side by side",
+      "unified diff",
+      "comparison",
+      "bandingkan teks"
+    ],
+    "category": "Text",
+    "icon": "diff",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "notes",
+    "name": "Notes",
+    "description": "Capture ideas and meeting notes. Format, pin, and save them in your browser.",
+    "keywords": [
+      "meeting notes",
+      "notepad",
+      "rich text",
+      "checklist",
+      "todo",
+      "local notes",
+      "catatan",
+      "notulen",
+      "pin notes"
+    ],
+    "category": "Text",
+    "icon": "notes",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "jwt-decoder",
+    "name": "JWT Decoder",
+    "description": "Look inside your tokens. Inspect headers, payloads, and expiry.",
+    "keywords": [
+      "json web token",
+      "decode token",
+      "jwt payload",
+      "jwt header",
+      "claims",
+      "expiration",
+      "expiry",
+      "auth token"
+    ],
+    "category": "Security",
+    "icon": "token",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "base64-url",
+    "name": "Base64 & URL",
+    "description": "Encode or decode strings without leaving your browser.",
+    "keywords": [
+      "base64 encode",
+      "base64 decode",
+      "base64url",
+      "url encode",
+      "url decode",
+      "percent encoding",
+      "hexadecimal",
+      "utf8",
+      "encoding decoding"
+    ],
+    "category": "Encoding",
+    "icon": "binary",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "regex-tester",
+    "name": "Regex Tester",
+    "description": "Test expressions, explore matches, and get your patterns right.",
+    "keywords": [
+      "regular expression",
+      "regexp",
+      "pattern matching",
+      "capture groups",
+      "replacement preview",
+      "javascript regex",
+      "test regex"
+    ],
+    "category": "Text",
+    "icon": "regex",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "timestamp-converter",
+    "name": "Timestamp Converter",
+    "description": "Make time human. Convert Unix timestamps and readable dates.",
+    "keywords": [
+      "unix time",
+      "epoch",
+      "date converter",
+      "milliseconds",
+      "seconds",
+      "iso 8601",
+      "utc",
+      "timezone",
+      "tanggal",
+      "waktu"
+    ],
+    "category": "Utilities",
+    "icon": "clock",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "uuid-generator",
+    "name": "Random Keygen",
+    "description": "Cryptographically secure passwords, API secrets, HMAC keys, and UUIDs.",
+    "keywords": [
+      "password generator",
+      "random password",
+      "uuid",
+      "guid",
+      "api secret",
+      "hmac key",
+      "secure key",
+      "keygen",
+      "kata sandi"
+    ],
+    "category": "Security",
+    "icon": "key",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "json-to-typescript",
+    "name": "JSON to TypeScript",
+    "description": "Turn JSON objects into clean, ready-to-use TypeScript types.",
+    "keywords": [
+      "json to ts",
+      "typescript interface",
+      "type alias",
+      "readonly",
+      "optional properties",
+      "generate types",
+      "convert json types"
+    ],
+    "category": "Data",
+    "icon": "types",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "sql-formatter",
+    "name": "SQL Formatter",
+    "description": "Format and improve the readability of complex queries across dialects.",
+    "keywords": [
+      "sql beautifier",
+      "format query",
+      "sql minifier",
+      "database query",
+      "sql indentation",
+      "uppercase sql",
+      "rapikan sql"
+    ],
+    "category": "Database",
+    "icon": "database",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "curl-to-code",
+    "name": "cURL to Code",
+    "description": "Convert cURL commands into clean Fetch, Axios, Python, Go, and PHP code.",
+    "keywords": [
+      "curl converter",
+      "http request",
+      "fetch",
+      "axios",
+      "python requests",
+      "golang",
+      "php",
+      "javascript request",
+      "typescript request"
+    ],
+    "category": "Network",
+    "icon": "terminal",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "character-counter",
+    "name": "Character Counter",
+    "description": "Count characters, words, lines, and UTF-8 bytes as you type.",
+    "keywords": [
+      "count character",
+      "character count",
+      "word counter",
+      "word count",
+      "letter count",
+      "text length",
+      "string length",
+      "utf8 bytes",
+      "unicode",
+      "hitung karakter",
+      "jumlah kata"
+    ],
+    "category": "Text",
+    "icon": "text",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "webhook-inspector",
+    "name": "Webhook Inspector",
+    "description": "Capture, inspect, and safely replay HTTP requests in one workspace.",
+    "keywords": [],
+    "category": "Network",
+    "icon": "webhook",
+    "phase": 3,
+    "status": "planned"
+  }
+]
