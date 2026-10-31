@@ -1,4 +1,8 @@
-export const VIEWERS = ["http://localhost:3000", "https://dotools.com"] as const;
+export const VIEWERS = [
+  "http://localhost:3000",
+  "https://ramupod.com",
+  "https://dotools.com",
+] as const;
 export const VIEWER_PATH = "/tools/qa-bug-report";
 export function viewerOrigin(value: unknown) {
   if (typeof value !== "string" || !VIEWERS.some((origin) => origin === value))

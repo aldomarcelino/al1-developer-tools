@@ -1,5 +1,62 @@
 [
   {
+    "slug": "heic-to-jpg",
+    "name": "HEIC to JPG / PNG Converter",
+    "description": "Convert HEIC and HEIF photos into JPG or PNG locally, with batch downloads.",
+    "keywords": [
+      "heic to jpg",
+      "heic to png",
+      "heif",
+      "iphone photos",
+      "convert heic online",
+      "heic converter"
+    ],
+    "category": "Image",
+    "icon": "heic",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "image-resizer",
+    "name": "Image Resizer & Cropper",
+    "description": "Crop images, choose exact pixel dimensions, and export JPG, PNG, or WebP locally.",
+    "keywords": [
+      "image resizer",
+      "image cropper",
+      "resize image online",
+      "crop image online",
+      "custom dimensions",
+      "3x4",
+      "4x6",
+      "photo ratio"
+    ],
+    "category": "Image",
+    "icon": "crop",
+    "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "screen-recorder",
+    "name": "Screen Recorder",
+    "description": "Record your screen, window, or tab with optional audio and webcam overlay in your browser.",
+    "keywords": [
+      "screen recorder",
+      "screen recorder online",
+      "record screen online",
+      "browser screen recorder",
+      "free screen recording tool",
+      "screen capture",
+      "webcam overlay",
+      "screen recording",
+      "rekam layar",
+      "rekam layar online"
+    ],
+    "category": "Utilities",
+    "icon": "video",
+    "phase": 1,
+    "status": "available"
+  },
+  {
     "slug": "qa-bug-report",
     "name": "QA Bug Capture & Handoff",
     "description": "Connect bug markers with captured requests, review redacted evidence, and export a local report.",

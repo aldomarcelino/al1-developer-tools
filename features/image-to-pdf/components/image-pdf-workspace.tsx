@@ -1,6 +1,7 @@
 "use client";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { FileImage, Upload, Download, Trash2 } from "lucide-react";
+import { DropArea } from "@/components/ui/drop-area";
 import { ToolHeader } from "@/components/cummon/tool-header";
 import { ActionButton } from "@/components/ui/action-button";
 import { CustomSelect } from "@/components/ui/custom-select";
@@ -13,7 +14,6 @@ import local from "../styles.module.css";
 
 export function ImagePdfWorkspace() {
   const queue = usePdfImages();
-  const fileInput = useRef<HTMLInputElement>(null);
   const [options, setOptions] = useState<PageOptions>({
     size: "a4",
     orientation: "auto",
@@ -43,46 +43,23 @@ export function ImagePdfWorkspace() {
   return (
     <div className={`workspace-page page-width ${styles.toolkit}`}>
       <ToolHeader title="Image to PDF" icon={<FileImage size={24} />} />
-      <div
-        className={`${styles.dropzone} ${local.uploadSection}`}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault();
-          if (!busy) {
-            setError("");
-            setNotice("");
-            void queue.add(Array.from(e.dataTransfer.files));
-          }
+      <DropArea
+        variant="stacked"
+        label="Add images to PDF"
+        title="Turn your images into one PDF"
+        description="Drop JPG or PNG images here. One image per page, in your chosen order."
+        accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+        multiple
+        buttonLabel="Add images"
+        buttonIcon={<Upload size={15} />}
+        loading={queue.loading}
+        disabled={exporting}
+        onFiles={(files) => {
+          setError("");
+          setNotice("");
+          void queue.add(files);
         }}
-      >
-        <div>
-          <strong>Turn your images into one PDF</strong>
-          <p className={styles.hint}>
-            Drop JPG or PNG images here. One image per page, in your chosen order.
-          </p>
-        </div>
-        <ActionButton
-          variant="primary"
-          loading={queue.loading}
-          disabled={exporting}
-          onClick={() => fileInput.current?.click()}
-        >
-          <Upload size={15} /> Add images
-        </ActionButton>
-        <input
-          ref={fileInput}
-          hidden
-          type="file"
-          multiple
-          accept="image/jpeg,image/png,.jpg,.jpeg,.png"
-          onChange={(e) => {
-            setError("");
-            setNotice("");
-            void queue.add(Array.from(e.target.files ?? []));
-            e.target.value = "";
-          }}
-        />
-      </div>
+      />
       <p className={`${styles.hint} ${styles.section}`}>
         Up to 20 images · 10 MB each · 50 MB total · 16 megapixels per image / 64
         megapixels total. Images are re-encoded locally to respect orientation and remove

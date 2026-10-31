@@ -18,3 +18,11 @@ test("static assets do not receive a fixed nonce; eval is development only", () 
   assert.ok(contentSecurityPolicy("abc", true).includes("unsafe-eval"));
   assert.throws(() => contentSecurityPolicy("x'; script-src *"), /Invalid/);
 });
+
+test("locally recorded video blobs can play without allowing remote media", () => {
+  const directive = contentSecurityPolicy("testNonce")
+    .split(";")
+    .find((p) => p.trim().startsWith("media-src "))
+    ?.trim();
+  assert.equal(directive, "media-src 'self' blob:");
+});

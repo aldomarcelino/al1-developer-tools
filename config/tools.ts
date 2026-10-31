@@ -1,4 +1,4 @@
-import toolsData from "./tools.json";
+import toolsData from "./tools.json" with { type: "json" };
 
 export const categories = [
   "All tools",
@@ -16,6 +16,9 @@ export const categories = [
 
 /** All valid icon keys — must stay in sync with toolIcons in tool-icons.ts. */
 export type ToolIcon =
+  | "heic"
+  | "crop"
+  | "video"
   | "bug"
   | "vector"
   | "network"

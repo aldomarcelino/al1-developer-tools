@@ -54,6 +54,7 @@ for (const name of [
   "panel.css",
   "popup.html",
   "popup.css",
+  "offscreen.html",
 ])
   await copyFile(path.join(root, "extensions/qa-capture", name), path.join(output, name));
 await copyFile(

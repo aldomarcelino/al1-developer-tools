@@ -1,0 +1,886 @@
+/* ==========================================================================
+   Ramupod Screen Recorder - Scoped Styles
+   ========================================================================== */
+
+.workspaceWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Browser Compatibility Banner */
+.compatBanner {
+  display: flex;
+  gap: 16px;
+  background: rgba(180, 35, 24, 0.08);
+  border: 1px solid rgba(180, 35, 24, 0.25);
+  border-radius: 14px;
+  padding: 20px;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.compatIconWrap {
+  color: var(--error);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.compatContent h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: var(--error);
+}
+
+.compatContent p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.compatHint {
+  color: var(--muted) !important;
+  font-size: 13px !important;
+}
+
+.compatBadges {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.compatTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* Error Alert */
+.errorAlert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(180, 35, 24, 0.1);
+  border: 1px solid rgba(180, 35, 24, 0.3);
+  color: var(--error);
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.errorAlertContent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Workspace Card */
+.workspaceCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Settings Grid */
+.settingsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+.settingsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionTitleWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionTitleWrap h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text);
+}
+
+.sectionHeaderIcon {
+  color: var(--green);
+}
+
+.sectionSubtitle {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Audio Options Grid */
+.audioOptionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.audioCard {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-family: inherit;
+  color: inherit;
+}
+
+.audioCard:hover:not(:disabled) {
+  border-color: var(--muted);
+  background: var(--soft);
+}
+
+.audioCardSelected {
+  border-color: var(--green) !important;
+  background: var(--soft) !important;
+  box-shadow: none !important;
+}
+
+.audioCard:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.audioCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.audioCardIcon {
+  color: var(--green);
+  display: flex;
+  align-items: center;
+}
+
+.audioCardLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+
+.radioIndicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+}
+
+.audioCardSelected .radioIndicator {
+  border-color: var(--green);
+}
+
+.radioDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.audioCardDescription {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.audioNotice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(180, 35, 24, 0.08);
+  border: 1px solid rgba(180, 35, 24, 0.2);
+  color: var(--error);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.audioTip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.audioTip strong {
+  color: var(--text);
+}
+
+/* Webcam Settings */
+.webcamToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+
+.toggleLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  user-select: none;
+}
+
+.toggleInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggleSlider {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background-color: var(--border);
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+  display: inline-block;
+}
+
+.toggleSlider::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggleInput:checked + .toggleSlider {
+  background-color: var(--green);
+}
+
+.toggleInput:checked + .toggleSlider::after {
+  transform: translateX(20px);
+}
+
+.toggleText {
+  font-size: 14px;
+}
+
+.webcamLiveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--success);
+  background: rgba(23, 108, 75, 0.1);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.webcamConfigGrid {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .webcamConfigGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.webcamControlsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controlLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.buttonSegment {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.segmentBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.segmentBtn:hover:not(:disabled) {
+  border-color: var(--green);
+  background: var(--soft);
+}
+
+.segmentBtnActive {
+  background: var(--green) !important;
+  color: #fff !important;
+  border-color: var(--green) !important;
+}
+
+.webcamPreviewCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.previewBox {
+  width: 160px;
+  height: 160px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.cameraPreviewWrapper {
+  width: 130px;
+  height: 130px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shapeCircle {
+  border-radius: 50%;
+}
+
+.shapeRounded {
+  border-radius: 14px;
+}
+
+.cameraVideoElement {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cameraPreviewEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 12px;
+}
+
+.webcamPreviewNote {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Sticky Controls Footer */
+.controlsStickyFooter {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 20px 24px;
+}
+
+.controlsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.timerBadgeContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.statusPillRecording {
+  background: rgba(180, 35, 24, 0.12);
+  color: var(--error);
+}
+
+.statusPillPaused {
+  background: rgba(116, 123, 128, 0.15);
+  color: var(--muted);
+}
+
+.pulsingDot {
+  color: var(--error);
+  animation: pulseAnimation 1.4s infinite ease-in-out;
+}
+
+.pausedDot {
+  color: var(--muted);
+}
+
+@keyframes pulseAnimation {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.timerDisplay {
+  font-family: var(--font-code);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+
+.buttonsGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Start Button */
+.recordButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  user-select: none;
+}
+
+.recordButtonStart {
+  background-color: var(--green);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(14, 54, 60, 0.2);
+}
+
+.recordButtonStart:hover:not(:disabled) {
+  background-color: #174b53;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 54, 60, 0.28);
+}
+
+.recordButtonStart:active:not(:disabled) {
+  transform: translateY(0.5px);
+}
+
+.recordButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.controlBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: all 0.18s ease;
+  font-family: inherit;
+}
+
+.controlBtnSecondary:hover {
+  background: var(--soft);
+  border-color: var(--muted);
+}
+
+.controlBtnStop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--error);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(180, 35, 24, 0.25);
+  transition: all 0.18s ease;
+  font-family: inherit;
+}
+
+.controlBtnStop:hover {
+  background: #981b12;
+  transform: translateY(-1px);
+}
+
+.requestingState {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  color: var(--green);
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Active Live View */
+.liveRecordingView {
+  padding: 24px;
+  background: #000;
+  border-bottom: 1px solid var(--border);
+}
+
+.liveVideoContainer {
+  position: relative;
+  width: 100%;
+  max-height: 480px;
+  aspect-ratio: 16 / 9;
+  background: #0d0d0d;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.liveVideoPlayer {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.liveWatermark {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4747;
+  animation: pulseAnimation 1.4s infinite ease-in-out;
+}
+
+/* Post-Recording Preview */
+.previewContainer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  margin-bottom: 24px;
+}
+
+.previewHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.previewSuccessTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.previewSuccessTitle h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text);
+}
+
+.successIcon {
+  color: var(--success);
+}
+
+.previewSubtitle {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.videoPlayerWrapper {
+  width: 100%;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  max-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+.videoPlayer {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.metaStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 20px;
+}
+
+.metaStatItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.metaStatIcon {
+  color: var(--green);
+}
+
+.metaStatContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.metaStatLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+}
+
+.metaStatValue {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.previewActionsBar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.downloadButton {
+  background-color: var(--green);
+  color: #fff;
+  min-height: 42px;
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.downloadButton:hover {
+  background-color: #174b53;
+  transform: translateY(-1px);
+}
+
+/* Guide & FAQs */
+.guideContainer {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.guideHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guideHeader h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text);
+}
+
+.guideHeaderIcon {
+  color: var(--green);
+}
+
+.guideGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.guideCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guideCardIconWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.guideCard h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text);
+}
+
+.guideCard p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.guideCard strong {
+  color: var(--text);
+}

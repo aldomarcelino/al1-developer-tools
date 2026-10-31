@@ -20,6 +20,7 @@ import {
 import { SortablePdfPage, PdfPagePreview } from "./sortable-pdf-page";
 import pdfStyles from "../styles.module.css";
 import { ActionButton } from "@/components/ui/action-button";
+import { DropArea } from "@/components/ui/drop-area";
 import { ToolHeader } from "@/components/cummon/tool-header";
 import { downloadBlob } from "@/lib/browser/download";
 import {
@@ -52,7 +53,6 @@ export function PdfWorkspace() {
   const [busy, setBusy] = useState(false);
   const [range, setRange] = useState("");
   const [notice, setNotice] = useState("");
-  const input = useRef<HTMLInputElement>(null);
   const urls = useRef(new Set<string>());
   const revision = useRef({ value: 0 });
   useEffect(() => {
@@ -209,45 +209,22 @@ export function PdfWorkspace() {
   return (
     <div className={`workspace-page page-width ${styles.toolkit}`}>
       <ToolHeader title="PDF Merge & Split" icon={<Files size={24} />} />
-      <div
-        className={`${styles.dropzone} ${pdfStyles.upload}`}
-        onDragOver={(event) => {
-          if (event.dataTransfer.types.includes("Files")) event.preventDefault();
+      <DropArea
+        variant="stacked"
+        label="Add PDF files"
+        title="Bring your PDFs together"
+        description="Drop your files here, or choose them below."
+        hint="PDF only · 25 MB per file · 50 MB combined · On-device processing"
+        accept="application/pdf,.pdf"
+        multiple
+        loading={busy}
+        buttonLabel={busy ? "Processing…" : sources.length ? "Add more PDFs" : "Add PDFs"}
+        buttonIcon={<Upload size={16} />}
+        inputLabel="Choose PDF files"
+        onFiles={(files) => {
+          void add(files);
         }}
-        onDrop={(event) => {
-          event.preventDefault();
-          void add(Array.from(event.dataTransfer.files));
-        }}
-      >
-        <div>
-          <strong>Bring your PDFs together</strong>
-          <p className={styles.hint}>Drop your files here, or choose them below.</p>
-        </div>
-        <button
-          type="button"
-          className="button primary"
-          disabled={busy}
-          onClick={() => input.current?.click()}
-        >
-          <Upload size={16} aria-hidden="true" />
-          {busy ? "Processing…" : sources.length ? "Add more PDFs" : "Add PDFs"}
-        </button>
-        <p className={styles.hint}>
-          PDF only · 25 MB per file · 50 MB combined · On-device processing
-        </p>
-        <input
-          hidden
-          ref={input}
-          type="file"
-          multiple
-          accept="application/pdf,.pdf"
-          aria-label="Choose PDF files"
-          onChange={(event) => {
-            void add(Array.from(event.target.files ?? []));
-            event.target.value = "";
-          }}
-        />
-      </div>
+      />
       <p className={`${styles.hint} ${pdfStyles.compatibility}`}>
         For static, unsigned PDFs. Encrypted files, interactive forms, and signed
         documents are not supported. Bookmarks and other document-level features may not

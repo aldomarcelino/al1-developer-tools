@@ -10,6 +10,7 @@ export function contentSecurityPolicy(nonce?: string, development = false): stri
     // Interactive controls use React style attributes (sliders, tooltips, previews).
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
+    "media-src 'self' blob:",
     "font-src 'self' data:",
     `connect-src 'self' blob:${development ? " ws: wss:" : ""}`,
     "worker-src 'self' blob:",

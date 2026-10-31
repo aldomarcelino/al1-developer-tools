@@ -1,6 +1,3 @@
-.uploadSection {
-  flex-direction: column;
-}
 .settings {
   display: grid;
   gap: 24px;

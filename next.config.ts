@@ -40,6 +40,15 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      {
+        source: "/tools/screen-recorder",
+        headers: [
+          {
+            key: "Permissions-Policy",
+            value: "camera=(self), microphone=(self), geolocation=(), browsing-topics=()",
+          },
+        ],
+      },
     ];
   },
 };

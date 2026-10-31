@@ -3,57 +3,131 @@
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="popup.css" />
-    <title>Ramupod Capture</title>
+    <title>Ramupod Companion</title>
   </head>
   <body>
     <header>
       <img src="popup-logo.png" width="28" height="28" alt="" /><span>ramupod</span
-      ><small>Capture</small>
+      ><small>Companion</small>
     </header>
+
+    <nav class="companion-tabs" role="tablist" aria-label="Tool selection">
+      <button
+        id="tab-btn-recorder"
+        class="companion-tab active"
+        role="tab"
+        aria-selected="true"
+        aria-controls="panel-recorder"
+      >
+        <span class="tab-icon" id="tab-rec-icon"></span>
+        <span>Screen Recorder</span>
+      </button>
+      <button
+        id="tab-btn-qa"
+        class="companion-tab"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-qa"
+      >
+        <span class="tab-icon" id="tab-qa-icon"></span>
+        <span>QA Bug Report</span>
+      </button>
+    </nav>
+
     <main>
-      <section id="elsewhere" hidden>
-        <p class="progress"><span class="live"></span>Capture in progress</p>
-        <p class="subtle">Finish or cancel the capture in its tab first.</p>
-        <button id="back" class="primary full">
-          Back to tab <span aria-hidden="true">↗</span>
-        </button>
-      </section>
-      <section id="modes">
-        <button id="screenshot" class="mode">
-          <span class="glyph" id="shot-icon"></span
-          ><span
-            ><strong id="shot-label">Capture screenshot</strong
-            ><small id="shot-hint">Select an area, annotate, download</small></span
-          ><span class="shortcut" aria-hidden="true">↗</span>
-        </button>
-        <button id="start" class="mode">
-          <span class="glyph" id="test-icon"></span
-          ><span
-            ><strong id="test-label">Start testing</strong
-            ><small id="test-hint">Requests, screenshots & evidence</small></span
-          ><span class="shortcut" aria-hidden="true">↗</span>
-        </button>
-        <div id="session-actions" hidden>
-          <button id="finish" class="primary">Finish</button
-          ><button id="cancel" class="quiet">Cancel testing</button>
+      <!-- Panel 1: Screen Recorder -->
+      <section id="panel-recorder" class="tab-panel active" role="tabpanel" aria-labelledby="tab-btn-recorder">
+        <div id="rec-active-section" hidden>
+          <div class="progress-card">
+            <span class="live-pulse"></span>
+            <div class="progress-info">
+              <strong>Recording in progress</strong>
+              <span id="rec-timer-display" class="rec-timer">00:00</span>
+            </div>
+          </div>
+          <div class="rec-actions-group">
+            <button id="rec-pause-btn" class="quiet full">Pause</button>
+            <button id="rec-stop-btn" class="primary full">
+              Finish &amp; Open in Ramupod <span aria-hidden="true">↗</span>
+            </button>
+            <button id="rec-cancel-btn" class="quiet destructive full">Discard recording</button>
+          </div>
+        </div>
+
+        <div id="rec-idle-section">
+          <button id="btn-start-tab-rec" class="mode">
+            <span class="glyph" id="rec-icon"></span>
+            <span>
+              <strong>Record this Tab</strong>
+              <small>Floating dock controls &amp; camera bubble</small>
+            </span>
+            <span class="shortcut" aria-hidden="true">↗</span>
+          </button>
+
+          <div class="recorder-options">
+            <label class="check-row">
+              <input type="checkbox" id="rec-opt-mic" checked />
+              <span>Microphone narration</span>
+            </label>
+            <label class="check-row">
+              <input type="checkbox" id="rec-opt-cam" checked />
+              <span>Floating camera bubble</span>
+            </label>
+          </div>
+
+          <button id="btn-open-studio" class="quiet full studio-shortcut">
+            <span>Open Studio in Ramupod</span>
+            <span aria-hidden="true">↗</span>
+          </button>
         </div>
       </section>
-      <p id="status" role="status" class="subtle"></p>
-      <details id="settings">
-        <summary>Settings & saved capture</summary>
-        <label
-          >Open testing results in<select id="viewer">
-            <option value="https://dotools.com">Ramupod · dotools.com</option>
-            <option value="http://localhost:3000">Local · localhost:3000</option>
-          </select></label
-        >
-        <p class="subtle">
-          Testing uses Chrome debugging. Keep DevTools closed. Screenshot mode does not
-          start network capture.
-        </p>
-        <button id="export" class="quiet" hidden>Download saved capture</button
-        ><button id="clear" class="quiet">Delete saved testing data</button>
-      </details>
+
+      <!-- Panel 2: QA Bug Report -->
+      <section id="panel-qa" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-qa">
+        <section id="elsewhere" hidden>
+          <p class="progress"><span class="live"></span>Capture in progress</p>
+          <p class="subtle">Finish or cancel the capture in its tab first.</p>
+          <button id="back" class="primary full">
+            Back to tab <span aria-hidden="true">↗</span>
+          </button>
+        </section>
+        <section id="modes">
+          <button id="screenshot" class="mode">
+            <span class="glyph" id="shot-icon"></span
+            ><span
+              ><strong id="shot-label">Capture screenshot</strong
+              ><small id="shot-hint">Select an area, annotate, download</small></span
+            ><span class="shortcut" aria-hidden="true">↗</span>
+          </button>
+          <button id="start" class="mode">
+            <span class="glyph" id="test-icon"></span
+            ><span
+              ><strong id="test-label">Start testing</strong
+              ><small id="test-hint">Requests, screenshots &amp; evidence</small></span
+            ><span class="shortcut" aria-hidden="true">↗</span>
+          </button>
+          <div id="session-actions" hidden>
+            <button id="finish" class="primary">Finish</button
+            ><button id="cancel" class="quiet">Cancel testing</button>
+          </div>
+        </section>
+        <p id="status" role="status" class="subtle"></p>
+        <details id="settings">
+          <summary>Settings &amp; saved capture</summary>
+          <label
+            >Open testing results in<select id="viewer">
+              <option value="https://ramupod.com">Ramupod · ramupod.com</option>
+              <option value="http://localhost:3000">Local · localhost:3000</option>
+            </select></label
+          >
+          <p class="subtle">
+            Testing uses Chrome debugging. Keep DevTools closed. Screenshot mode does not
+            start network capture.
+          </p>
+          <button id="export" class="quiet" hidden>Download saved capture</button
+          ><button id="clear" class="quiet">Delete saved testing data</button>
+        </details>
+      </section>
     </main>
     <footer>On your device. No uploads.</footer>
     <script src="ui.js"></script>

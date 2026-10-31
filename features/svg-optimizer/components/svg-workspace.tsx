@@ -9,6 +9,7 @@ import {
   Trash2,
   ArrowRight,
 } from "lucide-react";
+import { DropArea } from "@/components/ui/drop-area";
 import { ToolHeader } from "@/components/cummon/tool-header";
 import { ActionButton } from "@/components/ui/action-button";
 import { SegmentedTabs } from "@/components/ui/segmented-tabs";
@@ -34,8 +35,6 @@ export function SvgWorkspace() {
   const [componentName, setComponentName] = useState("SvgIcon");
   const [format, setFormat] = useState<ExportFormat>("svg");
   const [filename, setFilename] = useState("optimized");
-  const [dragging, setDragging] = useState(false);
-  const input = useRef<HTMLInputElement>(null);
   const revision = useRef(0);
   const { snackbar, showSnackbar, dismissSnackbar } = useSnackbar();
   const validName = isComponentName(componentName);
@@ -85,42 +84,23 @@ export function SvgWorkspace() {
         title="SVG Optimizer, Viewer & JSX Converter"
         icon={<VectorSquare size={24} />}
       />
-      <div
-        className={styles.upload}
-        data-dragging={dragging}
-        onDragEnter={(event) => {
-          if (event.dataTransfer.types.includes("Files")) {
-            event.preventDefault();
-            setDragging(true);
-          }
-        }}
-        onDragOver={(event) => {
-          if (event.dataTransfer.types.includes("Files")) event.preventDefault();
-        }}
-        onDragLeave={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget as Node))
-            setDragging(false);
-        }}
-        onDrop={(event) => {
-          event.preventDefault();
-          setDragging(false);
-          if (event.dataTransfer.files.length > 1) {
+      <DropArea
+        variant="compact"
+        label="Upload SVG"
+        title="Give your SVG a lighter footprint"
+        description="Drop a .svg file or paste code below · Up to 512 KB · Processed on your device"
+        accept=".svg,image/svg+xml"
+        buttonLabel="Upload SVG"
+        buttonIcon={<Upload size={15} />}
+        inputLabel="Choose SVG file"
+        onFiles={(files) => {
+          if (files.length > 1) {
             showSnackbar("Choose one SVG at a time.", "error");
             return;
           }
-          void loadFile(event.dataTransfer.files[0]);
+          void loadFile(files[0]);
         }}
-      >
-        <div>
-          <strong>Give your SVG a lighter footprint</strong>
-          <p className={styles.hint}>
-            Drop a .svg file or paste code below · Up to 512 KB · Processed on your device
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <ActionButton variant="primary" onClick={() => input.current?.click()}>
-            <Upload size={15} aria-hidden="true" /> Upload SVG
-          </ActionButton>
+        actions={
           <ActionButton
             onClick={() => {
               edit(sampleSvg);
@@ -129,19 +109,8 @@ export function SvgWorkspace() {
           >
             <Sparkles size={15} aria-hidden="true" /> Load Sample SVG
           </ActionButton>
-        </div>
-        <input
-          ref={input}
-          hidden
-          type="file"
-          accept=".svg,image/svg+xml"
-          aria-label="Choose SVG file"
-          onChange={(event) => {
-            void loadFile(event.target.files?.[0]);
-            event.target.value = "";
-          }}
-        />
-      </div>
+        }
+      />
       <div className={styles.stats} aria-live="polite">
         <div>
           <span>Original</span>

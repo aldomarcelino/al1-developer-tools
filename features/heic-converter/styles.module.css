@@ -1,0 +1,82 @@
+.scope :global(.action-button) {
+  border-radius: 999px;
+}
+.scope :global(.workspace-heading) {
+  margin-bottom: 10px;
+}
+.upload {
+  margin-top: 14px;
+}
+.scope .content {
+  margin-top: 16px;
+  gap: 16px;
+}
+.scope .panel {
+  gap: 12px;
+  padding: 20px;
+}
+.panel .formatSelect {
+  gap: 6px;
+}
+.scope .panel input[type="range"] {
+  min-height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.queueHeading {
+  justify-content: space-between;
+  gap: 8px;
+}
+.scope .privacy {
+  margin-top: 12px;
+}
+.scope input[type="range"] {
+  accent-color: var(--green);
+}
+
+.progress {
+  width: 100%;
+  height: 6px;
+  accent-color: var(--green);
+}
+.queue {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 560px;
+  overflow: auto;
+}
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.file {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.file strong {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.file span,
+.result {
+  font-size: 11px;
+  color: var(--muted);
+}
+.full {
+  grid-column: 1 / -1;
+}
+.result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  overflow-wrap: anywhere;
+}

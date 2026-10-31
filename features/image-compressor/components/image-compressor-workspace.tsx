@@ -8,6 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { ImageIcon, Upload, Sparkles, FolderOpen, AlertCircle } from "lucide-react";
 
 import { downloadBlob } from "@/lib/browser/download";
+import { DropArea } from "@/components/ui/drop-area";
+import { ActionButton } from "@/components/ui/action-button";
 import { ToolHeader } from "@/components/cummon/tool-header";
 
 import { useImageBatch } from "../hooks/use-image-batch";
@@ -30,7 +32,6 @@ export function ImageCompressorWorkspace() {
   const [selectedId, setSelectedId] = useState<string>();
   const [zipping, setZipping] = useState(false);
   const [notice, setNoticeWithTimeout] = useNotice("");
-  const [dragging, setDragging] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const batch = useImageBatch(settings);
@@ -102,17 +103,6 @@ export function ImageCompressorWorkspace() {
     >
       <ToolHeader title="Image Compressor & Converter" icon={<ImageIcon size={24} />} />
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        multiple
-        accept="image/*,.jpg,.jpeg,.png,.webp,.avif,.bmp,.gif"
-        hidden
-        onChange={(e) => {
-          addFiles(Array.from(e.target.files ?? []));
-          e.target.value = "";
-        }}
-      />
       {batch.items.length > 0 ? (
         <ImageBatchQueue
           items={batch.items}
@@ -136,80 +126,46 @@ export function ImageCompressorWorkspace() {
           {batch.notice}
         </p>
       ) : null}
-      {/* Empty State */}
-      {!batch.items.length ? (
-        <div
-          role="button"
-          tabIndex={0}
-          className={`compressor-dropzone ${dragging ? "is-dragging" : ""}`}
-          onClick={() => fileInputRef.current?.click()}
-          onKeyDown={(e) => {
-            if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
-              e.preventDefault();
-              fileInputRef.current?.click();
-            }
-          }}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDragging(false);
-            addFiles(Array.from(e.dataTransfer.files));
-          }}
-        >
-          <div className="compressor-dropzone-icon">
-            <Upload size={28} />
-          </div>
-
-          <h2>Drop images here, paste from clipboard, or browse</h2>
-          <p>
-            Fast, lossy & lossless compression directly inside your browser. No data
-            leaves your computer.
-          </p>
-
-          <div
-            className="compressor-dropzone-actions"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              className="button primary"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <FolderOpen size={14} />
-              Browse images
-            </button>
-
-            <button
-              type="button"
-              className="button"
-              onClick={async (e) => {
-                e.stopPropagation();
-                const sample = await createSampleImage();
-                addFiles([
-                  sample,
-                  new File([sample], "sample-mountains.jpg", { type: sample.type }),
-                  new File([sample], "sample-sunset.jpg", { type: sample.type }),
-                ]);
-                setNoticeWithTimeout(
-                  "Three sample images added. Select any image to compare."
-                );
-              }}
-            >
-              <Sparkles size={14} />
-              Try sample batch
-            </button>
-          </div>
-
-          <span className="compressor-dropzone-hint">
+      <DropArea
+        variant="stacked"
+        className={styles.dropArea}
+        hidden={batch.items.length > 0}
+        label="Add images to compress"
+        inputRef={fileInputRef}
+        accept="image/*,.jpg,.jpeg,.png,.webp,.avif,.bmp,.gif"
+        multiple
+        icon={<Upload size={28} />}
+        title="Drop images here, paste from clipboard, or browse"
+        description="Fast, lossy & lossless compression directly inside your browser. No data leaves your computer."
+        hint={
+          <>
             Up to 20 images · 30 MB each · 150 MB total · Or press <kbd>Cmd+V</kbd> /{" "}
             <kbd>Ctrl+V</kbd> anywhere
-          </span>
-        </div>
-      ) : source ? (
+          </>
+        }
+        buttonLabel="Browse images"
+        buttonIcon={<FolderOpen size={14} />}
+        onFiles={addFiles}
+        actions={
+          <ActionButton
+            onClick={async () => {
+              const sample = await createSampleImage();
+              addFiles([
+                sample,
+                new File([sample], "sample-mountains.jpg", { type: sample.type }),
+                new File([sample], "sample-sunset.jpg", { type: sample.type }),
+              ]);
+              setNoticeWithTimeout(
+                "Three sample images added. Select any image to compare."
+              );
+            }}
+          >
+            <Sparkles size={14} />
+            Try sample batch
+          </ActionButton>
+        }
+      />
+      {batch.items.length > 0 && source ? (
         /* Image Loaded View */
         <>
           <p className="compressor-selected-label">

@@ -1,4 +1,6 @@
 import {
+  ImageUp,
+  Crop,
   Bug,
   CalendarDays,
   CalendarClock,
@@ -31,12 +33,15 @@ import {
   Terminal,
   StickyNote,
   TextCursorInput,
+  Video,
   type LucideIcon,
 } from "lucide-react";
 import type { ToolIcon } from "@/config/tools";
 
 /** Each registered tool has its own distinct icon across discovery, search, and menus. */
 export const toolIcons = {
+  heic: ImageUp,
+  crop: Crop,
   bug: Bug,
   vector: VectorSquare,
   network: Network,
@@ -69,4 +74,5 @@ export const toolIcons = {
   terminal: Terminal,
   notes: StickyNote,
   text: TextCursorInput,
+  video: Video,
 } satisfies Record<ToolIcon, LucideIcon>;

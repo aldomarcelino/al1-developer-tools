@@ -1,11 +1,18 @@
 {
   "manifest_version": 3,
-  "name": "Ramupod QA Capture",
-  "version": "0.3.0",
-  "description": "Start testing, capture HTTP evidence and annotated screenshots, then finish in Ramupod. Local processing only.",
+  "name": "Ramupod Companion",
+  "version": "0.4.0",
+  "description": "All-in-one browser companion: screen recording with floating dock controls and camera bubble, plus QA network bug reporting. 100% local processing.",
   "minimum_chrome_version": "120",
   "devtools_page": "devtools.html",
-  "permissions": ["storage", "activeTab", "scripting", "debugger"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "debugger",
+    "tabCapture",
+    "offscreen"
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'none'; connect-src 'none'; base-uri 'none'"
   },
@@ -14,7 +21,7 @@
     "type": "module"
   },
   "action": {
-    "default_title": "Ramupod \u00b7 Screenshot & testing",
+    "default_title": "Ramupod Companion \u00b7 Recorder & QA",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icon-16.png",
@@ -27,7 +34,11 @@
     {
       "matches": [
         "http://localhost:3000/tools/qa-bug-report*",
-        "https://dotools.com/tools/qa-bug-report*"
+        "https://ramupod.com/tools/qa-bug-report*",
+        "https://dotools.com/tools/qa-bug-report*",
+        "http://localhost:3000/tools/screen-recorder*",
+        "https://ramupod.com/tools/screen-recorder*",
+        "https://dotools.com/tools/screen-recorder*"
       ],
       "js": ["bridge.js"],
       "run_at": "document_idle"

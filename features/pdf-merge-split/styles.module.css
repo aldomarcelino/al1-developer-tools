@@ -1,9 +1,3 @@
-.upload {
-  flex-direction: column;
-  gap: 16px;
-  padding: 32px 20px;
-}
-
 .compatibility {
   margin-top: 12px;
   text-align: center;

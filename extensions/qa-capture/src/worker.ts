@@ -18,6 +18,38 @@ let active: {
 let testOpen = false;
 let shot: { tabId: number; token: string; phase: "selecting" | "editing" } | null = null;
 const SHOT_KEY = "ramupod-screenshot-mode";
+
+let activeRec: {
+  tabId: number;
+  origin: string;
+  state: "recording" | "paused";
+  startedAt: number;
+  pausedAt?: number;
+  totalPausedDuration?: number;
+  withCamera: boolean;
+  withMic: boolean;
+  streamId: string;
+} | null = null;
+
+let recHandoff: {
+  nonce: string;
+  buffer: number[];
+  duration: number;
+  mimeType: string;
+  extension: string;
+  expires: number;
+} | null = null;
+
+async function ensureOffscreen() {
+  const hasDoc = await chrome.offscreen?.hasDocument?.();
+  if (!hasDoc && chrome.offscreen) {
+    await chrome.offscreen.createDocument({
+      url: "offscreen.html",
+      reasons: ["USER_MEDIA"],
+      justification: "Record tab media stream",
+    });
+  }
+}
 async function storeShot() {
   if (shot) await chrome.storage.session.set({ [SHOT_KEY]: shot });
   else await chrome.storage.session.remove(SHOT_KEY);
@@ -105,7 +137,7 @@ async function restore() {
     }
     active = {
       tabId,
-      origin: viewerOrigin(origin ?? "https://dotools.com"),
+      origin: viewerOrigin(origin ?? "https://ramupod.com"),
       controller,
       network: new NetworkCapture(controller, (method, params) =>
         chrome.debugger.sendCommand({ tabId }, method, params)
@@ -204,6 +236,163 @@ function callerTab(sender: QaSender, m: Record<string, unknown>) {
 async function handle(input: unknown, sender: QaSender) {
   const m = object(input);
   await ready;
+  if (m.action === "rec-status") {
+    const currentPause =
+      activeRec?.state === "paused" && activeRec?.pausedAt
+        ? Date.now() - activeRec.pausedAt
+        : 0;
+    const totalPaused = (activeRec?.totalPausedDuration ?? 0) + currentPause;
+    return {
+      recording: !!activeRec,
+      state: activeRec?.state ?? "idle",
+      startedAt: activeRec?.startedAt ?? 0,
+      totalPaused,
+      tabId: activeRec?.tabId,
+    };
+  }
+  if (m.action === "rec-handoff") {
+    if (
+      !recHandoff ||
+      recHandoff.nonce !== m.nonce ||
+      Date.now() > recHandoff.expires
+    ) {
+      throw new Error("Recording handoff expired or not found.");
+    }
+    const result = {
+      blobData: recHandoff.buffer,
+      duration: recHandoff.duration,
+      mimeType: recHandoff.mimeType,
+      extension: recHandoff.extension,
+    };
+    recHandoff = null;
+    return result;
+  }
+  if (m.action === "rec-start") {
+    if (active || shot || activeRec) {
+      throw new Error("Another capture or recording session is already active.");
+    }
+    const targetTabId = typeof m.tabId === "number" ? m.tabId : sender.tab?.id;
+    if (typeof targetTabId !== "number") throw new Error("No active tab to record.");
+    if (!chrome.tabCapture) throw new Error("Tab capture API not available.");
+
+    const streamId = await chrome.tabCapture.getMediaStreamId({ targetTabId });
+    await ensureOffscreen();
+
+    const started = (await chrome.runtime.sendMessage({
+      type: "REC_OFFSCREEN_START",
+      streamId,
+      withMic: !!m.withMic,
+    })) as { ok?: boolean; error?: string };
+    if (!started?.ok) throw new Error(started?.error || "Failed to start recorder");
+
+    activeRec = {
+      tabId: targetTabId,
+      origin: typeof m.origin === "string" ? m.origin : "https://ramupod.com",
+      state: "recording",
+      startedAt: Date.now(),
+      withCamera: !!m.withCamera,
+      withMic: !!m.withMic,
+      streamId,
+    };
+
+    void chrome.action?.setBadgeText?.({ text: "REC" });
+    void chrome.action?.setBadgeBackgroundColor?.({ color: "#e53945" });
+
+    await chrome.scripting.executeScript({
+      target: { tabId: targetTabId },
+      files: ["ui.js", "overlay.js"],
+    });
+
+    await chrome.tabs
+      .sendMessage(targetTabId, {
+        qa: "rec-overlay-init",
+        withCamera: !!m.withCamera,
+        startedAt: activeRec.startedAt,
+      })
+      .catch(() => {});
+
+    return { ok: true };
+  }
+  if (m.action === "rec-toggle-pause") {
+    if (!activeRec) throw new Error("No recording in progress.");
+    if (activeRec.state === "recording") {
+      await chrome.runtime.sendMessage({ type: "REC_OFFSCREEN_PAUSE" });
+      activeRec.state = "paused";
+      activeRec.pausedAt = Date.now();
+      void chrome.tabs.sendMessage(activeRec.tabId, {
+        qa: "rec-overlay-state",
+        state: "paused",
+      });
+    } else {
+      await chrome.runtime.sendMessage({ type: "REC_OFFSCREEN_RESUME" });
+      activeRec.state = "recording";
+      if (activeRec.pausedAt) {
+        activeRec.totalPausedDuration =
+          (activeRec.totalPausedDuration ?? 0) + (Date.now() - activeRec.pausedAt);
+        activeRec.pausedAt = 0;
+      }
+      void chrome.tabs.sendMessage(activeRec.tabId, {
+        qa: "rec-overlay-state",
+        state: "recording",
+      });
+    }
+    return { ok: true, state: activeRec.state };
+  }
+  if (m.action === "rec-stop") {
+    if (!activeRec) throw new Error("No recording in progress.");
+    const targetOrigin = activeRec.origin;
+    const targetTabId = activeRec.tabId;
+
+    void chrome.action?.setBadgeText?.({ text: "" });
+    void chrome.tabs
+      .sendMessage(targetTabId, { qa: "rec-overlay-remove" })
+      .catch(() => {});
+
+    const res = (await chrome.runtime.sendMessage({
+      type: "REC_OFFSCREEN_STOP",
+    })) as {
+      ok?: boolean;
+      buffer?: number[];
+      duration?: number;
+      mimeType?: string;
+      extension?: string;
+      error?: string;
+    };
+
+    void chrome.offscreen?.closeDocument?.().catch(() => {});
+
+    if (!res?.ok || !res.buffer) {
+      activeRec = null;
+      throw new Error(res?.error || "Failed to package recording");
+    }
+
+    const nonce = crypto.randomUUID();
+    recHandoff = {
+      nonce,
+      buffer: res.buffer,
+      duration: res.duration ?? 0,
+      mimeType: res.mimeType ?? "video/webm",
+      extension: res.extension ?? "webm",
+      expires: Date.now() + 5 * 60 * 1000,
+    };
+    activeRec = null;
+
+    await chrome.tabs.create({
+      url: `${targetOrigin}/tools/screen-recorder#companion-recording=${nonce}`,
+    });
+    return { ok: true, nonce };
+  }
+  if (m.action === "rec-cancel") {
+    if (!activeRec) return { ok: true };
+    void chrome.action?.setBadgeText?.({ text: "" });
+    void chrome.tabs
+      .sendMessage(activeRec.tabId, { qa: "rec-overlay-remove" })
+      .catch(() => {});
+    await chrome.runtime.sendMessage({ type: "REC_OFFSCREEN_CANCEL" });
+    void chrome.offscreen?.closeDocument?.().catch(() => {});
+    activeRec = null;
+    return { ok: true };
+  }
   if (m.action === "handoff") {
     if (
       !handoff ||
@@ -320,6 +509,17 @@ async function handle(input: unknown, sender: QaSender) {
           : null,
       error,
     };
+  if (activeRec && activeRec.tabId === tabId) {
+    if (m.action === "pause" || m.action === "resume") {
+      return handle({ ...m, action: "rec-toggle-pause" }, sender);
+    }
+    if (m.action === "finish" || m.action === "stop") {
+      return handle({ ...m, action: "rec-stop" }, sender);
+    }
+    if (m.action === "clear" || m.action === "cancel") {
+      return handle({ ...m, action: "rec-cancel" }, sender);
+    }
+  }
   if (!active || (active.tabId !== tabId && !recovered))
     throw new Error(
       "This tab has no quick capture. Click the extension and Start testing."
@@ -455,6 +655,12 @@ chrome.debugger.onDetach.addListener((target, reason) => {
   }
 });
 chrome.tabs.onRemoved.addListener((id) => {
+  if (id === activeRec?.tabId) {
+    void chrome.action?.setBadgeText?.({ text: "" });
+    void chrome.runtime.sendMessage({ type: "REC_OFFSCREEN_CANCEL" });
+    void chrome.offscreen?.closeDocument?.().catch(() => {});
+    activeRec = null;
+  }
   if (id === active?.tabId) {
     void stop().then(() => {
       testOpen = false;

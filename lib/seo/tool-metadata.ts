@@ -1,4 +1,22 @@
 export const toolSeo = {
+  "heic-to-jpg": {
+    title: "HEIC to JPG & PNG Converter - Convert HEIC Online",
+    description:
+      "Convert HEIC and HEIF photos to JPG or PNG locally in your browser. Adjust JPG quality, convert a batch, and download individual images or a ZIP without uploads.",
+    note: "Choose up to 20 HEIC/HEIF photos, 20 MB each and 100 MB combined. Convert to JPG for smaller shareable images or PNG for lossless output encoding. PNG is usually larger and ignores the JPG quality setting. Files are decoded one at a time in browser workers, with a 90-second deadline per image. Images are limited to 40 megapixels and 12,000 pixels per side; batch results are limited to 150 MB. Only the primary still image is exported: photo metadata, HDR data, depth maps, and Live Photo motion are not preserved. Unsupported or corrupt files fail individually. Files remain on your device, and ZIP downloads include successful results only.",
+  },
+  "image-resizer": {
+    title: "Image Resizer & Cropper - Resize to Custom Dimensions",
+    description:
+      "Resize and crop JPG, PNG, and WebP images online without uploads. Choose aspect ratios, set custom pixel dimensions, lock proportions, and export locally.",
+    note: "Choose one JPG, PNG, or WebP up to 30 MB and 40 megapixels. Drag the crop selection, resize its handles, or use keyboard arrows on a focused handle. Choose free crop, a custom ratio, 1:1, 4:5, 16:9, 3:4, or 4:6. Editor zoom changes only the display. Lock proportions to calculate width and height together; unlock them to stretch to independent dimensions. Output is limited to 8,192 pixels per side and 16 megapixels. Generate the image to see actual encoded size and preview before downloading as JPG, PNG, or WebP. PNG ignores quality; JPG flattens transparency over white. Metadata and animation are not preserved. Photo presets describe aspect ratios only: for a 4 by 6 inch print at 300 DPI, use 1200 by 1800 pixels and set print resolution in your print software. No passport or identity-photo compliance is claimed. Everything runs locally in your browser.",
+  },
+  "screen-recorder": {
+    title: "Interactive Screen Recorder - Record SaaS Demos",
+    description:
+      "Record your screen and create engaging SaaS demos with zoom, click highlights, annotations, drawing, and spotlight controls. Process recordings locally in your browser.",
+    note: "Choose a separate application browser tab in desktop Chrome or Edge, prepare the live canvas, then start recording. Whole screens and windows are rejected to keep studio controls out of the video; current-tab exclusion and capture-handle detection are used where available. Native capture supplies pixels and audio, not another app's pointer events: navigate your app in its tab and place click markers, zoom focus, pen, arrows, rectangles, circles, text and spotlight on the studio preview. The preview does not forward clicks to the shared app. Effects are encoded into the exported video, including optional webcam composition and microphone/tab audio where permission and browser support allow. The floating studio uses Document Picture-in-Picture on supporting browsers; otherwise keep the studio in a separate visible window. Background tabs can be throttled. Sessions are limited to 30 minutes or approximately 512 MB. Pause time is excluded from the displayed duration. Wait for finalization, review the video and download its actual WebM/MP4 format. All recordings remain in browser memory until discarded or the page closes; no uploads or remote processing occur. The demo scene is a labeled synthetic source using the same compositor and encoder.",
+  },
   "qa-bug-report": {
     title: "QA Bug Capture & Handoff - Local Request Evidence & Reports",
     description:

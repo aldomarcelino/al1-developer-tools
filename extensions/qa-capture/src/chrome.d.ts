@@ -97,16 +97,32 @@ interface QaChrome {
   windows: { update(id: number, options: { focused: boolean }): Promise<unknown> };
   storage: {
     session: {
-      get(key: string): Promise<Record<string, unknown>>;
+      get(key: string | string[]): Promise<Record<string, unknown>>;
       set(value: Record<string, unknown>): Promise<void>;
       remove(key: string): Promise<void>;
     };
     local: {
-      get(key: string): Promise<Record<string, unknown>>;
+      get(key: string | string[]): Promise<Record<string, unknown>>;
       set(value: Record<string, unknown>): Promise<void>;
       remove(key: string): Promise<void>;
       clear(): Promise<void>;
     };
+  };
+  tabCapture?: {
+    getMediaStreamId(options: { targetTabId?: number }): Promise<string>;
+  };
+  offscreen?: {
+    createDocument(options: {
+      url: string;
+      reasons: string[];
+      justification: string;
+    }): Promise<void>;
+    closeDocument(): Promise<void>;
+    hasDocument?(): Promise<boolean>;
+  };
+  action?: {
+    setBadgeText(options: { text: string }): Promise<void>;
+    setBadgeBackgroundColor?(options: { color: string }): Promise<void>;
   };
 }
 declare const chrome: QaChrome;
