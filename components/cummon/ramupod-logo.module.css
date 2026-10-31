@@ -1,0 +1,171 @@
+:global(.ramupod-logo):where(.scope, .scope *) {
+  display: inline-flex;
+  position: relative;
+  flex-shrink: 0;
+}
+:global(.ramupod-logo-button):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 12px;
+  position: relative;
+  z-index: 1;
+}
+:global(.ramupod-logo-button:focus-visible):where(.scope, .scope *) {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+:global(.ramupod-logo-mark):where(.scope, .scope *) {
+  display: inline-flex;
+}
+:global(.ramupod-logo-mark.is-ramuing):where(.scope, .scope *) {
+  animation: ramupod-gather 1400ms ease-in-out;
+}
+:global(.ramupod-spark-field):where(.scope, .scope *) {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+:global(.ramupod-spark-piece):where(.scope, .scope *) {
+  position: absolute;
+  left: calc(50% - 7px);
+  top: calc(50% - 7px);
+  width: 14px;
+  height: 14px;
+  color: var(--accent);
+  filter: drop-shadow(0 1px 2px var(--bg));
+  opacity: 0;
+  animation: ramupod-piece-gather 1200ms cubic-bezier(0.22, 0.7, 0.3, 1)
+    var(--spark-delay) both;
+}
+:global(.ramupod-spark-piece svg):where(.scope, .scope *) {
+  display: block;
+}
+:global(.ramupod-spark-piece[data-shape="leaf"]):where(.scope, .scope *),
+:global(.ramupod-spark-piece[data-shape="twig"]):where(.scope, .scope *) {
+  color: #548447;
+}
+:global(.ramupod-spark-piece[data-shape="bolt"]):where(.scope, .scope *),
+:global(.ramupod-spark-piece[data-shape="star"]):where(.scope, .scope *) {
+  color: #83a94e;
+}
+:global(:root[data-theme="dark"] .ramupod-spark-piece[data-shape="leaf"]):where(
+  .scope,
+  .scope *
+),
+:global(:root[data-theme="dark"] .ramupod-spark-piece[data-shape="twig"]):where(
+  .scope,
+  .scope *
+),
+:global(:root[data-theme="dark"] .ramupod-spark-piece[data-shape="bolt"]):where(
+  .scope,
+  .scope *
+),
+:global(:root[data-theme="dark"] .ramupod-spark-piece[data-shape="star"]):where(
+  .scope,
+  .scope *
+) {
+  color: #cbf58c;
+}
+:global(.ramupod-spark-ring):where(.scope, .scope *) {
+  position: absolute;
+  inset: -6px;
+  border: 1px solid var(--accent);
+  border-radius: 17px;
+  opacity: 0;
+  animation: ramupod-pod-settle 1500ms ease-out;
+}
+:global(.ramupod-spark-caption):where(.scope, .scope *) {
+  position: absolute;
+  left: -4px;
+  top: calc(100% + 14px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 6px 24px #071c2012;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+:global(.ramupod-spark-dot):where(.scope, .scope *) {
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  background: #cbf58c;
+  box-shadow: inset 0 0 0 1px #103e3b22;
+  flex-shrink: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(.ramupod-spark-field):where(.scope, .scope *) {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(.ramupod-logo-mark.is-ramuing):where(.scope, .scope *) {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(.ramupod-logo .brand-mark-wrapper):where(.scope, .scope *) {
+    transition: none;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes ramupod-piece-gather {
+  0% {
+    opacity: 0;
+    transform: translate(var(--spark-x), var(--spark-y)) rotate(var(--spark-rotation))
+      scale(0.7);
+  }
+  24% {
+    opacity: 1;
+    transform: translate(var(--spark-x), var(--spark-y)) rotate(var(--spark-rotation))
+      scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0);
+  }
+}
+@keyframes ramupod-gather {
+  0%,
+  30%,
+  100% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(0.92);
+  }
+  78% {
+    transform: scale(1.08);
+  }
+}
+@keyframes ramupod-pod-settle {
+  0%,
+  45% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+  70% {
+    opacity: 0.5;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}

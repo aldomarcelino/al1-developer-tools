@@ -1,0 +1,834 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+/* ==========================================================================
+   Image Compressor & Converter Specialized Styles
+   ========================================================================== */
+
+/* Dropzone (Empty State) */
+:global(.compressor-dropzone):where(.scope, .scope *) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 56px 24px;
+  border: 1px dashed var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  margin-bottom: 24px;
+}
+
+:global(.compressor-dropzone:hover):where(.scope, .scope *),
+:global(.compressor-dropzone.is-dragging):where(.scope, .scope *) {
+  border-color: var(--accent);
+  background: var(--soft);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+:global(.compressor-dropzone-icon):where(.scope, .scope *) {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: var(--soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  transition: transform 0.22s ease;
+}
+
+:global(.compressor-dropzone:hover .compressor-dropzone-icon):where(.scope, .scope *) {
+  transform: scale(1.08);
+}
+
+:global(.compressor-dropzone h2):where(.scope, .scope *) {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+:global(.compressor-dropzone p):where(.scope, .scope *) {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 480px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+:global(.compressor-dropzone-actions):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+:global(.compressor-dropzone-hint):where(.scope, .scope *) {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Error Banner */
+:global(.compressor-error-banner):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--error) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--error) 32%, var(--border));
+  color: var(--error);
+  font-size: 13px;
+  font-weight: 550;
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+:global(.compressor-error-banner svg):where(.scope, .scope *) {
+  flex-shrink: 0;
+  color: var(--error);
+}
+
+/* Settings & Controls Card */
+:global(.compressor-controls-card):where(.scope, .scope *) {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+:global(.compressor-controls-grid):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.85fr) minmax(0, 1.35fr) minmax(230px, 1fr);
+  gap: 32px;
+  padding: 4px 24px 24px;
+  align-items: start;
+}
+
+:global(.compressor-control-col):where(.scope, .scope *) {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+:global(.compressor-control-label):where(.scope, .scope *) {
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:global(.compressor-slider-wrap):where(.scope, .scope *) {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+:global(.compressor-slider-wrap input[type="range"]):where(.scope, .scope *) {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+  height: 6px;
+  border-radius: 3px;
+}
+
+:global(.compressor-presets):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+:global(.compressor-preset-btn):where(.scope, .scope *) {
+  font-size: 11px;
+  font-weight: 550;
+  padding: 6px 9px;
+  min-height: 30px;
+  border-radius: 8px;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+:global(.compressor-preset-btn:hover):where(.scope, .scope *) {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+:global(.compressor-preset-btn.active):where(.scope, .scope *) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+:global([data-theme="dark"] .compressor-preset-btn.active):where(.scope, .scope *) {
+  color: #0e363c;
+}
+
+:global(.compressor-dimension-row):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+:global(.compressor-input-unit):where(.scope, .scope *) {
+  position: relative;
+  flex: 1;
+}
+
+:global(.compressor-input-unit input):where(.scope, .scope *) {
+  width: 100%;
+  height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 550;
+  box-sizing: border-box;
+}
+
+:global(.compressor-lock-btn):where(.scope, .scope *) {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--soft);
+  border-radius: 8px;
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+:global(.compressor-lock-btn.locked):where(.scope, .scope *) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Export summary and primary action */
+:global(.compressor-export-footer):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--soft);
+  border-radius: 0 0 16px 16px;
+}
+
+:global(.compressor-export-summary):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+:global(.compressor-size-stat):where(.scope, .scope *),
+:global(.compressor-size-detail):where(.scope, .scope *) {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+:global(.compressor-size-stat):where(.scope, .scope *) {
+  flex-shrink: 0;
+}
+:global(.compressor-size-stat span):where(.scope, .scope *),
+:global(.compressor-size-detail span):where(.scope, .scope *) {
+  font-size: 11px;
+}
+:global(.compressor-size-stat strong):where(.scope, .scope *) {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+:global(.compressor-size-detail):where(.scope, .scope *) {
+  padding-left: 18px;
+  border-left: 1px solid var(--border);
+}
+:global(.compressor-size-detail strong):where(.scope, .scope *) {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+}
+:global(.compressor-size-arrow):where(.scope, .scope *) {
+  flex-shrink: 0;
+}
+:global(.compressor-download):where(.scope, .scope *) {
+  flex-shrink: 0;
+  min-height: 42px;
+}
+
+/* Preview Viewport & Split Slider */
+:global(.compressor-preview-container):where(.scope, .scope *) {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+:global(.compressor-preview-header):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  min-height: 48px;
+  gap: 12px;
+}
+
+:global(.compressor-split-viewport):where(.scope, .scope *) {
+  position: relative;
+  width: 100%;
+  height: 560px;
+  overflow: hidden;
+  background: repeating-conic-gradient(var(--soft) 0% 25%, var(--surface) 0% 50%) 50% /
+    16px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: pan-y;
+  cursor: ew-resize;
+}
+
+@media (max-width: 640px) {
+  :global(.compressor-split-viewport):where(.scope, .scope *) {
+    height: 320px;
+  }
+}
+
+:global(.compressor-split-image):where(.scope, .scope *) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  height: 95%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+:global(.compressor-split-overlay):where(.scope, .scope *) {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Draggable Divider Handle */
+:global(.compressor-split-divider):where(.scope, .scope *) {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  cursor: ew-resize;
+  z-index: 10;
+}
+
+:global(.compressor-split-handle):where(.scope, .scope *) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  cursor: ew-resize;
+}
+
+:global(.compressor-badge-left):where(.scope, .scope *),
+:global(.compressor-badge-right):where(.scope, .scope *) {
+  position: absolute;
+  bottom: 14px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 650;
+  background: rgba(0, 0, 0, 0.72);
+  color: #ffffff;
+  backdrop-filter: blur(4px);
+  z-index: 5;
+  pointer-events: none;
+}
+
+:global(.compressor-badge-left):where(.scope, .scope *) {
+  left: 14px;
+}
+
+:global(.compressor-badge-right):where(.scope, .scope *) {
+  right: 14px;
+}
+
+/* Side-by-Side Cards View */
+:global(.compressor-side-by-side):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+@media (max-width: 640px) {
+  :global(.compressor-side-by-side):where(.scope, .scope *) {
+    grid-template-columns: 1fr;
+  }
+}
+
+:global(.compressor-side-card):where(.scope, .scope *) {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+}
+
+:global(.compressor-side-header):where(.scope, .scope *) {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+:global(.compressor-side-body):where(.scope, .scope *) {
+  height: 400px;
+  background: repeating-conic-gradient(var(--soft) 0% 25%, var(--surface) 0% 50%) 50% /
+    14px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+:global(.compressor-side-body img):where(.scope, .scope *) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+:global(.compressor-side-footer):where(.scope, .scope *) {
+  padding: 8px 14px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Compact, content-sized controls scoped to this tool. */
+:global(.compressor-fit-tabs.segmented-tabs-container):where(.scope, .scope *) {
+  width: fit-content;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+:global(.compressor-settings-heading):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px;
+}
+
+:global(.compressor-settings-heading h2):where(.scope, .scope *),
+:global(.compressor-preview-heading h2):where(.scope, .scope *) {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+:global(.compressor-settings-heading > span):where(.scope, .scope *),
+:global(.compressor-control-help):where(.scope, .scope *),
+:global(.compressor-preview-heading p):where(.scope, .scope *) {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+:global(.compressor-preview-heading p):where(.scope, .scope *) {
+  margin-top: 4px;
+  max-width: 510px;
+}
+:global(.compressor-control-help):where(.scope, .scope *) {
+  max-width: 240px;
+  font-size: 11px;
+}
+:global(.compressor-preset-btn:disabled):where(.scope, .scope *) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+:global(.compressor-split-viewport:focus-visible):where(.scope, .scope *) {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+:global(.compressor-split-viewport:focus-visible .compressor-split-handle):where(
+  .scope,
+  .scope *
+) {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  :global(.compressor-controls-grid):where(.scope, .scope *) {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  :global(.compressor-control-col:last-child):where(.scope, .scope *) {
+    grid-column: 1 / -1;
+  }
+  :global(.compressor-export-footer):where(.scope, .scope *) {
+    align-items: flex-start;
+  }
+  :global(.compressor-export-summary):where(.scope, .scope *) {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  :global(.compressor-size-detail):where(.scope, .scope *) {
+    flex-basis: 100%;
+    padding-left: 0;
+    border-left: 0;
+  }
+  :global(.compressor-preview-header):where(.scope, .scope *) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 540px) {
+  :global(.compressor-controls-grid):where(.scope, .scope *) {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0 18px 20px;
+  }
+  :global(.compressor-settings-heading):where(.scope, .scope *) {
+    padding: 18px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+  :global(.compressor-export-footer):where(.scope, .scope *) {
+    padding: 18px;
+    flex-direction: column;
+    gap: 20px;
+  }
+  :global(.compressor-download):where(.scope, .scope *) {
+    width: 100%;
+  }
+  :global(.compressor-preview-header):where(.scope, .scope *) {
+    padding: 18px;
+  }
+  :global(.compressor-badge-left):where(.scope, .scope *),
+  :global(.compressor-badge-right):where(.scope, .scope *) {
+    font-size: 10px;
+    padding: 4px 6px;
+    bottom: 10px;
+  }
+  :global(.compressor-badge-left):where(.scope, .scope *) {
+    left: 8px;
+  }
+  :global(.compressor-badge-right):where(.scope, .scope *) {
+    right: 8px;
+  }
+  :global(.compressor-dropzone-actions):where(.scope, .scope *),
+  :global(.compressor-dropzone-hint):where(.scope, .scope *) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+:global(.compressor-size-stat .compressor-result-value):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 22px;
+  font-weight: 750;
+}
+:global(.compressor-result-value.is-reduced):where(.scope, .scope *) {
+  color: #18704a;
+}
+:global(.compressor-result-value.is-increased):where(.scope, .scope *) {
+  color: #976018;
+}
+:global([data-theme="dark"] .compressor-result-value.is-reduced):where(.scope, .scope *) {
+  color: #a5e2b6;
+}
+:global([data-theme="dark"] .compressor-result-value.is-increased):where(
+  .scope,
+  .scope *
+) {
+  color: #f3ca82;
+}
+:global(.compressor-result-value svg):where(.scope, .scope *) {
+  flex-shrink: 0;
+}
+:global(.compressor-preview-actions):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+:global(.compressor-preview-expand):where(.scope, .scope *) {
+  width: 34px;
+  min-height: 34px;
+  padding: 0;
+  flex-shrink: 0;
+}
+:global(.compressor-preview-container.is-expanded .compressor-side-by-side):where(
+  .scope,
+  .scope *
+) {
+  grid-template-columns: minmax(0, 1fr);
+}
+:global(.compressor-preview-container.is-expanded .compressor-side-body):where(
+  .scope,
+  .scope *
+),
+:global(.compressor-preview-container.is-expanded .compressor-split-viewport):where(
+  .scope,
+  .scope *
+) {
+  height: clamp(420px, 65vw, 740px);
+}
+@media (max-width: 640px) {
+  :global(.compressor-side-body):where(.scope, .scope *) {
+    height: 340px;
+  }
+  :global(.compressor-preview-actions):where(.scope, .scope *) {
+    justify-content: flex-start;
+  }
+  :global(.compressor-preview-container.is-expanded .compressor-side-body):where(
+    .scope,
+    .scope *
+  ),
+  :global(.compressor-preview-container.is-expanded .compressor-split-viewport):where(
+    .scope,
+    .scope *
+  ) {
+    height: 460px;
+  }
+}
+
+/* Shared batch queue, kept separate from the selected image comparison. */
+:global(.compressor-batch):where(.scope, .scope *) {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+:global(.compressor-batch-heading):where(.scope, .scope *) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px;
+}
+:global(.compressor-batch-heading h2):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+}
+:global(.compressor-batch-heading p):where(.scope, .scope *) {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+:global(.compressor-batch-actions):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+:global(.compressor-batch-progress):where(.scope, .scope *) {
+  display: block;
+  width: 100%;
+  height: 3px;
+  border: 0;
+  background: var(--soft);
+  accent-color: var(--accent);
+}
+:global(.compressor-batch-progress):where(.scope, .scope *):global(
+    ::-webkit-progress-bar
+  ) {
+  background: var(--soft);
+}
+:global(.compressor-batch-progress):where(.scope, .scope *):global(
+    ::-webkit-progress-value
+  ) {
+  background: var(--accent);
+}
+:global(.compressor-batch-list):where(.scope, .scope *) {
+  max-height: 330px;
+  overflow-y: auto;
+}
+:global(.compressor-batch-row):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+}
+:global(.compressor-batch-row.is-selected):where(.scope, .scope *) {
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+  box-shadow: inset 3px 0 var(--accent);
+}
+:global(.compressor-batch-select):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  padding: 4px 0;
+  text-align: left;
+  background: none;
+  border: 0;
+  color: var(--text);
+  cursor: pointer;
+}
+:global(.compressor-batch-select:disabled):where(.scope, .scope *) {
+  cursor: default;
+}
+:global(.compressor-batch-select:focus-visible):where(.scope, .scope *) {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:global(.compressor-batch-select img):where(.scope, .scope *),
+:global(.compressor-batch-placeholder):where(.scope, .scope *) {
+  width: 40px;
+  height: 40px;
+  border-radius: 7px;
+  object-fit: cover;
+  background: var(--soft);
+  flex-shrink: 0;
+}
+:global(.compressor-batch-placeholder):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+:global(.compressor-batch-name):where(.scope, .scope *) {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+:global(.compressor-batch-name strong):where(.scope, .scope *) {
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:global(.compressor-batch-name > span):where(.scope, .scope *) {
+  font-size: 11px;
+  color: var(--muted);
+}
+:global(.compressor-batch-status):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 240px;
+}
+:global(.compressor-batch-status.is-error):where(.scope, .scope *) {
+  color: var(--error);
+}
+:global(.compressor-batch-status.is-ready):where(.scope, .scope *) {
+  color: var(--accent);
+}
+:global(.compressor-batch-summary):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+  color: var(--muted);
+  font-size: 11px;
+  background: var(--soft);
+}
+:global(.compressor-batch-summary strong):where(.scope, .scope *) {
+  color: var(--text);
+  font-weight: 600;
+}
+:global(.compressor-selected-label):where(.scope, .scope *) {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+:global(.compressor-selected-label strong):where(.scope, .scope *) {
+  color: var(--text);
+  font-weight: 600;
+}
+@media (max-width: 540px) {
+  :global(.compressor-batch-heading):where(.scope, .scope *) {
+    padding: 16px;
+  }
+  :global(.compressor-batch-row):where(.scope, .scope *) {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    padding: 10px 12px;
+  }
+  :global(.compressor-batch-select):where(.scope, .scope *) {
+    flex-basis: calc(100% - 82px);
+  }
+  :global(.compressor-batch-status):where(.scope, .scope *) {
+    order: 3;
+    margin-left: 52px;
+    max-width: calc(100% - 52px);
+  }
+  :global(.compressor-batch-row > .compressor-batch-actions):where(.scope, .scope *) {
+    flex-wrap: nowrap;
+  }
+  :global(.compressor-batch-heading > .compressor-batch-actions):where(.scope, .scope *) {
+    width: 100%;
+  }
+}

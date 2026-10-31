@@ -1,0 +1,76 @@
+:global(.tool-context):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px;
+  padding-top: 28px;
+  padding-bottom: 48px;
+}
+:global(.tool-context h2):where(.scope, .scope *),
+:global(.tool-context h3):where(.scope, .scope *) {
+  font-size: 14px;
+  font-weight: 650;
+  margin: 0 0 10px;
+}
+:global(.tool-context p):where(.scope, .scope *) {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.9;
+  max-width: 650px;
+  margin: 0;
+}
+:global(.tool-context nav > div):where(.scope, .scope *) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+:global(.tool-context nav a):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 44px;
+  padding: 8px 10px 8px 15px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 550;
+  color: var(--accent);
+  text-decoration: none;
+}
+:global(.related-tool-arrow):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--accent);
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+:global(.tool-context nav a:hover):where(.scope, .scope *) {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+:global(.tool-context nav a:hover .related-tool-arrow):where(.scope, .scope *),
+:global(.tool-context nav a:focus-visible .related-tool-arrow):where(.scope, .scope *) {
+  background: var(--accent);
+  color: var(--surface);
+}
+@media (max-width: 850px) {
+  :global(.tool-context):where(.scope, .scope *) {
+    gap: 28px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.tool-context):where(.scope, .scope *) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+}

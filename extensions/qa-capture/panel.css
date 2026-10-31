@@ -1,0 +1,147 @@
+@import url("tokens.css");
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+  font-size: 12px;
+  background: var(--bg);
+  color: var(--text);
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 20px;
+  max-width: 1100px;
+}
+header,
+.actions,
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+header {
+  justify-content: space-between;
+}
+h1 {
+  font-size: 22px;
+  margin: 4px 0 12px;
+}
+small {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+p {
+  line-height: 1.7;
+  color: var(--muted);
+}
+button,
+input {
+  font: inherit;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--surface);
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.primary {
+  background: #103e3b;
+  color: white;
+  border-color: #103e3b;
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+input {
+  min-width: 140px;
+  flex: 1;
+}
+.settings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+label {
+  display: grid;
+  gap: 7px;
+}
+section {
+  padding: 18px 0;
+}
+.summary {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.summary span {
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+#status {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+}
+#status[data-state="recording"] {
+  color: var(--error);
+}
+#notice {
+  padding: 12px;
+  background: var(--soft);
+  border-radius: 8px;
+}
+#feedback {
+  color: var(--text);
+  min-height: 18px;
+}
+li {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+  font: 11px / 1.8 monospace;
+}
+ol,
+ul {
+  padding-left: 18px;
+}
+footer {
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+}
+footer p {
+  font-size: 11px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1718;
+    --surface: #182224;
+    --text: #eaf1ec;
+    --muted: #a0b1ad;
+    --border: #314144;
+    --soft: #203234;
+    --accent: #c5f86b;
+    --error: #ff8888;
+  }
+}
+@media (max-width: 500px) {
+  body {
+    padding: 14px;
+  }
+  .settings {
+    grid-template-columns: 1fr;
+  }
+}

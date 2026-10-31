@@ -1,0 +1,185 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+/* ==========================================================================
+   Text Cleaner & Case Converter Modern Styles
+   ========================================================================== */
+
+:global(.cleaner-grid):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  :global(.cleaner-grid):where(.scope, .scope *) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+:global(.cleaner-panel):where(.scope, .scope *) {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+:global(.cleaner-panel:focus-within):where(.scope, .scope *) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+:global(.cleaner-panel-header):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  min-height: 48px;
+  gap: 12px;
+}
+
+:global(.cleaner-panel-title):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  opacity: 1;
+}
+
+:global(.cleaner-badge):where(.scope, .scope *) {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--soft);
+  border: 1px solid var(--border);
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  opacity: 1;
+}
+
+:global(.cleaner-actions):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Borderless textarea - no inner borders, no chunky outline rings */
+:global(.cleaner-textarea):where(.scope, .scope *) {
+  width: 100%;
+  min-height: 380px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent;
+  color: var(--text);
+  padding: 18px 20px;
+  resize: vertical;
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.7;
+  box-sizing: border-box;
+}
+
+:global(.cleaner-textarea:focus):where(.scope, .scope *),
+:global(.cleaner-textarea:focus-visible):where(.scope, .scope *) {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+:global(.cleaner-textarea):where(.scope, .scope *):global(::placeholder) {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+:global(.cleaner-footer):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 550;
+  color: var(--text);
+  opacity: 0.85;
+  background: var(--surface);
+}
+
+/* Cleaning Options Toggle Pills */
+:global(.cleaner-toolbar):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+:global(.cleaner-pills-bar):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 20px;
+}
+
+:global(.cleaner-pill-btn):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  opacity: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:global(.cleaner-pill-btn:hover):where(.scope, .scope *) {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+:global(.cleaner-pill-btn.active):where(.scope, .scope *) {
+  background: var(--soft);
+  border-color: var(--accent);
+  color: var(--text);
+  font-weight: 650;
+}
+
+:global(.cleaner-pill-check):where(.scope, .scope *) {
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  font-size: 10px;
+}
+
+:global(.cleaner-pill-btn.active .cleaner-pill-check):where(.scope, .scope *) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+:global([data-theme="dark"] .cleaner-pill-btn.active .cleaner-pill-check):where(
+  .scope,
+  .scope *
+) {
+  color: #0e363c;
+}

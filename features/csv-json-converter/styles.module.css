@@ -1,0 +1,8 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+:global(.csv-json-toolbar .toolbar-group):where(.scope, .scope *) {
+  align-items: center;
+  gap: 12px;
+}
+:global(.csv-json-file-action):where(.scope, .scope *) {
+  margin-left: auto;
+}

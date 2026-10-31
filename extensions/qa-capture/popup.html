@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+    <title>Ramupod Capture</title>
+  </head>
+  <body>
+    <header>
+      <img src="popup-logo.png" width="28" height="28" alt="" /><span>ramupod</span
+      ><small>Capture</small>
+    </header>
+    <main>
+      <section id="elsewhere" hidden>
+        <p class="progress"><span class="live"></span>Capture in progress</p>
+        <p class="subtle">Finish or cancel the capture in its tab first.</p>
+        <button id="back" class="primary full">
+          Back to tab <span aria-hidden="true">↗</span>
+        </button>
+      </section>
+      <section id="modes">
+        <button id="screenshot" class="mode">
+          <span class="glyph" id="shot-icon"></span
+          ><span
+            ><strong id="shot-label">Capture screenshot</strong
+            ><small id="shot-hint">Select an area, annotate, download</small></span
+          ><span class="shortcut" aria-hidden="true">↗</span>
+        </button>
+        <button id="start" class="mode">
+          <span class="glyph" id="test-icon"></span
+          ><span
+            ><strong id="test-label">Start testing</strong
+            ><small id="test-hint">Requests, screenshots & evidence</small></span
+          ><span class="shortcut" aria-hidden="true">↗</span>
+        </button>
+        <div id="session-actions" hidden>
+          <button id="finish" class="primary">Finish</button
+          ><button id="cancel" class="quiet">Cancel testing</button>
+        </div>
+      </section>
+      <p id="status" role="status" class="subtle"></p>
+      <details id="settings">
+        <summary>Settings & saved capture</summary>
+        <label
+          >Open testing results in<select id="viewer">
+            <option value="https://dotools.com">Ramupod · dotools.com</option>
+            <option value="http://localhost:3000">Local · localhost:3000</option>
+          </select></label
+        >
+        <p class="subtle">
+          Testing uses Chrome debugging. Keep DevTools closed. Screenshot mode does not
+          start network capture.
+        </p>
+        <button id="export" class="quiet" hidden>Download saved capture</button
+        ><button id="clear" class="quiet">Delete saved testing data</button>
+      </details>
+    </main>
+    <footer>On your device. No uploads.</footer>
+    <script src="ui.js"></script>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ramupod QA Capture</title>
+    <link rel="stylesheet" href="panel.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <small>LOCAL EVIDENCE CAPTURE</small>
+        <h1>Ramupod QA</h1>
+      </div>
+      <strong id="status" role="status">idle</strong>
+    </header>
+    <p id="connection">Connecting to DevTools… Keep DevTools open while capturing.</p>
+    <div class="settings">
+      <label
+        >Environment (manual)<input
+          id="environment"
+          maxlength="300"
+          placeholder="e.g. local QA fixture" /></label
+      ><label
+        >Application build (manual, optional)<input
+          id="build"
+          maxlength="300"
+          placeholder="e.g. 1.4.2 / commit SHA"
+      /></label>
+    </div>
+    <p>
+      Environment and build are fixed when Start is pressed. After stopping, changes apply
+      to the next session; edit an existing report in the web viewer.
+    </p>
+    <div class="actions">
+      <button id="start" class="primary">Start capture</button
+      ><button id="stop" disabled>Stop capture</button
+      ><button id="export" disabled>Export session</button
+      ><button id="clear" disabled>Clear session</button>
+    </div>
+    <section>
+      <label for="description">What happened?</label>
+      <div class="actions">
+        <input
+          id="description"
+          maxlength="2000"
+          placeholder="Checkout failed after clicking Pay"
+        /><button id="mark" disabled>Mark bug here</button>
+      </div>
+      <ul id="markers"></ul>
+    </section>
+    <div class="summary">
+      <strong id="count">0 / 250 requests</strong
+      ><span id="session-id">No active session</span>
+    </div>
+    <p id="feedback" role="status" aria-live="polite"></p>
+    <p id="notice"></p>
+    <ol id="requests"></ol>
+    <footer>
+      <p>
+        DevTools must stay open. Only requests started after Start and emitted while
+        recording are included. Response bodies may be unavailable; 64 KiB/body, 4
+        MiB/session, 15 minutes maximum. No console capture, WebSocket frames, full
+        streams, or replay.
+      </p>
+      <p>
+        Default redaction runs before local recovery storage and export. It is not
+        perfect. Review the package in Ramupod before sharing. Closing DevTools stops
+        capture; reopening restores a stopped snapshot if available.
+      </p>
+      <button id="clear-all">Delete all local recovery snapshots</button>
+      <p>
+        Viewer: open your Ramupod website and choose QA Bug Capture &amp; Handoff → Import
+        capture / HAR. No account or backend required.
+      </p>
+    </footer>
+    <script type="module" src="panel.js"></script>
+  </body>
+</html>

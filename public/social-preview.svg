@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<rect width="1200" height="630" fill="#0A2726"/>
+<rect x="915" y="256" width="380" height="380" rx="114" fill="#103E3B" transform="rotate(-12 1105 446)"/>
+<g fill="none" transform="translate(82 72) scale(1.9)"><rect width="40" height="40" rx="12" fill="#103E3B"/><path d="M6 4H21C28.18 4 34 9.82 34 17V20L25.5 24.25V11.5C22.85 11.15 20.7 12.6 19.5 14.75V11.5H14.5V15.75L6 20V4Z" fill="#F5F9EF" fill-rule="evenodd"/><path d="M6 22.5L14.5 18.25V28H20V20.5C20 17.5 22.45 16 25.5 16.5V26.75L34 22.5V36H19C11.82 36 6 30.18 6 23V22.5Z" fill="#C5F86B"/></g>
+<text x="180" y="125" font-family="Manrope, Helvetica, Arial, sans-serif" font-size="44" font-weight="700" letter-spacing="-1.5" fill="#F5F9EF">ramupod</text>
+<text x="82" y="287" font-family="Manrope, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-2" fill="#F5F9EF">Useful tools.</text>
+<text x="82" y="377" font-family="Manrope, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-2" fill="#C5F86B">Less effort.</text>
+<text x="84" y="452" font-family="Manrope, Helvetica, Arial, sans-serif" font-size="27" fill="#C1D0C9">Thoughtful online tools for documents, text, data,</text>
+<text x="84" y="491" font-family="Manrope, Helvetica, Arial, sans-serif" font-size="27" fill="#C1D0C9">and everyday tasks.</text>
+<text x="84" y="566" font-family="Manrope, Helvetica, Arial, sans-serif" font-size="18" fill="#C1D0C9">Write. Format. Compare. Get things done.</text>
+</svg>

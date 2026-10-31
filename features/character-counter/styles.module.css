@@ -1,0 +1,268 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+:global(.counter-intro):where(.scope, .scope *) {
+  color: var(--muted);
+  margin: -12px 0 26px;
+  line-height: 1.7;
+}
+:global(.counter-layout):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+:global(.counter-editor):where(.scope, .scope *) {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  min-width: 0;
+}
+:global(.counter-toolbar):where(.scope, .scope *) {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+:global(.counter-toolbar label):where(.scope, .scope *) {
+  font-weight: 650;
+}
+:global(.counter-actions):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+:global(.counter-toolbar .counter-action):where(.scope, .scope *) {
+  min-height: 40px;
+  gap: 7px;
+  border-radius: 10px;
+  padding: 9px 13px;
+  font-size: 12px;
+}
+:global(.counter-action:disabled):where(.scope, .scope *) {
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+:global(.counter-action.is-copied):where(.scope, .scope *) {
+  color: var(--success);
+  border-color: var(--success);
+  background: var(--soft);
+}
+:global(.counter-toolbar .counter-clear):where(.scope, .scope *) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted);
+}
+:global(.counter-toolbar .counter-clear:hover:not(:disabled)):where(.scope, .scope *) {
+  color: var(--error);
+  background: var(--soft);
+}
+:global(.counter-example):where(.scope, .scope *),
+:global(.counter-undo):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 8px;
+  min-height: 36px;
+  padding: 7px 10px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+}
+:global(.counter-example):where(.scope, .scope *) {
+  background: var(--soft);
+}
+:global(.counter-example:hover:not(:disabled)):where(.scope, .scope *),
+:global(.counter-undo:hover):where(.scope, .scope *) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+:global(.counter-example:focus-visible):where(.scope, .scope *),
+:global(.counter-undo:focus-visible):where(.scope, .scope *) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+:global(.counter-feedback):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 44px;
+}
+:global(.counter-feedback .counter-notice):where(.scope, .scope *) {
+  margin: 0;
+  min-height: 0;
+}
+:global(.counter-undo):where(.scope, .scope *) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 480px) {
+  :global(.counter-toolbar > label):where(.scope, .scope *) {
+    flex-basis: 100%;
+  }
+  :global(.counter-actions):where(.scope, .scope *) {
+    width: 100%;
+    gap: 6px;
+  }
+  :global(.counter-toolbar .counter-action):where(.scope, .scope *) {
+    min-height: 44px;
+    flex: 1;
+    padding: 9px;
+  }
+}
+:global(.counter-editor textarea):where(.scope, .scope *) {
+  display: block;
+  width: 100%;
+  min-height: 390px;
+  resize: vertical;
+  padding: 24px;
+  border: 0;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font: 14px / 1.9 var(--font-code);
+}
+:global(.counter-editor textarea):where(.scope, .scope *):global(::placeholder) {
+  color: var(--muted);
+}
+:global(.counter-editor textarea:focus-visible):where(.scope, .scope *) {
+  outline: none;
+}
+:global(.counter-editor-footer):where(.scope, .scope *) {
+  padding: 15px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+:global(.counter-editor-footer button):where(.scope, .scope *) {
+  color: var(--green);
+  font-weight: 650;
+}
+:global(.counter-total):where(.scope, .scope *) {
+  padding: 26px;
+  border-radius: 18px;
+  background: var(--section);
+  color: #f5f9ef;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+:global(.counter-eyebrow):where(.scope, .scope *) {
+  font-size: 9px;
+  letter-spacing: 1.6px;
+  color: #c3d1cb;
+}
+:global(.counter-total > strong):where(.scope, .scope *) {
+  font-size: 64px;
+  line-height: 1.2;
+  letter-spacing: -3px;
+  color: var(--lime);
+  margin: 16px 0 2px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+:global(.counter-total > span:last-of-type):where(.scope, .scope *) {
+  font-size: 18px;
+}
+:global(.counter-total p):where(.scope, .scope *) {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #c3d1cb;
+  margin: 16px 0 0;
+}
+:global(.counter-stat-grid):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+:global(.counter-stat-grid > div):where(.scope, .scope *) {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+}
+:global(.counter-stat-grid dt):where(.scope, .scope *) {
+  font-size: 11px;
+  color: var(--muted);
+}
+:global(.counter-stat-grid dd):where(.scope, .scope *) {
+  font-size: 26px;
+  font-weight: 650;
+  margin: 8px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+:global(.counter-technical):where(.scope, .scope *) {
+  padding: 4px 4px 0;
+  display: grid;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+:global(.counter-technical > span):where(.scope, .scope *) {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+:global(.counter-technical strong):where(.scope, .scope *) {
+  font-weight: 550;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+:global(.counter-notice):where(.scope, .scope *) {
+  min-height: 20px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 850px) {
+  :global(.counter-layout):where(.scope, .scope *) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :global(.counter-results):where(.scope, .scope *) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px;
+  }
+  :global(.counter-stat-grid):where(.scope, .scope *) {
+    margin: 0;
+  }
+  :global(.counter-technical):where(.scope, .scope *) {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 480px) {
+  :global(.counter-results):where(.scope, .scope *) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :global(.counter-total > strong):where(.scope, .scope *) {
+    font-size: 54px;
+  }
+  :global(.counter-editor textarea):where(.scope, .scope *) {
+    min-height: 280px;
+    padding: 18px;
+    font-size: 13px;
+  }
+  :global(.counter-toolbar):where(.scope, .scope *) {
+    padding: 14px;
+  }
+  :global(.counter-editor-footer):where(.scope, .scope *) {
+    padding: 14px;
+  }
+}
+
+:global(.counter-editor:focus-within .counter-toolbar label):where(.scope, .scope *) {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

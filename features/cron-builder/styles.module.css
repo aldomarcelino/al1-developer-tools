@@ -1,0 +1,162 @@
+.scope {
+  min-width: 0;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.heading h2 {
+  margin-bottom: 4px;
+}
+.builder {
+  display: grid;
+}
+.fieldRow {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr) minmax(100px, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.fieldName {
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+}
+.fieldName span {
+  font-size: 10px;
+  color: var(--muted);
+}
+.fieldValues {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 11px;
+}
+.fieldValues label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fieldValues input {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--surface);
+  font: inherit;
+}
+.expressionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--soft);
+}
+.expressionBar code {
+  font: 18px / 1.6 var(--font-code);
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.explanation {
+  font-size: 14px;
+  line-height: 1.8;
+}
+.semantics {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.semantics summary {
+  cursor: pointer;
+  color: var(--text);
+}
+.semantics p {
+  margin: 10px 0 0;
+}
+.executions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.executions li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+  font-size: 12px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+.executions li > span {
+  color: var(--muted);
+  font-size: 10px;
+}
+.executions time {
+  overflow-wrap: anywhere;
+}
+.limit {
+  margin-top: auto;
+}
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .fieldRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  }
+  .fieldValues {
+    grid-column: 2;
+  }
+  .fieldName {
+    grid-row: span 2;
+  }
+}
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fieldRow {
+    grid-template-columns: 100px minmax(0, 1fr) minmax(100px, 1fr);
+  }
+  .fieldValues {
+    grid-column: auto;
+  }
+  .fieldName {
+    grid-row: auto;
+  }
+}
+@media (max-width: 500px) {
+  .fieldRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  }
+  .fieldValues {
+    grid-column: 2;
+  }
+  .fieldName {
+    grid-row: span 2;
+  }
+}

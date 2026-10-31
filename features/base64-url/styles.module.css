@@ -1,0 +1,110 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+/* ==========================================================================
+   Base64 & URL Encoder/Decoder Styles
+   ========================================================================== */
+
+:global(.base64-direction-toggle):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  background: var(--soft);
+  padding: 3px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  gap: 2px;
+}
+
+:global(.base64-direction-btn):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 550;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+:global(.base64-direction-btn:hover):where(.scope, .scope *) {
+  color: var(--text);
+}
+
+:global(.base64-direction-btn.active):where(.scope, .scope *) {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+}
+
+:global(.base64-toolbar-options):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+:global(.base64-checkbox-label):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+:global(.base64-checkbox-label input[type="checkbox"]):where(.scope, .scope *) {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+:global(.base64-checkbox-label:hover):where(.scope, .scope *) {
+  color: var(--text);
+}
+
+:global(.base64-ratio-badge):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-code);
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(164, 216, 129, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(164, 216, 129, 0.3);
+}
+
+/* Error banner inside output */
+:global(.base64-error-box):where(.scope, .scope *) {
+  padding: 16px 20px;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 10px;
+  color: #991b1b;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+:global([data-theme="dark"] .base64-error-box):where(.scope, .scope *) {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+}
+
+:global(.base64-error-box svg):where(.scope, .scope *) {
+  flex-shrink: 0;
+  margin-top: 1px;
+}

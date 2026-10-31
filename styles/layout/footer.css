@@ -1,0 +1,232 @@
+.site-footer {
+  background: #0b1619;
+  color: #bbcece;
+  padding: 32px 0 16px;
+}
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  padding-bottom: 28px;
+}
+.footer-logo {
+  color: #f6faf7;
+  font-size: 15px;
+  letter-spacing: -0.4px;
+  gap: 10px;
+  width: fit-content;
+}
+/* The footer surface is dark in both app themes. */
+.footer-logo .brand-logo-svg {
+  color: var(--brand-ink-dark, currentColor);
+}
+.footer-logo .brand-mark-wrapper {
+  flex-shrink: 0;
+}
+.footer-tagline {
+  font-size: 11px;
+  line-height: 1.8;
+  margin: 0 0 0 42px;
+  color: #adc4c5;
+}
+.footer-navigation {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.footer-tool-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.footer-tool-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 12px;
+  color: #edf5f1;
+}
+.footer-nav-divider {
+  width: 1px;
+  height: 22px;
+  background: #ffffff24;
+}
+.footer-social-links {
+  display: flex;
+  gap: 8px;
+}
+.footer-social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #ffffff24;
+  border-radius: 50%;
+  color: #d9e7e3;
+}
+.footer-social-links a:hover {
+  background: #ffffff0a;
+  border-color: #e1ffc180;
+}
+.footer-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px 25px;
+  border-top: 1px solid #ffffff24;
+  padding-top: 12px;
+  font-size: 10px;
+  line-height: 1.8;
+}
+.footer-copyright {
+  color: #9fb9bb;
+}
+.footer-maker {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  gap: 0 4px;
+  margin: 0;
+}
+.footer-maker a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #e1ffc1;
+}
+.footer-policy-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-self: end;
+  justify-content: flex-end;
+  gap: 0 20px;
+}
+.footer-policy-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+}
+.site-footer a {
+  transition:
+    color 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+.site-footer a:hover {
+  color: #e1ffc1;
+}
+.site-footer a:focus-visible {
+  outline: 2px solid #e1ffc1;
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+.footer-social-links a:focus-visible {
+  border-radius: 50%;
+}
+.footer-maker a:hover,
+.footer-tool-links a:hover,
+.footer-policy-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 1000px) {
+  .footer-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+  }
+  .footer-maker {
+    grid-column: 1 / -1;
+    order: 3;
+    width: 100%;
+    padding-bottom: 2px;
+  }
+  .footer-navigation,
+  .footer-tool-links {
+    gap: 18px;
+  }
+}
+@media (max-width: 640px) {
+  .site-footer {
+    padding: 28px 0 20px;
+  }
+  .footer-main {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    padding-bottom: 22px;
+  }
+  .footer-logo {
+    font-size: 15px;
+  }
+  .footer-navigation {
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .footer-tool-links {
+    gap: 20px;
+  }
+  .footer-tool-links a {
+    font-size: 11px;
+  }
+  .footer-nav-divider {
+    display: none;
+  }
+  .footer-social-links {
+    gap: 4px;
+  }
+  .footer-social-links a {
+    width: 44px;
+    height: 44px;
+  }
+  .footer-bottom {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 7px;
+    padding-top: 11px;
+  }
+  .footer-policy-links {
+    order: -1;
+    width: 100%;
+    justify-self: start;
+    justify-content: flex-start;
+    gap: 0 23px;
+  }
+  .footer-policy-links a {
+    min-height: 44px;
+  }
+  .footer-maker {
+    order: 0;
+    padding: 0;
+  }
+  .footer-copyright {
+    order: 1;
+    font-size: 9px;
+  }
+}
+@media (max-width: 360px) {
+  .footer-tool-links {
+    gap: 13px;
+  }
+  .footer-social-links {
+    gap: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-footer a {
+    transition: none;
+  }
+}
+
+.footer-linkedin-mark {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}

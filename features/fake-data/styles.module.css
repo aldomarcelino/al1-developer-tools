@@ -1,0 +1,265 @@
+.scope {
+  min-width: 0;
+}
+.templates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.templates > span {
+  font-size: 11px;
+  color: var(--muted);
+  margin-right: 8px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 22px;
+  align-items: start;
+}
+.builder,
+.preview {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.panelHeading,
+.previewHeading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-weight: 600;
+}
+.panelHeading h2,
+.previewHeading h2 {
+  font-size: 15px;
+  margin: 6px 0 0;
+}
+.panelHeading h2 > span {
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 8px;
+}
+.fields {
+  padding: 0 20px;
+}
+.field {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.fieldTop {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.index {
+  color: var(--muted);
+  font: 10px var(--font-code);
+  width: 18px;
+}
+.nameLabel {
+  flex: 1;
+  min-width: 0;
+}
+.nameLabel > span {
+  position: absolute;
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+.scope input:not([type="checkbox"]) {
+  min-width: 0;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font: 12px var(--font-code);
+}
+.rowActions,
+.previewActions {
+  display: flex;
+  gap: 3px;
+}
+.fieldOptions {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  margin: 12px 0 0 28px;
+}
+.typeLabel {
+  min-width: 0;
+  flex: 1;
+}
+.typeLabel > span,
+.nullLabel > span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+.nullLabel {
+  width: 72px;
+}
+.range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 12px 0 0 28px;
+}
+.range label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.config {
+  padding: 20px;
+}
+.configGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 18px 0;
+  align-items: end;
+}
+.configGrid > label:not(.checkbox) {
+  display: grid;
+  gap: 8px;
+  font-size: 11px;
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  min-height: 38px;
+}
+.checkbox input {
+  accent-color: var(--accent);
+}
+.config > .checkbox {
+  margin-bottom: 12px;
+}
+.config > button {
+  width: 100%;
+}
+.preview {
+  position: sticky;
+  top: 88px;
+  overflow: hidden;
+}
+.previewHeading {
+  padding: 20px;
+}
+.formatBadge {
+  display: inline-block;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font: 9px var(--font-code);
+  margin-left: 6px;
+}
+.preview textarea {
+  display: block;
+  border: 0;
+  border-radius: 0;
+  resize: vertical;
+  width: 100%;
+  min-height: 540px;
+  max-height: 75vh;
+  padding: 20px;
+  background: var(--bg);
+  color: var(--text);
+  font: 12px / 1.9 var(--font-code);
+  tab-size: 2;
+}
+.preview textarea:focus,
+.preview textarea:focus-visible {
+  border: 0;
+  outline: none;
+  box-shadow: none;
+}
+.preview textarea::placeholder {
+  color: var(--muted);
+}
+.previewMeta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--muted);
+}
+.hint {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 14px 0 0;
+}
+.preview > .hint {
+  margin: 12px 20px 18px;
+}
+.error {
+  color: var(--error);
+  background: color-mix(in srgb, var(--error) 8%, var(--surface));
+  padding: 12px;
+  margin: 12px 20px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+@media (min-width: 1001px) {
+  .layout {
+    gap: 16px;
+  }
+}
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .preview {
+    position: static;
+  }
+  .preview textarea {
+    min-height: 400px;
+  }
+}
+@media (max-width: 480px) {
+  .fields {
+    padding: 0 12px;
+  }
+  .fieldTop {
+    flex-wrap: wrap;
+  }
+  .rowActions {
+    margin-left: 28px;
+  }
+  .nameLabel {
+    flex-basis: calc(100% - 28px);
+  }
+  .configGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .panelHeading,
+  .previewHeading {
+    padding: 16px;
+  }
+}

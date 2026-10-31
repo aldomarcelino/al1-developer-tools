@@ -1,0 +1,295 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+/* ==========================================================================
+   Random Key & Secret Generator (RanKeyGen) Specialized Styles
+   ========================================================================== */
+
+/* Top Generator Control Bar */
+:global(.keygen-control-card):where(.scope, .scope *) {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 18px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+:global(.keygen-control-left):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Category Filter Tabs */
+:global(.keygen-tabs):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-bottom: 20px;
+}
+
+:global(.keygen-tabs):where(.scope, .scope *):global(::-webkit-scrollbar) {
+  display: none;
+}
+
+:global(.keygen-tab-btn):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 550;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+:global(.keygen-tab-btn:hover):where(.scope, .scope *) {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--soft);
+}
+
+:global(.keygen-tab-btn.active):where(.scope, .scope *) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  font-weight: 650;
+  box-shadow: 0 2px 6px rgba(14, 54, 60, 0.25);
+}
+
+:global([data-theme="dark"] .keygen-tab-btn.active):where(.scope, .scope *) {
+  color: #0e363c;
+  box-shadow: 0 2px 6px rgba(217, 245, 195, 0.25);
+}
+
+/* Custom Password Generator Box */
+:global(.keygen-custom-card):where(.scope, .scope *) {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--soft);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+:global(.keygen-custom-header):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+:global(.keygen-custom-options):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+:global(.keygen-custom-options label):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+:global(.keygen-custom-options input[type="checkbox"]):where(.scope, .scope *) {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+:global(.keygen-custom-output-box):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 12px;
+  gap: 10px;
+}
+
+:global(.keygen-custom-val):where(.scope, .scope *) {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  word-break: break-all;
+  user-select: all;
+}
+
+/* Key Items List */
+:global(.keygen-list):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 768px) {
+  :global(.keygen-list):where(.scope, .scope *) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+:global(.keygen-item-card):where(.scope, .scope *) {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+:global(.keygen-item-card:hover):where(.scope, .scope *) {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+:global(.keygen-item-top):where(.scope, .scope *) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+:global(.keygen-item-title):where(.scope, .scope *) {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+:global(.keygen-item-desc):where(.scope, .scope *) {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+}
+
+:global(.keygen-item-val-box):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  gap: 10px;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+:global(.keygen-item-val):where(.scope, .scope *) {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-code);
+  font-size: 13px;
+  color: var(--text);
+  word-break: break-all;
+  user-select: all;
+}
+
+:global(.keygen-action-btn):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+:global(.keygen-action-btn:hover):where(.scope, .scope *) {
+  background: var(--soft);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+:global(.keygen-copy-pill):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 0;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+:global(.keygen-copy-pill:hover):where(.scope, .scope *) {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+:global([data-theme="dark"] .keygen-copy-pill:hover):where(.scope, .scope *) {
+  color: #0e363c;
+}
+
+:global(.keygen-copy-pill.copied):where(.scope, .scope *) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+:global([data-theme="dark"] .keygen-copy-pill.copied):where(.scope, .scope *) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0e363c;
+}
+
+/* Spin animation for generator action */
+@keyframes keygenSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:global(.spin-icon):where(.scope, .scope *) {
+  animation: keygenSpin 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}

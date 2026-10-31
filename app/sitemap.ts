@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { tools } from "@/lib/tools";
-import { siteUrl, isIndexable } from "@/lib/site-url";
+import { tools } from "@/config/tools";
+import { siteUrl, isIndexable } from "@/config/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!siteUrl || !isIndexable) return [];
   return [

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ramupod QA local fixture</title>
+    <style>
+      body {
+        font: 15px system-ui;
+        max-width: 850px;
+        margin: 40px auto;
+        padding: 24px;
+        background: #f5f7f8;
+        color: #17383d;
+      }
+      button,
+      a {
+        font: inherit;
+        padding: 12px 18px;
+        margin: 6px;
+        border: 1px solid #b8ccca;
+        border-radius: 8px;
+        background: white;
+        color: inherit;
+      }
+      pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        padding: 20px;
+        border: 1px solid #ccd9d8;
+        border-radius: 12px;
+      }
+      p {
+        line-height: 1.8;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>QA Capture Fixture</h1>
+    <p>
+      Open Chrome DevTools → Ramupod QA → Start capture. Then run the scenario here. All
+      tokens and identifiers are synthetic.
+    </p>
+    <button id="run">Run all fixture requests</button
+    ><button id="single">Send POST checkout</button
+    ><button id="pending">Send pending request (6 seconds)</button
+    ><a href="/second">Navigate within fixture</a>
+    <p id="state" role="status">Ready</p>
+    <pre id="results"></pre>
+    <script src="/fixture.js"></script>
+  </body>
+</html>

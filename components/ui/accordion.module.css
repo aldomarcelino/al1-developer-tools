@@ -1,0 +1,119 @@
+.root {
+  min-width: 0;
+  color: var(--text);
+  scroll-margin-top: 100px;
+}
+.root[hidden] {
+  display: none;
+}
+.section {
+  margin: 18px 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: inherit;
+  list-style: none;
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+.trigger::-webkit-details-marker {
+  display: none;
+}
+.trigger:hover {
+  background: var(--soft);
+}
+.trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--soft);
+  color: var(--green);
+}
+.heading {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+.title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.description {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  color: var(--muted);
+  transition: transform 200ms ease;
+}
+.root[open] > .trigger .indicator {
+  transform: rotate(180deg);
+}
+.section[open] > .trigger {
+  border-radius: 14px 14px 0 0;
+  border-bottom: 1px solid var(--border);
+}
+.content {
+  min-width: 0;
+  padding: 20px;
+}
+.inline {
+  margin: 12px 0;
+  border-top: 1px solid var(--border);
+}
+.inline > .trigger {
+  padding: 12px 0;
+  gap: 8px;
+  border-radius: 4px;
+}
+.inline > .trigger:hover {
+  background: transparent;
+  color: var(--green);
+}
+.inline .title {
+  font-size: 12px;
+  font-weight: 500;
+}
+.inline > .content {
+  padding: 0 0 8px;
+}
+@media (max-width: 640px) {
+  .section > .trigger {
+    padding: 14px;
+    gap: 10px;
+  }
+  .section > .content {
+    padding: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trigger,
+  .indicator {
+    transition: none;
+  }
+}

@@ -1,0 +1,1728 @@
+/* ==========================================================================
+   Home Page, Hero, Categories, Showcase, Cards & Footer
+   ========================================================================== */
+
+:global(.hero):where(.scope, .scope *) {
+  padding-top: 24px;
+  padding-bottom: 72px;
+  text-align: center;
+}
+:global(.eyebrow):where(.scope, .scope *) {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 1.7px;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+:global(.hero > .eyebrow):where(.scope, .scope *) {
+  justify-content: center;
+}
+:global(.eyebrow-dot):where(.scope, .scope *) {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+}
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:global(.hero h1):where(.scope, .scope *) {
+  font-size: 64px;
+  line-height: 1.19;
+  letter-spacing: -2.8px;
+  font-weight: 650;
+  margin-top: 0;
+  animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+:global(.hero h1 > span):where(.scope, .scope *) {
+  color: var(--green);
+}
+:global(.hero > p):where(.scope, .scope *) {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--muted);
+  margin-top: 25px;
+  animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+:global(.hero-actions):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 29px;
+  animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+}
+:global(.hero-actions .button):where(.scope, .scope *) {
+  min-width: 158px;
+  min-height: 49px;
+}
+:global(.hero-actions .primary):where(.scope, .scope *) {
+  color: #e1ffc1;
+}
+:global(.hero-bottom):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 25px;
+  animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+:global(.hero-bottom span):where(.scope, .scope *) {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+:global(.hero-bottom i):where(.scope, .scope *) {
+  width: 3px;
+  height: 3px;
+  background: #a9b4b5;
+  border-radius: 50%;
+}
+:global(.hero-showcase):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: 1.05fr 0.85fr 1.35fr 0.85fr;
+  gap: 20px;
+  align-items: end;
+  margin-top: 57px;
+  text-align: left;
+  animation: heroFadeUp 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+}
+:global(.hero-showcase > a):where(.scope, .scope *),
+:global(.hero-showcase > div):where(.scope, .scope *) {
+  border-radius: 23px;
+  position: relative;
+  overflow: hidden;
+}
+:global(.showcase-azure):where(.scope, .scope *) {
+  background: #0e363c;
+  color: white;
+  min-height: 295px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+:global(.showcase-top):where(.scope, .scope *) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #e1ffc1;
+}
+:global(.showcase-top svg:last-child):where(.scope, .scope *) {
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+:global(.showcase-azure:hover .showcase-top svg:last-child):where(.scope, .scope *) {
+  transform: translate(3px, -3px) scale(1.15);
+}
+:global(.showcase-code):where(.scope, .scope *) {
+  font-family: var(--font-code);
+  font-size: 10px;
+  line-height: 1.9;
+  margin-top: 25px;
+  color: #a4c2c0;
+}
+:global(.showcase-title):where(.scope, .scope *) {
+  font-size: 23px;
+  line-height: 1.4;
+  font-weight: 550;
+  letter-spacing: -0.6px;
+  margin-top: auto;
+  padding-top: 20px;
+}
+:global(.showcase-caption):where(.scope, .scope *) {
+  color: #b3c4c3;
+  font-size: 10px;
+  margin-top: 9px;
+}
+:global(.hero-showcase > a:hover):where(.scope, .scope *) {
+  transform: translateY(-4px);
+}
+:global(.showcase-lime):where(.scope, .scope *) {
+  background: #e1ffc1;
+  color: #0e363c;
+  min-height: 250px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+}
+:global(.showcase-number):where(.scope, .scope *) {
+  font-size: 43px;
+  font-weight: 650;
+  letter-spacing: -2px;
+  line-height: 1.3;
+}
+:global(.showcase-lime h2):where(.scope, .scope *) {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 5px;
+  letter-spacing: -0.5px;
+}
+:global(.showcase-lime p):where(.scope, .scope *) {
+  font-size: 11px;
+  line-height: 1.9;
+  margin-top: 9px;
+  color: #45604b;
+}
+:global(.showcase-editor):where(.scope, .scope *) {
+  background: var(--surface);
+  min-height: 218px;
+  border: 1px solid var(--border);
+  align-self: end;
+}
+:global(.mini-editor-bar):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 20px 18px 15px;
+  font-size: 10px;
+  color: var(--muted);
+}
+:global(.mini-editor-bar > span:first-child):where(.scope, .scope *) {
+  display: flex;
+  gap: 4px;
+}
+:global(.mini-editor-bar i):where(.scope, .scope *) {
+  width: 5px;
+  height: 5px;
+  background: #d7dfdb;
+  border-radius: 50%;
+}
+:global(.showcase-editor pre):where(.scope, .scope *) {
+  font-family: var(--font-code);
+  font-size: 10px;
+  line-height: 2.3;
+  padding: 9px 15px 15px;
+  margin: 0;
+  color: var(--text);
+}
+:global(.mini-line):where(.scope, .scope *) {
+  color: #9ca8a5;
+  margin-right: 9px;
+}
+:global(.mini-key):where(.scope, .scope *) {
+  color: #427b75;
+}
+:global(.mini-string):where(.scope, .scope *) {
+  color: #9b7744;
+}
+:global(.mini-bool):where(.scope, .scope *) {
+  color: #8073a4;
+}
+:global(.mini-cursor):where(.scope, .scope *) {
+  display: inline-block;
+  width: 2px;
+  height: 13px;
+  vertical-align: -2px;
+  margin-left: 2px;
+  background-color: var(--accent);
+  border-radius: 1px;
+  animation: cursorBlink 1.05s steps(1) infinite;
+}
+
+:global([data-theme="dark"] .mini-cursor):where(.scope, .scope *) {
+  background-color: #a4d881;
+}
+
+@keyframes cursorBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+:global(.mini-editor-status):where(.scope, .scope *) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  border-top: 1px solid var(--border);
+  padding: 15px 17px;
+  color: var(--muted);
+}
+:global(.mini-editor-status > span:first-child):where(.scope, .scope *) {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: var(--success);
+}
+:global(.showcase-count):where(.scope, .scope *) {
+  background: #173b40;
+  color: white;
+  min-height: 275px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 17px;
+}
+:global(.count-spark):where(.scope, .scope *) {
+  display: inline-block;
+  font-size: 40px;
+  color: #e1ffc1;
+  line-height: 1;
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+:global(.showcase-count:hover .count-spark):where(.scope, .scope *) {
+  transform: rotate(30deg) scale(1.1);
+}
+:global(.showcase-count .showcase-number):where(.scope, .scope *) {
+  font-size: 42px;
+}
+:global(.showcase-count h2):where(.scope, .scope *) {
+  font-size: 17px;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+:global(.showcase-count p):where(.scope, .scope *) {
+  font-size: 10px;
+  color: #b9cccc;
+  margin-top: 8px;
+}
+:global(.showcase-count > svg):where(.scope, .scope *) {
+  position: absolute;
+  bottom: 25px;
+  right: 22px;
+  color: #e1ffc1;
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+:global(.showcase-count:hover > svg):where(.scope, .scope *) {
+  transform: translateY(3px) scale(1.12);
+}
+:global(.tool-discovery):where(.scope, .scope *) {
+  background: var(--section);
+  color: #fff;
+  padding: 73px 0 57px;
+  scroll-margin-top: 90px;
+}
+:global(.section-top):where(.scope, .scope *) {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+:global(.section-top .eyebrow):where(.scope, .scope *) {
+  color: #bcd2ce;
+  font-size: 9px;
+  letter-spacing: 1.8px;
+}
+:global(.section-top h2):where(.scope, .scope *) {
+  font-size: 37px;
+  font-weight: 600;
+  letter-spacing: -1.3px;
+  line-height: 1.3;
+  margin-top: 13px;
+}
+:global(.section-top p):where(.scope, .scope *) {
+  font-size: 13px;
+  color: #b2c5c6;
+  line-height: 1.8;
+  margin-top: 12px;
+}
+:global(.tool-total):where(.scope, .scope *) {
+  color: #b1c6c6;
+  font-size: 11px;
+  padding-bottom: 4px;
+  white-space: nowrap;
+}
+:global(.discovery-toolbar):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 32px;
+}
+:global(.search-box):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  max-width: 480px;
+  min-height: 49px;
+  background: #fff;
+  border: 1px solid #fff;
+  border-radius: 999px;
+  padding: 0 17px;
+  color: #819292;
+}
+:global(.search-box:focus-within):where(.scope, .scope *) {
+  outline: 2px solid #d5f5b9;
+  outline-offset: 4px;
+}
+:global(.search-box input):where(.scope, .scope *) {
+  width: 100%;
+  min-width: 0;
+  color: #0e363c;
+  background: none;
+  border: 0;
+  outline: none;
+  min-height: 47px;
+  font-size: 12px;
+}
+:global(.search-box input:focus-visible):where(.scope, .scope *) {
+  outline: none;
+}
+:global(.search-box input):where(.scope, .scope *):global(::placeholder) {
+  color: #7c8b8b;
+}
+:global(.search-box .icon-button):where(.scope, .scope *) {
+  color: #577477;
+}
+:global(.search-box kbd):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  background: #f1f5f2;
+  border: 1px solid #e5e9e7;
+  border-radius: 5px;
+  padding: 4px 5px;
+  white-space: nowrap;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+:global(.search-box:focus-within kbd):where(.scope, .scope *) {
+  opacity: 0.45;
+  transform: scale(0.92);
+}
+:global(.search-hint):where(.scope, .scope *) {
+  font-size: 11px;
+  color: #a3bfc1;
+}
+:global(.categories):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 22px 0 27px;
+}
+:global(.categories button):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 550;
+  min-height: 40px;
+  padding: 9px 17px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #bfd2d2;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  backface-visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+:global(.categories button:hover:not(.selected)):where(.scope, .scope *) {
+  background: #1e454b;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+:global(.categories button:active):where(.scope, .scope *) {
+  transform: scale(0.96);
+  transition-duration: 0.08s;
+}
+:global(.categories button.selected):where(.scope, .scope *) {
+  color: #0e363c;
+  background: #e1ffc1;
+  font-weight: 550;
+  border-color: #c9f19e;
+  box-shadow: 0 2px 10px rgba(164, 216, 129, 0.28);
+  transform: translateY(-1px);
+}
+:global(.categories button.selected:hover):where(.scope, .scope *) {
+  background: #d4f8ab;
+  color: #0e363c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(164, 216, 129, 0.38);
+}
+:global(.categories button span):where(.scope, .scope *) {
+  background: #cde7af;
+  color: #0e363c;
+  border-radius: 50%;
+  min-width: 20px;
+  min-height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+:global(.categories button:not(.selected) span):where(.scope, .scope *) {
+  background: rgba(255, 255, 255, 0.12);
+  color: #bfd2d2;
+}
+
+:global(.tool-grid-wrapper):where(.scope, .scope *) {
+  position: relative;
+}
+@keyframes cardPopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+:global(.tool-grid-wrapper .tool-card):where(.scope, .scope *) {
+  animation: cardPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(1)):where(.scope, .scope *) {
+  animation-delay: 0.01s;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(2)):where(.scope, .scope *) {
+  animation-delay: 0.025s;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(3)):where(.scope, .scope *) {
+  animation-delay: 0.04s;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(4)):where(.scope, .scope *) {
+  animation-delay: 0.055s;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(5)):where(.scope, .scope *) {
+  animation-delay: 0.07s;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(6)):where(.scope, .scope *) {
+  animation-delay: 0.085s;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(7)):where(.scope, .scope *) {
+  animation-delay: 0.1s;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(8)):where(.scope, .scope *) {
+  animation-delay: 0.115s;
+}
+:global(.tool-grid-wrapper .tool-card:nth-child(9)):where(.scope, .scope *) {
+  animation-delay: 0.13s;
+}
+:global(.tool-grid-wrapper .webhook-feature):where(.scope, .scope *) {
+  animation: cardPopIn 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s both;
+  will-change: opacity, transform;
+}
+:global(.tool-grid-wrapper .empty-state):where(.scope, .scope *) {
+  animation: cardPopIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+:global(.tool-grid):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+:global(.tool-card):where(.scope, .scope *) {
+  border: 1px solid #22454b;
+  border-radius: 19px;
+  background: var(--section-card);
+  padding: 26px 25px 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 245px;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.22s ease;
+}
+
+:global(.tool-card:hover):where(.scope, .scope *) {
+  border-color: #a4d881;
+  background: #1d464d;
+  transform: translateY(-3px);
+  box-shadow:
+    0 10px 28px rgba(6, 28, 31, 0.28),
+    0 0 0 1px rgba(164, 216, 129, 0.15);
+}
+
+:global(.tool-card:not(.available)):where(.scope, .scope *) {
+  opacity: 0.75;
+  cursor: default;
+}
+
+:global(.tool-card:not(.available):hover):where(.scope, .scope *) {
+  border-color: #22454b;
+  background: var(--section-card);
+  transform: none;
+  box-shadow: none;
+}
+:global(.card-top):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 27px;
+}
+:global(.tool-icon):where(.scope, .scope *) {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: var(--soft);
+  border-radius: 10px;
+  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+:global(.tool-card .tool-icon):where(.scope, .scope *) {
+  background: none;
+  border: 0;
+  color: #dce8df;
+  width: auto;
+  height: 30px;
+  border-radius: 0;
+}
+:global(.tool-card .tool-icon svg):where(.scope, .scope *) {
+  width: 29px;
+  height: 29px;
+  stroke-width: 1.3;
+  transition:
+    transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 0.22s ease;
+}
+:global(.tool-card:hover .tool-icon svg):where(.scope, .scope *) {
+  transform: scale(1.08);
+  color: #e1ffc1;
+}
+:global(.card-arrow):where(.scope, .scope *) {
+  color: #ccdbd7;
+  transition:
+    transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 0.22s ease;
+}
+:global(.tool-card:hover .card-arrow):where(.scope, .scope *) {
+  color: #a4d881;
+  transform: translate(3px, -3px) scale(1.15);
+}
+:global(.popular):where(.scope, .scope *) {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 9px;
+  color: #d1e9b8;
+  border: 1px solid #4b6c5e;
+  padding: 5px 8px;
+  border-radius: 999px;
+}
+:global(.popular span):where(.scope, .scope *) {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #d1e9b8;
+}
+:global(.tool-card h3):where(.scope, .scope *) {
+  font-size: 17px;
+  letter-spacing: -0.4px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+:global(.tool-card > p):where(.scope, .scope *) {
+  font-size: 12px;
+  color: #b7c9c9;
+  line-height: 1.85;
+  margin: 10px 0 23px;
+  max-width: 290px;
+}
+:global(.card-bottom):where(.scope, .scope *) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 9px;
+  margin-top: auto;
+  border-top: 1px solid #30545a;
+  padding: 15px 0;
+  color: #a7c0c1;
+  font-size: 10px;
+}
+:global(.ready):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #c9eab0;
+  transition: color 0.2s ease;
+}
+
+:global(.ready svg):where(.scope, .scope *) {
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:global(.tool-card:hover .ready):where(.scope, .scope *) {
+  color: #e1ffc1;
+}
+
+:global(.tool-card:hover .ready svg):where(.scope, .scope *) {
+  transform: translateX(3px);
+}
+:global(.coming-soon):where(.scope, .scope *) {
+  font-size: 9px;
+  color: #a9c0c1;
+}
+:global(.webhook-feature):where(.scope, .scope *) {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  position: relative;
+  border: 1px solid #86a275;
+  background: #e1ffc1;
+  color: #0e363c;
+  border-radius: 20px;
+  padding: 31px;
+  margin-top: 23px;
+  overflow: hidden;
+  min-height: 175px;
+}
+:global(.webhook-feature:hover):where(.scope, .scope *) {
+  background: #d6f5b4;
+}
+:global(.feature-icon):where(.scope, .scope *) {
+  width: 58px;
+  height: 58px;
+  border: 1px solid #b7d795;
+  background: #d2f0b3;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+:global(.feature-heading):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+:global(.feature-heading h3):where(.scope, .scope *) {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+}
+:global(.feature-heading > span):where(.scope, .scope *) {
+  font-size: 7px;
+  letter-spacing: 1px;
+  border: 1px solid #94b67b;
+  padding: 4px 6px;
+  border-radius: 999px;
+}
+:global(.webhook-feature p):where(.scope, .scope *) {
+  color: #4c6953;
+  font-size: 12px;
+  line-height: 1.85;
+  margin-top: 10px;
+  max-width: 470px;
+}
+:global(.feature-link):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 15px;
+}
+:global(.request-preview):where(.scope, .scope *) {
+  display: grid;
+  gap: 6px;
+  font-family: var(--font-code);
+  margin-left: auto;
+  transform: rotate(-5deg);
+  min-width: 210px;
+}
+:global(.request-preview > span):where(.scope, .scope *) {
+  font-size: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #bad99c;
+  background: #d4f3b5;
+  padding: 11px 10px;
+  border-radius: 5px;
+}
+:global(.request-preview b):where(.scope, .scope *) {
+  font-weight: 400;
+  color: #69835b;
+}
+:global(.request-preview em):where(.scope, .scope *) {
+  font-style: normal;
+  color: #3c6f40;
+  margin-left: 9px;
+}
+:global(.request-preview i):where(.scope, .scope *) {
+  width: 5px;
+  height: 5px;
+  background: #3c6f40;
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+:global(.request-preview i):where(.scope, .scope *):global(::after) {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid #3c6f40;
+  animation: radarPulse 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  box-sizing: border-box;
+}
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.85;
+  }
+  60%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+:global(.phase-note):where(.scope, .scope *) {
+  color: #a2bfc0;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 25px;
+}
+:global(.empty-state):where(.scope, .scope *) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 17px;
+  padding: 55px 25px;
+  border: 1px dashed #66838a;
+  border-radius: 20px;
+}
+:global(.empty-state p):where(.scope, .scope *) {
+  color: #b4c9ca;
+  font-size: 13px;
+}
+:global(.empty-state .button):where(.scope, .scope *) {
+  color: #0e363c;
+  background-color: #e1ffc1;
+  border-color: #c8f59a;
+}
+:global(.empty-state .button:hover):where(.scope, .scope *) {
+  color: #0e363c;
+  background-color: #c8f59a;
+  border-color: #b9e68b;
+}
+:global(.empty-state .button:active):where(.scope, .scope *) {
+  background-color: #b9e68b;
+}
+:global(.tool-discovery :is(a, button):focus-visible):where(.scope, .scope *) {
+  outline-color: #e1ffc1;
+}
+:global(.principles):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  padding-top: 90px;
+  padding-bottom: 90px;
+  align-items: center;
+}
+:global(.principles-intro .eyebrow):where(.scope, .scope *) {
+  font-size: 9px;
+}
+:global(.principles-intro h2):where(.scope, .scope *) {
+  font-size: 43px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -1.8px;
+  margin-top: 17px;
+}
+:global(.principles-intro p):where(.scope, .scope *) {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-top: 21px;
+  max-width: 420px;
+}
+:global(.lime-button):where(.scope, .scope *) {
+  background-color: #e1ffc1;
+  border-color: #c8f59a;
+  color: #0e363c;
+  margin-top: 26px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 2px 6px rgba(164, 216, 129, 0.25);
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.22s ease,
+    border-color 0.22s ease;
+}
+:global(.lime-button:hover):where(.scope, .scope *) {
+  background-color: #d4f8ab;
+  border-color: #baef85;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 6px 18px rgba(164, 216, 129, 0.4);
+}
+:global(.lime-button:active):where(.scope, .scope *) {
+  background-color: #c5f196;
+  transform: translateY(0.5px) scale(0.99);
+  box-shadow: 0 1px 3px rgba(164, 216, 129, 0.2);
+  transition-duration: 0.08s;
+}
+:global(.principles-list):where(.scope, .scope *) {
+  display: grid;
+  gap: 28px;
+}
+:global(.principles-list > div):where(.scope, .scope *) {
+  position: relative;
+  padding-left: 37px;
+}
+:global(.principle-icon):where(.scope, .scope *) {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  color: var(--green);
+}
+:global(.principles h3):where(.scope, .scope *) {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}
+:global(.principles-list p):where(.scope, .scope *) {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+  margin-top: 9px;
+}
+
+/* Image preview within the original dark showcase card. */
+:global(.showcase-image-preview):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 25px;
+  min-width: 0;
+}
+:global(.showcase-image-thumb):where(.scope, .scope *) {
+  display: block;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 1px solid #d4e7d52b;
+}
+:global(.showcase-image-thumb img):where(.scope, .scope *) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+:global(.showcase-image-sizes):where(.scope, .scope *) {
+  display: grid;
+  gap: 6px;
+  font: 9px / 1.4 var(--font-code);
+  color: #a4c2c0;
+  white-space: nowrap;
+}
+:global(.showcase-image-sizes s):where(.scope, .scope *) {
+  opacity: 0.7;
+}
+:global(.showcase-image-sizes strong):where(.scope, .scope *) {
+  color: #e1ffc1;
+  font-weight: 500;
+}
+:global(.showcase-image-sizes small):where(.scope, .scope *) {
+  font: 8px var(--font-ui);
+  color: #a4c2c0;
+}
+@media (max-width: 850px) {
+  :global(.showcase-image-thumb):where(.scope, .scope *) {
+    width: 46px;
+    height: 52px;
+  }
+  :global(.showcase-image-preview):where(.scope, .scope *) {
+    gap: 8px;
+  }
+  :global(.showcase-image-sizes):where(.scope, .scope *) {
+    font-size: 8px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.showcase-image-thumb):where(.scope, .scope *) {
+    width: 34px;
+    height: 46px;
+  }
+  :global(.showcase-image-sizes):where(.scope, .scope *) {
+    font-size: 7px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(.mini-cursor):where(.scope, .scope *) {
+    animation: none;
+  }
+}
+
+@media (min-width: 1600px) {
+  :global(.hero):where(.scope, .scope *) {
+    padding-top: 24px;
+  }
+}
+
+@media (min-width: 1600px) {
+  :global(.hero h1):where(.scope, .scope *) {
+    font-size: 72px;
+  }
+}
+
+@media (min-width: 1600px) {
+  :global(.hero-showcase):where(.scope, .scope *) {
+    margin-top: 70px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.hero h1):where(.scope, .scope *) {
+    font-size: 60px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.hero-showcase):where(.scope, .scope *) {
+    gap: 15px;
+    grid-template-columns: 1fr 0.85fr 1.3fr;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.showcase-count):where(.scope, .scope *) {
+    display: none;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.showcase-editor pre):where(.scope, .scope *) {
+    font-size: 10px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.showcase-azure):where(.scope, .scope *) {
+    min-height: 280px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.showcase-lime):where(.scope, .scope *) {
+    min-height: 240px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.hero):where(.scope, .scope *) {
+    padding-bottom: 55px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.tool-card):where(.scope, .scope *) {
+    padding: 25px 22px 0;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.tool-card h3):where(.scope, .scope *) {
+    font-size: 16px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.tool-card > p):where(.scope, .scope *) {
+    font-size: 12px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.request-preview):where(.scope, .scope *) {
+    display: none;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.principles):where(.scope, .scope *) {
+    gap: 60px;
+  }
+}
+@media (max-width: 1150px) {
+  :global(.principles-intro h2):where(.scope, .scope *) {
+    font-size: 38px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.hero):where(.scope, .scope *) {
+    padding-top: 24px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.hero h1):where(.scope, .scope *) {
+    font-size: 52px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.hero > p):where(.scope, .scope *) {
+    font-size: 14px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.hero-showcase):where(.scope, .scope *) {
+    grid-template-columns: 1fr 0.85fr 1.25fr;
+    gap: 13px;
+    margin-top: 45px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-azure):where(.scope, .scope *) {
+    padding: 20px;
+    min-height: 260px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-title):where(.scope, .scope *) {
+    font-size: 21px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-code):where(.scope, .scope *) {
+    font-size: 8px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-lime):where(.scope, .scope *) {
+    padding: 20px;
+    min-height: 225px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-number):where(.scope, .scope *) {
+    font-size: 35px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-lime h2):where(.scope, .scope *) {
+    font-size: 14px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-lime p):where(.scope, .scope *) {
+    font-size: 10px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-editor):where(.scope, .scope *) {
+    min-height: 205px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.showcase-editor pre):where(.scope, .scope *) {
+    font-size: 8px;
+    padding-left: 9px;
+    padding-right: 5px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.mini-line):where(.scope, .scope *) {
+    margin-right: 5px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.mini-editor-bar):where(.scope, .scope *) {
+    padding: 15px 12px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.mini-editor-status):where(.scope, .scope *) {
+    padding: 13px 10px;
+    font-size: 7px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.mini-editor-status > span:last-child):where(.scope, .scope *) {
+    display: none;
+  }
+}
+@media (max-width: 850px) {
+  :global(.tool-discovery):where(.scope, .scope *) {
+    padding: 55px 0 42px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.section-top h2):where(.scope, .scope *) {
+    font-size: 32px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.tool-grid):where(.scope, .scope *) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.tool-total):where(.scope, .scope *) {
+    display: none;
+  }
+}
+@media (max-width: 850px) {
+  :global(.tool-card):where(.scope, .scope *) {
+    min-height: 240px;
+    padding: 25px 23px 0;
+  }
+}
+@media (max-width: 850px) {
+  :global(.tool-card > p):where(.scope, .scope *) {
+    max-width: none;
+  }
+}
+@media (max-width: 850px) {
+  :global(.card-top):where(.scope, .scope *) {
+    margin-bottom: 23px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.principles):where(.scope, .scope *) {
+    gap: 40px;
+    padding-top: 65px;
+    padding-bottom: 65px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.principles-intro h2):where(.scope, .scope *) {
+    font-size: 33px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.principles-intro p):where(.scope, .scope *) {
+    font-size: 13px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.principles-list):where(.scope, .scope *) {
+    gap: 24px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.principles h3):where(.scope, .scope *) {
+    font-size: 14px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.principles-list p):where(.scope, .scope *) {
+    font-size: 12px;
+  }
+}
+@media (max-width: 850px) {
+  :global(.search-hint):where(.scope, .scope *) {
+    font-size: 10px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero):where(.scope, .scope *) {
+    padding-top: 26px;
+    padding-bottom: 42px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero > .eyebrow):where(.scope, .scope *) {
+    font-size: 8px;
+    letter-spacing: 1.3px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero h1):where(.scope, .scope *) {
+    font-size: 43px;
+    letter-spacing: -2px;
+    line-height: 1.22;
+    margin-top: 22px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero > p):where(.scope, .scope *) {
+    font-size: 12px;
+    line-height: 1.9;
+    max-width: 390px;
+    margin: 20px auto 0;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero-actions):where(.scope, .scope *) {
+    margin-top: 25px;
+    gap: 9px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero-actions .button):where(.scope, .scope *) {
+    min-width: 142px;
+    font-size: 12px;
+    min-height: 47px;
+    padding: 12px 17px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero-bottom):where(.scope, .scope *) {
+    font-size: 9px;
+    gap: 10px;
+    margin-top: 22px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero-bottom svg):where(.scope, .scope *) {
+    width: 14px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero-showcase):where(.scope, .scope *) {
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+    margin-top: 36px;
+    align-items: stretch;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-azure):where(.scope, .scope *) {
+    min-height: 248px;
+    padding: 20px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-top svg:first-child):where(.scope, .scope *) {
+    width: 26px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-code):where(.scope, .scope *) {
+    font-size: 8px;
+    line-height: 2;
+    margin-top: 23px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-title):where(.scope, .scope *) {
+    font-size: 20px;
+    padding-top: 17px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-caption):where(.scope, .scope *) {
+    font-size: 8px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-lime):where(.scope, .scope *) {
+    min-height: 248px;
+    padding: 21px;
+    gap: 25px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-lime h2):where(.scope, .scope *) {
+    font-size: 16px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-lime p):where(.scope, .scope *) {
+    font-size: 11px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-number):where(.scope, .scope *) {
+    font-size: 39px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero-showcase > a):where(.scope, .scope *),
+  :global(.hero-showcase > div):where(.scope, .scope *) {
+    border-radius: 20px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-editor):where(.scope, .scope *) {
+    grid-column: 1/-1;
+    min-height: 0;
+  }
+}
+@media (max-width: 640px) {
+  :global(.showcase-editor pre):where(.scope, .scope *) {
+    font-size: 11px;
+    padding: 7px 23px 15px;
+    line-height: 2.1;
+  }
+}
+@media (max-width: 640px) {
+  :global(.mini-line):where(.scope, .scope *) {
+    margin-right: 17px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.mini-editor-bar):where(.scope, .scope *) {
+    padding: 17px 22px;
+    font-size: 11px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.mini-editor-bar i):where(.scope, .scope *) {
+    width: 6px;
+    height: 6px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.mini-editor-status):where(.scope, .scope *) {
+    font-size: 9px;
+    padding: 14px 22px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.mini-editor-status > span:last-child):where(.scope, .scope *) {
+    display: inline;
+  }
+}
+@media (max-width: 640px) {
+  :global(.tool-discovery):where(.scope, .scope *) {
+    padding: 43px 0 37px;
+    scroll-margin-top: 76px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.section-top):where(.scope, .scope *) {
+    display: block;
+  }
+}
+@media (max-width: 640px) {
+  :global(.section-top h2):where(.scope, .scope *) {
+    font-size: 30px;
+    letter-spacing: -1.2px;
+    margin-top: 13px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.section-top p):where(.scope, .scope *) {
+    font-size: 12px;
+    line-height: 1.9;
+    margin-top: 11px;
+    max-width: 320px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.section-top .eyebrow):where(.scope, .scope *) {
+    font-size: 8px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.discovery-toolbar):where(.scope, .scope *) {
+    margin-top: 25px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.search-hint):where(.scope, .scope *) {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  :global(.search-box):where(.scope, .scope *) {
+    min-height: 47px;
+    padding: 0 15px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.search-box input):where(.scope, .scope *) {
+    font-size: 12px;
+    min-height: 45px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.search-box kbd):where(.scope, .scope *) {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  :global(.categories):where(.scope, .scope *) {
+    gap: 4px;
+    margin: 18px 0 23px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.categories button):where(.scope, .scope *) {
+    font-size: 11px;
+    min-height: 40px;
+    padding: 9px 13px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.categories button span):where(.scope, .scope *) {
+    font-size: 8px;
+    min-width: 17px;
+    min-height: 17px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.tool-grid):where(.scope, .scope *) {
+    gap: 12px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.tool-card):where(.scope, .scope *) {
+    padding: 22px 17px 0;
+    min-height: 248px;
+    border-radius: 17px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.card-top):where(.scope, .scope *) {
+    margin-bottom: 23px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.tool-card .tool-icon svg):where(.scope, .scope *) {
+    width: 25px;
+    height: 25px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.tool-card h3):where(.scope, .scope *) {
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: -0.4px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.tool-card > p):where(.scope, .scope *) {
+    font-size: 11px;
+    line-height: 1.9;
+    margin-top: 9px;
+    margin-bottom: 19px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.card-bottom):where(.scope, .scope *) {
+    font-size: 8px;
+    padding: 14px 0;
+  }
+}
+@media (max-width: 640px) {
+  :global(.ready):where(.scope, .scope *) {
+    gap: 3px;
+    font-size: 8px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.ready svg):where(.scope, .scope *) {
+    width: 11px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.coming-soon):where(.scope, .scope *) {
+    font-size: 7px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.popular):where(.scope, .scope *) {
+    font-size: 7px;
+    padding: 4px 6px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.card-arrow):where(.scope, .scope *) {
+    width: 15px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.webhook-feature):where(.scope, .scope *) {
+    padding: 23px 20px;
+    gap: 15px;
+    align-items: flex-start;
+    margin-top: 19px;
+    border-radius: 20px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.feature-icon):where(.scope, .scope *) {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.feature-icon svg):where(.scope, .scope *) {
+    width: 23px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.feature-heading):where(.scope, .scope *) {
+    gap: 10px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.feature-heading h3):where(.scope, .scope *) {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+@media (max-width: 640px) {
+  :global(.feature-heading > span):where(.scope, .scope *) {
+    font-size: 6px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.webhook-feature p):where(.scope, .scope *) {
+    font-size: 11px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.feature-link):where(.scope, .scope *) {
+    font-size: 10px;
+    margin-top: 13px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.phase-note):where(.scope, .scope *) {
+    font-size: 10px;
+    line-height: 1.9;
+    padding: 0 5px;
+    margin-top: 20px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.principles):where(.scope, .scope *) {
+    grid-template-columns: 1fr;
+    gap: 38px;
+    padding-top: 47px;
+    padding-bottom: 47px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.principles-intro .eyebrow):where(.scope, .scope *) {
+    font-size: 8px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.principles-intro h2):where(.scope, .scope *) {
+    font-size: 35px;
+    letter-spacing: -1.4px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.principles-intro p):where(.scope, .scope *) {
+    font-size: 13px;
+    max-width: 380px;
+    margin-top: 17px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.principles .button):where(.scope, .scope *) {
+    min-height: 44px;
+    font-size: 12px;
+    margin-top: 22px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.principles-list):where(.scope, .scope *) {
+    gap: 24px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.principles h3):where(.scope, .scope *) {
+    font-size: 15px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.principles-list p):where(.scope, .scope *) {
+    font-size: 12px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.hero h1):where(.scope, .scope *) {
+    font-size: 37px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.hero > .eyebrow):where(.scope, .scope *) {
+    font-size: 7px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.hero-actions .button):where(.scope, .scope *) {
+    min-width: 130px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.hero-bottom):where(.scope, .scope *) {
+    font-size: 8px;
+    gap: 8px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.showcase-azure):where(.scope, .scope *),
+  :global(.showcase-lime):where(.scope, .scope *) {
+    padding: 17px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.showcase-code):where(.scope, .scope *) {
+    font-size: 7px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.showcase-title):where(.scope, .scope *) {
+    font-size: 18px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.showcase-lime h2):where(.scope, .scope *) {
+    font-size: 14px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.showcase-lime p):where(.scope, .scope *) {
+    font-size: 10px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.tool-card):where(.scope, .scope *) {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.tool-card h3):where(.scope, .scope *) {
+    font-size: 13px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.tool-card > p):where(.scope, .scope *) {
+    font-size: 10px;
+  }
+}
+@media (max-width: 360px) {
+  :global(.feature-icon):where(.scope, .scope *) {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  :global(.hero h1):where(.scope, .scope *) {
+    font-size: 34px;
+    letter-spacing: -1.6px;
+    line-height: 1.3;
+  }
+}
+@media (max-width: 360px) {
+  :global(.hero h1):where(.scope, .scope *) {
+    font-size: 29px;
+    letter-spacing: -1.3px;
+  }
+}

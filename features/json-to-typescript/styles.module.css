@@ -1,0 +1,105 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+/* ==========================================================================
+   JSON to TypeScript Converter Styles
+   ========================================================================== */
+
+:global(.jsonts-root-control):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  width: 260px;
+  max-width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+:global(.jsonts-root-control label):where(.scope, .scope *) {
+  flex-shrink: 0;
+  padding: 0 12px 0 16px;
+  border-right: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: text;
+}
+:global(.jsonts-root-input):where(.scope, .scope *) {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px 14px 8px 12px;
+  border: 0;
+  border-radius: 0 999px 999px 0;
+  background: transparent;
+  font-family: var(--font-code);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  outline: none;
+}
+:global(.jsonts-root-input:focus-visible):where(.scope, .scope *) {
+  outline: none;
+  box-shadow: none;
+}
+
+:global(.jsonts-root-input):where(.scope, .scope *):global(::placeholder) {
+  color: var(--muted);
+  font-weight: 400;
+}
+:global(.jsonts-root-control:hover):where(.scope, .scope *) {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+}
+:global(.jsonts-root-control:focus-within):where(.scope, .scope *) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+:global(.jsonts-options-group):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+:global(.jsonts-options-group label):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+:global(.jsonts-options-group input[type="checkbox"]):where(.scope, .scope *) {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+:global(.jsonts-options-group label:hover):where(.scope, .scope *) {
+  color: var(--text);
+}
+
+:global(.jsonts-error-card):where(.scope, .scope *) {
+  margin: 16px;
+  padding: 14px 18px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 10px;
+  color: #991b1b;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+:global([data-theme="dark"] .jsonts-error-card):where(.scope, .scope *) {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+}

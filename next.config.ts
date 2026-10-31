@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { contentSecurityPolicy } from "./lib/security/csp";
 
 const securityHeaders = [
   {
@@ -23,23 +24,14 @@ const securityHeaders = [
   },
   {
     key: "Content-Security-Policy",
-    value: [
-      "default-src 'self'",
-      process.env.NODE_ENV === "development"
-        ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'"
-        : "script-src 'self' 'unsafe-inline'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https:",
-      "font-src 'self' data:",
-      "connect-src 'self'",
-      "frame-ancestors 'none'",
-      "object-src 'none'",
-      "base-uri 'self'",
-    ].join("; "),
+    value: contentSecurityPolicy(undefined, process.env.NODE_ENV === "development"),
   },
 ];
 
 const nextConfig: NextConfig = {
+  // Production builds use webpack; development uses Turbopack, which requires
+  // its supported default instead of webpack-only CSS chunking options.
+  experimental: { cssChunking: process.env.NODE_ENV === "production" ? false : true },
   devIndicators: false,
   poweredByHeader: false,
   async headers() {

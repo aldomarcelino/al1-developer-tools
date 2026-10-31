@@ -1,0 +1,71 @@
+.scope {
+  min-width: 0;
+}
+.tabs {
+  overflow-x: auto;
+  padding: 3px 0 20px;
+}
+.panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+}
+.unitRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: 10px;
+}
+.unitRow :global(.indent-label) {
+  color: var(--text);
+}
+.result {
+  background: var(--soft);
+}
+.resultBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-height: 120px;
+}
+.value {
+  font-size: clamp(28px, 4vw, 46px);
+  letter-spacing: -1.5px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+.symbol {
+  color: var(--muted);
+  font-size: 16px;
+}
+@media (max-width: 760px) {
+  .panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 420px) {
+  .unitRow {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .unitRow > :last-child {
+    grid-column: 1 / -1;
+  }
+}

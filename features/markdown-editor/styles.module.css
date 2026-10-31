@@ -1,0 +1,568 @@
+/* ==========================================================================
+   Markdown Editor & Live Preview Styles
+   ========================================================================== */
+
+:global(.markdown-stats-bar):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+:global(.markdown-stats-bar .stat-item):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+:global(.markdown-stats-bar .stat-item strong):where(.scope, .scope *) {
+  color: var(--text);
+  font-weight: 600;
+}
+
+:global(.markdown-format-toolbar):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+:global(.format-group):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+:global(.format-divider):where(.scope, .scope *) {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 6px;
+}
+
+/* Action Dropdown Menu (Copy & Download) */
+:global(.action-dropdown-wrapper):where(.scope, .scope *) {
+  position: relative;
+  display: inline-flex;
+}
+
+:global(.action-dropdown-menu):where(.scope, .scope *) {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 175px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 5px;
+  box-shadow: 0 12px 30px rgba(14, 54, 60, 0.14);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transform-origin: top left;
+  animation: dropdownFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:global(.action-dropdown-item):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+  text-align: left;
+}
+
+:global(.action-dropdown-item:hover):where(.scope, .scope *) {
+  background: var(--soft);
+  color: var(--accent);
+}
+
+/* View Mode Segmented Control in Toolbar */
+:global(.view-mode-toggle):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+
+:global(.view-mode-btn):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 550;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:global(.view-mode-btn:hover):where(.scope, .scope *) {
+  color: var(--text);
+}
+
+:global(.view-mode-btn.active):where(.scope, .scope *) {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 650;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Equal-Height Markdown Split Layout with Independent Scrolling */
+:global(.markdown-editor-layout):where(.scope, .scope *) {
+  min-height: 700px;
+  height: 720px;
+  overflow: hidden;
+}
+
+:global(.markdown-editor-layout.view-editor):where(.scope, .scope *) {
+  grid-template-columns: 1fr;
+}
+
+:global(.markdown-editor-layout.view-editor .markdown-preview-pane):where(
+  .scope,
+  .scope *
+) {
+  display: none !important;
+}
+
+:global(.markdown-editor-layout.view-preview):where(.scope, .scope *) {
+  grid-template-columns: 1fr;
+}
+
+:global(.markdown-editor-layout.view-preview .markdown-source-pane):where(
+  .scope,
+  .scope *
+) {
+  display: none !important;
+}
+
+:global(.markdown-editor-layout .editor-pane):where(.scope, .scope *) {
+  height: 100%;
+  max-height: 720px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+:global(.markdown-editor-layout .editor-body):where(.scope, .scope *) {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+:global(.markdown-editor-layout .line-numbers):where(.scope, .scope *) {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+:global(.markdown-editor-layout .editor-body textarea):where(.scope, .scope *) {
+  flex: 1;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Rendered Markdown Preview Area */
+:global(.markdown-preview-pane):where(.scope, .scope *) {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  min-width: 0;
+  height: 100%;
+  max-height: 720px;
+  overflow: hidden;
+}
+
+:global(.markdown-preview):where(.scope, .scope *) {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  padding: 24px 28px;
+  overflow-y: auto;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+:global(.markdown-preview > *:first-child):where(.scope, .scope *) {
+  margin-top: 0 !important;
+}
+
+:global(.markdown-preview > *:last-child):where(.scope, .scope *) {
+  margin-bottom: 0 !important;
+}
+
+:global(.markdown-preview h1):where(.scope, .scope *) {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 28px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+:global(.markdown-preview h2):where(.scope, .scope *) {
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+  margin: 24px 0 14px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+:global(.markdown-preview h3):where(.scope, .scope *) {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+  margin: 20px 0 10px;
+  color: var(--text);
+}
+
+:global(.markdown-preview h4):where(.scope, .scope *),
+:global(.markdown-preview h5):where(.scope, .scope *),
+:global(.markdown-preview h6):where(.scope, .scope *) {
+  font-size: 14px;
+  font-weight: 650;
+  margin: 16px 0 8px;
+  color: var(--text);
+}
+
+:global(.markdown-preview p):where(.scope, .scope *) {
+  margin: 12px 0;
+}
+
+:global(.markdown-preview a):where(.scope, .scope *) {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: opacity 0.15s ease;
+}
+
+:global(.markdown-preview a:hover):where(.scope, .scope *) {
+  opacity: 0.8;
+}
+
+:global(.markdown-preview strong):where(.scope, .scope *) {
+  font-weight: 650;
+  color: var(--text);
+}
+
+:global(.markdown-preview em):where(.scope, .scope *) {
+  font-style: italic;
+}
+
+:global(.markdown-preview del):where(.scope, .scope *) {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+:global(.markdown-preview blockquote):where(.scope, .scope *) {
+  margin: 16px 0;
+  padding: 10px 18px;
+  background: var(--soft);
+  border-left: 3.5px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  color: var(--text);
+}
+
+:global(.markdown-preview blockquote p):where(.scope, .scope *) {
+  margin: 6px 0;
+}
+
+:global(.markdown-preview hr.md-hr):where(.scope, .scope *) {
+  margin: 28px 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+:global(.markdown-preview ul.md-list):where(.scope, .scope *),
+:global(.markdown-preview ol.md-list):where(.scope, .scope *) {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+:global(.markdown-preview ul.md-list li):where(.scope, .scope *),
+:global(.markdown-preview ol.md-list li):where(.scope, .scope *) {
+  margin: 6px 0;
+}
+
+/* Task Checklists */
+:global(.markdown-preview ul.md-task-list):where(.scope, .scope *) {
+  list-style: none;
+  padding-left: 4px;
+  margin: 12px 0;
+}
+
+:global(.markdown-preview .md-task-item):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+}
+
+:global(.markdown-preview .md-task-item input[type="checkbox"]):where(.scope, .scope *) {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: default;
+}
+
+/* Code Blocks */
+:global(.markdown-preview .md-code-wrapper):where(.scope, .scope *) {
+  position: relative;
+  margin: 18px 0;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+:global(.markdown-preview .code-lang-badge):where(.scope, .scope *) {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  user-select: none;
+}
+
+:global(.markdown-preview pre.md-code-block):where(.scope, .scope *) {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 22px;
+  color: var(--text);
+  background: transparent;
+}
+
+:global(.markdown-preview code.md-inline-code):where(.scope, .scope *) {
+  font-family: var(--font-code);
+  font-size: 12px;
+  background: var(--soft);
+  color: var(--text);
+  padding: 2px 6px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
+
+/* Tables */
+:global(.markdown-preview .md-table-wrapper):where(.scope, .scope *) {
+  margin: 18px 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+:global(.markdown-preview table.md-table):where(.scope, .scope *) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+:global(.markdown-preview table.md-table th):where(.scope, .scope *) {
+  background: var(--soft);
+  padding: 10px 14px;
+  font-weight: 650;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+:global(.markdown-preview table.md-table td):where(.scope, .scope *) {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+:global(.markdown-preview table.md-table tr:last-child td):where(.scope, .scope *) {
+  border-bottom: 0;
+}
+
+:global(.markdown-preview table.md-table tr:hover td):where(.scope, .scope *) {
+  background: rgba(14, 54, 60, 0.02);
+}
+
+/* Alert Callouts */
+:global(.markdown-preview .md-alert):where(.scope, .scope *) {
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+
+:global(.markdown-preview .md-alert-title):where(.scope, .scope *) {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+:global(.markdown-preview .md-alert-body):where(.scope, .scope *) {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+:global(.markdown-preview .md-alert-body p):where(.scope, .scope *) {
+  margin: 4px 0;
+}
+
+:global(.markdown-preview .md-alert-note):where(.scope, .scope *) {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.06);
+  color: #1e40af;
+}
+
+:global(.markdown-preview .md-alert-tip):where(.scope, .scope *) {
+  border-color: rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.06);
+  color: #166534;
+}
+
+:global(.markdown-preview .md-alert-warning):where(.scope, .scope *) {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.06);
+  color: #92400e;
+}
+
+:global(.markdown-preview .md-alert-important):where(.scope, .scope *) {
+  border-color: rgba(168, 85, 247, 0.35);
+  background: rgba(168, 85, 247, 0.06);
+  color: #6b21a8;
+}
+
+:global(.markdown-preview .md-alert-caution):where(.scope, .scope *) {
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.06);
+  color: #991b1b;
+}
+
+/* Images */
+:global(.markdown-preview img.md-img):where(.scope, .scope *) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 14px 0;
+  border: 1px solid var(--border);
+}
+
+/* Dark Mode Overrides for Markdown Preview */
+:global([data-theme="dark"] .markdown-preview .md-alert-note):where(.scope, .scope *) {
+  background: rgba(59, 130, 246, 0.12);
+  color: #93c5fd;
+}
+
+:global([data-theme="dark"] .markdown-preview .md-alert-tip):where(.scope, .scope *) {
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+}
+
+:global([data-theme="dark"] .markdown-preview .md-alert-warning):where(.scope, .scope *) {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fde68a;
+}
+
+:global([data-theme="dark"] .markdown-preview .md-alert-important):where(
+  .scope,
+  .scope *
+) {
+  background: rgba(168, 85, 247, 0.12);
+  color: #d8b4fe;
+}
+
+:global([data-theme="dark"] .markdown-preview .md-alert-caution):where(.scope, .scope *) {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+}
+
+:global([data-theme="dark"] .markdown-preview table.md-table tr:hover td):where(
+  .scope,
+  .scope *
+) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Cheat Sheet Table in Docs */
+:global(.cheatsheet-table):where(.scope, .scope *) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 14px;
+}
+
+:global(.cheatsheet-table th):where(.scope, .scope *) {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+:global(.cheatsheet-table td):where(.scope, .scope *) {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+:global(.cheatsheet-table code):where(.scope, .scope *) {
+  font-family: var(--font-code);
+  font-size: 12px;
+  background: var(--soft);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+@media (max-width: 640px) {
+  :global(.markdown-editor-layout):where(.scope, .scope *) {
+    height: 520px;
+  }
+}
+@media (max-width: 640px) {
+  :global(.markdown-editor-layout .editor-pane.mobile-active):where(.scope, .scope *) {
+    display: flex;
+    height: 100%;
+  }
+}

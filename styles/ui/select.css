@@ -1,0 +1,160 @@
+.select-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+.select-control .indent-label {
+  font-weight: 550;
+}
+.select-control .select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 42px;
+  max-width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  background: var(--surface);
+  font: inherit;
+  font-weight: 550;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 3%);
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
+}
+.select-trigger > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.select-trigger .select-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 0.18s;
+}
+.select-control .select-trigger:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+.select-control .select-trigger.is-open {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--soft);
+}
+.select-trigger.is-open .select-chevron {
+  transform: rotate(180deg);
+}
+.select-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.select-trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.select-stacked {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 9px;
+  margin-left: 0;
+}
+.select-stacked .select-trigger {
+  width: 100%;
+}
+.select-side {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.select-side .indent-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+}
+.select-side .select-trigger {
+  min-height: 38px;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-radius: 9px;
+}
+.select-dropdown {
+  position: fixed;
+  z-index: 1000;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0 12px 36px rgb(0 0 0 / 14%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.select-option {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 12px;
+  min-height: 40px;
+  border-radius: 8px;
+  color: var(--text);
+  font: 12px / 1.5 var(--font-ui);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.select-option.selected {
+  color: var(--accent);
+  font-weight: 650;
+}
+.select-option.is-active {
+  background: var(--soft);
+}
+.select-option.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.option-check,
+.select-check-space {
+  flex-shrink: 0;
+  width: 15px;
+}
+.option-check {
+  color: var(--accent);
+}
+.utility-toolbar > .select-stacked {
+  min-width: 160px;
+}
+.image-settings > .select-stacked {
+  flex: 1;
+  min-width: 140px;
+}
+.notes-format-toolbar .select-control {
+  margin-left: 0;
+  flex-shrink: 0;
+}
+.notes-format-toolbar .select-trigger {
+  min-height: 36px;
+  font-size: 11px;
+}
+@media (max-width: 760px) {
+  .utility-toolbar > .select-stacked {
+    flex: 1;
+    min-width: 130px;
+  }
+}

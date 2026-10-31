@@ -1,0 +1,168 @@
+/* Tool actions: shared geometry, icon weight, feedback and keyboard focus. */
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+.action-button > svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+  flex-shrink: 0;
+}
+.action-button:hover:not(:disabled) {
+  background: var(--soft);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+}
+.action-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.action-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.action-button--sm {
+  min-height: 34px;
+  padding: 6px 10px;
+}
+.action-button--icon {
+  width: 40px;
+  padding: 0;
+}
+.action-button--icon.action-button--sm {
+  width: 34px;
+}
+.action-button--ghost,
+.action-button--danger {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+.action-button--primary {
+  background: #0e363c;
+  border-color: #16464e;
+  color: #fff;
+}
+.action-button--primary:hover:not(:disabled) {
+  background: #174b53;
+  border-color: #23636d;
+}
+[data-theme="dark"] .action-button--primary {
+  background: #dfffba;
+  border-color: #dfffba;
+  color: #0e363c;
+}
+[data-theme="dark"] .action-button--primary:hover:not(:disabled) {
+  background: #c9f29e;
+  border-color: #c9f29e;
+}
+.action-button[data-active="true"],
+.action-button.is-success {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--border));
+}
+.action-button.action-button--primary.is-success {
+  color: #fff;
+  background: #0e363c;
+  border-color: #16464e;
+}
+.action-button.action-button--primary.is-success:hover:not(:disabled) {
+  color: #fff;
+  background: #174b53;
+  border-color: #23636d;
+}
+.action-button--danger:hover:not(:disabled) {
+  color: var(--error);
+  background: color-mix(in srgb, var(--error) 8%, var(--surface));
+  border-color: color-mix(in srgb, var(--error) 20%, var(--border));
+}
+.action-button kbd {
+  padding: 2px 4px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  opacity: 0.65;
+  font: inherit;
+  font-size: 10px;
+}
+.action-button-spinner {
+  animation: action-button-spin 900ms linear infinite;
+}
+@keyframes action-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .action-button {
+    transition: none;
+  }
+  .action-button-spinner {
+    animation: none;
+  }
+}
+
+/* Forest icon feedback complements the existing variant hover surfaces. */
+.action-button > svg {
+  transition: color 120ms ease;
+}
+.action-button:not(.action-button--primary):not(.action-button--danger):is(
+    :hover,
+    :focus-visible
+  ):not(:disabled)
+  > svg {
+  color: var(--green);
+}
+.action-button--primary:is(:hover, :focus-visible):not(:disabled) > svg {
+  color: var(--lime);
+}
+[data-theme="dark"]
+  .action-button--primary:is(:hover, :focus-visible):not(:disabled)
+  > svg {
+  color: #0e363c;
+}
+.action-tooltip {
+  position: fixed;
+  z-index: 10000;
+  width: max-content;
+  max-width: min(260px, calc(100vw - 16px));
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+  background: #0e363c;
+  color: #f2f6f4;
+  box-shadow: 0 4px 14px rgba(14, 54, 60, 0.14);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Workspace-level actions stay pill-shaped; compact editor icons keep their geometry. */
+.workspace-toolbar .action-button:not(.action-button--icon) {
+  border-radius: 999px;
+}
+
+.action-button--danger:is(:hover, :focus-visible):not(:disabled) > svg {
+  color: var(--error);
+}

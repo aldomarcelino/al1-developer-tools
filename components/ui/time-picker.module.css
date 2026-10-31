@@ -1,0 +1,177 @@
+.field {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+}
+.label {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+}
+.inputWrap {
+  position: relative;
+  min-width: 0;
+}
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 11px 48px 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: 13px / 1.5 var(--font-ui);
+}
+.input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.input[aria-invalid="true"] {
+  border-color: var(--error);
+}
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.trigger {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+.trigger:hover:not(:disabled),
+.trigger[aria-expanded="true"] {
+  background: var(--soft);
+  color: var(--accent);
+}
+.trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.field :is(input, button):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.hint,
+.error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.error {
+  color: var(--error);
+}
+.popup {
+  position: fixed;
+  z-index: 1000;
+  box-sizing: border-box;
+  width: min(280px, calc(100vw - 24px));
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 14%);
+  font-family: var(--font-ui);
+}
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge {
+  padding: 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 0;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+}
+.preview > span {
+  color: var(--muted);
+}
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.columnLabel {
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.options {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  max-height: 160px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--soft);
+}
+.option {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text);
+  font: 13px / 1.5 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.option:hover {
+  background: var(--surface);
+}
+.option[aria-selected="true"] {
+  background: var(--accent);
+  color: var(--surface);
+  font-weight: 700;
+}
+.popup :is(button, input):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}

@@ -1,0 +1,66 @@
+.layout {
+  align-items: stretch;
+  gap: 16px;
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.heading {
+  display: grid;
+  gap: 6px;
+}
+.swatch {
+  height: 88px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.formats {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.formatRow {
+  padding: 12px 14px;
+}
+.formatRow + .formatRow {
+  border-top: 1px solid var(--border);
+}
+.formatRow > div {
+  min-width: 0;
+}
+.formatRow > button {
+  flex-shrink: 0;
+}
+.transfer {
+  display: grid;
+  gap: 10px;
+}
+.contrastInputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.contrastInputs > div,
+.contrastInputs label {
+  min-width: 0;
+}
+.contrastInputs input:not([type="color"]) {
+  min-width: 0;
+}
+.swapRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+}
+.footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 1000px) {
+  .contrastInputs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,6 +1,6 @@
-import { LegalPage } from "@/components/legal-page";
-import { termsOfUse } from "@/lib/legal";
-import { pageMetadata } from "@/lib/seo";
+import { LegalPage } from "@/features/legal/components/legal-page";
+import { termsOfUse } from "@/features/legal/data/policies";
+import { pageMetadata } from "@/lib/seo/metadata";
 export const metadata = pageMetadata(
   termsOfUse.title,
   termsOfUse.description,

@@ -1,0 +1,2386 @@
+{
+  "format": "ramupod-qa-evidence",
+  "version": 1,
+  "manifest": {
+    "producer": "Ramupod QA",
+    "exportedAt": "2026-10-30T19:30:39.134Z",
+    "requestCount": 17,
+    "markerCount": 1,
+    "attachmentCount": 0,
+    "redacted": true,
+    "reportMarkdown": ""
+  },
+  "session": {
+    "id": "6de86463-7993-4707-9d9d-47291a273716",
+    "startedAt": "2026-10-30T19:30:37.619Z",
+    "endedAt": "2026-10-30T19:30:39.122Z",
+    "timezone": "Asia/Jakarta",
+    "pageUrl": "http://127.0.0.1:3891/",
+    "environment": {
+      "value": "Local fixture",
+      "source": "manual"
+    },
+    "build": {
+      "value": "fixture-v1",
+      "source": "manual"
+    },
+    "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "platform": "MacIntel",
+    "tabId": 865442222,
+    "capture": "extension-devtools",
+    "state": "stopped",
+    "notices": [
+      "DevTools capture only. Earlier requests, requests still unfinished at Stop, complete streams, WebSocket frames, console, and service-worker internals are not captured. Capture continues while this panel is hidden and DevTools remains open.",
+      "Recording stopped. Requests whose body retrieval was pending are marked Unavailable."
+    ],
+    "requests": [
+      {
+        "id": "220c5152-b3bc-4a1e-9273-c3bdd4898e11",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.818Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/ok?tag=one&tag=two&token=%5BREDACTED%5D&note=quote%27+%60+%24%28echo+nope%29+%E6%97%A5%E6%9C%AC%E8%AA%9E",
+        "query": [
+          {
+            "name": "tag",
+            "value": "one"
+          },
+          {
+            "name": "tag",
+            "value": "two"
+          },
+          {
+            "name": "token",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "note",
+            "value": "quote' ` $(echo nope) 日本語"
+          }
+        ],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "325"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-ok"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":true,\"requestId\":\"body-ok\",\"traceId\":\"body-fixture-trace\",\"method\":\"GET\",\"query\":[[\"tag\",\"one\"],[\"tag\",\"two\"],[\"token\",\"[REDACTED]\"],[\"note\",\"quote' ` $(echo nope) 日本語\"]],\"received\":\"\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 325,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 1.7010000010486692,
+        "timings": {
+          "blocked": 0.37399999038502574,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.04000000000000001,
+          "wait": 0.9500000057164579,
+          "receive": 0.3370000049471855,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "d636933e-2ef5-4dcd-a43b-c13d4eb41228",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.852Z",
+        "method": "POST",
+        "url": "http://127.0.0.1:3891/api/post",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Authorization",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Content-Length",
+            "value": "148"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Origin",
+            "value": "http://127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          },
+          {
+            "name": "x-correlation-id",
+            "value": "fixture-correlation-01"
+          }
+        ],
+        "body": {
+          "text": "{\"customer\":{\"email\":\"[REDACTED]\",\"password\":\"[REDACTED]\"},\"quantity\":2,\"note\":\"café 日本語\\n\\\"quote\\\" ' ` $(echo unsafe) $HOME\"}",
+          "mimeType": "application/json",
+          "encoding": "utf8",
+          "originalBytes": 148,
+          "status": "Redacted",
+          "reason": "Sensitive values redacted. Review before sharing."
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "394"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "Set-Cookie",
+              "value": "[REDACTED]"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-post"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":true,\"requestId\":\"body-post\",\"traceId\":\"body-fixture-trace\",\"method\":\"POST\",\"query\":[],\"received\":\"{\\\"customer\\\":{\\\"email\\\":\\\"[REDACTED]\\\",\\\"password\\\":\\\"[REDACTED]\\\"},\\\"quantity\\\":2,\\\"note\\\":\\\"café 日本語\\\\n\\\\\\\"quote\\\\\\\" ' ` $(echo unsafe) $HOME\\\"}\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 394,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 1.9109999993816018,
+        "timings": {
+          "blocked": 0.5090000113844871,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.06299999999999999,
+          "wait": 1.1129999987995252,
+          "receive": 0.22599998919758946,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "7e6ceb26-5d8f-4e62-a2ba-a7c9c0874ff5",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.855Z",
+        "method": "POST",
+        "url": "http://127.0.0.1:3891/api/form",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Content-Length",
+            "value": "74"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Origin",
+            "value": "http://127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "name=QA+Unicode+caf%C3%A9&password=%5BREDACTED%5D&note=line1%0Aline2",
+          "mimeType": "application/x-www-form-urlencoded",
+          "encoding": "utf8",
+          "originalBytes": 74,
+          "status": "Redacted",
+          "reason": "Sensitive values redacted. Review before sharing."
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "299"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-form"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":true,\"requestId\":\"body-form\",\"traceId\":\"body-fixture-trace\",\"method\":\"POST\",\"query\":[],\"received\":\"name=QA+Unicode+caf%C3%A9&password=\\\"[REDACTED]\\\"&note=line1%0Aline2\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 299,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 2.8830000082962215,
+        "timings": {
+          "blocked": 0.4860000054575503,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.04000000000000001,
+          "wait": 1.9199999931417406,
+          "receive": 0.43700000969693065,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "7bf3af1b-b387-4436-8b80-e273995ad36a",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.859Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/business",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "281"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-business"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":false,\"success\":false,\"error\":{\"code\":\"PAYMENT_DECLINED\"},\"requestId\":\"body-business\",\"traceId\":\"body-fixture-trace\",\"method\":\"GET\",\"query\":[],\"received\":\"\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 281,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 2.797000008285977,
+        "timings": {
+          "blocked": 0.9370000046649948,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.065,
+          "wait": 1.4689999951217323,
+          "receive": 0.3260000084992498,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "78d8eb19-14d5-4ee9-bc26-63af46b6f420",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.862Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/bad",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 400,
+          "statusText": "Bad Request",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "224"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-bad"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":false,\"requestId\":\"body-bad\",\"traceId\":\"body-fixture-trace\",\"method\":\"GET\",\"query\":[],\"received\":\"\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 224,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 2.53800000064075,
+        "timings": {
+          "blocked": 0.7850000036340207,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.116,
+          "wait": 0.8879999981019646,
+          "receive": 0.7489999989047647,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "b77420c9-83f3-4d6f-abf2-65457c913235",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.866Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/error",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 500,
+          "statusText": "Internal Server Error",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "226"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-error"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":false,\"requestId\":\"body-error\",\"traceId\":\"body-fixture-trace\",\"method\":\"GET\",\"query\":[],\"received\":\"\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 226,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 5.840999991050921,
+        "timings": {
+          "blocked": 2.831999995567836,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.09299999999999997,
+          "wait": 2.3130000023487955,
+          "receive": 0.60299999313429,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "ce53de22-7e3c-4be3-8dba-27206c363b75",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.872Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/empty",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 204,
+          "statusText": "No Content",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-empty"
+            }
+          ],
+          "body": {
+            "text": "",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 0,
+            "status": "Empty",
+            "reason": "This HTTP response does not include a body."
+          }
+        },
+        "durationMs": 5.323999997926876,
+        "timings": {
+          "blocked": 0.6420000074887648,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.9929999999999999,
+          "wait": 1.3239999974323438,
+          "receive": 2.3649999930057675,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "528c8b7c-82f9-41a7-80ef-19eeeb0dda4e",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.878Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/invalid-json",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "10"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-invalid-json"
+            }
+          ],
+          "body": {
+            "text": "{\"broken\":",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 10,
+            "status": "Captured",
+            "reason": null
+          }
+        },
+        "durationMs": 2.3159999982453883,
+        "timings": {
+          "blocked": 0.6099999990407378,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.044999999999999984,
+          "wait": 1.3500000030593946,
+          "receive": 0.31099999614525586,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "bfb34680-db2b-42d1-9e24-89793b7bd954",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.881Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/html",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 500,
+          "statusText": "Internal Server Error",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Type",
+              "value": "text/html; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:37 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-html"
+            }
+          ],
+          "body": {
+            "text": "<html><body><h1>Fixture error</h1><script>throw new Error(\"must stay inert in viewer\")</script></body></html>",
+            "mimeType": "text/html",
+            "encoding": "utf8",
+            "originalBytes": 109,
+            "status": "Captured",
+            "reason": null
+          }
+        },
+        "durationMs": 1.3780000008409843,
+        "timings": {
+          "blocked": 0.46599999580159784,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.04999999999999999,
+          "wait": 0.7130000055292621,
+          "receive": 0.14899999951012433,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "04a41b14-8ef2-4c2e-bfee-891646dd5b06",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:37.883Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/slow",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "224"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:38 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-slow"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":true,\"requestId\":\"body-slow\",\"traceId\":\"body-fixture-trace\",\"method\":\"GET\",\"query\":[],\"received\":\"\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 224,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 904.3799999926705,
+        "timings": {
+          "blocked": 0.750999996509403,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.07699999999999999,
+          "wait": 903.350999993599,
+          "receive": 0.2010000025620684,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "da27303c-577d-42c9-bc4f-fe7e843bf556",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:38.788Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/failure",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 0,
+          "statusText": "",
+          "headers": [],
+          "body": {
+            "text": "",
+            "mimeType": "x-unknown",
+            "encoding": "utf8",
+            "originalBytes": null,
+            "status": "Unavailable",
+            "reason": "Network failure; no complete response body was captured."
+          }
+        },
+        "durationMs": 4.358000005595386,
+        "timings": {
+          "blocked": 4.358000005595386,
+          "dns": -1,
+          "connect": -1,
+          "send": 0,
+          "wait": 0,
+          "receive": 0,
+          "ssl": -1
+        },
+        "completeness": [
+          "Network failure; no complete response body was captured."
+        ]
+      },
+      {
+        "id": "c387b4a7-caf0-4106-8753-e6815e047354",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:38.792Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/redirect",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 302,
+          "statusText": "Found",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:38 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "Location",
+              "value": "/api/ok?from=redirect"
+            },
+            {
+              "name": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-redirect"
+            }
+          ],
+          "body": {
+            "text": "",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": null,
+            "status": "Unavailable",
+            "reason": null
+          }
+        },
+        "durationMs": 2.4549999992763625,
+        "timings": {
+          "blocked": 0.4529999971659854,
+          "dns": 0.006999999999999992,
+          "connect": 0.272,
+          "send": 0.28400000000000003,
+          "wait": 0.9350000061113387,
+          "receive": 0.5039999959990382,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "0bbd812d-243d-4108-9207-1307aaaae6e0",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:38.795Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/ok?from=redirect",
+        "query": [
+          {
+            "name": "from",
+            "value": "redirect"
+          }
+        ],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "241"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:38 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-ok"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":true,\"requestId\":\"body-ok\",\"traceId\":\"body-fixture-trace\",\"method\":\"GET\",\"query\":[[\"from\",\"redirect\"]],\"received\":\"\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 241,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 1.5419999981531873,
+        "timings": {
+          "blocked": 0.6970000017490238,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.08299999999999999,
+          "wait": 0.604000001123175,
+          "receive": 0.15799999528098851,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "953d4d38-9910-4ed9-bf62-9800d6972875",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:38.797Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/large",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "140045"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:38 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-large"
+            }
+          ],
+          "body": {
+            "text": "",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 140045,
+            "status": "Truncated",
+            "reason": "Body exceeds 64 KiB; content omitted."
+          }
+        },
+        "durationMs": 2.946999986306764,
+        "timings": {
+          "blocked": 0.4489999996973202,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.049000000000000016,
+          "wait": 0.9539999970914796,
+          "receive": 1.4949999895179644,
+          "ssl": -1
+        },
+        "completeness": [
+          "Body exceeds 64 KiB; content omitted."
+        ]
+      },
+      {
+        "id": "cd61bc84-7810-4b72-ad97-84d8764fb9f0",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:38.800Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/binary",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/octet-stream"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:38 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-binary"
+            }
+          ],
+          "body": {
+            "text": "",
+            "mimeType": "application/octet-stream",
+            "encoding": "utf8",
+            "originalBytes": null,
+            "status": "Unsupported",
+            "reason": "Binary response is not displayed or replayed."
+          }
+        },
+        "durationMs": 1.4309999969555065,
+        "timings": {
+          "blocked": 0.4609999924264848,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.061,
+          "wait": 0.7250000004461035,
+          "receive": 0.18400000408291817,
+          "ssl": -1
+        },
+        "completeness": [
+          "Binary response is not displayed or replayed."
+        ]
+      },
+      {
+        "id": "1a4b0bec-5fc4-47e2-ae00-9b4301bcc9b9",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:38.802Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/invalid-trace",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "233"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:38 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "name": "traceparent",
+              "value": "00-not-a-valid-traceparent"
+            },
+            {
+              "name": "x-request-id",
+              "value": "fixture-invalid-trace"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":true,\"requestId\":\"body-invalid-trace\",\"traceId\":\"body-fixture-trace\",\"method\":\"GET\",\"query\":[],\"received\":\"\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 233,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 1.3719999988097697,
+        "timings": {
+          "blocked": 0.369999992926605,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.032,
+          "wait": 0.7109999982379377,
+          "receive": 0.259000007645227,
+          "ssl": -1
+        },
+        "completeness": []
+      },
+      {
+        "id": "ccd7fd09-bcd7-4f51-a1e1-47c65f581bef",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "startedAt": "2026-10-30T19:30:38.804Z",
+        "method": "GET",
+        "url": "http://127.0.0.1:3891/api/no-identifiers",
+        "query": [],
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "*/*"
+          },
+          {
+            "name": "Accept-Encoding",
+            "value": "gzip, deflate, br, zstd"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "name": "Connection",
+            "value": "keep-alive"
+          },
+          {
+            "name": "Cookie",
+            "value": "[REDACTED]"
+          },
+          {
+            "name": "Host",
+            "value": "127.0.0.1:3891"
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:3891/"
+          },
+          {
+            "name": "Sec-Fetch-Dest",
+            "value": "empty"
+          },
+          {
+            "name": "Sec-Fetch-Mode",
+            "value": "cors"
+          },
+          {
+            "name": "Sec-Fetch-Site",
+            "value": "same-origin"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\""
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"macOS\""
+          }
+        ],
+        "body": {
+          "text": "",
+          "mimeType": "",
+          "encoding": "utf8",
+          "originalBytes": null,
+          "status": "Empty",
+          "reason": null
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": [
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "169"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Fri, 30 Oct 2026 19:30:38 GMT"
+            },
+            {
+              "name": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "body": {
+            "text": "{\"ok\":true,\"method\":\"GET\",\"query\":[],\"received\":\"\",\"token\":\"[REDACTED]\",\"note\":\"Unicode: café 日本語\\nquotes: \\\" ' ` $(touch /tmp/SHOULD_NOT_EXIST) $HOME\"}",
+            "mimeType": "application/json",
+            "encoding": "utf8",
+            "originalBytes": 169,
+            "status": "Redacted",
+            "reason": "Sensitive values redacted. Review before sharing."
+          }
+        },
+        "durationMs": 1.6639999957988039,
+        "timings": {
+          "blocked": 0.3239999968120828,
+          "dns": -1,
+          "connect": -1,
+          "send": 0.035,
+          "wait": 1.0519999933727084,
+          "receive": 0.2530000056140125,
+          "ssl": -1
+        },
+        "completeness": []
+      }
+    ],
+    "markers": [
+      {
+        "id": "333fa92a-829a-4d71-91fa-9973ec6f8584",
+        "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+        "at": "2026-10-30T19:30:39.119Z",
+        "description": "Checkout error after submitting fixture",
+        "source": "capture"
+      }
+    ],
+    "attachments": [],
+    "redactions": [
+      {
+        "location": "220c5152-b3bc-4a1e-9273-c3bdd4898e11.url.query.token",
+        "reason": "Sensitive query value"
+      },
+      {
+        "location": "220c5152-b3bc-4a1e-9273-c3bdd4898e11.query[2].token",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "d636933e-2ef5-4dcd-a43b-c13d4eb41228.request.headers[3].Authorization",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "d636933e-2ef5-4dcd-a43b-c13d4eb41228.request.body.customer.email",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "d636933e-2ef5-4dcd-a43b-c13d4eb41228.request.body.customer.password",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "d636933e-2ef5-4dcd-a43b-c13d4eb41228.response.headers[5].Set-Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "220c5152-b3bc-4a1e-9273-c3bdd4898e11.response.body.query[2][1]",
+        "reason": "Sensitive name/value tuple"
+      },
+      {
+        "location": "220c5152-b3bc-4a1e-9273-c3bdd4898e11.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "7e6ceb26-5d8f-4e62-a2ba-a7c9c0874ff5.request.headers[6].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "7e6ceb26-5d8f-4e62-a2ba-a7c9c0874ff5.request.body[1].password",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "d636933e-2ef5-4dcd-a43b-c13d4eb41228.response.body.received.embedded.customer.email",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "d636933e-2ef5-4dcd-a43b-c13d4eb41228.response.body.received.embedded.customer.password",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "d636933e-2ef5-4dcd-a43b-c13d4eb41228.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "7bf3af1b-b387-4436-8b80-e273995ad36a.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "7e6ceb26-5d8f-4e62-a2ba-a7c9c0874ff5.response.body.received",
+        "reason": "Secret pattern in text"
+      },
+      {
+        "location": "7e6ceb26-5d8f-4e62-a2ba-a7c9c0874ff5.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "78d8eb19-14d5-4ee9-bc26-63af46b6f420.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "7bf3af1b-b387-4436-8b80-e273995ad36a.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "78d8eb19-14d5-4ee9-bc26-63af46b6f420.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "b77420c9-83f3-4d6f-abf2-65457c913235.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "ce53de22-7e3c-4be3-8dba-27206c363b75.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "b77420c9-83f3-4d6f-abf2-65457c913235.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "528c8b7c-82f9-41a7-80ef-19eeeb0dda4e.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "bfb34680-db2b-42d1-9e24-89793b7bd954.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "04a41b14-8ef2-4c2e-bfee-891646dd5b06.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "04a41b14-8ef2-4c2e-bfee-891646dd5b06.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "da27303c-577d-42c9-bc4f-fe7e843bf556.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "c387b4a7-caf0-4106-8753-e6815e047354.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "0bbd812d-243d-4108-9207-1307aaaae6e0.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "953d4d38-9910-4ed9-bf62-9800d6972875.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "cd61bc84-7810-4b72-ad97-84d8764fb9f0.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "0bbd812d-243d-4108-9207-1307aaaae6e0.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "1a4b0bec-5fc4-47e2-ae00-9b4301bcc9b9.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "ccd7fd09-bcd7-4f51-a1e1-47c65f581bef.request.headers[4].Cookie",
+        "reason": "Sensitive field name"
+      },
+      {
+        "location": "1a4b0bec-5fc4-47e2-ae00-9b4301bcc9b9.response.body.token",
+        "reason": "Sensitive JSON key"
+      },
+      {
+        "location": "ccd7fd09-bcd7-4f51-a1e1-47c65f581bef.response.body.token",
+        "reason": "Sensitive JSON key"
+      }
+    ],
+    "report": {
+      "sessionId": "6de86463-7993-4707-9d9d-47291a273716",
+      "title": "",
+      "description": "",
+      "preconditions": "",
+      "steps": "",
+      "expected": "",
+      "actual": "",
+      "frequency": "unknown",
+      "severity": "",
+      "requestIds": [],
+      "markerIds": []
+    }
+  }
+}

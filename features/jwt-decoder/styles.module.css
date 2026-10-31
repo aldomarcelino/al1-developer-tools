@@ -1,0 +1,207 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+/* ==========================================================================
+   JWT (JSON Web Token) Decoder Styles
+   ========================================================================== */
+
+/* Color-coded Token Preview Display */
+:global(.jwt-token-display):where(.scope, .scope *) {
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 22px;
+  word-break: break-all;
+  white-space: pre-wrap;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  margin-top: 10px;
+}
+
+:global(.jwt-part-header):where(.scope, .scope *) {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+:global(.jwt-part-payload):where(.scope, .scope *) {
+  color: #8b5cf6;
+  font-weight: 600;
+}
+
+:global(.jwt-part-signature):where(.scope, .scope *) {
+  color: #06b6d4;
+  font-weight: 600;
+}
+
+:global(.jwt-part-dot):where(.scope, .scope *) {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* Expiry Status Banner */
+:global(.jwt-status-banner):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  margin-top: 16px;
+  border: 1px solid;
+}
+
+:global(.jwt-status-banner.valid):where(.scope, .scope *) {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.28);
+  color: #166534;
+}
+
+:global(.jwt-status-banner.expired):where(.scope, .scope *) {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.28);
+  color: #991b1b;
+}
+
+:global(.jwt-status-content):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+:global(.jwt-status-title):where(.scope, .scope *) {
+  font-size: 13px;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+:global(.jwt-status-desc):where(.scope, .scope *) {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Decoded Grid Layout */
+:global(.jwt-decoded-grid):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+:global(.jwt-card):where(.scope, .scope *) {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+}
+
+:global(.jwt-card-header):where(.scope, .scope *) {
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+:global(.jwt-card-header.header-card):where(.scope, .scope *) {
+  border-top: 3px solid #ef4444;
+}
+
+:global(.jwt-card-header.payload-card):where(.scope, .scope *) {
+  border-top: 3px solid #8b5cf6;
+}
+
+:global(.jwt-card-header.signature-card):where(.scope, .scope *) {
+  border-top: 3px solid #06b6d4;
+}
+
+:global(.jwt-card-body):where(.scope, .scope *) {
+  padding: 16px;
+  flex: 1;
+  overflow-x: auto;
+}
+
+:global(.jwt-json-pre):where(.scope, .scope *) {
+  margin: 0;
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 22px;
+  color: var(--text);
+  tab-size: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Claims Table */
+:global(.jwt-claims-table):where(.scope, .scope *) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 14px;
+}
+
+:global(.jwt-claims-table th):where(.scope, .scope *) {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+:global(.jwt-claims-table td):where(.scope, .scope *) {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+:global(.jwt-claim-key):where(.scope, .scope *) {
+  font-family: var(--font-code);
+  font-size: 12px;
+  font-weight: 700;
+  color: #8b5cf6;
+  white-space: nowrap;
+}
+
+:global(.jwt-claim-val):where(.scope, .scope *) {
+  font-family: var(--font-code);
+  font-size: 12px;
+  color: var(--text);
+  word-break: break-all;
+}
+
+:global(.jwt-claim-desc):where(.scope, .scope *) {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* Dark theme overrides */
+:global([data-theme="dark"] .jwt-status-banner.valid):where(.scope, .scope *) {
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+}
+
+:global([data-theme="dark"] .jwt-status-banner.expired):where(.scope, .scope *) {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+}
+
+:global([data-theme="dark"] .jwt-claim-key):where(.scope, .scope *) {
+  color: #c4b5fd;
+}
+
+@media (max-width: 850px) {
+  :global(.jwt-decoded-grid):where(.scope, .scope *) {
+    grid-template-columns: 1fr;
+  }
+}

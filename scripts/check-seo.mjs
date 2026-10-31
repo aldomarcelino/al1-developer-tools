@@ -2,12 +2,33 @@ import assert from "node:assert/strict";
 
 const base = process.argv[2] || "http://127.0.0.1:8787";
 const origin = process.argv[3];
+// A canonical origin may be configured while preview indexing stays disabled.
+const indexSite = Boolean(origin) && process.argv[4] !== "noindex";
 const paths = [
   "/",
   "/about",
   "/privacy",
   "/terms",
   ...[
+    "qa-bug-report",
+    "svg-optimizer",
+    "ip-inspector",
+    "fake-data-generator",
+    "unit-converter",
+    "cron-builder",
+    "json-yaml-converter",
+    "image-to-pdf",
+    "date-calculator",
+    "pdf-merge-split",
+    "color-tools",
+    "timezone-planner",
+    "csv-json-converter",
+    "hash-generator",
+    "percentage-calculator",
+    "qr-code-generator",
+    "text-cleaner",
+    "image-compressor",
+    "character-counter",
     "json-formatter",
     "markdown-editor",
     "diff-viewer",
@@ -53,6 +74,11 @@ for (const path of paths) {
     tags.find((tag) => tag.name === key || tag.property === key)?.content;
   assert.ok(title && !titles.has(title), `${path}: unique title`);
   titles.add(title);
+  assert.ok(title.includes("Ramupod"), `${path}: product title`);
+  assert.equal(meta("application-name"), "Ramupod", `${path}: application name`);
+  assert.equal(meta("og:site_name"), "Ramupod", `${path}: OG brand`);
+  assert.ok(meta("og:title")?.includes("Ramupod"), `${path}: OG title`);
+  assert.ok(meta("twitter:title")?.includes("Ramupod"), `${path}: Twitter title`);
   assert.ok(
     meta("description") && !descriptions.has(meta("description")),
     `${path}: unique description`
@@ -95,7 +121,7 @@ for (const path of paths) {
   } else {
     assert.equal(canonical, undefined, `${path}: no invented canonical`);
   }
-  const noindex = path.endsWith("webhook-inspector") || !origin;
+  const noindex = path.endsWith("webhook-inspector") || !indexSite;
   assert.ok(
     meta("robots")
       ?.split(/,\s*/)
@@ -103,16 +129,18 @@ for (const path of paths) {
     `${path}: indexing`
   );
   const data = [
-    ...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs),
+    ...html.matchAll(
+      /<script\b[^>]*\btype="application\/ld\+json"[^>]*>(.*?)<\/script>/gs
+    ),
   ].map(([, json]) => JSON.parse(json));
   if (path === "/about")
     assert.ok(
       data.some(
         (entry) =>
-          entry["@type"] === "ProfilePage" &&
-          entry.mainEntity.name === "Aldo Marcelino NF Lubis"
+          entry["@type"] === "AboutPage" &&
+          entry.creator.name === "Aldo Marcelino NF Lubis"
       ),
-      "maker schema"
+      "about page with factual creator schema"
     );
   if (origin && path.startsWith("/tools/") && !path.endsWith("webhook-inspector"))
     assert.ok(
@@ -140,7 +168,7 @@ for (const [alias, target] of [
 }
 const sitemap = await (await fetch(new URL("/sitemap.xml", base))).text();
 assert.ok(!sitemap.includes("webhook-inspector"), "coming soon excluded from sitemap");
-if (origin) {
+if (indexSite) {
   assert.equal(
     (sitemap.match(/<loc>/g) || []).length,
     paths.filter((path) => path !== "/tools/webhook-inspector").length,
@@ -152,7 +180,7 @@ const robotsResponse = await fetch(new URL("/robots.txt", base));
 assert.equal(robotsResponse.status, 200, "robots status");
 const robots = await robotsResponse.text();
 assert.match(robots, /User-Agent: \*/i, "robots user agent");
-if (origin) {
+if (indexSite) {
   assert.ok(
     robots.includes(new URL("/sitemap.xml", origin).href),
     "robots production sitemap"

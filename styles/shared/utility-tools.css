@@ -1,0 +1,322 @@
+.utility-tool {
+  min-width: 0;
+}
+.utility-toolbar {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.utility-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.utility-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.utility-panel {
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.utility-form {
+  padding: 24px;
+  display: grid;
+  gap: 20px;
+}
+.utility-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 0;
+}
+.utility-field input:not([type="range"]) {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px 12px;
+  font: inherit;
+}
+.utility-field textarea {
+  width: 100%;
+  min-height: 160px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 14px;
+  resize: vertical;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px / 1.7 var(--font-code);
+}
+.utility-tool :is(input, select, textarea, button):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.utility-tool :disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.utility-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin: 8px 0 24px;
+}
+.utility-checks label,
+.utility-check {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+}
+.utility-tool input[type="checkbox"],
+.utility-tool input[type="range"] {
+  accent-color: var(--accent);
+}
+.utility-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  min-height: 68px;
+  gap: 12px;
+}
+.utility-panel-heading label,
+.utility-panel-heading h2 {
+  font-size: 13px;
+  font-weight: 650;
+  margin: 0;
+}
+.utility-panel-heading > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.utility-panel > textarea {
+  display: block;
+  width: 100%;
+  min-height: 350px;
+  border: 0;
+  padding: 20px;
+  resize: vertical;
+  color: var(--text);
+  background: var(--surface);
+  font: 13px / 1.8 var(--font-code);
+}
+.utility-meta {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.utility-bottom {
+  margin-top: 20px;
+}
+.utility-hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 0;
+}
+.utility-notice {
+  min-height: 24px;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.8;
+  margin-top: 16px;
+}
+.utility-preview {
+  padding: 24px;
+  text-align: center;
+}
+.utility-preview .utility-toolbar {
+  justify-content: center;
+  margin-top: 20px;
+}
+.qr-preview {
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+}
+.qr-preview img {
+  display: block;
+  width: min(100%, 320px);
+  height: auto;
+  image-rendering: pixelated;
+}
+.utility-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--muted);
+  padding: 28px;
+  text-align: center;
+  font-size: 13px;
+}
+.image-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 36px 20px;
+  border: 1px dashed var(--muted);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: center;
+  cursor: pointer;
+}
+.image-dropzone span {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.image-dropzone input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.image-dropzone:focus-within,
+.image-dropzone.is-dragging {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  background: var(--soft);
+}
+.image-settings {
+  margin: 24px 0 16px;
+}
+.image-settings > label {
+  flex: 1;
+  min-width: 140px;
+}
+.image-quality input {
+  min-height: 42px;
+  width: 100%;
+}
+.image-comparison {
+  margin-top: 24px;
+}
+.image-preview {
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: repeating-conic-gradient(var(--soft) 0% 25%, var(--surface) 0% 50%) 50% /
+    20px 20px;
+}
+.image-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+@media (max-width: 760px) {
+  .utility-grid,
+  .utility-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .utility-form .utility-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .utility-panel > textarea {
+    min-height: 240px;
+  }
+  .utility-panel-heading {
+    padding: 14px;
+  }
+  .utility-toolbar > .utility-field {
+    flex: 1;
+    min-width: 130px;
+  }
+  .utility-form,
+  .utility-preview {
+    padding: 18px;
+  }
+  .qr-preview {
+    min-height: 250px;
+  }
+}
+.percentage-result {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+.percentage-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+.percentage-workspace .percentage-actions {
+  gap: 8px;
+  margin-bottom: 0;
+}
+.percentage-workspace .action-button {
+  min-height: 44px;
+  border-radius: 999px;
+}
+.percentage-result > .action-button {
+  min-width: 144px;
+}
+.percentage-result > strong {
+  color: var(--accent);
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.2;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+.percentage-direction {
+  margin: 0;
+  background: var(--soft);
+  border-radius: 99px;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.checksum-match {
+  color: var(--success);
+}
+.checksum-different,
+.checksum-invalid {
+  color: var(--error);
+}
+
+/* Shared by Character Counter, Hash Generator, and Image Compressor. */
+.counter-spinner {
+  animation: utility-spin 1s linear infinite;
+}
+@keyframes utility-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .counter-spinner {
+    animation: none;
+  }
+}

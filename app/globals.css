@@ -3,33 +3,18 @@
 /* ==========================================================================
    Modular CSS Architecture
    ========================================================================== */
-@import "../styles/tokens.css";
-@import "../styles/base.css";
-@import "../styles/buttons.css";
-@import "../styles/header.css";
-@import "../styles/home.css";
-@import "../styles/workspace.css";
-@import "../styles/markdown.css";
-@import "../styles/diff.css";
-@import "../styles/jwt.css";
-@import "../styles/base64.css";
-@import "../styles/regex.css";
-@import "../styles/timestamp.css";
-@import "../styles/keygen.css";
-@import "../styles/json-to-ts.css";
-@import "../styles/search-modal.css";
-@import "../styles/responsive.css";
+@import "../styles/base/tokens.css";
+@import "../styles/base/base.css";
+@import "../styles/ui/buttons.css";
+@import "../styles/layout/header.css";
+@import "../styles/shared/workspace.css";
+@import "../components/layout/tool-search-dialog.css";
+@import "../styles/shared/responsive.css";
 
-@import "../styles/webhook.css";
+@import "../styles/layout/footer.css";
 
-@import "../styles/creator.css";
+@import "../styles/shared/utility-tools.css";
 
-@import "../styles/maker-interactions.css";
+@import "../styles/ui/select.css";
 
-@import "../styles/not-found.css";
-
-@import "../styles/notes.css";
-
-@import "../styles/legal.css";
-
-@import "../styles/footer.css";
+@import "../styles/ui/action-button.css";

@@ -5,7 +5,7 @@ import { cloudflare } from "@cloudflare/vite-plugin";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   // Public SEO settings are baked into the build; never expose secrets here.
-  const siteUrl = process.env.SITE_URL ?? env.SITE_URL ?? "";
+  const siteUrl = process.env.SITE_URL ?? env.SITE_URL ?? "https://dotools.com";
   const indexSite = process.env.INDEX_SITE ?? env.INDEX_SITE ?? "false";
   return {
     define: {

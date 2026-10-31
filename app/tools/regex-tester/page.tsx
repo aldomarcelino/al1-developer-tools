@@ -1,7 +1,7 @@
-import { RegexWorkspace } from "@/components/regex-workspace";
-import { toolMetadata } from "@/lib/seo";
-import { ToolStructuredData } from "@/components/seo-structured-data";
-import { ToolContext } from "@/components/tool-context";
+import { RegexWorkspace } from "@/features/regex-tester/components/regex-workspace";
+import { toolMetadata } from "@/lib/seo/metadata";
+import { ToolStructuredData } from "@/components/cummon/structured-data";
+import { ToolContext } from "@/components/cummon/tool-context";
 
 export const metadata = toolMetadata("regex-tester");
 export default function Page() {

@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Ramupod QA Capture",
+  "version": "0.3.0",
+  "description": "Start testing, capture HTTP evidence and annotated screenshots, then finish in Ramupod. Local processing only.",
+  "minimum_chrome_version": "120",
+  "devtools_page": "devtools.html",
+  "permissions": ["storage", "activeTab", "scripting", "debugger"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; connect-src 'none'; base-uri 'none'"
+  },
+  "background": {
+    "service_worker": "worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Ramupod \u00b7 Screenshot & testing",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon-16.png",
+      "32": "icon-32.png",
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost:3000/tools/qa-bug-report*",
+        "https://dotools.com/tools/qa-bug-report*"
+      ],
+      "js": ["bridge.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  }
+}

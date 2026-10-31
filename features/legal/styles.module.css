@@ -1,0 +1,183 @@
+/* Scope preserves shared class contracts; :where adds no selector specificity. */
+:global(.legal-page):where(.scope, .scope *) {
+  padding-top: 24px;
+  padding-bottom: 70px;
+  max-width: 1100px;
+}
+:global(.legal-back):where(.scope, .scope *) {
+  margin-bottom: 44px;
+  font-size: 12px;
+}
+:global(.legal-intro):where(.scope, .scope *) {
+  max-width: 760px;
+  margin-bottom: 38px;
+}
+:global(.legal-eyebrow):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 1.3px;
+  color: var(--green);
+}
+:global(.legal-intro h1):where(.scope, .scope *) {
+  font-size: clamp(34px, 5vw, 52px);
+  font-weight: 650;
+  letter-spacing: -2px;
+  line-height: 1.2;
+  margin: 18px 0;
+}
+:global(.legal-intro > p):where(.scope, .scope *) {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--muted);
+  max-width: 690px;
+}
+:global(.legal-meta):where(.scope, .scope *) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 11px;
+}
+:global(.legal-meta > span):where(.scope, .scope *) {
+  margin: 0 5px;
+}
+:global(.legal-meta a):where(.scope, .scope *),
+:global(.legal-inline-link):where(.scope, .scope *) {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  color: var(--green);
+}
+:global(.legal-contents):where(.scope, .scope *) {
+  padding: 22px 25px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 44px;
+}
+:global(.legal-contents > span):where(.scope, .scope *) {
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  font-weight: 650;
+  color: var(--muted);
+}
+:global(.legal-contents > div):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+  margin-top: 12px;
+}
+:global(.legal-contents a):where(.scope, .scope *) {
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 7px 0;
+  color: var(--green);
+}
+:global(.legal-contents a:hover):where(.scope, .scope *),
+:global(.legal-meta a:hover):where(.scope, .scope *),
+:global(.legal-inline-link:hover):where(.scope, .scope *) {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+:global(.legal-body section):where(.scope, .scope *) {
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr);
+  gap: 18px;
+  padding: 27px 0;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 110px;
+}
+:global(.legal-section-number):where(.scope, .scope *) {
+  font-family: var(--font-code);
+  color: var(--muted);
+  font-size: 10px;
+  padding-top: 7px;
+}
+:global(.legal-body h2):where(.scope, .scope *) {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.5px;
+  margin-bottom: 13px;
+}
+:global(.legal-body p):where(.scope, .scope *) {
+  font-size: 13px;
+  line-height: 2;
+  color: var(--muted);
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+}
+:global(.legal-inline-link):where(.scope, .scope *) {
+  font-size: 12px;
+  margin: 6px 0;
+  min-height: 36px;
+}
+:global(.legal-contact):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  background: var(--soft);
+  border-radius: 14px;
+  padding: 26px 30px;
+  margin-top: 38px;
+}
+:global(.legal-contact h2):where(.scope, .scope *) {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+:global(.legal-contact p):where(.scope, .scope *) {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+@media (max-width: 640px) {
+  :global(.legal-page):where(.scope, .scope *) {
+    padding-top: 26px;
+    padding-bottom: 45px;
+  }
+  :global(.legal-back):where(.scope, .scope *) {
+    margin-bottom: 30px;
+  }
+  :global(.legal-intro h1):where(.scope, .scope *) {
+    letter-spacing: -1.2px;
+  }
+  :global(.legal-intro > p):where(.scope, .scope *) {
+    font-size: 13px;
+  }
+  :global(.legal-contents):where(.scope, .scope *) {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  :global(.legal-contents > div):where(.scope, .scope *) {
+    grid-template-columns: 1fr;
+  }
+  :global(.legal-contents a):where(.scope, .scope *) {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  :global(.legal-body section):where(.scope, .scope *) {
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 10px;
+    padding: 23px 0;
+  }
+  :global(.legal-body h2):where(.scope, .scope *) {
+    font-size: 18px;
+  }
+  :global(.legal-body p):where(.scope, .scope *) {
+    font-size: 12px;
+  }
+  :global(.legal-contact):where(.scope, .scope *) {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 23px;
+  }
+}

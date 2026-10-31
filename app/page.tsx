@@ -1,6 +1,6 @@
-import { Home } from "@/components/home";
-import { homeTitle, homeDescription, pageMetadata } from "@/lib/seo";
+import { HomePage } from "@/features/home/components/home-page";
+import { homeTitle, homeDescription, pageMetadata } from "@/lib/seo/metadata";
 export const metadata = pageMetadata(homeTitle, homeDescription, "/");
 export default function Page() {
-  return <Home />;
+  return <HomePage />;
 }
