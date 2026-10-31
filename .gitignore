@@ -14,3 +14,4 @@ out
 .wrangler
 dist
 .vercel
+artifacts/
