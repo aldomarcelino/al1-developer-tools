@@ -224,7 +224,9 @@
   flex-direction: column;
   gap: 16px;
   position: relative;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .hubCard.featured {
@@ -342,6 +344,466 @@
 
 .downloadLink:hover {
   background: var(--border);
+}
+
+/* Standard Tool Capture Guide Styles (Consistent with QA Bug Report and other tools) */
+.captureGuide {
+  display: grid;
+  gap: 20px;
+}
+
+.captureDownload {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--soft);
+}
+
+.captureGuide h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.captureGuide p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.captureGuide strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.captureSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.captureSteps > li {
+  min-width: 0;
+}
+
+.captureStepNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--green);
+  font: 11px var(--font-code);
+  margin-bottom: 12px;
+}
+
+.captureSteps code {
+  color: var(--text);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.captureTip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-left: 2px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  background: var(--soft);
+}
+
+.captureTip > svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--green);
+}
+
+.captureTip p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.captureDetails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 28px;
+  padding-top: 8px;
+}
+
+.captureDetails h4 {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.captureDetails p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 4px 0 0;
+}
+
+.dropzone {
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+  background: var(--soft);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dropzone:hover,
+.dropzoneActive {
+  border-color: var(--muted);
+  background: var(--surface);
+}
+
+.dropzoneIconWrap {
+  color: var(--muted);
+}
+
+.dropzoneTitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text);
+}
+
+.dropzoneText {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+.receivingBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-left: 2px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  background: var(--soft);
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.loadedToolbar {
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.loadedLabel {
+  display: grid;
+  gap: 3px;
+  margin-right: auto;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.loadedLabel > span {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.captureEmpty {
+  padding: 36px;
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  margin-top: 20px;
+}
+
+.emptyLead {
+  max-width: 650px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.emptyIcon {
+  display: inline-flex;
+  padding: 12px;
+  background: var(--soft);
+  color: var(--green);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.emptyLead h2 {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  margin: 16px 0 10px;
+}
+
+.emptyLead p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+  margin: 0;
+}
+
+.emptyModes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.emptyModes article {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  background: var(--bg);
+}
+
+.emptyModes article > svg {
+  color: var(--green);
+}
+
+.emptyModes h3 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 12px 0 8px;
+}
+
+.emptyModes p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+
+.emptyModes article > span {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.emptyLocal {
+  text-align: center;
+  color: var(--muted);
+  font-size: 10px;
+  margin: 24px 0 0;
+  line-height: 1.8;
+}
+
+@media (max-width: 540px) {
+  .captureEmpty {
+    padding: 16px;
+  }
+  .emptyLead h2 {
+    font-size: 20px;
+  }
+  .emptyModes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .captureSteps,
+  .captureDetails {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .captureSteps > li {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 4px 12px;
+  }
+  .captureStepNumber {
+    grid-row: span 2;
+    margin: 0;
+  }
+}
+
+/* ==========================================================================
+   Screen Recording Preview & Hub Cards (Aligned with QA Bug Report Style)
+   ========================================================================== */
+
+.dropSection {
+  margin: 18px 0;
+}
+
+.previewCard {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  margin: 20px 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.previewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.previewHeaderTitle {
+  min-width: 0;
+}
+
+.previewHeaderTitle h2 {
+  font-size: 23px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.4;
+  margin: 6px 0;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.previewHeaderTitle p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.previewActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.videoContainer {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #000;
+  overflow: hidden;
+}
+
+.videoElement {
+  width: 100%;
+  max-height: 520px;
+  display: block;
+  object-fit: contain;
+  background: #000;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.statCard {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 4px 10px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: var(--bg);
+  min-width: 0;
+}
+
+.statCard > svg {
+  grid-row: 1 / 3;
+  color: var(--muted);
+}
+
+.statValue {
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 500;
+  font-family: var(--font-code);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.statLabel {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.previewFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.previewNote {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.previewFooterLinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 820px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .previewCard {
+    padding: 16px;
+  }
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  .previewHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .previewActions {
+    width: 100%;
+  }
+  .previewActions > button {
+    flex: 1;
+  }
 }
 
 @media (max-width: 700px) {

@@ -251,11 +251,7 @@ async function handle(input: unknown, sender: QaSender) {
     };
   }
   if (m.action === "rec-handoff") {
-    if (
-      !recHandoff ||
-      recHandoff.nonce !== m.nonce ||
-      Date.now() > recHandoff.expires
-    ) {
+    if (!recHandoff || recHandoff.nonce !== m.nonce || Date.now() > recHandoff.expires) {
       throw new Error("Recording handoff expired or not found.");
     }
     const result = {
@@ -268,21 +264,37 @@ async function handle(input: unknown, sender: QaSender) {
     return result;
   }
   if (m.action === "rec-start") {
-    if (active || shot || activeRec) {
+    if ((active && testOpen) || shot || activeRec) {
       throw new Error("Another capture or recording session is already active.");
     }
     const targetTabId = typeof m.tabId === "number" ? m.tabId : sender.tab?.id;
     if (typeof targetTabId !== "number") throw new Error("No active tab to record.");
     if (!chrome.tabCapture) throw new Error("Tab capture API not available.");
 
+    const targetTab = await chrome.tabs.get(targetTabId);
+    if (!targetTab.url || !/^https?:\/\/|^file:\/\//.test(targetTab.url)) {
+      throw new Error(
+        "Cannot record browser system pages (chrome://). Please open a regular website or web application tab to record."
+      );
+    }
+
     const streamId = await chrome.tabCapture.getMediaStreamId({ targetTabId });
     await ensureOffscreen();
 
-    const started = (await chrome.runtime.sendMessage({
-      type: "REC_OFFSCREEN_START",
-      streamId,
-      withMic: !!m.withMic,
-    })) as { ok?: boolean; error?: string };
+    let started: { ok?: boolean; error?: string } | undefined;
+    for (let attempt = 0; attempt < 15; attempt++) {
+      try {
+        started = (await chrome.runtime.sendMessage({
+          type: "REC_OFFSCREEN_START",
+          streamId,
+          withMic: !!m.withMic,
+        })) as { ok?: boolean; error?: string } | undefined;
+        if (started?.ok || started?.error) break;
+      } catch {
+        // Offscreen document is still loading
+      }
+      await new Promise((resolve) => setTimeout(resolve, 60));
+    }
     if (!started?.ok) throw new Error(started?.error || "Failed to start recorder");
 
     activeRec = {

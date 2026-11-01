@@ -23,6 +23,7 @@ export function MakerCard() {
       `N:;${creator.fullName};;;`,
       `TITLE:${creator.role}`,
       `EMAIL;TYPE=INTERNET:${creator.email}`,
+      `URL:${creator.portfolio}`,
       `URL:${creator.linkedin}`,
       "END:VCARD",
       "",

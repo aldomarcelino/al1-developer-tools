@@ -18,6 +18,8 @@ const paths = [
     "cron-builder",
     "json-yaml-converter",
     "image-to-pdf",
+    "pdf-to-image",
+    "word-to-pdf",
     "date-calculator",
     "pdf-merge-split",
     "color-tools",

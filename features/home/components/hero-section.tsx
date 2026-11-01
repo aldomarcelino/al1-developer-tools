@@ -1,9 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowDown, ArrowUpRight, Check, ShieldCheck } from "lucide-react";
 import { brand } from "@/config/brand";
 import { ToolIcon } from "@/components/cummon/tool-icon";
-import imageExample from "@/public/previews/compression-example.json";
 
 export function HeroSection({ activeToolCount }: { activeToolCount: number }) {
   return (
@@ -15,7 +13,7 @@ export function HeroSection({ activeToolCount }: { activeToolCount: number }) {
       </h1>
       <p>{brand.description}</p>
       <div className="hero-actions">
-        <Link href="/tools/json-formatter" className="button primary">
+        <Link href="/tools/screen-recorder" className="button primary">
           Get started <ArrowUpRight size={17} />
         </Link>
         <a href="#tools" className="button secondary">
@@ -33,39 +31,30 @@ export function HeroSection({ activeToolCount }: { activeToolCount: number }) {
       </div>
       <div className="hero-showcase">
         <Link
-          href="/tools/image-compressor"
+          href="/tools/screen-recorder"
           className="showcase-azure"
-          aria-label="Open Image Compressor and Converter"
+          aria-label="Open Screen Recorder"
         >
           <span className="showcase-top">
-            <ToolIcon name="image" size={29} />
+            <ToolIcon name="video" size={29} />
             <ArrowUpRight size={20} />
           </span>
-          <span className="showcase-image-preview" aria-hidden="true">
-            <span className="showcase-image-thumb">
-              <Image
-                src="/previews/landscape.webp"
-                width={imageExample.width}
-                height={imageExample.height}
-                alt=""
-                unoptimized
-              />
+          <span className="showcase-rec-preview" aria-hidden="true">
+            <span className="showcase-rec-badge">
+              <span className="showcase-rec-dot" /> REC
+              <span className="showcase-rec-timer">41:20</span>
             </span>
-            <span className="showcase-image-sizes">
-              <span>
-                JPG <s>{(imageExample.originalBytes / 1024).toFixed(1)} KB</s>
-              </span>
-              <span>
-                WebP <strong>{(imageExample.optimizedBytes / 1024).toFixed(1)} KB</strong>
-              </span>
-              <small>Example result</small>
+            <span className="showcase-rec-specs">
+              <span>1080p · 60fps</span>
+              <small>Mic · Cam · No watermark</small>
             </span>
           </span>
           <span className="showcase-title">
-            A little lighter.
-            <br />A lot more room.
+            Clean tab capture.
+            <br />
+            Local review.
           </span>
-          <span className="showcase-caption">Image Compressor &amp; Converter</span>
+          <span className="showcase-caption">Screen Recorder &amp; Video Hub</span>
         </Link>
         <div className="showcase-lime">
           <ShieldCheck size={29} />
@@ -73,7 +62,7 @@ export function HeroSection({ activeToolCount }: { activeToolCount: number }) {
             <span className="showcase-number">100%</span>
             <h2>On your device.</h2>
             <p>
-              Your JSON stays in your browser.
+              Your data stays in your browser.
               <br />
               Right where it belongs.
             </p>

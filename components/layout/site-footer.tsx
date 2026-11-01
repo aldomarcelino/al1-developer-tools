@@ -60,10 +60,14 @@ export function SiteFooter() {
           </span>
           <p className="footer-maker">
             Designed &amp; built by{" "}
-            <Link href="/about" rel="author">
+            <a
+              href={creator.portfolio}
+              target="_blank"
+              rel="noopener noreferrer author"
+            >
               {creator.name}
               <ArrowUpRight size={11} />
-            </Link>
+            </a>
           </p>
           <nav className="footer-policy-links" aria-label="Legal information">
             <Link href="/privacy">Privacy Policy</Link>

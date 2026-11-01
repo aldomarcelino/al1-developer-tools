@@ -1,6 +1,6 @@
 import styles from "../styles.module.css";
 import Link from "next/link";
-import { ArrowLeft, Code2, Link2, Mail } from "lucide-react";
+import { ArrowLeft, Code2, Globe, Link2, Mail } from "lucide-react";
 import { creator } from "@/config/creator";
 import { MakerCard } from "@/features/about/components/maker-card";
 import { AboutStructuredData } from "@/components/cummon/structured-data";
@@ -28,6 +28,9 @@ export function AboutPage() {
             easy for anyone to use.
           </p>
           <div className="maker-links">
+            <a href={creator.portfolio} target="_blank" rel="noopener noreferrer">
+              <Globe size={17} /> View portfolio
+            </a>
             <a href={creator.linkedin} target="_blank" rel="noopener noreferrer">
               <Link2 size={17} /> Connect on LinkedIn
             </a>

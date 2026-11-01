@@ -27,20 +27,33 @@ chrome.runtime.onMessage.addListener((message: unknown, _sender, sendResponse) =
         pauseTime = 0;
         totalPausedDuration = 0;
 
-        const tabStream = await navigator.mediaDevices.getUserMedia({
-          audio: {
-            mandatory: {
-              chromeMediaSource: "tab",
-              chromeMediaSourceId: msg.streamId,
-            },
-          } as unknown as boolean,
-          video: {
-            mandatory: {
-              chromeMediaSource: "tab",
-              chromeMediaSourceId: msg.streamId,
-            },
-          } as unknown as boolean,
-        });
+        let tabStream: MediaStream;
+        try {
+          tabStream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+              mandatory: {
+                chromeMediaSource: "tab",
+                chromeMediaSourceId: msg.streamId,
+              },
+            } as unknown as boolean,
+            video: {
+              mandatory: {
+                chromeMediaSource: "tab",
+                chromeMediaSourceId: msg.streamId,
+              },
+            } as unknown as boolean,
+          });
+        } catch {
+          // Fallback to video-only if tab audio capture is unavailable
+          tabStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              mandatory: {
+                chromeMediaSource: "tab",
+                chromeMediaSourceId: msg.streamId,
+              },
+            } as unknown as boolean,
+          });
+        }
 
         recordingStream = tabStream;
         let mixedAudioStream: MediaStream | null = null;
@@ -52,10 +65,15 @@ chrome.runtime.onMessage.addListener((message: unknown, _sender, sendResponse) =
               video: false,
             });
             audioContext = new AudioContext();
-            const tabAudio = audioContext.createMediaStreamSource(tabStream);
-            const micAudio = audioContext.createMediaStreamSource(micStream);
+            const tabAudioTracks = tabStream.getAudioTracks();
             const destination = audioContext.createMediaStreamDestination();
-            tabAudio.connect(destination);
+
+            if (tabAudioTracks.length > 0) {
+              const tabAudio = audioContext.createMediaStreamSource(tabStream);
+              tabAudio.connect(destination);
+            }
+
+            const micAudio = audioContext.createMediaStreamSource(micStream);
             micAudio.connect(destination);
             mixedAudioStream = destination.stream;
           } catch (micErr) {
@@ -90,7 +108,8 @@ chrome.runtime.onMessage.addListener((message: unknown, _sender, sendResponse) =
       } catch (err) {
         sendResponse({
           ok: false,
-          error: err instanceof Error ? err.message : "Failed to start offscreen recorder",
+          error:
+            err instanceof Error ? err.message : "Failed to start offscreen recorder",
         });
       }
     })();

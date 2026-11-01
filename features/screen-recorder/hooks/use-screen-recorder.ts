@@ -384,7 +384,10 @@ export function useScreenRecorder() {
     const valid = () => alive.current && id === generation.current;
     try {
       void owned.mixed?.resume?.().catch(() => {
-        if (valid()) setSystemAudioNotice("Audio mixing could not resume. Check browser audio permissions before the next take.");
+        if (valid())
+          setSystemAudioNotice(
+            "Audio mixing could not resume. Check browser audio permissions before the next take."
+          );
       });
       const recorder = new MediaRecorder(output, {
         ...(best ? { mimeType: best.mimeType } : {}),

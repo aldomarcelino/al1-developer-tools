@@ -21,17 +21,24 @@ const sparkPaths = {
     "M15 3h2a2 2 0 0 1 2 2v4c0 2 1 3 3 3-2 0-3 1-3 3v4a2 2 0 0 1-2 2h-2",
   ],
   star: ["m12 3 2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4Z"],
+  spark: [
+    "M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.2 2.2M16.2 16.2l2.2 2.2M5.6 18.4l2.2-2.2M16.2 7.8l2.2-2.2",
+  ],
 } as const;
 
 const pieces = [
-  { shape: "leaf", x: -29, y: -12, rotation: -32 },
-  { shape: "twig", x: -28, y: 17, rotation: 16 },
-  { shape: "chip", x: -9, y: 34, rotation: -18 },
-  { shape: "code", x: 19, y: 33, rotation: 12 },
-  { shape: "bolt", x: 37, y: 15, rotation: -12 },
-  { shape: "braces", x: 41, y: -9, rotation: 14 },
-  { shape: "leaf", x: 21, y: -18, rotation: 35 },
-  { shape: "star", x: -5, y: -18, rotation: 12 },
+  { shape: "star", x: 125, y: 0, rotation: 15 },
+  { shape: "code", x: 105, y: 38, rotation: -25 },
+  { shape: "leaf", x: 55, y: 58, rotation: 30 },
+  { shape: "chip", x: -8, y: 64, rotation: -15 },
+  { shape: "bolt", x: -65, y: 55, rotation: 40 },
+  { shape: "twig", x: -110, y: 32, rotation: -20 },
+  { shape: "braces", x: -128, y: -4, rotation: 25 },
+  { shape: "spark", x: -108, y: -38, rotation: -35 },
+  { shape: "leaf", x: -58, y: -56, rotation: 20 },
+  { shape: "chip", x: 12, y: -62, rotation: -10 },
+  { shape: "code", x: 68, y: -54, rotation: 35 },
+  { shape: "bolt", x: 112, y: -28, rotation: -18 },
 ] as const;
 const message = "Good things, brought together.";
 
@@ -94,13 +101,13 @@ export function RamupodLogo() {
                   "--spark-x": `${x}px`,
                   "--spark-y": `${y}px`,
                   "--spark-rotation": `${rotation}deg`,
-                  "--spark-delay": `${index * 30}ms`,
+                  "--spark-delay": `${index * 25}ms`,
                 } as CSSProperties
               }
             >
               <svg
-                width="14"
-                height="14"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"

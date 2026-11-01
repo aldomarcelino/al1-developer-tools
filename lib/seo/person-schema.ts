@@ -13,6 +13,6 @@ export function personSchema() {
     name: creator.fullName,
     alternateName: creator.alternateNames,
     jobTitle: creator.role,
-    sameAs: [creator.linkedin, creator.github],
+    sameAs: [creator.portfolio, creator.linkedin, creator.github],
   };
 }

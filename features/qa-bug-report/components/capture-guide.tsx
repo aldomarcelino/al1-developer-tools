@@ -16,8 +16,8 @@ export function CaptureGuide() {
           variant="primary"
           onClick={() => {
             const link = document.createElement("a");
-            link.href = "/qa-capture/ramupod-qa-capture.zip";
-            link.download = "ramupod-qa-capture.zip";
+            link.href = "/ramupod-companion.zip";
+            link.download = "ramupod-companion.zip";
             link.click();
           }}
         >

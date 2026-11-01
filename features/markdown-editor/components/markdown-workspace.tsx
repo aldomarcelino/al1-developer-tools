@@ -37,9 +37,7 @@ export function MarkdownWorkspace() {
   const [copiedMd, setCopiedMd] = useState(false);
   const [copiedHtml, setCopiedHtml] = useState(false);
   const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
-  const [notice, setNotice] = useState(
-    "Sample markdown loaded. Start typing to preview."
-  );
+  const [notice, setNotice] = useState("");
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lineNumbersRef = useRef<HTMLDivElement>(null);

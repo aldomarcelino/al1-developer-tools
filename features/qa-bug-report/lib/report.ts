@@ -93,11 +93,7 @@ export function curlFor(request: RequestEvidence): {
       "Payload/query contains redaction placeholders; replace them before using this command."
     );
   return {
-    command:
-      parts.join(
-        " \
-  "
-      ),
+    command: parts.join(" \\\n   "),
     warnings,
   };
 }

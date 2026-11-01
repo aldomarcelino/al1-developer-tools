@@ -12,6 +12,7 @@ export type ActionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   success?: boolean;
   loading?: boolean;
   tooltip?: string | false;
+  dangerHover?: boolean;
 };
 
 /** Shared tool action styling; clipboard, download and editor behavior stay in each feature. */
@@ -22,6 +23,7 @@ export function ActionButton({
   active = false,
   success = false,
   loading = false,
+  dangerHover = false,
   disabled,
   className = "",
   type = "button",
@@ -113,7 +115,7 @@ export function ActionButton({
           onClick?.(event);
         }}
         type={type}
-        className={`action-button action-button--${variant} action-button--${size}${iconOnly ? " action-button--icon" : ""}${success ? " is-success" : ""} ${className}`.trim()}
+        className={`action-button action-button--${variant} action-button--${size}${iconOnly ? " action-button--icon" : ""}${success ? " is-success" : ""}${dangerHover ? " action-button--danger-hover" : ""} ${className}`.trim()}
         disabled={disabled || loading}
         aria-label={ariaLabel ?? (iconOnly ? (title ?? tooltipText) : undefined)}
         aria-describedby={

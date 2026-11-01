@@ -1,15 +1,18 @@
+"use client";
+
 import React, { useState } from "react";
 import {
   Download,
   RotateCcw,
-  CheckCircle2,
-  Clock,
+  Clock3,
   HardDrive,
   FileVideo,
+  Monitor,
 } from "lucide-react";
+import { ActionButton } from "@/components/ui/action-button";
 import { formatDuration } from "../lib/format-time";
 import { formatBytes } from "../lib/format-bytes";
-import styles from "../styles.module.css";
+import styles from "../studio.module.css";
 
 interface RecordingPreviewProps {
   previewUrl: string;
@@ -32,34 +35,56 @@ export function RecordingPreview({
 }: RecordingPreviewProps) {
   const [playbackError, setPlaybackError] = useState(false);
   const [mediaDuration, setMediaDuration] = useState<number | null>(null);
+  const [resolution, setResolution] = useState<{ width: number; height: number } | null>(
+    null
+  );
 
   const displayDuration = mediaDuration !== null ? mediaDuration : duration;
 
   return (
-    <div className={styles.previewContainer}>
+    <section className={styles.previewCard} aria-label="Recording summary and preview">
       <div className={styles.previewHeader}>
-        <div className={styles.previewSuccessTitle}>
-          <CheckCircle2 size={20} className={styles.successIcon} />
-          <h3>Recording Ready</h3>
+        <div className={styles.previewHeaderTitle}>
+          <span className={styles.eyebrow}>RECORDING READY</span>
+          <h2>Recording Preview &amp; Export</h2>
+          <p>
+            Play your recording, inspect video details, and download directly to your
+            device.
+          </p>
         </div>
-        <span className={styles.previewSubtitle}>
-          Preview your recording below or download it directly to your device.
-        </span>
+
+        <div className={styles.previewActions}>
+          <ActionButton variant="primary" onClick={onDownload}>
+            <Download size={14} />
+            Download (.{extension.toUpperCase()})
+          </ActionButton>
+
+          <ActionButton variant="secondary" onClick={onReset}>
+            <RotateCcw size={14} />
+            Record or load another
+          </ActionButton>
+        </div>
       </div>
 
-      {/* Video Player with native controls */}
-      <div className={styles.videoPlayerWrapper}>
+      {/* Video Player */}
+      <div className={styles.videoContainer}>
         <video
           key={previewUrl}
           src={previewUrl}
           controls
           playsInline
-          className={styles.videoPlayer}
+          className={styles.videoElement}
           preload="metadata"
           onLoadedMetadata={(e) => {
             const d = e.currentTarget.duration;
             if (Number.isFinite(d) && d > 0) {
               setMediaDuration(Math.round(d * 1000));
+            }
+            if (e.currentTarget.videoWidth && e.currentTarget.videoHeight) {
+              setResolution({
+                width: e.currentTarget.videoWidth,
+                height: e.currentTarget.videoHeight,
+              });
             }
           }}
           onError={() => setPlaybackError(true)}
@@ -67,57 +92,49 @@ export function RecordingPreview({
       </div>
 
       {playbackError && (
-        <p role="alert">
-          This browser could not play the video. Your recording is preserved; download it
-          and try a compatible desktop player.
+        <p className={styles.note} role="alert">
+          This browser could not play the video preview. Your recording is preserved
+          intact; download it to play with an external media player.
         </p>
       )}
 
-      {/* Stats Bar */}
-      <div className={styles.metaStatsGrid}>
-        <div className={styles.metaStatItem}>
-          <Clock size={16} className={styles.metaStatIcon} />
-          <div className={styles.metaStatContent}>
-            <span className={styles.metaStatLabel}>Duration</span>
-            <span className={styles.metaStatValue}>{formatDuration(displayDuration)}</span>
-          </div>
+      {/* Video Stats Grid */}
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <Clock3 size={18} />
+          <div className={styles.statValue}>{formatDuration(displayDuration)}</div>
+          <span className={styles.statLabel}>Duration</span>
         </div>
 
-        <div className={styles.metaStatItem}>
-          <HardDrive size={16} className={styles.metaStatIcon} />
-          <div className={styles.metaStatContent}>
-            <span className={styles.metaStatLabel}>File Size</span>
-            <span className={styles.metaStatValue}>{formatBytes(fileSize)}</span>
+        <div className={styles.statCard}>
+          <Monitor size={18} />
+          <div className={styles.statValue}>
+            {resolution ? `${resolution.width} × ${resolution.height}` : "Detecting…"}
           </div>
+          <span className={styles.statLabel}>Resolution</span>
         </div>
 
-        <div className={styles.metaStatItem}>
-          <FileVideo size={16} className={styles.metaStatIcon} />
-          <div className={styles.metaStatContent}>
-            <span className={styles.metaStatLabel}>Format</span>
-            <span className={styles.metaStatValue}>
-              .{extension.toUpperCase()} ({mimeType.split(";")[0]})
-            </span>
-          </div>
+        <div className={styles.statCard}>
+          <HardDrive size={18} />
+          <div className={styles.statValue}>{formatBytes(fileSize)}</div>
+          <span className={styles.statLabel}>File Size</span>
+        </div>
+
+        <div className={styles.statCard}>
+          <FileVideo size={18} />
+          <div className={styles.statValue}>.{extension.toUpperCase()}</div>
+          <span className={styles.statLabel}>
+            Format ({mimeType ? mimeType.split(";")[0] : "video/webm"})
+          </span>
         </div>
       </div>
 
-      {/* Actions */}
-      <div className={styles.previewActionsBar}>
-        <button
-          type="button"
-          className={`${styles.recordButton} ${styles.downloadButton}`}
-          onClick={onDownload}
-        >
-          <Download size={16} />
-          <span>Download Recording (.{extension})</span>
-        </button>
-
-        <button type="button" className={styles.controlBtnSecondary} onClick={onReset}>
-          <RotateCcw size={15} />
-          <span>Record Again</span>
-        </button>
+      {/* Footer Info & Related Tool Navigation */}
+      <div className={styles.previewFooter}>
+        <p className={styles.previewNote}>
+          Processed locally in your browser · No external server upload
+        </p>
       </div>
-    </div>
+    </section>
   );
 }

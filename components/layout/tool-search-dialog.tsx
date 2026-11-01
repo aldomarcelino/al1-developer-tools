@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, CornerDownLeft, Search, Sparkles, X } from "lucide-react";
+import { ArrowRight, CornerDownLeft, Search, X } from "lucide-react";
 import { tools, matchesToolQuery, isPopularTool } from "@/config/tools";
 import { ToolIcon } from "@/components/cummon/tool-icon";
 
@@ -200,7 +200,8 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       <span className="search-result-name">{tool.name}</span>
                       {isPopularTool(tool.slug) && (
                         <span className="search-result-tag">
-                          <Sparkles size={11} /> Popular
+                          <span className="search-result-tag-dot" aria-hidden="true" />
+                          Popular
                         </span>
                       )}
                       <span className="search-result-cat">{tool.category}</span>

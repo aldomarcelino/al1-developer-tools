@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Download, FileImage, Trash2, Upload } from "lucide-react";
+import { Download, ImageUp, Trash2, Upload } from "lucide-react";
 import { DropArea } from "@/components/ui/drop-area";
 import { ToolHeader } from "@/components/cummon/tool-header";
 import { ActionButton } from "@/components/ui/action-button";
@@ -188,7 +188,7 @@ export function HeicWorkspace() {
   }
   return (
     <div className={`workspace-page page-width ${ui.toolkit} ${styles.scope}`}>
-      <ToolHeader title="HEIC to JPG / PNG Converter" icon={<FileImage size={24} />} />
+      <ToolHeader title="HEIC to JPG / PNG Converter" icon={<ImageUp size={24} />} />
       <p className={ui.hint}>
         Make iPhone and HEIF photos easier to share. Convert one image or a batch,
         entirely on your device.

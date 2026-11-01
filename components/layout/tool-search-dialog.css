@@ -324,20 +324,70 @@
 .search-result-tag {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 4.5px;
   font-size: 10px;
-  font-weight: 700;
-  padding: 1px 6px;
+  font-weight: 650;
+  letter-spacing: 0.15px;
+  padding: 1.5px 7.5px 1.5px 6px;
   border-radius: 999px;
-  background: #fdf3cf;
-  color: #8c6b00;
-  border: 1px solid #fae69e;
+  background: #f0fbd8;
+  color: #0f3528;
+  border: 1px solid #c5f268;
+  line-height: 1.4;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.search-result-tag-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #3c7d12;
+  box-shadow: 0 0 0 1.5px rgba(183, 244, 37, 0.55);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.search-result-item:hover .search-result-tag,
+.search-result-item.selected .search-result-tag {
+  background: #e7f9be;
+  border-color: #b7f425;
 }
 
 :root[data-theme="dark"] .search-result-tag {
-  background: #392f15;
-  color: #ffe082;
-  border-color: #5c4b1d;
+  background: rgba(183, 244, 37, 0.12);
+  color: #b7f425;
+  border-color: rgba(183, 244, 37, 0.28);
+}
+
+:root[data-theme="dark"] .search-result-tag-dot {
+  background: #b7f425;
+  box-shadow: 0 0 5px rgba(183, 244, 37, 0.7);
+}
+
+:root[data-theme="dark"] .search-result-item:hover .search-result-tag,
+:root[data-theme="dark"] .search-result-item.selected .search-result-tag {
+  background: rgba(183, 244, 37, 0.18);
+  border-color: rgba(183, 244, 37, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .search-result-tag {
+    background: rgba(183, 244, 37, 0.12);
+    color: #b7f425;
+    border-color: rgba(183, 244, 37, 0.28);
+  }
+
+  :root:not([data-theme="light"]) .search-result-tag-dot {
+    background: #b7f425;
+    box-shadow: 0 0 5px rgba(183, 244, 37, 0.7);
+  }
+
+  :root:not([data-theme="light"]) .search-result-item:hover .search-result-tag,
+  :root:not([data-theme="light"]) .search-result-item.selected .search-result-tag {
+    background: rgba(183, 244, 37, 0.18);
+    border-color: rgba(183, 244, 37, 0.5);
+  }
 }
 
 .search-result-cat {

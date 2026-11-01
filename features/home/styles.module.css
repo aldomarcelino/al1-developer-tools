@@ -915,6 +915,63 @@
   margin-top: 9px;
 }
 
+/* Screen recorder preview within the dark showcase card. */
+:global(.showcase-rec-preview):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 25px;
+  min-width: 0;
+}
+:global(.showcase-rec-badge):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(225, 255, 193, 0.25);
+  border-radius: 8px;
+  font: 11px / 1 var(--font-code);
+  font-weight: 600;
+  color: #e1ffc1;
+  letter-spacing: 0.5px;
+}
+:global(.showcase-rec-dot):where(.scope, .scope *) {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e1ffc1;
+  box-shadow: 0 0 8px rgba(225, 255, 193, 0.7);
+  animation: recPulse 1.4s ease-in-out infinite;
+}
+:global(.showcase-rec-timer):where(.scope, .scope *) {
+  color: #ffffff;
+  font-weight: 500;
+  margin-left: 2px;
+}
+:global(.showcase-rec-specs):where(.scope, .scope *) {
+  display: grid;
+  gap: 4px;
+  font: 10px / 1.4 var(--font-code);
+  color: #e1ffc1;
+  white-space: nowrap;
+}
+:global(.showcase-rec-specs small):where(.scope, .scope *) {
+  font: 8px var(--font-ui);
+  color: #a4c2c0;
+}
+@keyframes recPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
 /* Image preview within the original dark showcase card. */
 :global(.showcase-image-preview):where(.scope, .scope *) {
   display: flex;
@@ -957,6 +1014,16 @@
   color: #a4c2c0;
 }
 @media (max-width: 850px) {
+  :global(.showcase-rec-preview):where(.scope, .scope *) {
+    gap: 8px;
+  }
+  :global(.showcase-rec-badge):where(.scope, .scope *) {
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+  :global(.showcase-rec-specs):where(.scope, .scope *) {
+    font-size: 9px;
+  }
   :global(.showcase-image-thumb):where(.scope, .scope *) {
     width: 46px;
     height: 52px;
@@ -978,6 +1045,9 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  :global(.showcase-rec-dot):where(.scope, .scope *) {
+    animation: none;
+  }
   :global(.mini-cursor):where(.scope, .scope *) {
     animation: none;
   }

@@ -105,7 +105,11 @@
     };
     window.addEventListener("message", listener);
     const tick = setInterval(
-      () => window.postMessage({ type: "ramupod-recorder-offer", nonce: recNonce }, location.origin),
+      () =>
+        window.postMessage(
+          { type: "ramupod-recorder-offer", nonce: recNonce },
+          location.origin
+        ),
       300
     );
     setTimeout(() => {

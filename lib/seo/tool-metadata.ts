@@ -65,6 +65,24 @@ export const toolSeo = {
       "Convert JPG and PNG images into one PDF in your browser. Reorder pages, choose A4, Letter or image-sized pages, and set orientation and margins locally.",
     note: "Add up to 20 JPG or PNG images, with a maximum of 10 MB each and 50 MB combined. Images are limited to 16 megapixels and 12,000 px per side, with 64 megapixels combined; prepared images and PDF output are limited to 75 MB. Use arrow buttons to order pages, then choose A4, US Letter, or image-sized pages at 96 pixels per inch, orientation, and margins. One image fits on each page without cropping or stretching. Auto orientation follows each image; image-sized pages ignore the orientation setting. Images are re-encoded locally to apply orientation and remove metadata. JPG may change slightly; PNG remains lossless and transparency appears over white. The PDF is downloaded locally without uploads.",
   },
+  "pdf-to-image": {
+    title: "PDF to Image - Convert PDF to JPG, PNG, or WebP",
+    description:
+      "Convert PDF pages into JPG, PNG, or WebP images in your browser. Select resolution scale, preview pages, and download single images or a ZIP archive.",
+    note: "Upload one PDF file up to 50 MB and 100 pages. Pages are rendered directly in your browser using Mozilla PDF.js into canvas elements at Standard (1x, ~72 DPI), High (2x, ~144 DPI), or Ultra Crisp (3x, ~216 DPI) resolution. Choose JPG for smaller file sizes, PNG for lossless graphics, or WebP for modern web compression. Download individual page images or all pages in a single ZIP archive. All processing occurs locally on your device without server uploads.",
+  },
+  "word-to-pdf": {
+    title: "Word to PDF - Convert DOCX & DOC Documents to PDF",
+    description:
+      "Convert Microsoft Word DOCX and DOC documents to PDF format locally in your browser. Choose page size, orientation, and margins with instant preview.",
+    note: "Upload one DOCX or DOC file up to 25 MB. Documents are parsed and rendered directly in your browser with formatting preserved, including headings, tables, bullet lists, and embedded images. Customize paper size (A4, Letter, Legal), orientation, and margins before instant PDF compilation. No files are uploaded to any server.",
+  },
+  "pdf-to-word": {
+    title: "PDF to Word - Convert PDF to Editable DOCX & DOC",
+    description:
+      "Convert PDF documents to editable Microsoft Word files (.docx and .doc) locally in your browser with layout reconstruction and paragraph flow controls.",
+    note: "Upload one PDF file up to 50 MB and 100 pages. Text, headings, formatting (bold, italic), and paragraph structure are extracted and converted directly into editable Word documents in your browser. Choose between Flow Paragraphs for comfortable editing or Exact Line Breaks to preserve original visual line boundaries. 100% private in-browser conversion without server uploads.",
+  },
   "date-calculator": {
     title: "Date Calculator - Date Difference & Business Days",
     description:
@@ -203,6 +221,18 @@ export const toolSeo = {
     description:
       "Convert cURL commands to JavaScript Fetch, Axios, TypeScript, Python, Go, or PHP request code online. Code is generated locally; requests are not executed.",
     note: "Paste a cURL command and choose a target language. Review generated code and unsupported options before running it; the converter never executes the request.",
+  },
+  "speech-to-text": {
+    title: "Free Speech to Text Online - Live Voice Dictation & Transcriber",
+    description:
+      "Convert speech and spoken voice into text in real time with continuous dictation, voice punctuation commands, and multilingual speech recognition directly in your browser.",
+    note: "Speech recognition runs locally in your browser using the native Web Speech API (SpeechRecognition). Microphone audio is processed in real time without cloud audio uploads or server storage. Ensure microphone permission is granted in your browser. Features continuous dictation, live interim preview, voice punctuation commands (period, comma, question mark, exclamation mark, new line), and instant export. Best experienced on Google Chrome, Microsoft Edge, and Safari.",
+  },
+  "text-to-speech": {
+    title: "Free Text to Speech Online - Natural AI-Like Voice Reader",
+    description:
+      "Read any text aloud with natural browser voices, customizable speech rate, pitch controls, partial selection reading, and real-time word boundary progress.",
+    note: "Speech synthesis runs entirely on your device using the browser native Web Speech API (speechSynthesis). Voices are loaded directly from your operating system without external API costs or remote latency. Controls include play, pause, resume, stop, speed adjustment from 0.5x to 2.0x, pitch modulation, voice filtering by language, and selection-only reading mode. No text or synthesized audio ever leaves your computer.",
   },
 } as const;
 export type ToolSlug = keyof typeof toolSeo;

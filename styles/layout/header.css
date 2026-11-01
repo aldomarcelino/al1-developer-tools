@@ -37,13 +37,10 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  transition:
-    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.2s ease;
+  transition: filter 0.2s ease;
 }
 .brand:hover .brand-mark-wrapper {
-  transform: scale(1.05);
-  filter: drop-shadow(0 4px 12px rgba(164, 216, 129, 0.25));
+  filter: drop-shadow(0 2px 8px rgba(164, 216, 129, 0.2));
 }
 .brand-logo-svg {
   display: block;
@@ -345,17 +342,58 @@
 
 /* Match the flat mark palette in both themes, including the footer. */
 .brand-logo-svg {
-  color: var(--brand-ink, var(--green));
+  color: var(--brand-ink, #0F3528);
+  --brand-ink: #0F3528;
+  --brand-lime: #B7F425;
 }
 :root[data-theme="dark"] .brand-logo-svg {
-  color: var(--brand-ink-dark, var(--green));
+  color: var(--brand-ink-dark, #FFFFFF);
+  --brand-ink: #FFFFFF;
+  --brand-lime: #B7F425;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .brand-logo-svg {
+    color: var(--brand-ink-dark, #FFFFFF);
+    --brand-ink: #FFFFFF;
+    --brand-lime: #B7F425;
+  }
 }
 
-/* A close shadow separates the cream edge from a light header surface. */
-.ramupod-logo-mark .brand-logo-svg {
-  filter: drop-shadow(0 0 0.65px rgb(16 62 59 / 28%))
-    drop-shadow(0 2px 2px rgb(16 62 59 / 14%));
+/* Header Logo: in Light Mode, wrapped in a forest capsule with white Cr like Image 2 */
+:root:not([data-theme="dark"]) .ramupod-logo-mark {
+  background: #0F3528;
+  border-radius: 9999px;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(15, 53, 40, 0.18);
+  transition: background-color 150ms ease, box-shadow 150ms ease;
 }
+:root:not([data-theme="dark"]) .ramupod-logo-mark .brand-logo-svg {
+  --brand-ink: #FFFFFF;
+  color: #FFFFFF;
+  filter: none;
+}
+
+:root[data-theme="dark"] .ramupod-logo-mark {
+  background: transparent;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  box-shadow: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ramupod-logo-mark {
+    background: transparent;
+    padding: 4px 8px;
+    border-radius: 9999px;
+    box-shadow: none;
+  }
+  :root:not([data-theme="light"]) .ramupod-logo-mark .brand-logo-svg {
+    filter: drop-shadow(0 2px 2px rgb(0 0 0 / 18%));
+  }
+}
+
 :root[data-theme="dark"] .ramupod-logo-mark .brand-logo-svg {
   filter: drop-shadow(0 2px 2px rgb(0 0 0 / 18%));
 }

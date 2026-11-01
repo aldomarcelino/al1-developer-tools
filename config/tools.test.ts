@@ -9,7 +9,7 @@ const matches = (query: string) =>
 test("header and popular badges use the same nine ranked available tools", () => {
   assert.equal(headerTools.length, 9);
   assert.equal(new Set(headerTools.map((tool) => tool.slug)).size, 9);
-  assert.equal(headerTools[0].slug, "image-compressor");
+  assert.equal(headerTools[0].slug, "screen-recorder");
   assert.deepEqual(
     tools
       .filter((tool) => isPopularTool(tool.slug))
@@ -31,6 +31,8 @@ test("search resolves supported capabilities and aliases", () => {
     ["JSON to YAML", "json-yaml-converter"],
     ["yaml to json", "json-yaml-converter"],
     ["gambar ke pdf", "image-to-pdf"],
+    ["pdf ke gambar", "pdf-to-image"],
+    ["word ke pdf", "word-to-pdf"],
     ["selisih tanggal", "date-calculator"],
     ["working days", "date-calculator"],
     ["password generator", "uuid-generator"],

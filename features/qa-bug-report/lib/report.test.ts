@@ -29,6 +29,7 @@ test("phase 4: POSIX cURL preserves literal Unicode, multiline and shell charact
       .requests[0];
     const { command, warnings } = curlFor(safe);
     assert.ok(command);
+    assert.match(command, /curl --globoff \\\n\s+--request/);
     assert.ok(warnings.some((w) => w.includes("enter your own")));
     const result = spawnSync("/bin/sh", ["-c", command], {
       encoding: "utf8",

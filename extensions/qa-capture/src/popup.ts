@@ -3,6 +3,8 @@ export {};
 const el = <T = HTMLDivElement>(id: string) => document.getElementById(id) as T;
 
 const TAB_STORAGE_KEY = "ramupod_active_tab";
+const OPT_MIC_STORAGE_KEY = "ramupod_opt_mic";
+const OPT_CAM_STORAGE_KEY = "ramupod_opt_cam";
 
 const status = el("status"),
   start = el<HTMLButtonElement>("start"),
@@ -15,6 +17,7 @@ const tabBtnRecorder = el<HTMLButtonElement>("tab-btn-recorder"),
   panelQa = el("panel-qa");
 
 const btnStartTabRec = el<HTMLButtonElement>("btn-start-tab-rec"),
+  recStatus = el<HTMLParagraphElement>("rec-status"),
   recActiveSection = el("rec-active-section"),
   recIdleSection = el("rec-idle-section"),
   recTimerDisplay = el("rec-timer-display"),
@@ -44,7 +47,12 @@ async function send(action: string, extra: Record<string, unknown> = {}) {
 
 const run = (fn: () => Promise<unknown>) =>
   void fn().catch((e) => {
-    status.textContent = e instanceof Error ? e.message : "Action failed.";
+    const msg = e instanceof Error ? e.message : "Action failed.";
+    status.textContent = msg;
+    if (recStatus) {
+      recStatus.textContent = msg;
+      recStatus.hidden = false;
+    }
   });
 
 function glyph(id: string, name: string) {
@@ -65,6 +73,12 @@ function switchTab(mode: "recorder" | "qa", save = true) {
   panelRecorder.classList.toggle("active", isRec);
   panelQa.classList.toggle("active", !isRec);
 
+  status.textContent = "";
+  if (recStatus) {
+    recStatus.textContent = "";
+    recStatus.hidden = true;
+  }
+
   if (save) {
     void chrome.storage.local.set({ [TAB_STORAGE_KEY]: mode });
   }
@@ -74,7 +88,9 @@ function updateRecTimer() {
   if (!recActivity || !recActivity.recording) return;
   const elapsed = Math.max(
     0,
-    Math.floor((Date.now() - recActivity.startedAt - (recActivity.totalPaused ?? 0)) / 1000)
+    Math.floor(
+      (Date.now() - recActivity.startedAt - (recActivity.totalPaused ?? 0)) / 1000
+    )
   );
   const m = Math.floor(elapsed / 60);
   const s = elapsed % 60;
@@ -85,11 +101,23 @@ async function init() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   tabId = tab?.id;
 
-  const saved = await chrome.storage.local.get(["qa-viewer", TAB_STORAGE_KEY]);
+  const saved = await chrome.storage.local.get([
+    "qa-viewer",
+    TAB_STORAGE_KEY,
+    OPT_MIC_STORAGE_KEY,
+    OPT_CAM_STORAGE_KEY,
+  ]);
   if (saved["qa-viewer"] === "http://localhost:3000") {
     viewer.value = "http://localhost:3000";
   } else if (saved["qa-viewer"] === "https://ramupod.com") {
     viewer.value = "https://ramupod.com";
+  }
+
+  if (typeof saved[OPT_MIC_STORAGE_KEY] === "boolean") {
+    recOptMic.checked = saved[OPT_MIC_STORAGE_KEY];
+  }
+  if (typeof saved[OPT_CAM_STORAGE_KEY] === "boolean") {
+    recOptCam.checked = saved[OPT_CAM_STORAGE_KEY];
   }
 
   // Check QA Testing status
@@ -168,6 +196,14 @@ async function init() {
   }
 }
 
+// Option checkbox handlers
+recOptMic.onchange = () => {
+  void chrome.storage.local.set({ [OPT_MIC_STORAGE_KEY]: recOptMic.checked });
+};
+recOptCam.onchange = () => {
+  void chrome.storage.local.set({ [OPT_CAM_STORAGE_KEY]: recOptCam.checked });
+};
+
 // Tab switcher click handlers
 tabBtnRecorder.onclick = () => switchTab("recorder", true);
 tabBtnQa.onclick = () => switchTab("qa", true);
@@ -176,7 +212,15 @@ tabBtnQa.onclick = () => switchTab("qa", true);
 btnStartTabRec.onclick = () =>
   run(async () => {
     btnStartTabRec.disabled = true;
+    if (recStatus) {
+      recStatus.textContent = "";
+      recStatus.hidden = true;
+    }
     try {
+      void chrome.storage.local.set({
+        [OPT_MIC_STORAGE_KEY]: recOptMic.checked,
+        [OPT_CAM_STORAGE_KEY]: recOptCam.checked,
+      });
       await send("rec-start", {
         withMic: recOptMic.checked,
         withCamera: recOptCam.checked,

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useId, useRef, useState } from "react";
-import { Files, Upload, Download, Trash2, ChevronDown } from "lucide-react";
+import { FileStack, Upload, Download, Trash2, ChevronDown } from "lucide-react";
 import {
   DndContext,
   DragOverlay,
@@ -208,7 +208,7 @@ export function PdfWorkspace() {
   }
   return (
     <div className={`workspace-page page-width ${styles.toolkit}`}>
-      <ToolHeader title="PDF Merge & Split" icon={<Files size={24} />} />
+      <ToolHeader title="PDF Merge & Split" icon={<FileStack size={24} />} />
       <DropArea
         variant="stacked"
         label="Add PDF files"
@@ -249,7 +249,7 @@ export function PdfWorkspace() {
           </div>
           <details className={pdfStyles.sources}>
             <summary>
-              <Files size={15} aria-hidden="true" />
+              <FileStack size={15} aria-hidden="true" />
               <span>Source files</span>
               <span className={pdfStyles.sourceSummary}>
                 {sources.length} {sources.length === 1 ? "PDF" : "PDFs"} · {pages.length}{" "}

@@ -14,7 +14,7 @@ export const categories = [
   "Image",
 ];
 
-/** All valid icon keys — must stay in sync with toolIcons in tool-icons.ts. */
+/** All valid icon keys - must stay in sync with toolIcons in tool-icons.ts. */
 export type ToolIcon =
   | "heic"
   | "crop"
@@ -50,7 +50,12 @@ export type ToolIcon =
   | "database"
   | "terminal"
   | "notes"
-  | "text";
+  | "text"
+  | "mic"
+  | "volume"
+  | "pdfimages"
+  | "wordpdf"
+  | "pdfword";
 
 export type Tool = {
   slug: string;
@@ -67,15 +72,15 @@ export const tools = toolsData as readonly Tool[];
 
 // Curated for everyday usefulness; this order does not imply measured traffic.
 export const headerToolSlugs = [
+  "screen-recorder",
   "image-compressor",
+  "speech-to-text",
+  "pdf-merge-split",
   "json-formatter",
+  "text-to-speech",
+  "qa-bug-report",
   "qr-code-generator",
-  "text-cleaner",
-  "notes",
-  "character-counter",
-  "markdown-editor",
-  "diff-viewer",
-  "uuid-generator",
+  "svg-optimizer",
 ] as const satisfies readonly Tool["slug"][];
 
 export const headerTools = headerToolSlugs.flatMap((slug) => {

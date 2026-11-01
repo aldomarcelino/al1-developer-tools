@@ -49,6 +49,24 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: "/tools/speech-to-text",
+        headers: [
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(self), geolocation=(), browsing-topics=()",
+          },
+        ],
+      },
+      {
+        source: "/tools/text-to-speech",
+        headers: [
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(self), geolocation=(), browsing-topics=()",
+          },
+        ],
+      },
     ];
   },
 };

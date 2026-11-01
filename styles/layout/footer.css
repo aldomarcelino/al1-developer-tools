@@ -19,7 +19,9 @@
 }
 /* The footer surface is dark in both app themes. */
 .footer-logo .brand-logo-svg {
-  color: var(--brand-ink-dark, currentColor);
+  color: var(--brand-ink-dark, #FFFFFF);
+  --brand-ink: #FFFFFF;
+  --brand-lime: #B7F425;
 }
 .footer-logo .brand-mark-wrapper {
   flex-shrink: 0;

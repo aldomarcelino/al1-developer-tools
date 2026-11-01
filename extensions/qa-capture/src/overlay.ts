@@ -444,7 +444,11 @@
   const handlePageZoomClick = (e: MouseEvent) => {
     if (!zoomMode && !isZoomed) return;
     const target = e.target as Node | null;
-    if (!target || host.contains(target) || (cameraBubble && cameraBubble.contains(target))) {
+    if (
+      !target ||
+      host.contains(target) ||
+      (cameraBubble && cameraBubble.contains(target))
+    ) {
       return;
     }
     e.preventDefault();
@@ -850,13 +854,21 @@
     pause.setAttribute(
       "aria-label",
       overlayMode === "rec"
-        ? state === "paused" ? "Resume recording" : "Pause recording"
-        : state === "paused" ? "Resume testing" : "Pause testing"
+        ? state === "paused"
+          ? "Resume recording"
+          : "Pause recording"
+        : state === "paused"
+          ? "Resume testing"
+          : "Pause testing"
     );
     pause.dataset.tip =
       overlayMode === "rec"
-        ? state === "paused" ? "Resume recording" : "Pause recording"
-        : state === "paused" ? "Resume testing" : "Pause testing";
+        ? state === "paused"
+          ? "Resume recording"
+          : "Pause recording"
+        : state === "paused"
+          ? "Resume testing"
+          : "Pause testing";
     pause.disabled = !["recording", "paused"].includes(state);
     screenshot.disabled = !["recording", "paused"].includes(state);
   }
@@ -928,7 +940,8 @@
       count = message.count ?? count;
       errors = message.errors ?? errors;
       images = message.images ?? images;
-      if (typeof message.startedAt === "string") startedAt = Date.parse(message.startedAt);
+      if (typeof message.startedAt === "string")
+        startedAt = Date.parse(message.startedAt);
       if (typeof message.startedAt === "number") startedAt = message.startedAt;
       if (message.error) notify(message.error);
       refresh();

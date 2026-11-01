@@ -61,17 +61,17 @@ await copyFile(
   path.join(root, "styles/base/tokens.css"),
   path.join(output, "tokens.css")
 );
-// Toolbar mark uses white ink; the popup keeps the original forest/lime mark.
-const logo = await readFile(path.join(root, "public/brand/ramupod-mark-standalone.svg"));
+// Popup and toolbar icons use the official brand tile with dark background
+import { brandMarkSvg } from "../config/brand.ts";
+const tileSvg = brandMarkSvg(false, true);
 await writeFile(
   path.join(output, "popup-logo.png"),
-  await sharp(logo).resize(48, 48, { fit: "contain" }).png().toBuffer()
+  await sharp(Buffer.from(tileSvg)).resize(48, 48).png().toBuffer()
 );
-const toolbarLogo = Buffer.from(logo.toString("utf8").replaceAll("#103E3B", "#FFFFFF"));
 for (const size of [16, 32, 48, 128])
   await writeFile(
     path.join(output, `icon-${size}.png`),
-    await sharp(toolbarLogo).resize(size, size, { fit: "contain" }).png().toBuffer()
+    await sharp(Buffer.from(tileSvg)).resize(size, size).png().toBuffer()
   );
 await copyFile(
   path.join(root, "node_modules/lucide-react/LICENSE"),
@@ -86,9 +86,21 @@ const files = await Promise.all(
 if (files.length > 64 || files.some((file) => file.bytes.length > 256 * 1024))
   throw new Error("Unexpected extension archive size/count.");
 const archive = createZip(files);
+
+// Also mirror to dist/ramupod-companion
+const companionOutput = path.join(root, "dist/ramupod-companion");
+await rm(companionOutput, { recursive: true, force: true });
+await mkdir(companionOutput, { recursive: true });
+for (const file of files) {
+  await writeFile(path.join(companionOutput, file.name), file.bytes);
+}
+
+// Write downloadable ZIP archives
 const publicDirectory = path.join(root, "public/qa-capture");
 await mkdir(publicDirectory, { recursive: true });
 await writeFile(path.join(publicDirectory, "ramupod-qa-capture.zip"), archive);
+await writeFile(path.join(root, "public/ramupod-companion.zip"), archive);
+
 console.log(
-  `Built MV3 extension: dist/qa-capture; downloadable archive: public/qa-capture/ramupod-qa-capture.zip (${archive.length.toLocaleString()} bytes). Exact viewer bridge origins only; debugger attaches only on Start; no external scripts.`
+  `Built MV3 extension: dist/ramupod-companion & dist/qa-capture; downloadable archives: public/ramupod-companion.zip & public/qa-capture/ramupod-qa-capture.zip (${archive.length.toLocaleString()} bytes).`
 );

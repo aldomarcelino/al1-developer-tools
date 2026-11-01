@@ -89,7 +89,7 @@ export function mixAudioTracks(
         for (const source of sources) {
           source.disconnect();
         }
-        destination.stream.getTracks().forEach(track => track.stop());
+        destination.stream.getTracks().forEach((track) => track.stop());
         if (audioCtx.state !== "closed") {
           audioCtx.close().catch(() => {});
         }
@@ -104,7 +104,9 @@ export function mixAudioTracks(
     return {
       track: mixedTrack,
       cleanup,
-      resume: async () => { if (audioCtx.state === "suspended") await audioCtx.resume(); },
+      resume: async () => {
+        if (audioCtx.state === "suspended") await audioCtx.resume();
+      },
     };
   } catch (error) {
     console.error("Failed to mix audio tracks via AudioContext:", error);
