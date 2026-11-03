@@ -1,5 +1,5 @@
 export function getSiteUrl(
-  value = process.env.SITE_URL ?? "https://dotools.com"
+  value = process.env.SITE_URL ?? "https://ramupod.com"
 ): URL | undefined {
   if (!value?.trim()) return undefined;
   const url = new URL(value.trim());

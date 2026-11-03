@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import tools from "../config/tools.json" with { type: "json" };
 
 const base = process.argv[2] || "http://127.0.0.1:8787";
 const origin = process.argv[3];
@@ -9,42 +10,7 @@ const paths = [
   "/about",
   "/privacy",
   "/terms",
-  ...[
-    "qa-bug-report",
-    "svg-optimizer",
-    "ip-inspector",
-    "fake-data-generator",
-    "unit-converter",
-    "cron-builder",
-    "json-yaml-converter",
-    "image-to-pdf",
-    "pdf-to-image",
-    "word-to-pdf",
-    "date-calculator",
-    "pdf-merge-split",
-    "color-tools",
-    "timezone-planner",
-    "csv-json-converter",
-    "hash-generator",
-    "percentage-calculator",
-    "qr-code-generator",
-    "text-cleaner",
-    "image-compressor",
-    "character-counter",
-    "json-formatter",
-    "markdown-editor",
-    "diff-viewer",
-    "notes",
-    "jwt-decoder",
-    "base64-url",
-    "regex-tester",
-    "timestamp-converter",
-    "uuid-generator",
-    "json-to-typescript",
-    "sql-formatter",
-    "curl-to-code",
-    "webhook-inspector",
-  ].map((slug) => `/tools/${slug}`),
+  ...tools.map(({ slug }) => `/tools/${slug}`),
 ];
 const titles = new Set();
 const descriptions = new Set();
