@@ -101,6 +101,24 @@ for (const path of paths) {
       /<script\b[^>]*\btype="application\/ld\+json"[^>]*>(.*?)<\/script>/gs
     ),
   ].map(([, json]) => JSON.parse(json));
+  if (origin && path === "/") {
+    const site = data.find((entry) => entry["@type"] === "WebSite");
+    assert.equal(site?.name, "Ramupod", "preferred Google site name");
+    assert.equal(new URL(site.url).href, new URL(origin).href, "site schema origin");
+    assert.equal(site.publisher?.["@type"], "Organization", "publisher identity");
+    assert.equal(site.publisher.name, "Ramupod", "publisher name");
+    assert.equal(
+      site.publisher.logo?.url,
+      new URL("/brand/ramupod-logo-512.png", origin).href,
+      "publisher logo URL"
+    );
+    assert.ok(html.includes('href="/favicon-96x96.png"'), "raster favicon linked");
+  }
+  if (path.startsWith("/tools/") && !path.endsWith("webhook-inspector")) {
+    assert.match(html, /<h2>How to use /, `${path}: server-rendered instructions`);
+    assert.ok(html.includes("Try an example"), `${path}: visible example`);
+    assert.ok(html.includes("What to know before using"), `${path}: limitations`);
+  }
   if (path === "/about")
     assert.ok(
       data.some(
@@ -187,6 +205,18 @@ for (let offset = 2; offset < bytes.byteLength - 8;) {
   offset += 2 + bytes.getUint16(offset + 2);
 }
 assert.deepEqual(dimensions, [1200, 630], "social image dimensions");
+for (const [path, size] of [
+  ["/favicon-96x96.png", 96],
+  ["/brand/ramupod-logo-512.png", 512],
+]) {
+  const response = await fetch(new URL(path, base));
+  assert.equal(response.status, 200, `${path}: image available`);
+  assert.ok(response.headers.get("content-type")?.includes("image/png"));
+  const bytes = new DataView(await response.arrayBuffer());
+  assert.equal(bytes.getUint32(0), 0x89504e47, `${path}: PNG signature`);
+  assert.equal(bytes.getUint32(16), size, `${path}: width`);
+  assert.equal(bytes.getUint32(20), size, `${path}: height`);
+}
 console.log(
   `SEO checks passed: ${paths.length} pages, security headers, 2 redirects, robots, sitemap, 404, assets, and social image.`
 );

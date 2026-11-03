@@ -22,6 +22,13 @@ await save(
 );
 
 // ── Small raster proofs ───────────────────────────────────────────────────────
+for (const [path, size] of [
+  ["public/favicon-96x96.png", 96],
+  ["public/brand/ramupod-logo-512.png", 512],
+]) {
+  await save(path, await sharp(Buffer.from(tileSvg)).resize(size, size).png().toBuffer());
+}
+
 for (const size of [16, 24, 32]) {
   await save(
     `public/brand/ramupod-mark-${size}.png`,
@@ -134,6 +141,8 @@ await save(
 // ── Verify raster formats ─────────────────────────────────────────────────────
 for (const [path, format, width, height] of [
   ["public/apple-icon.png", "png", 180, 180],
+  ["public/favicon-96x96.png", "png", 96, 96],
+  ["public/brand/ramupod-logo-512.png", "png", 512, 512],
   ["public/social-preview.jpg", "jpeg", 1200, 630],
 ]) {
   const metadata = await sharp(await readFile(new URL(path, root))).metadata();

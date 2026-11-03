@@ -226,13 +226,13 @@ export const toolSeo = {
     title: "Free Speech to Text Online - Live Voice Dictation & Transcriber",
     description:
       "Convert speech and spoken voice into text in real time with continuous dictation, voice punctuation commands, and multilingual speech recognition directly in your browser.",
-    note: "Speech recognition runs locally in your browser using the native Web Speech API (SpeechRecognition). Microphone audio is processed in real time without cloud audio uploads or server storage. Ensure microphone permission is granted in your browser. Features continuous dictation, live interim preview, voice punctuation commands (period, comma, question mark, exclamation mark, new line), and instant export. Best experienced on Google Chrome, Microsoft Edge, and Safari.",
+    note: "Speech recognition uses your browser's native Web Speech API (SpeechRecognition). Depending on the browser and language, audio may be sent to the browser vendor's recognition service; offline processing is not guaranteed. Ramupod does not operate a transcription server. Ensure microphone permission is granted in your browser. Features continuous dictation, live interim preview, voice punctuation commands (period, comma, question mark, exclamation mark, new line), and instant export. Best experienced on Google Chrome, Microsoft Edge, and Safari.",
   },
   "text-to-speech": {
     title: "Free Text to Speech Online - Natural AI-Like Voice Reader",
     description:
       "Read any text aloud with natural browser voices, customizable speech rate, pitch controls, partial selection reading, and real-time word boundary progress.",
-    note: "Speech synthesis runs entirely on your device using the browser native Web Speech API (speechSynthesis). Voices are loaded directly from your operating system without external API costs or remote latency. Controls include play, pause, resume, stop, speed adjustment from 0.5x to 2.0x, pitch modulation, voice filtering by language, and selection-only reading mode. No text or synthesized audio ever leaves your computer.",
+    note: "Speech synthesis uses the browser native Web Speech API (speechSynthesis). Available voices depend on your browser and operating system; some voices use a remote speech service and require a network connection. Controls include play, pause, resume, stop, speed adjustment from 0.5x to 2.0x, pitch modulation, voice filtering by language, and selection-only reading mode. Ramupod does not operate a speech synthesis server; the selected browser voice determines whether synthesis is local or remote.",
   },
 } as const;
 export type ToolSlug = keyof typeof toolSeo;

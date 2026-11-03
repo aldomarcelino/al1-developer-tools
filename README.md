@@ -4,6 +4,8 @@
 
 Thoughtful online tools for documents, text, data, and everyday tasks. Ramupod is an independent product, created and maintained by Aldo Marcelino NF Lubis. The wordmark is written `ramupod`.
 
+**Website: [Ramupod — free online tools](https://ramupod.com/)** · [All tools](https://ramupod.com/#tools) · [About Ramupod](https://ramupod.com/about)
+
 Built with Next.js App Router, React, TypeScript, and Tailwind CSS. Cloudflare Workers is the deployment target; frontend and future API routes stay in this repository.
 
 Historical deployment: [al1-developer-tools.aldomarcelino.workers.dev](https://al1-developer-tools.aldomarcelino.workers.dev). First deployed and verified on 25 October 2026. See [deployment verification](docs/deployment/verification.md) for the deployed version, checks, resource findings, and remaining operational limits; see [webhook strategy](docs/roadmaps/webhook.md) for the proposed backend.
@@ -82,6 +84,8 @@ Cloudflare tooling currently requires patched transitive overrides for `fflate`,
 `config/creator.ts` holds the public name (Aldo Marcelino NF Lubis), shorter names, and verified LinkedIn, GitHub, and email contacts. `/about` introduces Ramupod and attributes its creator; the footer links to it on every page. No WhatsApp number or unverified portfolio domain is invented.
 
 `lib/seo/metadata.ts` builds page metadata; `lib/seo/tool-metadata.ts` holds unique descriptions and usage notes for each canonical tool, and `lib/seo/person-schema.ts` preserves the factual creator schema. Tool pages include related links, WebApplication and breadcrumb JSON-LD. The About page uses AboutPage with a factual Person creator; the site uses WebSite. No ratings, testimonials, or usage counts are fabricated. JWT decoding explicitly does not validate signatures. The webhook preview is noindex until it becomes a working tool.
+
+`lib/seo/tool-guides.ts` supplies task-specific steps, examples, and expected results for every available tool. These guides and limitations render on the server through `ToolContext`. The WebSite publisher identifies the independent Ramupod project with its public source repository and a 512×512 PNG logo; it makes no legal-registration, address, or review claims. A linked 96×96 PNG favicon complements the existing ICO, SVG, and Apple icon. Both PNGs are reproducible with `npm run brand:generate`.
 
 `/tools/base64` and `/tools/random-keygen` permanently redirect to their canonical tool pages to consolidate duplicate content. The sitemap includes the homepage, maker profile, Privacy Policy, Terms of Use, and available tools only. The existing `SITE_URL` configuration (including its established fallback) supplies canonical URLs, schema URL IDs, and social-image URLs; `INDEX_SITE=true` enables production indexing. Keep previews false. Optionally set `GOOGLE_SITE_VERIFICATION` to a Search Console tag value. Rebuild when these public settings change.
 

@@ -11,7 +11,10 @@ export function HeroSection({ activeToolCount }: { activeToolCount: number }) {
         <br />
         <span>Less effort.</span>
       </h1>
-      <p>{brand.description}</p>
+      <p>
+        {brand.name} brings useful tools for documents, text, data, and everyday tasks
+        together in one place.
+      </p>
       <div className="hero-actions">
         <Link href="/tools/screen-recorder" className="button primary">
           Get started <ArrowUpRight size={17} />

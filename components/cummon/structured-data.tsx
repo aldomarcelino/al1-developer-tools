@@ -17,6 +17,23 @@ async function JsonLd({ value }: { value: unknown }) {
 }
 export function SiteStructuredData() {
   if (!siteUrl) return null;
+  const publisher = {
+    "@type": "Organization",
+    "@id": new URL("/#publisher", siteUrl).href,
+    name: brand.name,
+    alternateName: brand.wordmark,
+    url: siteUrl.href,
+    description:
+      "An independent online toolkit created and maintained by Aldo Marcelino NF Lubis.",
+    logo: {
+      "@type": "ImageObject",
+      url: new URL("/brand/ramupod-logo-512.png", siteUrl).href,
+      width: 512,
+      height: 512,
+      caption: brand.name,
+    },
+    sameAs: ["https://github.com/aldomarcelino/al1-developer-tools"],
+  };
   return (
     <JsonLd
       value={{
@@ -29,6 +46,7 @@ export function SiteStructuredData() {
         description: brand.description,
         inLanguage: "en",
         creator: personSchema(),
+        publisher,
       }}
     />
   );

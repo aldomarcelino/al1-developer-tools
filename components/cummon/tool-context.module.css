@@ -18,6 +18,37 @@
   max-width: 650px;
   margin: 0;
 }
+.guide,
+.details {
+  min-width: 0;
+}
+.guide ol {
+  list-style: decimal;
+  padding-left: 20px;
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.9;
+}
+.guide li + li {
+  margin-top: 8px;
+}
+.example {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 14px 16px;
+  margin: 0 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--soft);
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.details nav {
+  margin-top: 28px;
+}
 :global(.tool-context nav > div):where(.scope, .scope *) {
   display: flex;
   flex-wrap: wrap;
