@@ -1,7 +1,7 @@
 // Exact-origin content bridge. No network transport, wildcard origin or page commands.
 (() => {
   if (
-    !["http://localhost:3000", "https://ramupod.com", "https://dotools.com"].includes(
+    !["http://localhost:43187", "https://ramupod.com", "https://dotools.com"].includes(
       location.origin
     )
   ) {
@@ -80,9 +80,46 @@
         received = true;
         void chrome.runtime
           .sendMessage({ qa: "quick", action: "rec-handoff", nonce: recNonce })
-          .then((result) => {
+          .then(async (result) => {
+            if (result.error) throw new Error(String(result.error));
+            const length = result.byteLength;
+            if (
+              typeof length !== "number" ||
+              !Number.isSafeInteger(length) ||
+              length <= 0
+            ) {
+              throw new Error("Invalid recording size. Try Finish again.");
+            }
+            // Keep every Chrome runtime message small; large number arrays can
+            // exceed Chrome's message-size limit even for modest WebM files.
+            const bytes = new Uint8Array(length);
+            for (let offset = 0; offset < length;) {
+              const chunk = await chrome.runtime.sendMessage({
+                qa: "quick",
+                action: "rec-read",
+                nonce: recNonce,
+                offset,
+              });
+              if (
+                chunk.error ||
+                chunk.offset !== offset ||
+                !Array.isArray(chunk.buffer) ||
+                !chunk.buffer.length ||
+                chunk.buffer.length > 256 * 1024 ||
+                offset + chunk.buffer.length > length
+              ) {
+                throw new Error(String(chunk.error ?? "Video transfer was interrupted."));
+              }
+              bytes.set(chunk.buffer, offset);
+              offset += chunk.buffer.length;
+            }
             window.postMessage(
-              { type: "ramupod-recorder-package", nonce: recNonce, ...result },
+              {
+                type: "ramupod-recorder-package",
+                nonce: recNonce,
+                ...result,
+                blobData: bytes,
+              },
               location.origin
             );
           })
@@ -91,7 +128,8 @@
               {
                 type: "ramupod-recorder-package",
                 nonce: recNonce,
-                error: "Extension handoff unavailable.",
+                error:
+                  "Video transfer failed. Open the extension and try Finish again; your video is retained.",
               },
               location.origin
             )
@@ -99,6 +137,11 @@
       }
       if (event.data?.type === "ramupod-recorder-accepted" && !delivered) {
         delivered = true;
+        void chrome.runtime.sendMessage({
+          qa: "quick",
+          action: "rec-ack",
+          nonce: recNonce,
+        });
         window.removeEventListener("message", listener);
         clearInterval(tick);
       }
@@ -115,6 +158,6 @@
     setTimeout(() => {
       clearInterval(tick);
       window.removeEventListener("message", listener);
-    }, 30000);
+    }, 300000);
   }
 })();

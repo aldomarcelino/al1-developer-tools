@@ -44,10 +44,9 @@ interface QaChrome {
     };
   };
   scripting: {
-    executeScript(options: {
-      target: { tabId: number };
-      files: string[];
-    }): Promise<unknown>;
+    executeScript(options: { target: { tabId: number } } & (
+      { files: string[]; func?: never } | { func: () => void; files?: never }
+    )): Promise<unknown>;
   };
   debugger: {
     attach(target: { tabId: number }, version: string): Promise<void>;
@@ -149,6 +148,7 @@ type QaSelection = {
   viewportHeight: number;
 };
 interface Window {
+  ramupodOverlayReady?: boolean;
   ramupodUI?: {
     icon: (name: string) => string;
     notify: (message: string) => void;

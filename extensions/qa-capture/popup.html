@@ -35,22 +35,68 @@
 
     <main>
       <!-- Panel 1: Screen Recorder -->
-      <section id="panel-recorder" class="tab-panel active" role="tabpanel" aria-labelledby="tab-btn-recorder">
+      <section
+        id="panel-recorder"
+        class="tab-panel active"
+        role="tabpanel"
+        aria-labelledby="tab-btn-recorder"
+      >
         <div id="rec-active-section" hidden>
           <div class="progress-card">
-            <span class="live-pulse"></span>
-            <div class="progress-info">
-              <strong>Recording in progress</strong>
-              <span id="rec-timer-display" class="rec-timer">00:00</span>
+            <div class="recording-status-heading">
+              <span class="recording-state"
+                ><span class="live-pulse" aria-hidden="true"></span
+                ><strong id="rec-state-label">Recording</strong></span
+              >
+              <span class="recording-local">ON DEVICE</span>
             </div>
+            <span id="rec-timer-display" class="rec-timer" aria-label="Recording duration"
+              >00:00</span
+            >
+            <p id="rec-state-detail">Your tab is being recorded. Keep this tab open.</p>
           </div>
-          <div class="rec-actions-group">
-            <button id="rec-pause-btn" class="quiet full">Pause</button>
-            <button id="rec-stop-btn" class="primary full">
-              Finish &amp; Open in Ramupod <span aria-hidden="true">↗</span>
+          <div class="rec-actions-group" role="group" aria-label="Recording actions">
+            <button id="rec-pause-btn" class="quiet">Pause</button>
+            <button
+              id="rec-stop-btn"
+              class="primary"
+              title="Finish and open the video in Ramupod"
+            >
+              Finish &amp; review ↗
             </button>
-            <button id="rec-cancel-btn" class="quiet destructive full">Discard recording</button>
+            <button
+              id="rec-cancel-btn"
+              class="quiet destructive"
+              aria-label="Discard recording"
+              title="Discard recording"
+            >
+              <span id="rec-discard-icon" aria-hidden="true"></span>
+            </button>
           </div>
+          <div class="recording-dock-option">
+            <label class="check-row"
+              ><input type="checkbox" id="rec-show-controls" /> Show floating dock</label
+            >
+            <p>Hidden by default. When shown, the dock appears in your video.</p>
+          </div>
+          <details class="recording-shortcuts" open>
+            <summary>Shortcuts in the recorded tab</summary>
+            <dl>
+              <div>
+                <dt>Show / hide dock</dt>
+                <dd><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd></dd>
+              </div>
+              <div>
+                <dt>Pause / resume</dt>
+                <dd><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></dd>
+              </div>
+              <div>
+                <dt>Finish &amp; review</dt>
+                <dd><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></dd>
+              </div>
+            </dl>
+          </details>
+          <p id="rec-active-error" role="alert" class="recording-error" hidden></p>
         </div>
 
         <div id="rec-idle-section">
@@ -58,11 +104,17 @@
             <span class="glyph" id="rec-icon"></span>
             <span>
               <strong>Record this Tab</strong>
-              <small>Floating dock controls &amp; camera bubble</small>
+              <small>Device check · countdown · record</small>
             </span>
             <span class="shortcut" aria-hidden="true">↗</span>
           </button>
-          <p id="rec-status" role="status" class="subtle" style="color: #b42318; margin: 8px 4px 0;" hidden></p>
+          <p
+            id="rec-status"
+            role="status"
+            class="subtle"
+            style="color: #b42318; margin: 8px 4px 0"
+            hidden
+          ></p>
 
           <div class="recorder-options">
             <label class="check-row">
@@ -83,7 +135,12 @@
       </section>
 
       <!-- Panel 2: QA Bug Report -->
-      <section id="panel-qa" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-qa">
+      <section
+        id="panel-qa"
+        class="tab-panel"
+        role="tabpanel"
+        aria-labelledby="tab-btn-qa"
+      >
         <section id="elsewhere" hidden>
           <p class="progress"><span class="live"></span>Capture in progress</p>
           <p class="subtle">Finish or cancel the capture in its tab first.</p>
@@ -117,7 +174,7 @@
           <label
             >Open testing results in<select id="viewer">
               <option value="https://ramupod.com">Ramupod · ramupod.com</option>
-              <option value="http://localhost:3000">Local · localhost:3000</option>
+              <option value="http://localhost:43187">Local · localhost:43187</option>
             </select></label
           >
           <p class="subtle">

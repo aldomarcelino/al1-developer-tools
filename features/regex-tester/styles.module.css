@@ -262,7 +262,7 @@
 /* Match Cards Grid */
 :global(.regex-matches-grid):where(.scope, .scope *) {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 12px;
   padding: 16px;
   overflow-y: auto;
@@ -389,4 +389,32 @@
   color: var(--text);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   font-weight: 600;
+}
+
+@media (max-width: 540px) {
+  :global(.regex-hero-card):where(.scope, .scope *) {
+    padding: 14px 16px;
+  }
+  :global(.regex-hero-header):where(.scope, .scope *) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  :global(.regex-input-box):where(.scope, .scope *) {
+    flex-wrap: wrap;
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  :global(.regex-flags-pillbar):where(.scope, .scope *) {
+    width: 100%;
+    padding-left: 0;
+    padding-top: 6px;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    justify-content: flex-end;
+  }
+  :global(.regex-matches-grid):where(.scope, .scope *) {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
 }

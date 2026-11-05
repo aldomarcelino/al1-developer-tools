@@ -22,6 +22,31 @@
   flex-wrap: wrap;
 }
 
+/* Responsive Segmented Tabs in TopBar */
+.tabContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tabIcon {
+  flex-shrink: 0;
+}
+
+.tabLabelFull {
+  display: inline;
+}
+
+.tabLabelShort {
+  display: none;
+}
+
+.tabSuffix {
+  display: inline;
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .langWrap {
   display: flex;
   align-items: center;
@@ -358,12 +383,52 @@
     flex-direction: column;
     align-items: stretch;
   }
+  .modeSwitchWrap {
+    width: 100%;
+  }
+  .modeSwitchWrap :global(.segmented-tabs-container) {
+    width: 100%;
+    display: flex;
+  }
+  .modeSwitchWrap :global(.segmented-tab-btn) {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 10px;
+    font-size: 12px;
+    justify-content: center;
+  }
+  .tabSuffix {
+    display: none;
+  }
   .langWrap {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
+  }
+  .langWrap :global(.select-control) {
+    flex: 1;
+    min-width: 0;
+  }
+  .langWrap :global(.select-trigger) {
+    flex: 1;
+    min-width: 0;
   }
   .editorFooter {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  .tabLabelFull {
+    display: none;
+  }
+  .tabLabelShort {
+    display: inline;
+    font-weight: 600;
+  }
+  .modeSwitchWrap :global(.segmented-tab-btn) {
+    padding: 6px 6px;
+    font-size: 11px;
+    gap: 4px;
   }
 }

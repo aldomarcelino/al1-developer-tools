@@ -5,7 +5,7 @@ export const creator = {
   alternateNames: ["Aldo", "Aldo Marcelino"],
   role: "Full Stack Software Engineer",
   email: "aldomarcelinolubis@gmail.com",
-  portfolio: "https://aldomarcelino.vercel.app/",
-  linkedin: "https://www.linkedin.com/in/aldo-marcelino-791bb5211",
+  portfolio: "https://aldomarcelino.com/",
+  linkedin: "https://www.linkedin.com/in/aldomarcelino/",
   github: "https://github.com/aldomarcelino",
 } as const;

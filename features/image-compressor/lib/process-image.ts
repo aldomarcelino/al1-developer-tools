@@ -1,4 +1,5 @@
 import type { ImageFormat } from "./image-tools";
+import { compressGif, encodeStaticImageToGif } from "./gif";
 export type ImageSource = { file: File; url: string; width: number; height: number };
 export type ImageResult = {
   blob: Blob;
@@ -61,6 +62,33 @@ export async function convertImage(
   width: number,
   height: number
 ): Promise<Omit<ImageResult, "name" | "url">> {
+  if (format === "image/gif") {
+    const isSourceGif =
+      source.file.type === "image/gif" || /\.gif$/i.test(source.file.name);
+    if (isSourceGif) {
+      const buffer = await source.file.arrayBuffer();
+      const blob = await compressGif(buffer, width, height, quality);
+      return { blob, width, height, format: "image/gif" };
+    }
+    const decoded = await decodeImage(source.file, source.url);
+    const canvas = document.createElement("canvas");
+    try {
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Canvas could not be initialized.");
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = "high";
+      context.drawImage(decoded, 0, 0, width, height);
+      const blob = await encodeStaticImageToGif(canvas, quality);
+      return { blob, width, height, format: "image/gif" };
+    } finally {
+      if ("close" in decoded) decoded.close();
+      canvas.width = 0;
+      canvas.height = 0;
+    }
+  }
+
   const decoded = await decodeImage(source.file, source.url);
   const canvas = document.createElement("canvas");
   try {

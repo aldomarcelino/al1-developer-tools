@@ -449,61 +449,68 @@ ${html}
             browser with zero latency.
           </p>
 
-          <table className="cheatsheet-table">
-            <thead>
-              <tr>
-                <th>Element</th>
-                <th>Syntax</th>
-                <th>Result</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Heading</td>
-                <td>
-                  <code># Heading 1</code>
-                </td>
-                <td>Large document title</td>
-              </tr>
-              <tr>
-                <td>Bold & Italic</td>
-                <td>
-                  <code>**bold** & *italic*</code>
-                </td>
-                <td>
-                  <strong>bold</strong> & <em>italic</em>
-                </td>
-              </tr>
-              <tr>
-                <td>Checklist</td>
-                <td>
-                  <code>- [x] done - [ ] todo</code>
-                </td>
-                <td>Interactive task boxes</td>
-              </tr>
-              <tr>
-                <td>Code Block</td>
-                <td>
-                  <code>```ts ... ```</code>
-                </td>
-                <td>Syntax highlighted block</td>
-              </tr>
-              <tr>
-                <td>Callout Alert</td>
-                <td>
-                  <code>&gt; [!TIP] ...</code>
-                </td>
-                <td>Colored highlight box</td>
-              </tr>
-              <tr>
-                <td>Table</td>
-                <td>
-                  <code>| Col 1 | Col 2 |</code>
-                </td>
-                <td>Structured data grid</td>
-              </tr>
-            </tbody>
-          </table>
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label="Markdown syntax cheatsheet"
+            style={{ overflowX: "auto", maxWidth: "100%" }}
+          >
+            <table className="cheatsheet-table">
+              <thead>
+                <tr>
+                  <th>Element</th>
+                  <th>Syntax</th>
+                  <th>Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Heading</td>
+                  <td>
+                    <code># Heading 1</code>
+                  </td>
+                  <td>Large document title</td>
+                </tr>
+                <tr>
+                  <td>Bold & Italic</td>
+                  <td>
+                    <code>**bold** & *italic*</code>
+                  </td>
+                  <td>
+                    <strong>bold</strong> & <em>italic</em>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Checklist</td>
+                  <td>
+                    <code>- [x] done - [ ] todo</code>
+                  </td>
+                  <td>Interactive task boxes</td>
+                </tr>
+                <tr>
+                  <td>Code Block</td>
+                  <td>
+                    <code>```ts ... ```</code>
+                  </td>
+                  <td>Syntax highlighted block</td>
+                </tr>
+                <tr>
+                  <td>Callout Alert</td>
+                  <td>
+                    <code>&gt; [!TIP] ...</code>
+                  </td>
+                  <td>Colored highlight box</td>
+                </tr>
+                <tr>
+                  <td>Table</td>
+                  <td>
+                    <code>| Col 1 | Col 2 |</code>
+                  </td>
+                  <td>Structured data grid</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="docs-details">

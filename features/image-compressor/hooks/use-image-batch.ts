@@ -8,6 +8,7 @@ import {
   outputFileName,
   type ExportSettings,
 } from "../lib/batch";
+import type { ImageFormat } from "../lib/image-tools";
 import {
   readImage,
   convertImage,
@@ -17,7 +18,10 @@ import {
 
 export type BatchItem = { id: string; file: File };
 export type BatchStatus = "queued" | "processing" | "ready" | "error";
-export function useImageBatch(settings: ExportSettings) {
+export function useImageBatch(
+  settings: ExportSettings,
+  getItemFormat?: (item: BatchItem) => ImageFormat
+) {
   const [items, setItems] = useState<BatchItem[]>([]);
   const [sources, setSources] = useState<Record<string, ImageSource>>({});
   const [results, setResults] = useState<Record<string, ImageResult>>({});
@@ -116,8 +120,9 @@ export function useImageBatch(settings: ExportSettings) {
                 sourceCache.current[item.id] = source;
                 setSources({ ...sourceCache.current });
               }
+              const itemFormat = getItemFormat ? getItemFormat(item) : format;
               const dimensions = outputDimensions(source.width, source.height, {
-                format,
+                format: itemFormat,
                 quality,
                 scaleMode,
                 width,
@@ -126,7 +131,7 @@ export function useImageBatch(settings: ExportSettings) {
               });
               const converted = await convertImage(
                 source,
-                format,
+                itemFormat,
                 quality,
                 dimensions.width,
                 dimensions.height
@@ -177,6 +182,7 @@ export function useImageBatch(settings: ExportSettings) {
     lockAspectRatio,
     retry,
     releaseResults,
+    getItemFormat,
   ]);
 
   useEffect(() => {

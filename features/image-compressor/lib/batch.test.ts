@@ -1,6 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { outputDimensions, outputFileName, type ExportSettings } from "./batch.ts";
+import {
+  outputDimensions,
+  outputFileName,
+  defaultFormatForFilename,
+  type ExportSettings,
+} from "./batch.ts";
 const settings: ExportSettings = {
   format: "image/webp",
   quality: 80,
@@ -53,4 +58,20 @@ test("batch outputs are unique even when inputs have identical stems or case", (
     outputFileName("../photo.jpg", "image/jpeg", used),
     ".._photo-compressed.jpg"
   );
+  assert.equal(
+    outputFileName("animation.gif", "image/gif", used),
+    "animation-compressed.gif"
+  );
+});
+
+test("defaultFormatForFilename defaults to webp, but gif when extension or mime is gif", () => {
+  assert.equal(defaultFormatForFilename("banner.gif"), "image/gif");
+  assert.equal(defaultFormatForFilename("BANNER.GIF"), "image/gif");
+  assert.equal(defaultFormatForFilename("clip.Gif"), "image/gif");
+  assert.equal(defaultFormatForFilename("file", "image/gif"), "image/gif");
+
+  assert.equal(defaultFormatForFilename("photo.jpg"), "image/webp");
+  assert.equal(defaultFormatForFilename("graphic.png"), "image/webp");
+  assert.equal(defaultFormatForFilename("logo.webp"), "image/webp");
+  assert.equal(defaultFormatForFilename("vector.svg"), "image/webp");
 });

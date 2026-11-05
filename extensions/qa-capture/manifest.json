@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Ramupod",
   "short_name": "Ramupod",
-  "version": "0.4.0",
+  "version": "0.5.3",
   "description": "All-in-one browser companion: screen recording with floating dock controls and camera bubble, plus QA network bug reporting. 100% local processing.",
   "minimum_chrome_version": "120",
   "devtools_page": "devtools.html",
@@ -34,10 +34,10 @@
   "content_scripts": [
     {
       "matches": [
-        "http://localhost:3000/tools/qa-bug-report*",
+        "http://localhost:43187/tools/qa-bug-report*",
         "https://ramupod.com/tools/qa-bug-report*",
         "https://dotools.com/tools/qa-bug-report*",
-        "http://localhost:3000/tools/screen-recorder*",
+        "http://localhost:43187/tools/screen-recorder*",
         "https://ramupod.com/tools/screen-recorder*",
         "https://dotools.com/tools/screen-recorder*"
       ],

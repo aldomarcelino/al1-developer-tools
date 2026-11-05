@@ -132,7 +132,7 @@ export function JwtWorkspace() {
         className="editor-layout"
         style={{ gridTemplateColumns: "1fr", height: "auto" }}
       >
-        <section className="editor-pane">
+        <section className="editor-pane mobile-active">
           <div className="editor-header">
             <span>
               <span className={`pane-dot ${decoded.isValidFormat ? "green" : ""}`} />

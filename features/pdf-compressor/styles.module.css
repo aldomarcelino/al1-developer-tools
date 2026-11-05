@@ -1,0 +1,128 @@
+.workspace {
+  display: grid;
+  gap: 16px;
+}
+
+.workspace > :empty {
+  position: absolute;
+}
+
+.levels {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.levels legend {
+  margin-bottom: 12px;
+  font-weight: 650;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.option:hover,
+.option:has(:checked) {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+
+.option:has(:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.option input {
+  flex: none;
+  margin-top: 4px;
+  accent-color: #0f3528;
+}
+
+.option strong {
+  margin-inline-end: 6px;
+}
+
+.description,
+.comparison div span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.description {
+  display: block;
+  margin-top: 4px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.limit label {
+  max-width: 240px;
+  margin-block: 8px;
+}
+
+.resultHeading,
+.comparison,
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.resultHeading svg {
+  color: var(--accent);
+}
+
+.resultHeading h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.comparison {
+  gap: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.comparison div {
+  display: grid;
+  gap: 4px;
+}
+
+.comparison strong {
+  font-size: 20px;
+}
+
+.error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--error);
+}
+
+@media (max-width: 640px) {
+  .options {
+    grid-template-columns: 1fr;
+  }
+}

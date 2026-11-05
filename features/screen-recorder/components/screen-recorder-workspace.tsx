@@ -50,7 +50,7 @@ export function ScreenRecorderWorkspace() {
     }
 
     const onMessage = (event: MessageEvent) => {
-      if (event.origin !== location.origin) return;
+      if (event.source !== window || event.origin !== location.origin) return;
 
       if (event.data?.type === "ramupod-recorder-offer") {
         const nonce = event.data.nonce;
@@ -75,12 +75,6 @@ export function ScreenRecorderWorkspace() {
         }
 
         if (blobData) {
-          window.postMessage(
-            { type: "ramupod-recorder-accepted", nonce },
-            location.origin
-          );
-          history.replaceState(null, "", location.pathname);
-
           const raw = Array.isArray(blobData) ? new Uint8Array(blobData) : blobData;
           const mimeStr = mime || "video/webm";
           const blob = new Blob([raw], { type: mimeStr });
@@ -98,6 +92,12 @@ export function ScreenRecorderWorkspace() {
           setExtension((ext === "mp4" ? "mp4" : "webm") as "webm" | "mp4");
           setStatus("completed");
           setErrorMessage(null);
+          // Release the extension's recovery copy only after this page owns a Blob.
+          window.postMessage(
+            { type: "ramupod-recorder-accepted", nonce },
+            location.origin
+          );
+          history.replaceState(null, "", location.pathname);
           showSnackbar("Recording received from Ramupod extension.");
         }
       }

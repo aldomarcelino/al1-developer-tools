@@ -704,6 +704,7 @@
 .videoContainer {
   position: relative;
   width: 100%;
+  flex-shrink: 0;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: #000;
@@ -712,7 +713,8 @@
 
 .videoElement {
   width: 100%;
-  max-height: 520px;
+  height: 650px;
+  max-height: none;
   display: block;
   object-fit: contain;
   background: #000;
@@ -788,6 +790,9 @@
 }
 
 @media (max-width: 540px) {
+  .videoElement {
+    height: clamp(360px, 65vh, 640px);
+  }
   .previewCard {
     padding: 16px;
   }

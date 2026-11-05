@@ -41,6 +41,10 @@ export function outputDimensions(
   return { width: w, height: h };
 }
 
+export function defaultFormatForFilename(name: string, type?: string): ImageFormat {
+  return /\.gif$/i.test(name) || type === "image/gif" ? "image/gif" : "image/webp";
+}
+
 export function outputFileName(name: string, format: ImageFormat, used: Set<string>) {
   const base = name.replace(/\.[^.]+$/, "").replace(/[\\/\x00-\x1f]/g, "_") || "image";
   const ext = format === "image/jpeg" ? "jpg" : format.split("/")[1];

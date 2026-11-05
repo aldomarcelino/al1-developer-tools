@@ -1,27 +1,28 @@
 import type { ToolSlug } from "./tool-metadata";
 
-type ToolGuide = {
+export type ToolGuide = {
   steps: readonly [string, string, string];
   example: string;
   result: string;
+  related?: readonly ToolSlug[];
 };
 
 // Visible, server-rendered instructions. Examples describe actual tool workflows.
 export const toolGuides = {
   "screen-recorder": {
     steps: [
-      "Prepare the app you want to demonstrate in a separate browser tab.",
-      "Choose that tab as your capture source, then record and add effects from the studio preview.",
-      "Stop recording, review the finished video, and download it before closing the page.",
+      "Install Ramupod Companion in desktop Chrome and open the tab you want to record.",
+      "Choose Record this tab in the extension popup. Controls start hidden; Alt+Shift+H toggles the on-page dock.",
+      "Finish from the popup or with Alt+Shift+S, then review and download the video here.",
     ],
     example:
       "Demonstrate a three-step signup flow with a zoom on the final confirmation.",
     result:
-      "Navigate in the app tab and place zoom or click effects from the studio. Pointer events in the other app are not captured automatically.",
+      "Use the dock's zoom tool to focus on part of the page. Hide it again with Alt+Shift+H for a clean view; any visible dock, drawings, or camera bubble is included in the video.",
   },
   "image-compressor": {
     steps: [
-      "Add JPG, PNG, or WebP images from your device.",
+      "Add JPG, PNG, WebP, or GIF images from your device.",
       "Choose an output format, quality, and optional resize settings.",
       "Compare the preview and encoded size, then download one result or a ZIP.",
     ],
@@ -39,6 +40,16 @@ export const toolGuides = {
     example: "Dictate a short meeting summary and review names before sharing it.",
     result:
       "An editable transcript. Your browser may send audio to its recognition service; offline support is not guaranteed.",
+  },
+  "pdf-compressor": {
+    steps: [
+      "Choose or drop one PDF up to 50 MB.",
+      "Choose a compression level and select Compress PDF. If you have a size limit, open Check an Upload Limit first.",
+      "Compare the sizes and download the compressed result when available.",
+    ],
+    example: "Need to submit a PDF under 1 MB? Choose Balanced and enter 1 as the upload limit.",
+    result: "Compare the original and compressed sizes. If the result is still too large, try Strong and check that the images are clear enough.",
+    related: ["pdf-merge-split", "image-to-pdf", "pdf-to-image"],
   },
   "pdf-merge-split": {
     steps: [
@@ -264,6 +275,16 @@ export const toolGuides = {
     example: "Create a meeting note with Decisions and Next steps sections, then pin it.",
     result:
       "A note saved in this browser. It does not sync across devices, and clearing site data removes the local copy.",
+  },
+  "lorem-ipsum-generator": {
+    steps: [
+      "Choose paragraphs, sentences, or words and enter an amount.",
+      "Choose whether to start with Lorem ipsum dolor sit amet, then select Generate text.",
+      "Copy the result into your design or download it as a TXT file.",
+    ],
+    example: "Generate three paragraphs to test the layout of an article preview.",
+    related: ["character-counter", "text-cleaner", "markdown-editor"],
+    result: "Three blocks of sample text separated by blank lines, ready to paste into your mockup.",
   },
   "character-counter": {
     steps: [

@@ -22,6 +22,8 @@ const btnStartTabRec = el<HTMLButtonElement>("btn-start-tab-rec"),
   recIdleSection = el("rec-idle-section"),
   recTimerDisplay = el("rec-timer-display"),
   recPauseBtn = el<HTMLButtonElement>("rec-pause-btn"),
+  recShowControls = el<HTMLInputElement>("rec-show-controls"),
+  recActiveError = el<HTMLParagraphElement>("rec-active-error"),
   recStopBtn = el<HTMLButtonElement>("rec-stop-btn"),
   recCancelBtn = el<HTMLButtonElement>("rec-cancel-btn"),
   btnOpenStudio = el<HTMLButtonElement>("btn-open-studio"),
@@ -36,8 +38,12 @@ let tabId: number | undefined,
     state: string;
     startedAt: number;
     totalPaused?: number;
+    controlsVisible?: boolean;
+    duration?: number;
+    warning?: string;
   } | null = null,
   timerInterval: ReturnType<typeof setInterval> | undefined;
+let recStatusAt = 0;
 
 async function send(action: string, extra: Record<string, unknown> = {}) {
   const r = await chrome.runtime.sendMessage({ qa: "quick", action, tabId, ...extra });
@@ -49,6 +55,10 @@ const run = (fn: () => Promise<unknown>) =>
   void fn().catch((e) => {
     const msg = e instanceof Error ? e.message : "Action failed.";
     status.textContent = msg;
+    if (!recActiveSection.hidden) {
+      recActiveError.textContent = msg;
+      recActiveError.hidden = false;
+    }
     if (recStatus) {
       recStatus.textContent = msg;
       recStatus.hidden = false;
@@ -89,7 +99,9 @@ function updateRecTimer() {
   const elapsed = Math.max(
     0,
     Math.floor(
-      (Date.now() - recActivity.startedAt - (recActivity.totalPaused ?? 0)) / 1000
+      ((recActivity.duration ?? 0) +
+        (recActivity.state === "recording" ? Date.now() - recStatusAt : 0)) /
+        1000
     )
   );
   const m = Math.floor(elapsed / 60);
@@ -107,8 +119,12 @@ async function init() {
     OPT_MIC_STORAGE_KEY,
     OPT_CAM_STORAGE_KEY,
   ]);
-  if (saved["qa-viewer"] === "http://localhost:3000") {
-    viewer.value = "http://localhost:3000";
+  if (
+    ["http://localhost:43187", "http://localhost:3000"].includes(
+      String(saved["qa-viewer"])
+    )
+  ) {
+    viewer.value = "http://localhost:43187";
   } else if (saved["qa-viewer"] === "https://ramupod.com") {
     viewer.value = "https://ramupod.com";
   }
@@ -159,16 +175,35 @@ async function init() {
   glyph("rec-icon", "clapperboard");
   glyph("tab-rec-icon", "video");
   glyph("tab-qa-icon", "bug");
+  glyph("rec-discard-icon", "trash");
 
   // Check Screen Recorder status
   const recResult = await send("rec-status");
   recActivity = recResult as typeof recActivity;
+  recStatusAt = Date.now();
 
   const isRecording = !!recActivity?.recording;
   recActiveSection.hidden = !isRecording;
   recIdleSection.hidden = isRecording;
 
   if (isRecording) {
+    const state = recActivity?.state ?? "recording";
+    el("rec-state-label").textContent =
+      state === "paused"
+        ? "Recording paused"
+        : state === "stopped"
+          ? "Ready to review"
+          : "Recording your tab";
+    el("rec-state-label").closest<HTMLElement>(".progress-card")!.dataset.state = state;
+    el("rec-state-detail").textContent =
+      state === "paused"
+        ? "Take your time. Resume when you’re ready."
+        : state === "stopped"
+          ? "Your video is retained. Finish to open it in Ramupod."
+          : "Keep Chrome open. Your video stays on this device.";
+    recPauseBtn.disabled = state === "stopped";
+    recShowControls.disabled = state === "stopped";
+    recShowControls.checked = recActivity?.controlsVisible === true;
     updateRecTimer();
     clearInterval(timerInterval);
     timerInterval = setInterval(updateRecTimer, 1000);
@@ -194,6 +229,8 @@ async function init() {
       switchTab("recorder", false);
     }
   }
+  recActiveError.textContent = recActivity?.warning ?? "";
+  recActiveError.hidden = !recActivity?.warning;
 }
 
 // Option checkbox handlers
@@ -221,11 +258,27 @@ btnStartTabRec.onclick = () =>
         [OPT_MIC_STORAGE_KEY]: recOptMic.checked,
         [OPT_CAM_STORAGE_KEY]: recOptCam.checked,
       });
-      await send("rec-start", {
-        withMic: recOptMic.checked,
-        withCamera: recOptCam.checked,
-        origin: viewer.value,
-      });
+      const requested = [
+        recOptMic.checked ? "microphone" : null,
+        recOptCam.checked ? "camera" : null,
+      ].filter(Boolean) as PermissionName[];
+      const granted = await Promise.all(
+        requested.map(async (name) => {
+          try {
+            return (await navigator.permissions.query({ name })).state === "granted";
+          } catch {
+            return false;
+          }
+        })
+      );
+      await send(
+        !recOptCam.checked && granted.every(Boolean) ? "rec-start" : "rec-open-setup",
+        {
+          withMic: recOptMic.checked,
+          withCamera: recOptCam.checked,
+          origin: viewer.value,
+        }
+      );
       window.close();
     } finally {
       btnStartTabRec.disabled = false;
@@ -238,14 +291,31 @@ recPauseBtn.onclick = () =>
     await init();
   });
 
+recShowControls.onchange = () =>
+  run(async () => {
+    recShowControls.disabled = true;
+    try {
+      await send("rec-set-controls", { visible: recShowControls.checked });
+    } finally {
+      recShowControls.disabled = false;
+      await init();
+    }
+  });
+
 recStopBtn.onclick = () =>
   run(async () => {
     recStopBtn.disabled = true;
+    recStopBtn.textContent = "Preparing…";
+    recActiveError.hidden = true;
     try {
       await send("rec-stop");
       window.close();
+    } catch (error) {
+      await init();
+      throw error;
     } finally {
       recStopBtn.disabled = false;
+      recStopBtn.textContent = "Finish & review ↗";
     }
   });
 

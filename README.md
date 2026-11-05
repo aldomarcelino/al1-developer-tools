@@ -20,7 +20,7 @@ See [architecture and adding a tool](docs/architecture.md) for the complete tree
 
 ## Local development
 
-Use Node.js 24.22+ (`nvm use`), then `npm ci` and `npm run dev`. The existing Next.js development command remains available; Cloudflare scripts use vinext, whose compatibility check passes for this app. vinext is beta: production builds and Workers-runtime smoke checks are required before release.
+Use Node.js 24.22+ (`nvm use`), then `npm ci` and `npm run dev`. Open `http://localhost:43187`; the companion extension uses this same local origin. The optional vinext development server uses port 43188. The existing Next.js development command remains available; Cloudflare scripts use vinext, whose compatibility check passes for this app. vinext is beta: production builds and Workers-runtime smoke checks are required before release.
 
 ## Available tools
 

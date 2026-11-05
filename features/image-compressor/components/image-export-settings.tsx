@@ -15,6 +15,7 @@ import { formatBytes } from "@/lib/format/file-size";
 import type { ImageSource, ImageResult } from "../lib/process-image";
 import type { ImageFormat } from "../lib/image-tools";
 import type { ExportSettings } from "../lib/batch";
+import { qualityToMaxColors } from "../lib/gif";
 export function ImageExportSettings({
   settings,
   onChange,
@@ -85,7 +86,9 @@ export function ImageExportSettings({
                   ? "Recommended"
                   : format === "image/png"
                     ? "Lossless"
-                    : "Photo"}
+                    : format === "image/gif"
+                      ? "Animated / Indexed"
+                      : "Photo"}
               </span>
             </div>
 
@@ -110,6 +113,11 @@ export function ImageExportSettings({
                   label: "PNG",
                   title: "Lossless with transparency",
                 },
+                {
+                  value: "image/gif",
+                  label: "GIF",
+                  title: "Animated or static GIF",
+                },
               ]}
             />
             <p className="compressor-control-help">
@@ -117,7 +125,9 @@ export function ImageExportSettings({
                 ? "Small files, with transparency support."
                 : format === "image/png"
                   ? "Preserves detail and transparency. May be larger."
-                  : "Great for photos. Transparency becomes white."}
+                  : format === "image/gif"
+                    ? "Preserves animation and transparency with indexed color palette."
+                    : "Great for photos. Transparency becomes white."}
             </p>
           </div>
 
@@ -126,7 +136,11 @@ export function ImageExportSettings({
             <div className="compressor-control-label">
               <span>Quality</span>
               <span style={{ color: "var(--accent)", fontWeight: 700 }}>
-                {format === "image/png" ? "Lossless (100%)" : `${quality}%`}
+                {format === "image/png"
+                  ? "Lossless (100%)"
+                  : format === "image/gif"
+                    ? `${quality}% · ${qualityToMaxColors(quality)} colors`
+                    : `${quality}%`}
               </span>
             </div>
 

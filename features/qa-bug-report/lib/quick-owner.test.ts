@@ -122,12 +122,12 @@ async function owner(
 test("quick owner isolates tabs, stops capture, binds/consumes handoff and clears locally", async () => {
   const o = await owner();
   try {
-    assert.equal((await o.send("start", { origin: "http://localhost:3000" })).ok, true);
+    assert.equal((await o.send("start", { origin: "http://localhost:43187" })).ok, true);
     const s = (await o.send("status")).session as Session;
     assert.equal(s.state, "recording");
     assert.match(
       String(
-        (await o.send("start", { tabId: 2, origin: "http://localhost:3000" })).error
+        (await o.send("start", { tabId: 2, origin: "http://localhost:43187" })).error
       ),
       /Capture in progress/
     );
@@ -154,11 +154,11 @@ test("quick owner isolates tabs, stops capture, binds/consumes handoff and clear
 test("starting a new quick session invalidates prior handoff and failed deletion is visible", async () => {
   const o = await owner();
   try {
-    await o.send("start", { origin: "http://localhost:3000" });
+    await o.send("start", { origin: "http://localhost:43187" });
     await o.send("finish");
     const url = new URL(o.opened[0]);
     const nonce = new URLSearchParams(url.hash.slice(1)).get("qa-capture");
-    await o.send("start", { origin: "http://localhost:3000" });
+    await o.send("start", { origin: "http://localhost:43187" });
     assert.ok(
       (
         await o.send(
@@ -179,12 +179,12 @@ test("starting a new quick session invalidates prior handoff and failed deletion
 test("paused testing retains the cross-tab lock and resumes with the same session", async () => {
   const o = await owner();
   try {
-    await o.send("start", { origin: "http://localhost:3000" });
+    await o.send("start", { origin: "http://localhost:43187" });
     const id = ((await o.send("status")).session as Session).id;
     await o.send("pause");
     assert.equal(((await o.send("status")).session as Session).state, "paused");
     assert.ok(
-      (await o.send("start", { tabId: 2, origin: "http://localhost:3000" })).error
+      (await o.send("start", { tabId: 2, origin: "http://localhost:43187" })).error
     );
     assert.ok((await o.send("shot-start", { tabId: 2 })).error);
     await o.send("resume");
@@ -194,7 +194,7 @@ test("paused testing retains the cross-tab lock and resumes with the same sessio
     assert.ok(o.commands.includes("Network.disable"));
     await o.send("stop");
     assert.ok(
-      (await o.send("start", { tabId: 2, origin: "http://localhost:3000" })).error
+      (await o.send("start", { tabId: 2, origin: "http://localhost:43187" })).error
     );
     await o.send("finish");
     assert.equal((await o.send("shot-start", { tabId: 2 })).ok, true);
@@ -215,7 +215,7 @@ test("standalone screenshots do not attach debugger and tokens/tabs isolate thei
     const other = await o.send("status", { tabId: 2 });
     assert.equal((other.activity as { token?: string }).token, undefined);
     assert.ok((await o.send("shot-start", { tabId: 2 })).error);
-    assert.ok((await o.send("start", { origin: "http://localhost:3000" })).error);
+    assert.ok((await o.send("start", { origin: "http://localhost:43187" })).error);
     assert.ok((await o.send("shot-image", { token: "wrong" })).error);
     const ownerSender = {
       id: "ext",
@@ -239,7 +239,7 @@ test("restoring a closed tab retains stopped evidence but releases its activity 
     seed: {
       "ramupod-quick-capture": packageSession(s, true),
       "qa-test-open": true,
-      "qa-viewer": "http://localhost:3000",
+      "qa-viewer": "http://localhost:43187",
     },
     missingTab: 7,
   });

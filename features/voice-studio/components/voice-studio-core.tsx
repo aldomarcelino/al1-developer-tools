@@ -32,19 +32,25 @@ export function VoiceStudioCore({ defaultMode = "stt" }: VoiceStudioCoreProps) {
   const modeOptions: TabOption<"stt" | "tts">[] = [
     {
       value: "stt",
+      title: "Speech to Text & Voice Dictation",
       label: (
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-          <Mic size={15} />
-          Speech to Text (Dictation)
+        <span className={styles.tabContent}>
+          <Mic size={15} className={styles.tabIcon} />
+          <span className={styles.tabLabelFull}>Speech to Text</span>
+          <span className={styles.tabLabelShort}>Dictation</span>
+          <span className={styles.tabSuffix}> (Dictation)</span>
         </span>
       ),
     },
     {
       value: "tts",
+      title: "Text to Speech & Voice Reader",
       label: (
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-          <Volume2 size={15} />
-          Text to Speech (Reader)
+        <span className={styles.tabContent}>
+          <Volume2 size={15} className={styles.tabIcon} />
+          <span className={styles.tabLabelFull}>Text to Speech</span>
+          <span className={styles.tabLabelShort}>Reader</span>
+          <span className={styles.tabSuffix}> (Reader)</span>
         </span>
       ),
     },

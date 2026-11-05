@@ -1,5 +1,9 @@
 import { createZip } from "../../../lib/browser/zip.ts";
 
+import { MAX_PDF_FILE_SIZE } from "../../../lib/pdf/validate-file.ts";
+
+export { validatePdfFile } from "../../../lib/pdf/validate-file.ts";
+
 export type ImageFormat = "jpg" | "png" | "webp";
 export type ScaleOption = "1" | "2" | "3";
 
@@ -28,7 +32,7 @@ export interface RenderProgress {
 }
 
 export const PDF_LIMITS = {
-  maxFileSize: 50 * 1024 * 1024, // 50 MB
+  maxFileSize: MAX_PDF_FILE_SIZE,
   maxPages: 100,
   defaultFormat: "jpg" as ImageFormat,
   defaultScale: "2" as ScaleOption,
@@ -130,34 +134,6 @@ export function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-export function validatePdfFile(file: { name: string; size: number }): {
-  valid: boolean;
-  error?: string;
-} {
-  if (!file.name.toLowerCase().endsWith(".pdf")) {
-    return {
-      valid: false,
-      error: "Please choose a valid PDF file (.pdf extension).",
-    };
-  }
-
-  if (file.size <= 0) {
-    return {
-      valid: false,
-      error: "Selected PDF file is empty (0 bytes).",
-    };
-  }
-
-  if (file.size > PDF_LIMITS.maxFileSize) {
-    return {
-      valid: false,
-      error: `PDF file exceeds the 50 MB limit (${formatFileSize(file.size)}).`,
-    };
-  }
-
-  return { valid: true };
-}
-
 /**
  * Dynamically loads pdfjs-dist on client side and configures the local worker.
  */
@@ -166,7 +142,10 @@ export async function getPdfJs() {
 
   if (typeof window !== "undefined" && !pdfjs.GlobalWorkerOptions.workerSrc) {
     const origin = window.location.origin;
-    pdfjs.GlobalWorkerOptions.workerSrc = new URL("/pdf.worker.min.mjs", origin).toString();
+    pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+      "/pdf.worker.min.mjs",
+      origin
+    ).toString();
   }
 
   return pdfjs;

@@ -1,14 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Download,
-  RotateCcw,
-  Clock3,
-  HardDrive,
-  FileVideo,
-  Monitor,
-} from "lucide-react";
+import { Download, RotateCcw, Clock3, HardDrive, FileVideo, Monitor } from "lucide-react";
 import { ActionButton } from "@/components/ui/action-button";
 import { formatDuration } from "../lib/format-time";
 import { formatBytes } from "../lib/format-bytes";
@@ -71,6 +64,7 @@ export function RecordingPreview({
         <video
           key={previewUrl}
           src={previewUrl}
+          height={700}
           controls
           playsInline
           className={styles.videoElement}
@@ -127,13 +121,6 @@ export function RecordingPreview({
             Format ({mimeType ? mimeType.split(";")[0] : "video/webm"})
           </span>
         </div>
-      </div>
-
-      {/* Footer Info & Related Tool Navigation */}
-      <div className={styles.previewFooter}>
-        <p className={styles.previewNote}>
-          Processed locally in your browser · No external server upload
-        </p>
       </div>
     </section>
   );

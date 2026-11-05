@@ -104,7 +104,7 @@ export function CaptureGuide() {
             <h4>Results opened in the wrong viewer?</h4>
             <p>
               In the extension, open <strong>Settings & saved capture</strong> and set
-              <strong> Open testing results in</strong> to dotools.com or localhost:3000.
+              <strong> Open testing results in</strong> to ramupod.com or localhost:43187.
               These are the two supported viewer origins.
             </p>
           </div>

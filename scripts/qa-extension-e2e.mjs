@@ -341,7 +341,7 @@ try {
       targetRequests.push(request.url());
   });
   await viewer.goto(
-    (process.env.QA_VIEWER_URL ?? "http://localhost:3000") + "/tools/qa-bug-report"
+    (process.env.QA_VIEWER_URL ?? "http://localhost:43187") + "/tools/qa-bug-report"
   );
   await viewer.locator("input[type=file]").first().setInputFiles(capturePath);
   await viewer.getByText(captured.session.id, { exact: true }).waitFor();

@@ -45,10 +45,10 @@ test("QA extension distribution has only local module references and minimal MV3
   assert.deepEqual(manifest.content_scripts, [
     {
       matches: [
-        "http://localhost:3000/tools/qa-bug-report*",
+        "http://localhost:43187/tools/qa-bug-report*",
         "https://ramupod.com/tools/qa-bug-report*",
         "https://dotools.com/tools/qa-bug-report*",
-        "http://localhost:3000/tools/screen-recorder*",
+        "http://localhost:43187/tools/screen-recorder*",
         "https://ramupod.com/tools/screen-recorder*",
         "https://dotools.com/tools/screen-recorder*",
       ],
@@ -103,6 +103,9 @@ test("shipped capture, redaction and validation modules match their TypeScript s
     "extensions/qa-capture/src/devtools.ts",
     "extensions/qa-capture/src/panel.ts",
     "extensions/qa-capture/src/offscreen.ts",
+    "extensions/qa-capture/src/setup.ts",
+    "extensions/qa-capture/src/camera-source.ts",
+    "extensions/qa-capture/src/device-errors.ts",
     "features/qa-bug-report/lib/model.ts",
     "features/qa-bug-report/lib/har.ts",
     "features/qa-bug-report/lib/redact.ts",

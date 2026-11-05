@@ -117,14 +117,14 @@ test("quick in-flight resource cap and explicit origin handoff restrictions", ()
   assert.throws(() => viewerOrigin("https://dotools.com/"));
   const handoff = {
     tabId: 4,
-    origin: "http://localhost:3000",
+    origin: "http://localhost:43187",
     nonce: "secret",
     expires: Date.now() + 10000,
   };
   const sender = {
     id: "ext",
     frameId: 0,
-    tab: { id: 4, url: "http://localhost:3000/tools/qa-bug-report#qa-capture=secret" },
+    tab: { id: 4, url: "http://localhost:43187/tools/qa-bug-report#qa-capture=secret" },
   };
   assert.ok(validRecipient(sender, "ext", handoff, "secret"));
   assert.ok(!validRecipient(sender, "ext", handoff, "wrong"));

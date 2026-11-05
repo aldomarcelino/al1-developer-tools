@@ -33,7 +33,7 @@ try {
       targetRequests.push(r.url());
   });
   await page.goto(
-    (process.env.QA_VIEWER_URL ?? "http://localhost:3000") + "/tools/qa-bug-report"
+    (process.env.QA_VIEWER_URL ?? "http://localhost:43187") + "/tools/qa-bug-report"
   );
   await page
     .getByRole("region", { name: "Get started with QA capture", exact: true })

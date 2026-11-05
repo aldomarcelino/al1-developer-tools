@@ -314,7 +314,7 @@ try {
   );
   pop = await popup(page);
   await pop.evaluate(
-    'document.getElementById("viewer").value="http://localhost:3000";document.getElementById("start").click()'
+    'document.getElementById("viewer").value="http://localhost:43187";document.getElementById("start").click()'
   );
   await page.locator("#ramupod-qa-controls").waitFor();
   pop = await popup(page);

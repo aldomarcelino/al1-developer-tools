@@ -42,6 +42,14 @@ test("search resolves supported capabilities and aliases", () => {
     ["notulen", "notes"],
     ["url decode", "base64-url"],
     [" AXIOS ", "curl-to-code"],
+    ["json diff", "diff-viewer"],
+    ["compare diff", "diff-viewer"],
+    ["code diff", "diff-viewer"],
+    ["compress gif", "image-compressor"],
+    ["gif compressor", "image-compressor"],
+    ["excel to json", "csv-json-converter"],
+    ["cron job", "cron-builder"],
+    ["days between dates", "date-calculator"],
   ] as const)
     assert.ok(matches(query).includes(slug), query);
 });

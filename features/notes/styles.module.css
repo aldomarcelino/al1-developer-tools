@@ -950,8 +950,11 @@
   .scope,
   .scope *
 ) {
+  display: flex;
+  align-items: center;
   flex: 0 0 auto;
-  margin-top: 4px;
+  height: 1lh;
+  margin: 0;
   user-select: none;
 }
 :global(.notes-rich-content .tiptap ul[data-type="taskList"] > li > div):where(
@@ -969,8 +972,11 @@
   text-decoration: line-through;
 }
 :global(.notes-rich-content .tiptap input[type="checkbox"]):where(.scope, .scope *) {
+  display: block;
+  flex-shrink: 0;
   width: 15px;
   height: 15px;
+  margin: 0;
   accent-color: var(--green);
   cursor: pointer;
 }

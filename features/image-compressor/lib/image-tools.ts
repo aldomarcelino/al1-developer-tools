@@ -1,4 +1,4 @@
-export type ImageFormat = "image/jpeg" | "image/png" | "image/webp";
+export type ImageFormat = "image/jpeg" | "image/png" | "image/webp" | "image/gif";
 export function fitImage(width: number, height: number, maxWidth: number) {
   if (![width, height, maxWidth].every((n) => Number.isFinite(n) && n > 0))
     throw new Error("Enter a valid maximum width.");

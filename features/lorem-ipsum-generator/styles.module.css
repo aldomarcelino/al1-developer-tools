@@ -1,0 +1,98 @@
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(17rem, 1fr) minmax(0, 2.5fr);
+}
+
+.settings {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 12px;
+  padding: 20px 24px;
+  border-inline-end: 1px solid var(--border);
+}
+
+.settings .field {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  width: min(100%, 17rem);
+  margin-inline: 0;
+}
+
+.settings .field :global(.select-trigger) {
+  min-height: 42px;
+}
+
+.amountControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.amount .amountControl input {
+  min-width: 0;
+  max-width: 72px;
+}
+
+.opening {
+  min-height: 32px;
+  cursor: pointer;
+}
+
+.opening input {
+  flex: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.output {
+  min-width: 0;
+}
+
+.output > .preview {
+  display: block;
+  width: 100%;
+  min-height: 420px;
+  padding: 16px 20px;
+  border: 0;
+  resize: vertical;
+  background: var(--surface);
+  color: var(--text);
+  font: 15px / 1.8 var(--font-ui);
+}
+
+.workspace .preview:focus-visible {
+  outline: none;
+  background: var(--soft);
+}
+
+@media (max-width: 760px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .settings {
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 480px) {
+  .settings {
+    padding: 16px;
+  }
+
+  .output > .preview {
+    padding: 12px 16px;
+  }
+}

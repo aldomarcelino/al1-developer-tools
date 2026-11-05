@@ -160,6 +160,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
   padding: 9px 12px;
   border-radius: 8px;
   background: var(--soft);

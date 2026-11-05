@@ -257,57 +257,147 @@ summary:focus-visible {
 
 /* Screen Recorder Styles */
 .progress-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  background: #fdf5f5;
-  border: 1px solid #fedbd8;
-  border-radius: 12px;
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  background: #f1f6f4;
+  border: 1px solid #d9e6df;
+  border-radius: 14px;
   margin-bottom: 12px;
 }
-.live-pulse {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #e53945;
-  box-shadow: 0 0 0 3px rgba(229, 57, 69, 0.2);
-  flex-shrink: 0;
-  animation: pulse 1.5s infinite;
-}
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(229, 57, 69, 0.5);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 6px rgba(229, 57, 69, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(229, 57, 69, 0);
-  }
-}
-.progress-info {
+.recording-status-heading,
+.recording-state {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 8px;
 }
-.progress-info strong {
-  font-size: 12px;
+.recording-status-heading {
+  justify-content: space-between;
+}
+.recording-state {
   color: #103e3b;
+  font-size: 12px;
+}
+.recording-local {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #526b60;
+}
+.live-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #df3d46;
+}
+.progress-card[data-state="paused"] .live-pulse {
+  background: #a56b12;
+}
+.progress-card[data-state="stopped"] .live-pulse {
+  background: #42735a;
+}
+.progress-card p {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: -0.01em;
+  color: #526b60;
+  line-height: 1.6;
+}
+.progress-card[data-state="recording"] #rec-state-detail {
+  white-space: nowrap;
 }
 .rec-timer {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: #e53945;
+  color: #103e3b;
 }
 .rec-actions-group {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 36px;
   gap: 6px;
+}
+.rec-actions-group button {
+  min-width: 0;
+  min-height: 36px;
+  padding: 8px;
+  white-space: nowrap;
+  font-size: 11px;
+}
+#rec-cancel-btn {
+  display: grid;
+  place-items: center;
+}
+#rec-discard-icon,
+#rec-discard-icon svg {
+  display: block;
+  width: 15px;
+  height: 15px;
+}
+.recording-dock-option {
+  padding: 14px 2px;
+}
+.recording-dock-option p {
+  margin: 6px 0 0;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.recording-dock-option p {
+  padding-left: 24px;
+  font-size: 9px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.recording-shortcuts {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.recording-shortcuts summary {
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--text);
+}
+.recording-shortcuts dl {
+  margin: 10px 0;
+  display: grid;
+  gap: 9px;
+}
+.recording-shortcuts dl > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.recording-shortcuts dt {
+  font-size: 10px;
+  color: var(--muted);
+}
+.recording-shortcuts dd {
+  margin: 0;
+  font-size: 9px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.recording-shortcuts kbd {
+  display: inline-block;
+  font:
+    9px/1.4 ui-monospace,
+    monospace;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 4px;
+  background: var(--soft);
+}
+.recording-error {
+  padding: 10px;
+  background: #fff1f0;
+  color: #b42318;
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 1.6;
 }
 .recorder-options {
   display: flex;

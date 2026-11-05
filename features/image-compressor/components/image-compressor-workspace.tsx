@@ -4,7 +4,7 @@ import styles from "../styles.module.css";
 
 import { useNotice } from "@/hooks/use-notice";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ImageIcon, Upload, Sparkles, FolderOpen, AlertCircle } from "lucide-react";
 
 import { downloadBlob } from "@/lib/browser/download";
@@ -12,11 +12,12 @@ import { DropArea } from "@/components/ui/drop-area";
 import { ActionButton } from "@/components/ui/action-button";
 import { ToolHeader } from "@/components/cummon/tool-header";
 
-import { useImageBatch } from "../hooks/use-image-batch";
+import { useImageBatch, type BatchItem } from "../hooks/use-image-batch";
 import { ImageBatchQueue } from "./image-batch-queue";
 import { createSampleImage } from "../lib/sample-image";
 import { createZip } from "@/lib/browser/zip";
-import type { ExportSettings } from "../lib/batch";
+import { defaultFormatForFilename, type ExportSettings } from "../lib/batch";
+import type { ImageFormat } from "../lib/image-tools";
 import { ImageExportSettings } from "./image-export-settings";
 import { ImageComparison } from "./image-comparison";
 
@@ -30,12 +31,29 @@ export function ImageCompressorWorkspace() {
     lockAspectRatio: true,
   });
   const [selectedId, setSelectedId] = useState<string>();
+  const [formatOverrides, setFormatOverrides] = useState<Record<string, ImageFormat>>({});
+  const [nonGifFormat, setNonGifFormat] = useState<ImageFormat>("image/webp");
+  const [gifFormat, setGifFormat] = useState<ImageFormat>("image/gif");
   const [zipping, setZipping] = useState(false);
   const [notice, setNoticeWithTimeout] = useNotice("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const batch = useImageBatch(settings);
+
+  const getItemFormat = useCallback(
+    (item: BatchItem): ImageFormat => {
+      if (formatOverrides[item.id]) {
+        return formatOverrides[item.id];
+      }
+      const isGif =
+        defaultFormatForFilename(item.file.name, item.file.type) === "image/gif";
+      return isGif ? gifFormat : nonGifFormat;
+    },
+    [formatOverrides, gifFormat, nonGifFormat]
+  );
+
+  const batch = useImageBatch(settings, getItemFormat);
   const { addFiles } = batch;
+
   const activeItem =
     batch.items.find((item) => item.id === selectedId && batch.sources[item.id]) ??
     batch.items.find((item) => batch.sources[item.id]);
@@ -46,6 +64,43 @@ export function ImageCompressorWorkspace() {
       batch.statuses[activeItem.id] === "queued"
     : batch.busy;
   const error = activeItem ? batch.errors[activeItem.id] || "" : "";
+
+  // The format displayed for the current/active image
+  const activeFormat = activeItem ? getItemFormat(activeItem) : "image/webp";
+
+  const handleSettingsChange = (patch: Partial<ExportSettings>) => {
+    if (patch.format && activeItem) {
+      const isGif =
+        defaultFormatForFilename(activeItem.file.name, activeItem.file.type) ===
+        "image/gif";
+      if (isGif) {
+        setGifFormat(patch.format);
+      } else {
+        setNonGifFormat(patch.format);
+      }
+      setFormatOverrides((prev) => ({
+        ...prev,
+        [activeItem.id]: patch.format!,
+      }));
+    }
+    setSettings((previous) => ({ ...previous, ...patch }));
+  };
+
+  const handleRemove = (id: string) => {
+    setFormatOverrides((prev) => {
+      const copy = { ...prev };
+      delete copy[id];
+      return copy;
+    });
+    batch.remove(id);
+  };
+
+  const handleClear = () => {
+    setFormatOverrides({});
+    setGifFormat("image/gif");
+    setNonGifFormat("image/webp");
+    batch.clear();
+  };
 
   const downloadAll = async () => {
     setZipping(true);
@@ -115,8 +170,8 @@ export function ImageCompressorWorkspace() {
           zipping={zipping}
           onSelect={setSelectedId}
           onAdd={() => fileInputRef.current?.click()}
-          onRemove={batch.remove}
-          onClear={batch.clear}
+          onRemove={handleRemove}
+          onClear={handleClear}
           onRetry={batch.retry}
           onDownloadAll={() => void downloadAll()}
         />
@@ -173,8 +228,8 @@ export function ImageCompressorWorkspace() {
           </p>
 
           <ImageExportSettings
-            settings={settings}
-            onChange={(patch) => setSettings((previous) => ({ ...previous, ...patch }))}
+            settings={{ ...settings, format: activeFormat }}
+            onChange={handleSettingsChange}
             source={source}
             result={result}
             busy={busy}

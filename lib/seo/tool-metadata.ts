@@ -15,7 +15,7 @@ export const toolSeo = {
     title: "Interactive Screen Recorder - Record SaaS Demos",
     description:
       "Record your screen and create engaging SaaS demos with zoom, click highlights, annotations, drawing, and spotlight controls. Process recordings locally in your browser.",
-    note: "Choose a separate application browser tab in desktop Chrome or Edge, prepare the live canvas, then start recording. Whole screens and windows are rejected to keep studio controls out of the video; current-tab exclusion and capture-handle detection are used where available. Native capture supplies pixels and audio, not another app's pointer events: navigate your app in its tab and place click markers, zoom focus, pen, arrows, rectangles, circles, text and spotlight on the studio preview. The preview does not forward clicks to the shared app. Effects are encoded into the exported video, including optional webcam composition and microphone/tab audio where permission and browser support allow. The floating studio uses Document Picture-in-Picture on supporting browsers; otherwise keep the studio in a separate visible window. Background tabs can be throttled. Sessions are limited to 30 minutes or approximately 512 MB. Pause time is excluded from the displayed duration. Wait for finalization, review the video and download its actual WebM/MP4 format. All recordings remain in browser memory until discarded or the page closes; no uploads or remote processing occur. The demo scene is a labeled synthetic source using the same compositor and encoder.",
+    note: "Install Ramupod Companion in desktop Chrome 120 or later using Load unpacked, then record the application tab from the extension popup. Browser system pages cannot be recorded. The dock starts fully hidden; Alt+Shift+H or Show floating controls in video in the popup toggles it. Visible on-page controls, pen drawings, zoom effects, and the optional camera bubble are included in the captured tab pixels. Hiding the dock does not hide drawings or the camera. Pause or resume from the popup or Alt+Shift+P; finish from the popup or Alt+Shift+S. Shortcuts require the recorded tab to have focus and may be intercepted by the operating system. Recordings are encoded locally in an offscreen extension document and transferred directly to this viewer for WebM preview and download without server uploads. Review the video and save it before closing the page.",
   },
   "qa-bug-report": {
     title: "QA Bug Capture & Handoff - Local Request Evidence & Reports",
@@ -90,6 +90,12 @@ export const toolSeo = {
     note: "Compare two dates or add/subtract a whole number of calendar days. Business days are Monday–Friday without public-holiday exclusions. By default, count dates after the earlier date through the later date; Include both dates also counts the earlier date. Reverse ranges return negative counts. Equal dates return zero unless both endpoints are included. Date-only calculations avoid timezone and daylight-saving shifts. Dates must be between years 0001 and 9999, with day offsets limited to −100,000 through 100,000. Use today follows your device’s local calendar date.",
   },
 
+  "pdf-compressor": {
+    title: "PDF Compressor Online - Reduce PDF File Size",
+    description:
+      "Compress PDF files up to 50 MB in your browser. Choose a compression level, compare file sizes, and check the result against your upload limit.",
+    note: "Start with Balanced for most PDFs. Strong can make images less sharp, while selectable text stays selectable. PDFs with large JPEG images usually have more room to shrink. Text-only files or PDFs that are already optimized may stay close to their original size. Files stay on your device. Use an unsigned, unencrypted PDF up to 50 MB.",
+  },
   "pdf-merge-split": {
     title: "PDF Merge & Split - Reorder and Extract Pages",
     description:
@@ -139,10 +145,10 @@ export const toolSeo = {
     note: "Paste text, choose cleanup options and a case style, then copy or download the result. Cleanup runs before case conversion. Duplicate removal is case-sensitive. Word-based styles split camelCase, acronyms, whitespace, and punctuation. Your original input stays available for editing.",
   },
   "image-compressor": {
-    title: "Image Compressor & Converter - JPG, PNG & WebP",
+    title: "Image Compressor & Converter - JPG, PNG, WebP & GIF",
     description:
-      "Compress, resize, and convert JPG, PNG, and WebP images in your browser. Compare file sizes and download your result without uploading images to a server.",
-    note: "Add up to 20 images (30 MB and 60 megapixels each, 150 MB total) by browsing, dropping, or pasting. Format, quality, and resize settings apply to every image automatically. Select a row to compare its original and result, download individually, or download ready images together as a ZIP. Percentage resizing preserves each image’s aspect ratio. Custom bounds preserve aspect ratio when locked; unlocking uses exact dimensions. PNG ignores the quality slider; resizing may reduce its size. JPEG uses a white background for transparency. Output may be larger than the original. Animated inputs export a single still frame. Images are processed locally and are not uploaded.",
+      "Compress, resize, and convert JPG, PNG, WebP, and GIF images in your browser. Compare file sizes and download your result without uploading images to a server.",
+    note: "Add up to 20 images (30 MB and 60 megapixels each, 150 MB total) by browsing, dropping, or pasting. Select a row to compare its original and result, download individually, or download ready images together as a ZIP. Percentage resizing preserves each image’s aspect ratio. Custom bounds preserve aspect ratio when locked; unlocking uses exact dimensions. PNG ignores the quality slider; resizing may reduce its size. JPEG uses a white background for transparency. Output may be larger than the original. GIF inputs preserve animation frames, delays, and loops when exporting to GIF; converting GIF to other formats exports the first frame. Images are processed locally and are not uploaded.",
   },
   "character-counter": {
     title: "Character Counter - Word Count & Text Length",
@@ -233,6 +239,12 @@ export const toolSeo = {
     description:
       "Read any text aloud with natural browser voices, customizable speech rate, pitch controls, partial selection reading, and real-time word boundary progress.",
     note: "Speech synthesis uses the browser native Web Speech API (speechSynthesis). Available voices depend on your browser and operating system; some voices use a remote speech service and require a network connection. Controls include play, pause, resume, stop, speed adjustment from 0.5x to 2.0x, pitch modulation, voice filtering by language, and selection-only reading mode. Ramupod does not operate a speech synthesis server; the selected browser voice determines whether synthesis is local or remote.",
+  },
+  "lorem-ipsum-generator": {
+    title: "Lorem Ipsum Generator - Free Placeholder & Dummy Text",
+    description:
+      "Generate customizable Lorem Ipsum placeholder paragraphs, sentences, or words for your mockups and designs locally in your browser. Copy or export to TXT.",
+    note: "Choose paragraphs (1–30), sentences (1–100), or words (1–1,000) and toggle the classic introductory sentence. Text generation runs locally in your browser with instant copy and text file download.",
   },
 } as const;
 export type ToolSlug = keyof typeof toolSeo;

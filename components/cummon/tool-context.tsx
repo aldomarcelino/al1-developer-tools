@@ -3,20 +3,26 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { availableTool } from "@/lib/seo/metadata";
 import { toolSeo, type ToolSlug } from "@/lib/seo/tool-metadata";
-import { toolGuides } from "@/lib/seo/tool-guides";
+import { toolGuides, type ToolGuide } from "@/lib/seo/tool-guides";
 import { tools } from "@/config/tools";
 
 export function ToolContext({ slug }: { slug: ToolSlug }) {
   const tool = availableTool(slug);
-  if (!tool) return null;
-  const guide = toolGuides[slug];
-  const related = tools
-    .filter((entry) => entry.status === "available" && entry.slug !== slug)
-    .sort(
-      (a, b) =>
-        Number(b.category === tool.category) - Number(a.category === tool.category)
-    )
-    .slice(0, 3);
+  const guide: ToolGuide = toolGuides[slug];
+  const seo = toolSeo[slug];
+  if (!tool || !guide || !seo) return null;
+  const related = guide.related
+    ? guide.related.flatMap((relatedSlug) => {
+        const entry = availableTool(relatedSlug);
+        return entry ? [entry] : [];
+      })
+    : tools
+        .filter((entry) => entry.status === "available" && entry.slug !== slug)
+        .sort(
+          (a, b) =>
+            Number(b.category === tool.category) - Number(a.category === tool.category)
+        )
+        .slice(0, 3);
   return (
     <section
       className={`tool-context page-width ${styles.scope}`}
@@ -36,7 +42,7 @@ export function ToolContext({ slug }: { slug: ToolSlug }) {
       <div className={styles.details}>
         <div>
           <h2>What to know before using {tool.name}</h2>
-          <p>{toolSeo[slug].note}</p>
+          <p>{seo.note}</p>
         </div>
         <nav aria-label="Related tools">
           <h3>Keep your workflow moving</h3>

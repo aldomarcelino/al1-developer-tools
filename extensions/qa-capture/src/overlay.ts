@@ -1,15 +1,25 @@
 // Floating testing controls, isolated from the page and its styles.
 (() => {
-  if (!window.ramupodUI || document.getElementById("ramupod-qa-controls")) return;
+  if (!window.ramupodUI) return;
+  const previousHost = document.getElementById("ramupod-qa-controls");
+  if (previousHost && window.ramupodOverlayReady) return;
+  // Reloading an extension removes its listeners, but leaves injected DOM behind.
+  // Replace that orphaned DOM so a new recorder can actually receive messages.
+  if (previousHost) {
+    previousHost.remove();
+    document.getElementById("ramupod-camera-bubble")?.remove();
+    document.getElementById("ramupod-rec-canvas")?.remove();
+    document.getElementById("ramupod-rec-countdown")?.remove();
+  }
   const ui = window.ramupodUI;
   const host = document.createElement("div");
   host.id = "ramupod-qa-controls";
   host.style.cssText =
-    "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483646;color-scheme:light";
+    "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483646;color-scheme:light;visibility:hidden";
   const root = host.attachShadow({ mode: "closed" });
   const style = document.createElement("style");
   style.textContent = `
- *{box-sizing:border-box}:host{font:12px/1.5 system-ui;color:#232527;color-scheme:light}button,input,textarea,select{font:inherit}button{cursor:pointer}.dock{display:flex;align-items:center;gap:4px;padding:8px;background:#fff;border:1px solid #e5e8e9;border-radius:16px;box-shadow:0 6px 30px #14252a20;max-width:calc(100vw - 24px)}.icon-button{position:relative;display:grid;place-items:center;width:38px;height:38px;border:0;background:transparent;color:#747b80;border-radius:10px;flex-shrink:0;padding:0}.icon-button:hover,.icon-button[aria-pressed=true]{background:#eef3f2;color:#103e3b}.icon-button.primary{background:#103e3b;color:white}.icon-button:disabled{opacity:.35;cursor:default}.icon-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #103e3b;outline-offset:2px}.icon-button[data-tip]:hover:after,.icon-button[data-tip]:focus-visible:after{content:attr(data-tip);position:absolute;bottom:calc(100% + 11px);left:50%;transform:translateX(-50%);white-space:nowrap;padding:6px 8px;background:#183d3b;color:#fff;border-radius:6px;font-size:11px;font-weight:400;pointer-events:none;z-index:20}.timer{display:flex;align-items:center;gap:7px;font-variant-numeric:tabular-nums;width:80px;flex-shrink:0;padding:0 6px;font-size:14px}.dot{height:6px;width:6px;border-radius:50%;background:#e53945}.timer.paused .dot{background:#a19d4e}.divider{width:1px;height:24px;background:#e5e8e9;margin:0 4px}.dock{cursor:grab;touch-action:none;user-select:none}.dock.dragging{cursor:grabbing}.dock:focus-visible{outline:2px solid #103e3b;outline-offset:3px}.icon-button.destructive:hover{background:#fff1f0;color:#b42318}.icon-button.selected{color:#103e3b;background:#eef3f2}.icon-button.selected svg{fill:currentColor}.counter{position:absolute;top:1px;right:0;background:#103e3b;color:white;border:2px solid white;min-width:15px;height:15px;line-height:11px;border-radius:8px;font-size:8px;pointer-events:none}.pane{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%);background:white;border:1px solid #e5e8e9;border-radius:16px;padding:18px;width:min(460px,calc(100vw - 28px));max-height:min(560px,calc(100dvh - 130px));overflow:auto;box-shadow:0 10px 40px #14252a20}.heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.heading h2{font-size:14px;margin:0;font-weight:600}.heading .icon-button{width:28px;height:28px}.subtle{font-size:11px;color:#747b80;line-height:1.65;margin:8px 0}.filters{display:flex;align-items:center;gap:8px;margin:12px 0}.filters input{flex:1;width:auto}.filters select{flex:0 0 120px;width:120px}input,textarea,select{border:1px solid #e5e8e9;border-radius:9px;padding:9px 10px;color:#232527;background:white;min-width:0}input{width:100%}select{max-width:130px}.row{border:1px solid #e5e8e9;border-radius:11px;padding:12px;margin:8px 0}.request-top{display:flex;align-items:center;gap:8px}.method{font-size:10px;font-weight:600;background:#eef3f2;color:#103e3b;border-radius:5px;padding:3px 6px}.code{font-size:10px;padding:3px 6px;border-radius:5px;background:#f7f8fa;color:#747b80}.code.error{background:#fff1f0;color:#b42318}.endpoint{font-size:11px;overflow-wrap:anywhere;display:block;margin:8px 0;color:#424b4d}.actions{display:flex;gap:4px;margin-left:auto}.actions .icon-button{width:29px;height:29px}.actions svg{width:16px;height:16px}summary{cursor:pointer;font-size:11px;color:#747b80}pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:160px;overflow:auto;padding:10px;border-radius:8px;background:#f7f8fa;color:#424b4d;font:11px/1.6 ui-monospace,monospace}.toast{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%);width:max-content;max-width:min(400px,calc(100vw - 24px));padding:10px 14px;border-radius:10px;background:#103e3b;color:white;box-shadow:0 4px 20px #14252a20;font-size:11px;pointer-events:none}.toast.over-pane{bottom:calc(100% + 24px);top:auto;z-index:3}textarea{width:100%;resize:vertical}.text-button{border:0;border-radius:8px;padding:9px 12px;background:#103e3b;color:white}.text-button.danger{color:white;background:#b42318}.text-button.danger:hover{background:#912018}.live-note{display:flex;gap:6px;align-items:center}[hidden]{display:none!important}.dock.minimized{padding:4px 10px;border-radius:24px;background:rgba(16,62,59,0.94);color:#fff;border:1px solid rgba(255,255,255,0.25);box-shadow:0 4px 20px rgba(0,0,0,0.35);backdrop-filter:blur(8px);gap:6px;opacity:.28;transition:opacity .25s ease-in-out,transform .2s ease}.dock.minimized:hover,.dock.minimized:focus-within{opacity:1}.dock.minimized .icon-button:not(.btn-min-toggle){display:none!important}.dock.minimized .divider{display:none!important}.dock.minimized .timer{color:#fff;width:auto;font-size:13px;padding:0 4px}.dock.minimized .btn-min-toggle{color:#fff;width:28px;height:28px}.dock.minimized .btn-min-toggle:hover{background:rgba(255,255,255,0.2);color:#fff}.icon-button.active-tool{background:#103e3b!important;color:#fff!important}.icon-button.active-tool svg{stroke-width:2.2}@media(max-width:480px){.dock{gap:0;padding:6px}.icon-button{width:33px;height:33px}.timer{width:75px;font-size:14px}.divider{margin:0 2px}}`;
+ *{box-sizing:border-box}:host{font:12px/1.5 system-ui;color:#232527;color-scheme:light}button,input,textarea,select{font:inherit}button{cursor:pointer}.dock{display:flex;align-items:center;gap:4px;padding:8px;background:#fff;border:1px solid #e5e8e9;border-radius:16px;box-shadow:0 6px 30px #14252a20;max-width:calc(100vw - 24px)}.icon-button{position:relative;display:grid;place-items:center;width:38px;height:38px;border:0;background:transparent;color:#747b80;border-radius:10px;flex-shrink:0;padding:0}.icon-button:hover,.icon-button[aria-pressed=true]{background:#eef3f2;color:#103e3b}.icon-button.primary{background:#103e3b;color:white}.icon-button:disabled{opacity:.35;cursor:default}.icon-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #103e3b;outline-offset:2px}.icon-button[data-tip]:hover:after,.icon-button[data-tip]:focus-visible:after{content:attr(data-tip);position:absolute;bottom:calc(100% + 11px);left:50%;transform:translateX(-50%);white-space:nowrap;padding:6px 8px;background:#183d3b;color:#fff;border-radius:6px;font-size:11px;font-weight:400;pointer-events:none;z-index:20}.timer{display:flex;align-items:center;gap:7px;font-variant-numeric:tabular-nums;width:80px;flex-shrink:0;padding:0 6px;font-size:14px}.dot{height:6px;width:6px;border-radius:50%;background:#e53945}.timer.paused .dot{background:#a19d4e}.divider{width:1px;height:24px;background:#e5e8e9;margin:0 4px}.dock{cursor:grab;touch-action:none;user-select:none}.dock.dragging{cursor:grabbing}.dock:focus-visible{outline:2px solid #103e3b;outline-offset:3px}.icon-button.destructive:hover{background:#fff1f0;color:#b42318}.icon-button.selected{color:#103e3b;background:#eef3f2}.icon-button.selected svg{fill:currentColor}.counter{position:absolute;top:1px;right:0;background:#103e3b;color:white;border:2px solid white;min-width:15px;height:15px;line-height:11px;border-radius:8px;font-size:8px;pointer-events:none}.pane{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%);background:white;border:1px solid #e5e8e9;border-radius:16px;padding:18px;width:min(460px,calc(100vw - 28px));max-height:min(560px,calc(100dvh - 130px));overflow:auto;box-shadow:0 10px 40px #14252a20}.heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.heading h2{font-size:14px;margin:0;font-weight:600}.heading .icon-button{width:28px;height:28px}.subtle{font-size:11px;color:#747b80;line-height:1.65;margin:8px 0}.filters{display:flex;align-items:center;gap:8px;margin:12px 0}.filters input{flex:1;width:auto}.filters select{flex:0 0 120px;width:120px}input,textarea,select{border:1px solid #e5e8e9;border-radius:9px;padding:9px 10px;color:#232527;background:white;min-width:0}input{width:100%}select{max-width:130px}.row{border:1px solid #e5e8e9;border-radius:11px;padding:12px;margin:8px 0}.request-top{display:flex;align-items:center;gap:8px}.method{font-size:10px;font-weight:600;background:#eef3f2;color:#103e3b;border-radius:5px;padding:3px 6px}.code{font-size:10px;padding:3px 6px;border-radius:5px;background:#f7f8fa;color:#747b80}.code.error{background:#fff1f0;color:#b42318}.endpoint{font-size:11px;overflow-wrap:anywhere;display:block;margin:8px 0;color:#424b4d}.actions{display:flex;gap:4px;margin-left:auto}.actions .icon-button{width:29px;height:29px}.actions svg{width:16px;height:16px}summary{cursor:pointer;font-size:11px;color:#747b80}pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:160px;overflow:auto;padding:10px;border-radius:8px;background:#f7f8fa;color:#424b4d;font:11px/1.6 ui-monospace,monospace}.toast{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%);width:max-content;max-width:min(400px,calc(100vw - 24px));padding:10px 14px;border-radius:10px;background:#103e3b;color:white;box-shadow:0 4px 20px #14252a20;font-size:11px;pointer-events:none}.toast.over-pane{bottom:calc(100% + 24px);top:auto;z-index:3}textarea{width:100%;resize:vertical}.text-button{border:0;border-radius:8px;padding:9px 12px;background:#103e3b;color:white}.text-button.danger{color:white;background:#b42318}.text-button.danger:hover{background:#912018}.live-note{display:flex;gap:6px;align-items:center}[hidden]{display:none!important}.icon-button.active-tool{background:#103e3b!important;color:#fff!important}.icon-button.active-tool svg{stroke-width:2.2}@media(max-width:480px){.dock{gap:0;padding:6px}.icon-button{width:33px;height:33px}.timer{width:75px;font-size:14px}.divider{margin:0 2px}}`;
   root.appendChild(style);
   const dock = document.createElement("div");
   dock.className = "dock";
@@ -292,6 +302,64 @@
     })
   );
   let overlayMode: "qa" | "rec" = "qa";
+  let recordingCamera = false,
+    recordingSessionId = "";
+  let finishCountdown: ((complete: boolean) => void) | null = null;
+
+  function showCountdown() {
+    finishCountdown?.(false);
+    return new Promise<boolean>((resolve) => {
+      const countdown = document.createElement("div");
+      countdown.id = "ramupod-rec-countdown";
+      countdown.style.cssText =
+        "position:fixed;inset:0;z-index:2147483647;background:rgba(7,28,32,.4);display:grid;place-items:center;color-scheme:light";
+      const shadow = countdown.attachShadow({ mode: "closed" });
+      const css = document.createElement("style");
+      css.textContent = `:host{font:13px/1.5 system-ui;color:white}*{box-sizing:border-box}.shortcuts{position:fixed;top:24px;left:50%;transform:translateX(-50%);display:flex;justify-content:center;gap:10px 20px;flex-wrap:wrap;width:max-content;max-width:calc(100vw - 32px);background:#103e3b;padding:12px 18px;border:1px solid #ffffff30;border-radius:14px;box-shadow:0 8px 32px #0002;font-size:11px}.shortcuts span{white-space:nowrap}kbd{font:10px ui-monospace,monospace;padding:3px 5px;border:1px solid #ffffff50;border-radius:4px;background:#ffffff12}.center{text-align:center;display:grid;justify-items:center;gap:14px}.label{margin:0;font-size:14px;font-weight:500}.number{display:grid;place-items:center;width:140px;height:140px;border-radius:30px;background:white;color:#103e3b;font-size:88px;line-height:1;font-weight:650;box-shadow:0 12px 60px #0003}button{background:#103e3b;color:white;border:1px solid #ffffff40;border-radius:999px;padding:9px 16px;font:12px system-ui;cursor:pointer}button:focus-visible{outline:3px solid #b7f425;outline-offset:3px}`;
+      shadow.appendChild(css);
+      const hints = document.createElement("div");
+      hints.className = "shortcuts";
+      hints.innerHTML =
+        "<span><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd> Dock</span><span><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> Pause / resume</span><span><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> Finish</span>";
+      const center = document.createElement("div");
+      center.className = "center";
+      const label = document.createElement("p");
+      label.className = "label";
+      label.textContent = "Recording starts in";
+      const number = document.createElement("div");
+      number.className = "number";
+      number.textContent = "3";
+      number.setAttribute("role", "status");
+      number.setAttribute("aria-live", "assertive");
+      const cancel = document.createElement("button");
+      cancel.textContent = "Cancel · Esc";
+      center.appendChild(label);
+      center.appendChild(number);
+      center.appendChild(cancel);
+      shadow.appendChild(hints);
+      shadow.appendChild(center);
+      document.documentElement.appendChild(countdown);
+      let seconds = 3;
+      const tick = setInterval(() => {
+        seconds--;
+        if (seconds > 0) number.textContent = String(seconds);
+        else finishCountdown?.(true);
+      }, 1000);
+      let finished = false;
+      finishCountdown = (complete) => {
+        if (finished) return;
+        finished = true;
+        clearInterval(tick);
+        countdown.remove();
+        finishCountdown = null;
+        // Allow the countdown's pixels to leave the compositor before capture.
+        if (complete)
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve(true)));
+        else resolve(false);
+      };
+      cancel.onclick = () => finishCountdown?.(false);
+    });
+  }
 
   // Drawing tool state & helpers
   let drawCanvas: HTMLCanvasElement | null = null;
@@ -403,14 +471,63 @@
   let zoomMode = false;
   let isZoomed = false;
   const ZOOM_SCALE = 1.75;
+  const ZOOM_DURATION = 380;
+  const ZOOM_TRANSITION = `transform ${ZOOM_DURATION}ms cubic-bezier(0.22, 1, 0.36, 1)`;
+  let originalZoomStyles: {
+    transform: string;
+    origin: string;
+    transition: string;
+  } | null = null;
+  let baseTransform = "none";
+  let returningFromZoom = false;
+  let queuedZoom: Point | null = null;
+  let zoomReturnTimer: ReturnType<typeof setTimeout> | undefined;
+  let zoomReturnListener: ((event: TransitionEvent) => void) | null = null;
 
-  function resetZoom() {
-    document.body.style.transition = "transform 0.25s ease-out";
-    document.body.style.transform = "";
-    document.body.style.transformOrigin = "";
-    setTimeout(() => {
-      document.body.style.transition = "";
-    }, 300);
+  function cancelZoomReturn() {
+    clearTimeout(zoomReturnTimer);
+    if (zoomReturnListener)
+      document.body.removeEventListener("transitionend", zoomReturnListener);
+    zoomReturnListener = null;
+    returningFromZoom = false;
+  }
+
+  function restoreZoomStyles() {
+    if (!originalZoomStyles) return;
+    document.body.style.transform = originalZoomStyles.transform;
+    document.body.style.transformOrigin = originalZoomStyles.origin;
+    document.body.style.transition = originalZoomStyles.transition;
+    originalZoomStyles = null;
+  }
+
+  function completeZoomReturn() {
+    if (!returningFromZoom) return;
+    cancelZoomReturn();
+    restoreZoomStyles();
+    const next = queuedZoom;
+    queuedZoom = null;
+    if (next) zoomTo(next.x, next.y);
+  }
+
+  function resetZoom(immediate = false) {
+    queuedZoom = null;
+    if (immediate) {
+      cancelZoomReturn();
+      restoreZoomStyles();
+    } else if (originalZoomStyles && !returningFromZoom) {
+      returningFromZoom = true;
+      document.body.style.transition = ZOOM_TRANSITION;
+      // Keep the focus point fixed throughout the return animation. Resetting
+      // transform-origin here jumps the scaled page to its default center.
+      document.body.style.transform =
+        baseTransform === "none" ? "scale(1)" : baseTransform;
+      zoomReturnListener = (event) => {
+        if (event.target === document.body && event.propertyName === "transform")
+          completeZoomReturn();
+      };
+      document.body.addEventListener("transitionend", zoomReturnListener);
+      zoomReturnTimer = setTimeout(completeZoomReturn, ZOOM_DURATION + 80);
+    }
     isZoomed = false;
     zoomBtn.innerHTML = ui.icon("zoomIn");
     zoomBtn.dataset.tip = "Zoom into area on click (Alt+Shift+Z)";
@@ -418,9 +535,22 @@
   }
 
   function zoomTo(clientX: number, clientY: number) {
-    document.body.style.transition = "transform 0.25s ease-out";
-    document.body.style.transformOrigin = `${clientX}px ${clientY}px`;
-    document.body.style.transform = `scale(${ZOOM_SCALE})`;
+    if (returningFromZoom) {
+      queuedZoom = { x: clientX, y: clientY };
+      return;
+    }
+    if (!originalZoomStyles) {
+      originalZoomStyles = {
+        transform: document.body.style.transform,
+        origin: document.body.style.transformOrigin,
+        transition: document.body.style.transition,
+      };
+      baseTransform = getComputedStyle(document.body).transform || "none";
+    }
+    const bounds = document.body.getBoundingClientRect();
+    document.body.style.transition = ZOOM_TRANSITION;
+    document.body.style.transformOrigin = `${clientX - bounds.left}px ${clientY - bounds.top}px`;
+    document.body.style.transform = `${baseTransform === "none" ? "" : baseTransform} scale(${ZOOM_SCALE})`;
     isZoomed = true;
     zoomBtn.innerHTML = ui.icon("zoomOut");
     zoomBtn.dataset.tip = "Zoom out (click page, Alt+Shift+Z, or Esc)";
@@ -603,66 +733,38 @@
   divider3.hidden = true;
   dock.appendChild(divider3);
 
-  let isMinimized = false;
-  let dockVisibility: "normal" | "minimized" | "hidden" = "normal";
+  let controlsVisible = false;
 
-  function toggleMinimize(force?: boolean) {
-    isMinimized = typeof force === "boolean" ? force : !isMinimized;
-    dock.classList.toggle("minimized", isMinimized);
-    minimizeBtn.innerHTML = ui.icon(isMinimized ? "expand" : "minimize");
-    minimizeBtn.dataset.tip = isMinimized
-      ? "Expand controls (Alt+Shift+H)"
-      : "Minimize dock (Alt+Shift+H)";
-    minimizeBtn.setAttribute(
-      "aria-label",
-      isMinimized ? "Expand controls" : "Minimize controls"
-    );
-    if (isMinimized) closePane();
+  function setControlsVisible(visible: boolean) {
+    controlsVisible = visible;
+    host.style.visibility = visible ? "visible" : "hidden";
+    if (!visible) closePane();
   }
 
   function cycleDockVisibility() {
-    if (dockVisibility === "normal") {
-      dockVisibility = "minimized";
-      host.style.visibility = "visible";
-      toggleMinimize(true);
-      notify("Dock minimized (Alt+Shift+H to hide or restore)");
-    } else if (dockVisibility === "minimized") {
-      dockVisibility = "hidden";
-      host.style.visibility = "hidden";
-      notify("Dock hidden (Alt+Shift+H to restore)");
-    } else {
-      dockVisibility = "normal";
-      host.style.visibility = "visible";
-      toggleMinimize(false);
-      notify("Dock restored");
-    }
+    run(async () => {
+      const result = await send("rec-set-controls", { visible: !controlsVisible });
+      setControlsVisible(result.controlsVisible === true);
+    });
   }
 
   const minimizeBtn = b(
-    "Minimize dock (Alt+Shift+H)",
+    "Hide controls from recording (Alt+Shift+H)",
     "minimize",
-    () => {
-      if (isMinimized) {
-        dockVisibility = "normal";
-        toggleMinimize(false);
-      } else {
-        dockVisibility = "minimized";
-        toggleMinimize(true);
-      }
-    },
+    cycleDockVisibility,
     dock,
     "btn-min-toggle"
   );
   minimizeBtn.hidden = true;
 
   const handleKeyShortcuts = (e: KeyboardEvent) => {
-    const target = e.target as HTMLElement | null;
-    const isInput =
-      target &&
-      (target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.isContentEditable);
-
+    if (finishCountdown) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        finishCountdown(false);
+      }
+      return;
+    }
     if (e.key === "Escape") {
       if (penMode) {
         setPenMode(false);
@@ -673,14 +775,7 @@
         setZoomMode(false);
         return;
       }
-      if (isMinimized) {
-        dockVisibility = "normal";
-        toggleMinimize(false);
-        return;
-      }
     }
-
-    if (isInput) return;
 
     if (overlayMode === "rec") {
       if (e.altKey && e.shiftKey) {
@@ -708,7 +803,7 @@
       }
     }
   };
-  window.addEventListener("keydown", handleKeyShortcuts);
+  window.addEventListener("keydown", handleKeyShortcuts, true);
 
   const handleResize = () => {
     if (drawCanvas) {
@@ -764,7 +859,8 @@
     );
   };
   let cameraBubble: HTMLElement | null = null;
-  let cameraStream: MediaStream | null = null;
+  let cameraCanvas: HTMLCanvasElement | null = null;
+  let cameraPaintBusy = false;
 
   function setupCameraBubble() {
     if (cameraBubble || document.getElementById("ramupod-camera-bubble")) return;
@@ -772,27 +868,14 @@
     bubble.id = "ramupod-camera-bubble";
     bubble.style.cssText =
       "position:fixed;bottom:24px;left:24px;width:140px;height:140px;border-radius:50%;overflow:hidden;z-index:2147483645;border:3px solid #103e3b;box-shadow:0 8px 30px rgba(16,62,59,0.3);cursor:grab;user-select:none;touch-action:none;background:#000;";
-    const video = document.createElement("video");
-    video.autoplay = true;
-    video.muted = true;
-    video.playsInline = true;
-    video.style.cssText =
-      "width:100%;height:100%;object-fit:cover;transform:scaleX(-1);pointer-events:none;";
-    bubble.appendChild(video);
+    const canvas = document.createElement("canvas");
+    canvas.width = 256;
+    canvas.height = 256;
+    canvas.style.cssText = "width:100%;height:100%;pointer-events:none;";
+    bubble.appendChild(canvas);
+    cameraCanvas = canvas;
     document.documentElement.appendChild(bubble);
     cameraBubble = bubble;
-
-    navigator.mediaDevices
-      ?.getUserMedia({ video: true, audio: false })
-      .then((s) => {
-        cameraStream = s;
-        video.srcObject = s;
-        video.play().catch(() => {});
-      })
-      .catch(() => {
-        bubble.remove();
-        cameraBubble = null;
-      });
 
     let bDrag: { x: number; y: number; left: number; top: number } | null = null;
     bubble.onpointerdown = (e) => {
@@ -820,13 +903,28 @@
   }
 
   function tearDownCamera() {
-    if (cameraStream) {
-      cameraStream.getTracks().forEach((t) => t.stop());
-      cameraStream = null;
-    }
+    cameraCanvas = null;
     cameraBubble?.remove();
     cameraBubble = null;
     document.getElementById("ramupod-camera-bubble")?.remove();
+  }
+  async function paintCamera(image: string) {
+    if (!recordingCamera || cameraPaintBusy) return;
+    setupCameraBubble();
+    const canvas = cameraCanvas;
+    if (!canvas) return;
+    cameraPaintBusy = true;
+    try {
+      const bytes = Uint8Array.from(atob(image.split(",")[1]), (char) =>
+        char.charCodeAt(0)
+      );
+      const frame = await createImageBitmap(new Blob([bytes], { type: "image/jpeg" }));
+      if (cameraCanvas === canvas && canvas.isConnected)
+        canvas.getContext("2d")?.drawImage(frame, 0, 0, 256, 256);
+      frame.close();
+    } finally {
+      cameraPaintBusy = false;
+    }
   }
 
   function refresh() {
@@ -882,9 +980,11 @@
   function remove() {
     if (removed) return;
     removed = true;
-    resetZoom();
+    window.ramupodOverlayReady = false;
+    finishCountdown?.(false);
+    resetZoom(true);
     window.removeEventListener("click", handlePageZoomClick, true);
-    window.removeEventListener("keydown", handleKeyShortcuts);
+    window.removeEventListener("keydown", handleKeyShortcuts, true);
     window.removeEventListener("resize", handleResize);
     if (drawCanvas) {
       drawCanvas.remove();
@@ -897,7 +997,7 @@
     chrome.runtime.onMessage.removeListener(listener);
     host.remove();
   }
-  const listener = (m: unknown) => {
+  const listener = (m: unknown, _sender: unknown, reply: (value: unknown) => void) => {
     const message = m as {
       qa?: string;
       state?: string;
@@ -907,10 +1007,42 @@
       startedAt?: string | number;
       error?: string;
       withCamera?: boolean;
+      controlsVisible?: boolean;
+      visible?: boolean;
+      sessionId?: string;
+      image?: string;
     };
+    if (message.qa === "rec-overlay-ping") {
+      reply({ ok: true });
+      return;
+    }
+    if (message.qa === "rec-camera-unavailable") {
+      recordingCamera = false;
+      tearDownCamera();
+      return;
+    }
+    if (message.qa === "rec-countdown") {
+      overlayMode = "rec";
+      recordingCamera = !!message.withCamera;
+      recordingSessionId = message.sessionId ?? "";
+      void showCountdown().then((ok) => reply({ ok, cancelled: !ok }));
+      return true;
+    }
+    if (
+      message.qa === "rec-camera-frame" &&
+      message.sessionId === recordingSessionId &&
+      typeof message.image === "string"
+    ) {
+      void paintCamera(message.image).catch(() => {});
+      return;
+    }
     if (message.qa === "quick-remove" || message.qa === "rec-overlay-remove") remove();
     if (message.qa === "rec-overlay-init") {
       overlayMode = "rec";
+      recordingCamera = !!message.withCamera;
+      recordingSessionId = message.sessionId ?? "";
+      setControlsVisible(message.controlsVisible === true);
+      dock.setAttribute("aria-label", "Ramupod recording controls (included in video)");
       if (typeof message.startedAt === "number") startedAt = message.startedAt;
       network.hidden = true;
       screenshot.hidden = true;
@@ -922,6 +1054,9 @@
       updateDrawButtons();
       if (message.withCamera) setupCameraBubble();
       refresh();
+    }
+    if (message.qa === "rec-overlay-visibility") {
+      setControlsVisible(message.visible === true);
     }
     if (message.qa === "rec-overlay-state") {
       state = message.state ?? state;
@@ -948,6 +1083,7 @@
     }
   };
   chrome.runtime.onMessage.addListener(listener);
+  window.ramupodOverlayReady = true;
   root.addEventListener("keydown", (e) => {
     if ((e as KeyboardEvent).key === "Escape" && pane) {
       closePane();
@@ -960,9 +1096,16 @@
       state?: string;
       startedAt?: number;
       totalPaused?: number;
+      controlsVisible?: boolean;
+      withCamera?: boolean;
+      sessionId?: string;
     };
     if (recCheck?.recording) {
       overlayMode = "rec";
+      recordingCamera = !!recCheck.withCamera;
+      recordingSessionId = recCheck.sessionId ?? "";
+      setControlsVisible(recCheck.controlsVisible === true);
+      dock.setAttribute("aria-label", "Ramupod recording controls (included in video)");
       state = recCheck.state ?? "recording";
       if (recCheck.startedAt) startedAt = recCheck.startedAt;
       if (typeof recCheck.totalPaused === "number") totalPausedMs = recCheck.totalPaused;
@@ -975,6 +1118,7 @@
       divider3.hidden = false;
       minimizeBtn.hidden = false;
       updateDrawButtons();
+      if (recCheck.withCamera) setupCameraBubble();
       refresh();
       return;
     }
@@ -988,6 +1132,7 @@
           }
         | undefined;
     if (session) {
+      setControlsVisible(true);
       state = session.state;
       startedAt = Date.parse(session.startedAt);
       count = session.requests.length;
