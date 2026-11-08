@@ -771,6 +771,30 @@
     "status": "available"
   },
   {
+    "slug": "pdf-to-markdown",
+    "name": "PDF to Markdown",
+    "description": "Convert PDF documents to clean Markdown (.md) locally in your browser with headings, formatting, lists, and links.",
+    "keywords": [
+      "pdf to markdown",
+      "pdf to md",
+      "convert pdf to markdown",
+      "convert pdf to md",
+      "pdf ke markdown",
+      "pdf ke md",
+      "ubah pdf ke markdown",
+      "pdf to markdown converter",
+      "extract markdown from pdf",
+      "pdf text to markdown",
+      "pdf to gfm",
+      "pdf parser markdown",
+      "export pdf to markdown"
+    ],
+    "category": "Documents",
+    "icon": "pdfmarkdown",
+    "phase": 1,
+    "status": "available"
+  },
+  {
     "slug": "markdown-editor",
     "name": "Markdown Editor",
     "description": "A distraction-free editor with a live preview of your writing.",

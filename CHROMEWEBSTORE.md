@@ -1,130 +1,56 @@
-# Chrome Web Store Listing & Publishing Guide — Ramupod
+# Chrome Web Store submission for Ramupod
 
-Single source of truth for publishing **Ramupod** to the [Chrome Developer Dashboard](https://chrome.google.com/webstore/devconsole).
+Upload the ZIP at `public/ramupod-companion.zip` in the [Chrome Developer Dashboard](https://chrome.google.com/webstore/devconsole). The current manifest version is `0.5.3`. For an existing listing, use its Package tab and confirm the new version is higher than the previously uploaded version.
 
----
+## Store listing
 
-## 1. Store Metadata
+- Name: Ramupod
+- Language: English
+- Website: https://ramupod.com
+- Support URL: https://ramupod.com/tools/screen-recorder
+- Privacy Policy URL: https://ramupod.com/privacy
 
-| Field                | Value                                            |
-| :------------------- | :----------------------------------------------- |
-| **Extension Name**   | Ramupod                                          |
-| **Version**          | `0.4.0`                                          |
-| **Category**         | Productivity / Developer Tools                   |
-| **Primary Language** | English                                          |
-| **Website**          | `https://ramupod.com`                            |
-| **Support URL**      | `https://ramupod.com/tools/screen-recorder`      |
+**Summary**
 
-### Short Description (max 132 chars)
+> Capture browser evidence with local tab recordings, annotated screenshots, and QA network reports.
 
-> All-in-one browser companion: screen recording with floating dock controls and camera bubble, plus QA network bug reporting.
+**Description**
 
-### Detailed Description (Markdown formatting)
+> Capture and review evidence from a browser tab to document a workflow or reproduce a bug.
+>
+> Record the active tab with optional microphone narration and a webcam overlay. Use the floating controls to pause, annotate, or zoom while recording. Review and download the video in the Ramupod viewer.
+>
+> For bug reports, capture network requests from the selected tab during a test session. Take annotated screenshots and review captured evidence before exporting it. Ramupod applies default redaction to supported request data. Check each report and screenshot before sharing.
+>
+> Ramupod processes evidence on your device. You choose which files to export and share.
 
-```markdown
-Ramupod turns your browser into a local-first recording studio and developer evidence capture tool.
+## Privacy practices
 
-🎥 IN-TAB SCREEN RECORDER
-• Record any browser tab with high-definition video and microphone narration.
-• Floating Dock Controls: Keep controls handy with intuitive Pause, Resume, Stop, and Minimize actions.
-• Floating Camera Bubble: Show your webcam overlay anywhere on the page, with fluid dragging support.
-• Live Screen Annotations: Draw arrows, circles, and notes directly on the web page while speaking. All drawings are captured into the video in real-time.
-• Click-to-Zoom Focus: Click any element or region to smoothly zoom in (1.75x) to direct audience attention.
-• Hotkey Support: Control recording without touching on-screen buttons (Alt+Shift+H to hide dock, Alt+Shift+S to stop, Alt+Shift+P to pause, Alt+Shift+D to draw, Alt+Shift+Z to zoom).
+**Single purpose**
 
-🐞 QA BUG & NETWORK REPORTING
-• Capture HTTP requests, response headers, and bodies directly from the active tab.
-• Copy clean cURL commands with auto-redaction of sensitive authorization headers and cookies.
-• Save evidence packages with annotated screenshots and HAR data.
+> Capture and review evidence from a selected browser tab to document workflows and reproduce bugs.
 
-🔒 100% PRIVATE & LOCAL
-• Zero external uploads: Video encoding and network logs are processed entirely in your browser using local Web APIs.
-• No analytics or telemetry.
-• No account or subscription required.
-```
+| Permission             | Justification                                                                                                                                                                                                        |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `activeTab`            | Accesses the tab the user selects through the extension to show controls and capture evidence for the current session.                                                                                               |
+| `scripting`            | Injects the recorder dock, drawing tools, camera overlay, and screenshot controls after the user starts the relevant action.                                                                                         |
+| `debugger`             | Attaches to the selected tab when the user starts a quick QA session to capture request URLs, methods, statuses, timings, headers, and eligible bodies.                                                              |
+| `tabCapture`           | Captures video and audio from the selected tab when the user starts a recording.                                                                                                                                     |
+| `offscreen`            | Runs the recording and media encoding outside the popup so a recording continues when the popup closes.                                                                                                              |
+| `storage`              | Saves extension preferences and bounded QA recovery data on the device so users can resume or clear a session.                                                                                                       |
+| Content-script matches | Allow the extension to hand completed recordings and QA evidence to the matching Ramupod viewer tab locally. The matching paths are limited to the Screen Recorder and QA Bug Report tools on the supported origins. |
 
----
+Disclose the data the extension handles locally. This includes web history or browsing activity (request URLs and timings) and website content (recorded tabs, screenshots, and eligible network bodies). Optional audio and camera footage, and any sensitive data that may appear in the capture, should be reflected in the dashboard disclosures as applicable. Verify the dashboard categories and certifications against the current implementation and published privacy policy. See the [Chrome Web Store user data FAQ](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq).
 
-## 2. Permissions Justification (For Chrome Review Team)
+## Test instructions
 
-Chrome Web Store reviewers require an explicit, plain-English justification for each declared permission:
+1. Open a regular HTTPS tab. From the Ramupod toolbar popup, select Screen Recorder and choose **Record this Tab**. Microphone and camera are optional.
+2. Finish the recording and verify that the Ramupod viewer can play and download it.
+3. Reopen the popup and select QA Bug Report. Start testing, trigger a normal network request on the tab, then finish and inspect the captured evidence. No test account is required.
 
-| Permission   | Review Justification                                                                                                                                             |
-| :----------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tabCapture` | Required to capture the audio and video stream of the user-selected tab when they initiate a screen recording session.                                           |
-| `offscreen`  | Required to host an offscreen MediaRecorder document that encodes tab audio and microphone streams into a WebM video file without interrupting page navigation.  |
-| `activeTab`  | Required to inject floating recorder controls, the camera preview bubble, and drawing canvas into the active tab after explicit user action.                     |
-| `scripting`  | Required to inject user-interface elements (dock toolbar, camera bubble, drawing overlay) into the active tab when recording or screenshotting starts.           |
-| `storage`    | Required to remember user preferences locally (last selected tab between Recorder and QA Bug Report, and viewer URL preference).                                 |
-| `debugger`   | Required strictly for the QA Bug Report mode to collect network request timings, status codes, and HTTP headers when the user explicitly clicks "Start testing". |
+## Submission checklist
 
----
-
-## 3. Privacy & Data Use Disclosures
-
-When completing the **Privacy** tab in the Chrome Developer Dashboard, declare the following:
-
-- **Single Purpose Description**:
-  > Provide local screen recording with in-tab presentation controls and developer QA network logging.
-- **Does this extension collect user data?**
-  > **No.** All recordings, screenshots, and network logs are stored strictly on the user's local device (`chrome.storage.local` and in-memory WebM blobs).
-- **Does this extension sell user data to third parties?**
-  > **No.**
-- **Does this extension use or transfer data for purposes unrelated to the extension's core functionality?**
-  > **No.**
-- **Does this extension use or transfer data to determine creditworthiness or for lending purposes?**
-  > **No.**
-
----
-
-## 4. Visual Assets Checklist
-
-Before submitting, prepare the following image assets:
-
-- [x] **Icons (already generated in build)**:
-  - `icon-16.png` (16×16 px)
-  - `icon-32.png` (32×32 px)
-  - `icon-48.png` (48×48 px)
-  - `icon-128.png` (128×128 px) — also used as the primary store icon.
-- [ ] **Store Screenshots** (Minimum 1 required, 1280×800 px or 640×400 px, 16:10 or 4:3 aspect ratio, PNG/JPEG):
-  - _Screenshot 1_: Extension popup showing the 2 tabs (Screen Recorder & QA Bug Report).
-  - _Screenshot 2_: Active screen recording with floating dock, camera bubble, and live pen drawings.
-  - _Screenshot 3_: Video preview & download hub on `ramupod.com`.
-- [ ] **Small Promo Tile** (440×280 px PNG) — Optional but recommended for store discovery.
-
----
-
-## 5. Step-by-Step Upload Instructions
-
-1. **Build the extension archive**:
-
-   ```bash
-   npm run build:companion
-   ```
-
-   This generates the verified production package at:
-   `public/ramupod-companion.zip` (and `dist/ramupod-companion` for unpacked testing)
-
-2. **Open Chrome Developer Dashboard**:
-   Navigate to [https://chrome.google.com/webstore/devconsole](https://chrome.google.com/webstore/devconsole).  
-   _(If this is your first time, Google charges a one-time $5 developer registration fee)._
-
-3. **Create New Item**:
-   - Click **Add new item**.
-   - Upload `public/ramupod-companion.zip`.
-
-4. **Fill in Store Listing**:
-   - Copy & paste the Name, Summary, and Detailed Description from Section 1 above.
-   - Upload the 128×128 icon (`dist/ramupod-companion/icon-128.png`).
-   - Upload at least 1 screenshot (1280×800 px).
-
-5. **Fill in Privacy Practices**:
-   - Fill in the Permissions Justifications from Section 2 above.
-   - Check the Single Purpose and Data Usage checkboxes as outlined in Section 3.
-   - Set the Privacy Policy URL (e.g. `https://ramupod.com/privacy`).
-
-6. **Submit for Review**:
-   - Click **Submit for Review**.
-   - Review typically takes 24 to 72 hours.
-   - Once approved, your extension link will be live:
-     `https://chromewebstore.google.com/detail/ramupod-companion/<your-extension-id>`
+1. Rebuild with `npm run build:companion` and upload `public/ramupod-companion.zip`.
+2. Fill in Store Listing, Privacy practices, Distribution, and Test instructions.
+3. Supply the 128 × 128 icon included in the ZIP and at least one actual extension screenshot at 1280 × 800 or 640 × 400. Capture a sample workflow with synthetic data. See the [Chrome Web Store image requirements](https://developer.chrome.com/docs/webstore/images).
+4. Confirm that the live privacy policy covers the recorder and QA capture, then submit for review. The confirmation dialog lets you choose when the approved listing goes live. See the [Chrome Web Store publishing guide](https://developer.chrome.com/docs/webstore/publish).

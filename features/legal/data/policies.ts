@@ -41,12 +41,20 @@ export const privacyPolicy: LegalDocument = {
       ],
     },
     {
+      id: "tab-recording",
+      title: "Tab recording and camera",
+      paragraphs: [
+        "The Ramupod Chrome extension captures video and available audio from the selected browser tab when you start recording. If you enable microphone narration or the camera overlay, the extension also uses those devices with your browser’s permission. The captured video can include anything visible in the selected tab, including annotations, the camera overlay, and personal information shown on the page.",
+        "The extension encodes the recording on your device and transfers the completed video locally to the Ramupod Screen Recorder viewer for playback and download. Ramupod does not receive the video on its servers. Use Discard to delete the recording from the extension, or close the viewer to release its in-memory preview. Any video you download stays wherever you save it.",
+      ],
+    },
+    {
       id: "qa-capture",
       title: "QA bug capture and local evidence",
       paragraphs: [
         "The QA Bug Capture & Handoff viewer reads capture JSON, HAR files, report drafts, and optional screenshots locally in page memory. It does not upload this evidence, fetch URLs found inside it, send it to AI, or replay captured requests. Clearing the session or closing the page removes its in-memory data. Exported files and copied evidence remain under your control.",
         "The optional Ramupod QA Chrome extension captures HTTP request evidence only after you explicitly start a session. Quick mode uses Chrome debugging permission, active-tab access and scripting for floating controls and viewport screenshots. Chrome requires debugging permission at install/update; recording attaches only to the tab selected on Start and stops on Stop, Finish, detach or a limit. The alternative DevTools panel requires DevTools to remain open. The extension applies default redaction before writing bounded recovery snapshots to chrome.storage.local and before exporting. Use its Clear session or delete-recovery controls to remove those snapshots; browser profile backups may retain data independently. Other active panels can save new snapshots until stopped or cleared separately. The extension does not use cloud sync or an application backend.",
-        "Request evidence can contain credentials and personal information. Automatic redaction is not perfect. Review text and each screenshot before sharing; text redaction does not alter image pixels. The browser's own DevTools may retain raw network data independently of the extension. Finish opens the explicitly configured Ramupod viewer and transfers a redacted package locally through the extension, bound to that recipient tab and a short-lived handoff token. Supported viewer origins are localhost:43187 and dotools.com. The token contains no payload; no evidence is uploaded to an application server, issue tracker or AI service.",
+        "Request evidence can contain credentials and personal information. Automatic redaction is not perfect. Review text and each screenshot before sharing; text redaction does not alter image pixels. The browser's own DevTools may retain raw network data independently of the extension. Finish opens the explicitly configured Ramupod viewer and transfers a redacted package locally through the extension, bound to that recipient tab and a short-lived handoff token. Supported viewer origins are ramupod.com, dotools.com, and localhost:43187. The token contains no payload; no evidence is uploaded to an application server, issue tracker or AI service.",
       ],
     },
     {

@@ -41,6 +41,7 @@ import {
   Images,
   FileText,
   FileType,
+  FileDown,
   type LucideIcon,
 } from "lucide-react";
 import type { ToolIcon } from "@/config/tools";
@@ -89,4 +90,5 @@ export const toolIcons = {
   pdfimages: Images,
   wordpdf: FileText,
   pdfword: FileType,
+  pdfmarkdown: FileDown,
 } satisfies Record<ToolIcon, LucideIcon>;

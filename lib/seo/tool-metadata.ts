@@ -246,5 +246,11 @@ export const toolSeo = {
       "Generate customizable Lorem Ipsum placeholder paragraphs, sentences, or words for your mockups and designs locally in your browser. Copy or export to TXT.",
     note: "Choose paragraphs (1–30), sentences (1–100), or words (1–1,000) and toggle the classic introductory sentence. Text generation runs locally in your browser with instant copy and text file download.",
   },
+  "pdf-to-markdown": {
+    title: "PDF to Markdown Converter - Convert PDF to MD Online",
+    description:
+      "Convert PDF documents to clean Markdown (.md) locally in your browser. Reconstruct headings, bold and italic text, lists, and links without server uploads.",
+    note: "Select a text-based PDF up to 50 MB to convert it into Markdown. Headings, bullet and numbered lists, bold, italic, and web links are automatically detected and converted to GitHub Flavored Markdown. Scanned images or photocopy PDFs without digital text layers require OCR. All processing is performed entirely in your browser memory without uploading your documents to any server.",
+  },
 } as const;
 export type ToolSlug = keyof typeof toolSeo;

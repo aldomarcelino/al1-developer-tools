@@ -50,6 +50,9 @@ test("search resolves supported capabilities and aliases", () => {
     ["excel to json", "csv-json-converter"],
     ["cron job", "cron-builder"],
     ["days between dates", "date-calculator"],
+    ["pdf to markdown", "pdf-to-markdown"],
+    ["pdf to md", "pdf-to-markdown"],
+    ["pdf ke markdown", "pdf-to-markdown"],
   ] as const)
     assert.ok(matches(query).includes(slug), query);
 });

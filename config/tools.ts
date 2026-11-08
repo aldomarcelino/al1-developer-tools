@@ -57,7 +57,8 @@ export type ToolIcon =
   | "volume"
   | "pdfimages"
   | "wordpdf"
-  | "pdfword";
+  | "pdfword"
+  | "pdfmarkdown";
 
 export type Tool = {
   slug: string;

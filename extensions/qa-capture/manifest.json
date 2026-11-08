@@ -3,7 +3,7 @@
   "name": "Ramupod",
   "short_name": "Ramupod",
   "version": "0.5.3",
-  "description": "All-in-one browser companion: screen recording with floating dock controls and camera bubble, plus QA network bug reporting. 100% local processing.",
+  "description": "Capture browser evidence with local tab recordings, annotated screenshots, and QA network reports.",
   "minimum_chrome_version": "120",
   "devtools_page": "devtools.html",
   "permissions": [

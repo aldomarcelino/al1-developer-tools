@@ -426,4 +426,14 @@ export const toolGuides = {
     result:
       "Information about the network exit point, not a precise personal location. Optional IP lookup and WebRTC checks contact external services.",
   },
+  "pdf-to-markdown": {
+    steps: [
+      "Select or drop a PDF file from your device.",
+      "Review the extracted Markdown and customize conversion options like page dividers or heading levels.",
+      "Copy the formatted Markdown to your clipboard or download it as a .md file.",
+    ],
+    example: "Convert an architectural whitepaper PDF into a clean Markdown README for your GitHub repository.",
+    result:
+      "Structured Markdown text with headings (#, ##), bullet lists, bold and italic styling, ready for Obsidian, Notion, or LLM prompts.",
+  },
 } as const satisfies Record<ToolSlug, ToolGuide>;
