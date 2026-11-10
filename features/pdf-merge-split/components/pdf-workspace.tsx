@@ -20,6 +20,8 @@ import {
 import { SortablePdfPage, PdfPagePreview } from "./sortable-pdf-page";
 import pdfStyles from "../styles.module.css";
 import { ActionButton } from "@/components/ui/action-button";
+import { Snackbar } from "@/components/ui/snackbar";
+import { useSnackbar } from "@/hooks/use-snackbar";
 import { DropArea } from "@/components/ui/drop-area";
 import { ToolHeader } from "@/components/cummon/tool-header";
 import { downloadBlob } from "@/lib/browser/download";
@@ -53,6 +55,7 @@ export function PdfWorkspace() {
   const [busy, setBusy] = useState(false);
   const [range, setRange] = useState("");
   const [notice, setNotice] = useState("");
+  const { snackbar, showSnackbar, dismissSnackbar } = useSnackbar();
   const urls = useRef(new Set<string>());
   const revision = useRef({ value: 0 });
   useEffect(() => {
@@ -183,10 +186,10 @@ export function PdfWorkspace() {
           sources.length > 1 ? "merged-pages.pdf" : "selected-pages.pdf"
         );
       }
-      setNotice(
+      showSnackbar(
         split
-          ? `Downloaded ${selected.length} single-page PDFs in a ZIP.`
-          : `Downloaded a PDF with ${selected.length} selected pages.`
+          ? `Download started for ${selected.length} single-page PDFs in a ZIP.`
+          : `Download started for a PDF with ${selected.length} selected pages.`
       );
     } catch (error) {
       if (version === revision.current.value)
@@ -208,6 +211,7 @@ export function PdfWorkspace() {
   }
   return (
     <div className={`workspace-page page-width ${styles.toolkit}`}>
+      <Snackbar snackbar={snackbar} onDismiss={dismissSnackbar} />
       <ToolHeader title="PDF Merge & Split" icon={<FileStack size={24} />} />
       <DropArea
         variant="stacked"

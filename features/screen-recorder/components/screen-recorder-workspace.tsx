@@ -129,8 +129,12 @@ export function ScreenRecorderWorkspace() {
   const handleDownload = useCallback(() => {
     if (recordedBlob) {
       const filename = generateFilename(extension);
-      downloadBlob(recordedBlob, filename);
-      showSnackbar("Download started.");
+      try {
+        downloadBlob(recordedBlob, filename);
+        showSnackbar("Recording download started.");
+      } catch {
+        showSnackbar("Could not start the download. Please try again.", "error");
+      }
     }
   }, [recordedBlob, extension, showSnackbar]);
 
