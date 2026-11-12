@@ -1,7 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { PDFDocument, PDFName, PDFDict, PDFArray } from "pdf-lib";
-import { parsePageRange, loadPdf, combinePages, splitPages } from "./pdf.ts";
+import {
+  parsePageRange,
+  loadPdf,
+  combinePages,
+  splitPages,
+  pdfExportFilename,
+} from "./pdf.ts";
 async function source(id: string, widths: number[]) {
   const document = await PDFDocument.create();
   for (const width of widths) document.addPage([width, 300]);
@@ -45,9 +51,18 @@ test("split creates one-page PDFs with deterministic safe filenames", async () =
   );
   assert.equal(files.length, 2);
   assert.ok(files.every((file) => !/[\\/]/.test(file.name)));
+  assert.ok(files.every((file) => file.name.includes("my document-ramupod-split")));
   assert.equal((await PDFDocument.load(files[0].bytes)).getPage(0).getWidth(), 210);
   assert.equal((await PDFDocument.load(files[1].bytes)).getPageCount(), 1);
   await assert.rejects(splitPages([a], []));
+});
+test("export names retain Unicode and spaces while removing unsafe path characters", () => {
+  assert.equal(
+    pdfExportFilename("Laporan café 2026.PDF", "split", "zip"),
+    "Laporan café 2026-ramupod-split.zip"
+  );
+  assert.ok(!/[\\/]/.test(pdfExportFilename("../../report.pdf", "extracted")));
+  assert.equal(pdfExportFilename(".pdf", "merged"), "document-ramupod-merged.pdf");
 });
 test("rejects malformed files, empty PDFs, forms and orphaned widgets", async () => {
   await assert.rejects(

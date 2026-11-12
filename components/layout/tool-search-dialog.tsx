@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, CornerDownLeft, Search, X } from "lucide-react";
 import { tools, matchesToolQuery, isPopularTool } from "@/config/tools";
+import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { ToolIcon } from "@/components/cummon/tool-icon";
 
 interface SearchModalProps {
@@ -31,6 +32,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
+  const debouncedQuery = useDebouncedValue(query);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -39,14 +41,14 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     return tools.filter((tool) => {
       const matchesCategory =
         selectedCategory === "All" || tool.category === selectedCategory;
-      return matchesCategory && matchesToolQuery(tool, query);
+      return matchesCategory && matchesToolQuery(tool, debouncedQuery);
     });
-  }, [query, selectedCategory]);
+  }, [debouncedQuery, selectedCategory]);
 
   // Reset index when search results change
   useEffect(() => {
     setSelectedIndex(0);
-  }, [query, selectedCategory]);
+  }, [debouncedQuery, selectedCategory]);
 
   // Manage focus and body scroll lock
   useEffect(() => {
@@ -89,7 +91,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       return;
     }
 
-    if (filteredTools.length === 0) return;
+    if (filteredTools.length === 0 || query !== debouncedQuery) return;
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -179,7 +181,11 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         </div>
 
         {/* Results List */}
-        <div className="search-modal-results" ref={listRef}>
+        <div
+          className="search-modal-results"
+          ref={listRef}
+          aria-busy={query !== debouncedQuery}
+        >
           {filteredTools.length > 0 ? (
             filteredTools.map((tool, idx) => {
               const isSelected = idx === selectedIndex;
@@ -228,7 +234,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
             <div className="search-empty-state">
               <Search size={32} className="search-empty-icon" />
               <p className="search-empty-title">
-                No tools found matching &ldquo;{query}&rdquo;
+                No tools found matching &ldquo;{debouncedQuery}&rdquo;
               </p>
               <p className="search-empty-hint">
                 Try searching for &ldquo;jwt&rdquo;, &ldquo;json&rdquo;,

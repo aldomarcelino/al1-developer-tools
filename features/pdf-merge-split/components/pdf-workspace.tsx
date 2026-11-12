@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { FileStack, Upload, Download, Trash2, ChevronDown } from "lucide-react";
 import {
   DndContext,
@@ -27,6 +28,7 @@ import { ToolHeader } from "@/components/cummon/tool-header";
 import { downloadBlob } from "@/lib/browser/download";
 import {
   pdfLimits,
+  pdfExportFilename,
   parsePageRange,
   loadPdf,
   combinePages,
@@ -56,6 +58,8 @@ export function PdfWorkspace() {
   const [range, setRange] = useState("");
   const [notice, setNotice] = useState("");
   const { snackbar, showSnackbar, dismissSnackbar } = useSnackbar();
+  const exportBarRef = useRef<HTMLDivElement>(null);
+  const [showFloatingExport, setShowFloatingExport] = useState(false);
   const urls = useRef(new Set<string>());
   const revision = useRef({ value: 0 });
   useEffect(() => {
@@ -67,6 +71,20 @@ export function PdfWorkspace() {
     };
   }, []);
   const selected = pages.filter((page) => page.selected);
+  const canExport = selected.length > 0;
+  useEffect(() => {
+    const element = exportBarRef.current;
+    if (!canExport || !element) return;
+    const headerHeight =
+      document.querySelector("header")?.getBoundingClientRect().height ?? 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowFloatingExport(entry.intersectionRatio < 0.99),
+      { threshold: [0, 0.99, 1], rootMargin: `-${headerHeight}px 0px -16px 0px` }
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [canExport]);
+
   async function add(files: File[]) {
     if (!files.length || busy) return;
     const version = ++revision.current.value;
@@ -170,20 +188,23 @@ export function PdfWorkspace() {
     setBusy(true);
     setNotice("");
     try {
+      const sourceName =
+        sources.find((source) => source.id === selected[0]?.sourceId)?.name ??
+        "document.pdf";
       if (split) {
         const files = await splitPages(sources, selected);
         const { createZip } = await import("@/lib/browser/zip");
         if (version !== revision.current.value) return;
         downloadBlob(
           new Blob([createZip(files).buffer], { type: "application/zip" }),
-          "split-pages.zip"
+          pdfExportFilename(sourceName, "split", "zip")
         );
       } else {
         const bytes = await combinePages(sources, selected);
         if (version !== revision.current.value) return;
         downloadBlob(
           new Blob([bytes.buffer], { type: "application/pdf" }),
-          sources.length > 1 ? "merged-pages.pdf" : "selected-pages.pdf"
+          pdfExportFilename(sourceName, sources.length > 1 ? "merged" : "extracted")
         );
       }
       showSnackbar(
@@ -209,6 +230,36 @@ export function PdfWorkspace() {
       ? `Source page ${page.pageIndex + 1} from ${source.name}`
       : "Page";
   }
+  const exportContent = (
+    <>
+      <div>
+        <strong>Ready to export</strong>
+        <p className={styles.hint}>
+          {selected.length} selected {selected.length === 1 ? "page" : "pages"} · ZIP
+          supports up to 100 pages and 100 MB
+        </p>
+      </div>
+      <div className={styles.row}>
+        <button
+          type="button"
+          className="button"
+          disabled={busy || !selected.length || selected.length > pdfLimits.splitPages}
+          onClick={() => exportPdf(true)}
+        >
+          <Download size={14} aria-hidden="true" /> Split pages (ZIP)
+        </button>
+        <button
+          type="button"
+          className="button primary"
+          disabled={busy || !selected.length}
+          onClick={() => exportPdf(false)}
+        >
+          <Download size={14} aria-hidden="true" />
+          {sources.length > 1 ? "Merge selected pages" : "Extract selected pages"}
+        </button>
+      </div>
+    </>
+  );
   return (
     <div className={`workspace-page page-width ${styles.toolkit}`}>
       <Snackbar snackbar={snackbar} onDismiss={dismissSnackbar} />
@@ -409,38 +460,23 @@ export function PdfWorkspace() {
               ) : null}
             </DragOverlay>
           </DndContext>
-          <div className={pdfStyles.exportBar}>
-            <div>
-              <strong>Ready to export</strong>
-              <p className={styles.hint}>
-                {selected.length} selected {selected.length === 1 ? "page" : "pages"} ·
-                ZIP supports up to 100 pages and 100 MB
-              </p>
-            </div>
-            <div className={styles.row}>
-              <button
-                type="button"
-                className="button"
-                disabled={
-                  busy || !selected.length || selected.length > pdfLimits.splitPages
-                }
-                onClick={() => exportPdf(true)}
-              >
-                <Download size={14} aria-hidden="true" /> Split pages (ZIP)
-              </button>
-              <button
-                type="button"
-                className="button primary"
-                disabled={busy || !selected.length}
-                onClick={() => exportPdf(false)}
-              >
-                <Download size={14} aria-hidden="true" />
-                {sources.length > 1 ? "Merge selected pages" : "Extract selected pages"}
-              </button>
-            </div>
+          <div ref={exportBarRef} className={pdfStyles.exportBar}>
+            {exportContent}
           </div>
         </section>
       )}
+      {canExport && showFloatingExport
+        ? createPortal(
+            <section
+              className={`${pdfStyles.exportBar} ${pdfStyles.floatingExport}`}
+              aria-label="Quick export"
+              data-notice={Boolean(snackbar)}
+            >
+              {exportContent}
+            </section>,
+            document.body
+          )
+        : null}
       <p role="status" className={styles.notice}>
         {notice}
       </p>

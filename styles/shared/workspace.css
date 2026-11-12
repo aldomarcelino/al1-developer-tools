@@ -810,3 +810,19 @@
     min-height: 480px;
   }
 }
+
+.json-formatter .syntax-bool {
+  color: #7950b5;
+}
+
+.json-formatter .syntax-number {
+  color: #2876a5;
+}
+
+[data-theme="dark"] .json-formatter .syntax-bool {
+  color: #e2c9ff;
+}
+
+[data-theme="dark"] .json-formatter .syntax-number {
+  color: #bcdeff;
+}

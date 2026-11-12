@@ -76,3 +76,16 @@ test("every tool, including planned tools, has a distinct registered icon", () =
     "Icon keys must not alias the same Lucide component"
   );
 });
+
+test("search tolerates spelling errors and adjacent transpositions", () => {
+  for (const [query, slug] of [
+    ["jsson fomratter", "json-formatter"],
+    ["pdf compresor", "pdf-compressor"],
+    ["lorem ipsmu", "lorem-ipsum-generator"],
+    ["scren recroder", "screen-recorder"],
+  ] as const) {
+    assert.ok(matches(query).includes(slug), query);
+  }
+  assert.deepEqual(matches("zzzzzzz unknown xqz"), []);
+  assert.ok(!matches("jst").includes("jwt-decoder"), "Short acronyms stay exact");
+});

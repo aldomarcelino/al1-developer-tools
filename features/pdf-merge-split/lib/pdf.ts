@@ -16,6 +16,20 @@ export interface PdfPageRef {
   sourceId: string;
   pageIndex: number;
 }
+export function pdfExportFilename(
+  sourceName: string,
+  suffix: string,
+  extension: "pdf" | "zip" = "pdf"
+): string {
+  const stem =
+    sourceName
+      .replace(/\.pdf$/i, "")
+      .replace(/[<>:"/\\|?*\u0000-\u001f]/g, "-")
+      .replace(/^[.\s]+|[.\s]+$/g, "")
+      .slice(0, 120)
+      .trim() || "document";
+  return `${stem}-ramupod-${suffix}.${extension}`;
+}
 export function parsePageRange(value: string, count: number): Set<number> {
   if (!value.trim()) throw new Error("Enter a page range, such as 1-3, 5.");
   const pages = new Set<number>();
@@ -128,13 +142,11 @@ export async function splitPages(
     total += bytes.byteLength;
     if (total > pdfLimits.splitBytes)
       throw new Error("The split output exceeds 100 MB. Select fewer pages.");
-    const name =
-      source.name
-        .replace(/\.pdf$/i, "")
-        .replace(/[^a-zA-Z0-9_-]+/g, "-")
-        .slice(0, 60) || "document";
     files.push({
-      name: `${String(index + 1).padStart(3, "0")}-${name}-page-${page.pageIndex + 1}.pdf`,
+      name: pdfExportFilename(
+        source.name,
+        `split-${String(index + 1).padStart(3, "0")}-page-${page.pageIndex + 1}`
+      ),
       bytes,
     });
   }

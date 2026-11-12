@@ -105,6 +105,36 @@ function normalizeSearch(value: string): string {
     .trim();
 }
 
+// Damerau-Levenshtein distance includes adjacent transpositions such as "fomratter".
+function matchesTypo(term: string, word: string): boolean {
+  if (term.length < 4) return false;
+  const tolerance = term.length >= 8 ? 2 : 1;
+  if (Math.abs(term.length - word.length) > tolerance) return false;
+  const rows = Array.from({ length: term.length + 1 }, (_, index) =>
+    Array.from({ length: word.length + 1 }, (_, column) =>
+      index === 0 ? column : column === 0 ? index : 0
+    )
+  );
+  for (let row = 1; row <= term.length; row++) {
+    for (let column = 1; column <= word.length; column++) {
+      rows[row][column] = Math.min(
+        rows[row - 1][column] + 1,
+        rows[row][column - 1] + 1,
+        rows[row - 1][column - 1] + Number(term[row - 1] !== word[column - 1])
+      );
+      if (
+        row > 1 &&
+        column > 1 &&
+        term[row - 1] === word[column - 2] &&
+        term[row - 2] === word[column - 1]
+      ) {
+        rows[row][column] = Math.min(rows[row][column], rows[row - 2][column - 2] + 1);
+      }
+    }
+  }
+  return rows[term.length][word.length] <= tolerance;
+}
+
 // Shared by homepage discovery and the global search dialog. Keywords stay in code.
 export function matchesToolQuery(tool: Tool, query: string): boolean {
   const terms = normalizeSearch(query).split(/\s+/).filter(Boolean);
@@ -118,5 +148,8 @@ export function matchesToolQuery(tool: Tool, query: string): boolean {
       isPopularTool(tool.slug) ? "popular" : "",
     ].join(" ")
   );
-  return terms.every((term) => searchable.includes(term));
+  const words = searchable.split(" ");
+  return terms.every(
+    (term) => searchable.includes(term) || words.some((word) => matchesTypo(term, word))
+  );
 }

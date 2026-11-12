@@ -167,7 +167,7 @@ export function JsonWorkspace() {
   }
   const bytes = new TextEncoder().encode(input).length;
   return (
-    <div className="workspace-page page-width">
+    <div className="workspace-page page-width json-formatter">
       {/* Reusable Tool Header (Breadcrumb & Heading) */}
       <ToolHeader title="JSON Formatter" icon={<FileJson size={24} />} />
       <div className="workspace-toolbar">
@@ -347,7 +347,7 @@ export function JsonWorkspace() {
                 >
                   {output
                     .split(
-                      /("(?:\\.|[^"\\])*"\s*:|"(?:\\.|[^"\\])*"|\btrue\b|\bfalse\b|\bnull\b|\b-?\d+(?:\.\d+)?\b)/g
+                      /("(?:\\.|[^"\\])*"\s*:|"(?:\\.|[^"\\])*"|\btrue\b|\bfalse\b|\bnull\b|\bundefined\b|-?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b)/g
                     )
                     .map((part, i) => (
                       <span
@@ -357,7 +357,7 @@ export function JsonWorkspace() {
                             ? part.trimEnd().endsWith(":")
                               ? "syntax-key"
                               : "syntax-string"
-                            : /^(true|false|null)$/.test(part)
+                            : /^(true|false|null|undefined)$/.test(part)
                               ? "syntax-bool"
                               : /^-?\d/.test(part)
                                 ? "syntax-number"

@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, Command, Search, X } from "lucide-react";
 import { categories, tools, matchesToolQuery } from "@/config/tools";
+import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { ToolIcon } from "@/components/cummon/tool-icon";
 import { ToolCard } from "./tool-card";
 
 export function ToolDiscovery() {
   const [query, setQuery] = useState("");
+  const debouncedQuery = useDebouncedValue(query);
   const [category, setCategory] = useState("All tools");
   const input = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -21,9 +23,14 @@ export function ToolDiscovery() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
-  const filtered = tools.filter(
-    (t) =>
-      (category === "All tools" || t.category === category) && matchesToolQuery(t, query)
+  const filtered = useMemo(
+    () =>
+      tools.filter(
+        (t) =>
+          (category === "All tools" || t.category === category) &&
+          matchesToolQuery(t, debouncedQuery)
+      ),
+    [category, debouncedQuery]
   );
   const activeToolCount = tools.filter((t) => t.status === "available").length;
   return (
@@ -79,7 +86,7 @@ export function ToolDiscovery() {
             </button>
           ))}
         </div>
-        <div key={`${category}-${query}`} className="tool-grid-wrapper">
+        <div className="tool-grid-wrapper">
           <div className="tool-grid">
             {filtered
               .filter((t) => t.status === "available")
