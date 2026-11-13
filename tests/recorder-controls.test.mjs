@@ -1244,6 +1244,11 @@ test("device preparation page retains its request across worker restart and reje
   const options = await app.send("rec-setup-info", { nonce }, sender);
   assert.equal(options.withMic, true);
   assert.equal(options.withCamera, true);
+  const updated = await app.send("rec-setup-update", { nonce, withCamera: false }, sender);
+  assert.equal(updated.ok, true);
+  const optionsAfter = await app.send("rec-setup-info", { nonce }, sender);
+  assert.equal(optionsAfter.withCamera, false);
+  assert.equal(optionsAfter.withMic, true);
   assert.match(
     (await app.send("rec-setup-info", { nonce }, { ...sender, tab: { id: 99 } })).error,
     /expired/

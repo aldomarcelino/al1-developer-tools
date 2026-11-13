@@ -84,3 +84,15 @@ test("speech-to-text and text-to-speech are properly registered in tools catalog
   assert.ok(toolSeo["speech-to-text"].title.includes("Speech to Text"));
   assert.ok(toolSeo["text-to-speech"].title.includes("Text to Speech"));
 });
+
+test("microphone permission helpers handle missing and mocked environments gracefully", async () => {
+  const { checkMicrophonePermission, requestMicrophoneAccess } =
+    await import("./speech-recognition.ts");
+
+  // In default Node environment without navigator.permissions
+  const perm = await checkMicrophonePermission();
+  assert.equal(perm, "unsupported");
+
+  const mic = await requestMicrophoneAccess();
+  assert.equal(mic.ok, true);
+});

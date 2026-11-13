@@ -12,18 +12,24 @@ import {
   FileJson,
   Info,
   Loader2,
+  Code2,
   Minimize2,
   Play,
   ShieldCheck,
+  Sparkles,
   Trash2,
   Upload,
   WrapText,
 } from "lucide-react";
 import {
   JsonErrorInfo,
+  canRepairJson,
+  formatTolerantJson,
   parseJsonError,
+  repairJson,
   sampleJson,
   transformJson,
+  unwrapStringifiedJson,
 } from "@/features/json-formatter/lib/json";
 import { CustomSelect } from "@/components/ui/custom-select";
 import { ToolHeader } from "@/components/cummon/tool-header";
@@ -75,25 +81,66 @@ export function JsonWorkspace() {
     },
     []
   );
+  function handleAutoFix() {
+    try {
+      const repaired = repairJson(input);
+      setInput(repaired);
+      const indentVal = indent === "tab" ? "\t" : Number(indent);
+      const result = transformJson(repaired, indentVal);
+      setOutput(result);
+      setValid(true);
+      setErrorInfo(null);
+      setError("");
+      setNotice("JSON errors repaired and formatted successfully.");
+      setTab("output");
+    } catch {
+      const indentVal = indent === "tab" ? "\t" : Number(indent);
+      setOutput(formatTolerantJson(input, indentVal));
+    }
+  }
+
+  function handleUnescapeInput() {
+    const unwrapped = unwrapStringifiedJson(input);
+    if (unwrapped) {
+      setInput(unwrapped);
+      const indentVal = indent === "tab" ? "\t" : Number(indent);
+      try {
+        const result = transformJson(unwrapped, indentVal);
+        setOutput(result);
+        setValid(true);
+        setErrorInfo(null);
+        setError("");
+        setNotice("Unescaped stringified JSON to raw JSON.");
+      } catch {
+        const formatted = formatTolerantJson(unwrapped, indentVal);
+        setOutput(formatted);
+        setNotice("Unescaped stringified JSON. Formatted with warnings.");
+      }
+    }
+  }
+
   function run(mode: "format" | "minify" | "validate") {
     setBusy(true);
     setError("");
     setErrorInfo(null);
     window.setTimeout(() => {
+      const indentVal = mode === "minify" ? 0 : indent === "tab" ? "\t" : Number(indent);
+      const wasStringified = Boolean(unwrapStringifiedJson(input));
       try {
-        const result = transformJson(
-          input,
-          mode === "minify" ? 0 : indent === "tab" ? "\t" : Number(indent)
-        );
+        const result = transformJson(input, indentVal);
         setOutput(result);
         setValid(true);
         setErrorInfo(null);
         setNotice(
           mode === "validate"
             ? "Valid JSON. Everything looks good."
-            : mode === "minify"
-              ? "JSON minified successfully."
-              : "JSON formatted successfully."
+            : wasStringified
+              ? mode === "minify"
+                ? "Stringified JSON unescaped and minified successfully."
+                : "Stringified JSON unescaped and formatted successfully."
+              : mode === "minify"
+                ? "JSON minified successfully."
+                : "JSON formatted successfully."
         );
         if (mode !== "validate") setTab("output");
       } catch (e) {
@@ -101,8 +148,25 @@ export function JsonWorkspace() {
         const parsed = parseJsonError(input, e);
         setErrorInfo(parsed);
         setError(parsed.message);
-        setNotice("");
-        setOutput("");
+
+        if (mode === "validate") {
+          setOutput("");
+          setNotice("");
+        } else {
+          const formatted = formatTolerantJson(input, indentVal);
+          setOutput(formatted);
+          setNotice(
+            wasStringified
+              ? mode === "minify"
+                ? "Stringified JSON unescaped and minified with warnings."
+                : "Stringified JSON unescaped and formatted with warnings."
+              : mode === "minify"
+                ? "JSON minified with syntax warnings. See error below."
+                : "JSON formatted with syntax warnings. See error below."
+          );
+          setTab("output");
+        }
+
         if (parsed.line && textareaRef.current) {
           const lineY = Math.max(0, (parsed.line - 3) * 23);
           textareaRef.current.scrollTo({ top: lineY, behavior: "smooth" });
@@ -166,6 +230,8 @@ export function JsonWorkspace() {
     }
   }
   const bytes = new TextEncoder().encode(input).length;
+  const canRepair = Boolean(errorInfo && input && canRepairJson(input));
+  const isStringified = Boolean(input && unwrapStringifiedJson(input));
   return (
     <div className="workspace-page page-width json-formatter">
       {/* Reusable Tool Header (Breadcrumb & Heading) */}
@@ -213,6 +279,18 @@ export function JsonWorkspace() {
               )}
             </span>
             <div>
+              {isStringified && (
+                <ActionButton
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleUnescapeInput}
+                  aria-label="Unescape stringified JSON"
+                  title="Unescape stringified JSON into editor"
+                >
+                  <Code2 size={14} />
+                  <span>Unescape</span>
+                </ActionButton>
+              )}
               <ActionButton
                 variant="ghost"
                 size="sm"
@@ -293,8 +371,14 @@ export function JsonWorkspace() {
         >
           <div className="editor-header">
             <span>
-              <span className={`pane-dot ${output ? "green" : ""}`} />
-              Output {output && <small className="valid-tag">Valid JSON</small>}
+              <span className={`pane-dot ${output ? (valid ? "green" : "amber") : ""}`} />
+              Output{" "}
+              {output &&
+                (valid ? (
+                  <small className="valid-tag">Valid JSON</small>
+                ) : (
+                  <small className="warning-tag">Formatted with warnings</small>
+                ))}
             </span>
             <div>
               <ActionButton
@@ -347,26 +431,35 @@ export function JsonWorkspace() {
                 >
                   {output
                     .split(
-                      /("(?:\\.|[^"\\])*"\s*:|"(?:\\.|[^"\\])*"|\btrue\b|\bfalse\b|\bnull\b|\bundefined\b|-?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b)/g
+                      /("(?:\\.|[^"\\])*"\s*:|'(?:\\.|[^'\\])*'\s*:|[a-zA-Z_$][a-zA-Z0-9_$]*\s*:|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/[^\n]*|\/\*[\s\S]*?\*\/|\b(?:true|false|null|undefined|True|False|None|NaN|Infinity)\b|-?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b)/g
                     )
-                    .map((part, i) => (
-                      <span
-                        key={i}
-                        className={
-                          part.startsWith('"')
-                            ? part.trimEnd().endsWith(":")
-                              ? "syntax-key"
-                              : "syntax-string"
-                            : /^(true|false|null|undefined)$/.test(part)
-                              ? "syntax-bool"
-                              : /^-?\d/.test(part)
-                                ? "syntax-number"
-                                : ""
-                        }
-                      >
-                        {part}
-                      </span>
-                    ))}
+                    .map((part, i) => {
+                      let syntaxClass = "";
+                      if (
+                        part.startsWith('"') ||
+                        part.startsWith("'") ||
+                        /^[a-zA-Z_$][a-zA-Z0-9_$]*\s*:/.test(part)
+                      ) {
+                        syntaxClass = part.trimEnd().endsWith(":")
+                          ? "syntax-key"
+                          : "syntax-string";
+                      } else if (
+                        /^(true|false|null|undefined|True|False|None|NaN|Infinity)$/.test(
+                          part
+                        )
+                      ) {
+                        syntaxClass = "syntax-bool";
+                      } else if (/^-?\d/.test(part)) {
+                        syntaxClass = "syntax-number";
+                      } else if (part.startsWith("//") || part.startsWith("/*")) {
+                        syntaxClass = "syntax-comment";
+                      }
+                      return (
+                        <span key={i} className={syntaxClass}>
+                          {part}
+                        </span>
+                      );
+                    })}
                 </pre>
               </>
             ) : (
@@ -412,17 +505,31 @@ export function JsonWorkspace() {
               )}
             </div>
           </div>
-          {errorInfo.line && (
-            <button
-              type="button"
-              className="error-jump-btn"
-              onClick={() => jumpToLine(errorInfo.line!)}
-              aria-label={`Jump to line ${errorInfo.line}`}
-            >
-              <span>Line {errorInfo.line}</span>
-              <ArrowRight size={13} />
-            </button>
-          )}
+          <div className="error-banner-actions">
+            {canRepair && (
+              <button
+                type="button"
+                className="error-fix-btn"
+                onClick={handleAutoFix}
+                aria-label="Auto-fix JSON errors"
+                title="Automatically fix common JSON formatting errors"
+              >
+                <Sparkles size={13} />
+                <span>Auto-fix JSON</span>
+              </button>
+            )}
+            {errorInfo.line && (
+              <button
+                type="button"
+                className="error-jump-btn"
+                onClick={() => jumpToLine(errorInfo.line!)}
+                aria-label={`Jump to line ${errorInfo.line}`}
+              >
+                <span>Line {errorInfo.line}</span>
+                <ArrowRight size={13} />
+              </button>
+            )}
+          </div>
         </div>
       ) : (
         <div

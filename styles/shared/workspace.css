@@ -162,6 +162,11 @@
   background: #a4d881;
 }
 
+.pane-dot.amber {
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+}
+
 .pane-dot.error-dot {
   background: #ef4444;
   box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
@@ -191,6 +196,16 @@
   font-weight: 600;
   color: var(--success);
   background: var(--soft);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.editor-header .warning-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #b45309;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.28);
   padding: 2px 7px;
   border-radius: 4px;
 }
@@ -621,6 +636,58 @@
   line-height: 1.4;
 }
 
+.error-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.error-fix-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  background: var(--surface);
+  color: #059669;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.error-fix-btn:hover {
+  background: #059669;
+  color: #fff;
+  border-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+}
+
+.error-fix-btn:active {
+  transform: translateY(0.5px) scale(0.98);
+  transition-duration: 0.08s;
+}
+
+[data-theme="dark"] .error-fix-btn {
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.35);
+}
+
+[data-theme="dark"] .error-fix-btn:hover {
+  background: #10b981;
+  color: #0f172a;
+}
+
 .error-jump-btn {
   display: inline-flex;
   align-items: center;
@@ -737,6 +804,12 @@
 [data-theme="dark"] .feedback-card.error {
   background: rgba(239, 68, 68, 0.08);
   border-color: rgba(239, 68, 68, 0.35);
+}
+
+[data-theme="dark"] .editor-header .warning-tag {
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.4);
 }
 
 [data-theme="dark"] .syntax-key {

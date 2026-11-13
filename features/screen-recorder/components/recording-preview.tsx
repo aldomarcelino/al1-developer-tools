@@ -41,8 +41,7 @@ export function RecordingPreview({
           <span className={styles.eyebrow}>RECORDING READY</span>
           <h2>Recording Preview &amp; Export</h2>
           <p>
-            Play your recording, inspect video details, and download directly to your
-            device.
+            Play your recording, inspect resolution and duration details, and download directly to your device.
           </p>
         </div>
 
@@ -87,8 +86,8 @@ export function RecordingPreview({
 
       {playbackError && (
         <p className={styles.note} role="alert">
-          This browser could not play the video preview. Your recording is preserved
-          intact; download it to play with an external media player.
+          This browser could not play the video preview directly. Your recording file
+          is safe and intact; download it to play with an external media player.
         </p>
       )}
 

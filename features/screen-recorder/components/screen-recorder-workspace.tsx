@@ -1,19 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import {
-  Video,
-  Download,
-  Upload,
-  Puzzle,
-  Trash2,
-  Loader2,
-  FileVideo,
-} from "lucide-react";
+import { Video, Download, Upload, Trash2, Loader2 } from "lucide-react";
 import { ToolHeader } from "@/components/cummon/tool-header";
 import { ActionButton } from "@/components/ui/action-button";
-import { Accordion } from "@/components/ui/accordion";
-import { DropArea } from "@/components/ui/drop-area";
 import { Snackbar } from "@/components/ui/snackbar";
 import { useSnackbar } from "@/hooks/use-snackbar";
 import { ScreenRecorderGuide } from "./screen-recorder-guide";
@@ -98,7 +88,7 @@ export function ScreenRecorderWorkspace() {
             location.origin
           );
           history.replaceState(null, "", location.pathname);
-          showSnackbar("Recording received from Ramupod extension.");
+          showSnackbar("Recording successfully received from Ramupod extension.");
         }
       }
     };
@@ -123,7 +113,7 @@ export function ScreenRecorderWorkspace() {
     setFileSize(0);
     setStatus("idle");
     setErrorMessage(null);
-    showSnackbar("Session cleared from this page.");
+    showSnackbar("Recording session cleared.");
   }, [showSnackbar]);
 
   const handleDownload = useCallback(() => {
@@ -133,7 +123,7 @@ export function ScreenRecorderWorkspace() {
         downloadBlob(recordedBlob, filename);
         showSnackbar("Recording download started.");
       } catch {
-        showSnackbar("Could not start the download. Please try again.", "error");
+        showSnackbar("Failed to download recording. Please try again.", "error");
       }
     }
   }, [recordedBlob, extension, showSnackbar]);
@@ -175,7 +165,10 @@ export function ScreenRecorderWorkspace() {
   return (
     <div className={`workspace-page page-width ${s.scope}`}>
       <Snackbar snackbar={snackbar} onDismiss={dismissSnackbar} />
-      <ToolHeader title="Screen Recorder" icon={<Video size={24} />} />
+      <ToolHeader
+        title="Screen Recorder"
+        icon={<Video size={24} />}
+      />
 
       {errorMessage ? (
         <div className={s.notice} role="alert">
@@ -183,20 +176,26 @@ export function ScreenRecorderWorkspace() {
         </div>
       ) : null}
 
-      <Accordion
-        title="Record with Ramupod extension"
-        description="Install the extension, record any browser tab with webcam & drawings, and review the video here."
-        icon={<Puzzle size={18} />}
-      >
-        <ScreenRecorderGuide />
-      </Accordion>
+      {status === "receiving" ? (
+        <div className={s.receivingBanner} role="status">
+          <Loader2
+            size={16}
+            className="animate-spin"
+            style={{ color: "var(--green)" }}
+          />
+          <span>
+            <strong>Connecting to Ramupod extension...</strong> Receiving video package
+            for review.
+          </span>
+        </div>
+      ) : null}
 
       {previewUrl ? (
         <>
           <div className={`${s.toolbar} ${s.loadedToolbar}`}>
             <span className={s.loadedLabel}>
               Recording loaded
-              <span>Inspected locally · Ready for preview and export</span>
+              <span>Processed locally · Ready to play and export</span>
             </span>
 
             <ActionButton
@@ -204,7 +203,7 @@ export function ScreenRecorderWorkspace() {
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload size={14} />
-              Import another video
+              Load another video
             </ActionButton>
 
             <ActionButton variant="primary" onClick={handleDownload}>
@@ -242,38 +241,10 @@ export function ScreenRecorderWorkspace() {
           />
         </>
       ) : (
-        <>
-          {status === "receiving" ? (
-            <div className={s.receivingBanner} role="status">
-              <Loader2
-                size={16}
-                className="animate-spin"
-                style={{ color: "var(--green)" }}
-              />
-              <span>
-                <strong>Connecting to Ramupod extension...</strong> Receiving video
-                package for instant review.
-              </span>
-            </div>
-          ) : null}
-
-          <DropArea
-            variant="stacked"
-            className={s.dropSection}
-            inputRef={fileInputRef}
-            icon={<FileVideo size={28} />}
-            label="Upload or inspect video recording"
-            title="Drop a recording here to preview and inspect"
-            description="Supports .webm and .mp4 video files · Inspected 100% locally on your machine"
-            hint="Recordings from Ramupod extension open here automatically after you click Finish."
-            accept=".webm,.mp4,video/webm,video/mp4,video/*"
-            buttonLabel="Browse video file"
-            buttonIcon={<Upload size={14} />}
-            onFiles={(files) => {
-              if (files[0]) handleFileProcess(files[0]);
-            }}
-          />
-        </>
+        <ScreenRecorderGuide
+          fileInputRef={fileInputRef}
+          onFileProcess={handleFileProcess}
+        />
       )}
     </div>
   );

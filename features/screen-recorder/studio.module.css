@@ -349,7 +349,240 @@
 /* Standard Tool Capture Guide Styles (Consistent with QA Bug Report and other tools) */
 .captureGuide {
   display: grid;
-  gap: 20px;
+  gap: 28px;
+}
+
+/* Guide Hero */
+.guideHero {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.guideHeroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.heroBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef3f2;
+  color: #103e3b;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid rgba(16, 62, 59, 0.2);
+}
+
+.badgeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 11px;
+  border: 1px solid var(--border);
+}
+
+.guideHero h2 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.guideHero p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 780px;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.heroInstallNote {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.heroInstallNote code {
+  color: var(--text);
+  background: var(--soft);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* Guide Sections */
+.guideSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.sectionHeader p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Feature Grid */
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.featureCard {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.15s ease;
+}
+
+.featureCard:hover {
+  border-color: rgba(16, 62, 59, 0.4);
+}
+
+.featureIconWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #eef3f2;
+  color: #103e3b;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+}
+
+.featureCard h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.featureCard p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Shortcuts Grid */
+.shortcutsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.shortcutCard {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: border-color 0.15s ease;
+}
+
+.shortcutCard:hover {
+  border-color: rgba(16, 62, 59, 0.4);
+}
+
+.shortcutKeys {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.shortcutKeys kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--soft);
+  color: var(--text);
+  font: 500 11px/1 var(--font-code, monospace);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.shortcutKeys span {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.shortcutInfo {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.shortcutInfo h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.shortcutInfo p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.inspectDropWrap {
+  padding-top: 8px;
 }
 
 .captureDownload {
@@ -626,6 +859,26 @@
   }
   .emptyModes {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .featureGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .shortcutsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 580px) {
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+  .shortcutCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 }
 

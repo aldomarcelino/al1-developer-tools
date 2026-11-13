@@ -7,6 +7,16 @@ const start = document.getElementById("start-countdown") as HTMLButtonElement;
 const error = document.getElementById("setup-error")!;
 const video = document.getElementById("camera-preview") as HTMLVideoElement;
 const meter = document.getElementById("mic-level") as HTMLMeterElement;
+const cameraCheck = document.getElementById("camera-check") as HTMLInputElement | null;
+const micCheck = document.getElementById("mic-check") as HTMLInputElement | null;
+const cameraDevice = document.getElementById("camera-device");
+const micDevice = document.getElementById("mic-device");
+const cameraPanel = document.getElementById("camera-panel");
+const cameraPlaceholder = document.getElementById("camera-placeholder");
+const cameraState = document.getElementById("camera-state");
+const micState = document.getElementById("mic-state");
+const micPreview = document.getElementById("mic-preview");
+
 let options: { withMic?: boolean; withCamera?: boolean } = {};
 let stream: MediaStream | null = null,
   audio: AudioContext | null = null;
@@ -28,12 +38,126 @@ function showError(value: unknown) {
   error.textContent = deviceError(value);
   error.hidden = false;
 }
-async function send(action: string) {
-  const result = await chrome.runtime.sendMessage({ qa: "quick", action, nonce });
+async function send(action: string, payload: Record<string, unknown> = {}) {
+  const result = await chrome.runtime.sendMessage({ qa: "quick", action, nonce, ...payload });
   if (result.error) throw new Error(String(result.error));
   return result;
 }
+
+function isDeviceReady(el: HTMLElement | null) {
+  return el?.dataset?.ready === "true";
+}
+
+function updateControls() {
+  const withCamera = !!options.withCamera;
+  const withMic = !!options.withMic;
+  const hasSelected = withCamera || withMic;
+  const cameraReady = !withCamera || isDeviceReady(cameraDevice);
+  const micReady = !withMic || isDeviceReady(micDevice);
+  const allReady = cameraReady && micReady;
+
+  if (cameraState) {
+    if (!withCamera) {
+      cameraState.textContent = "Not selected";
+    } else if (isDeviceReady(cameraDevice)) {
+      cameraState.textContent = "Ready to record";
+    } else {
+      cameraState.textContent = "Waiting for access";
+    }
+  }
+
+  if (micState) {
+    if (!withMic) {
+      micState.textContent = "Not selected";
+    } else if (isDeviceReady(micDevice)) {
+      micState.textContent = "Ready to record";
+    } else {
+      micState.textContent = "Waiting for access";
+    }
+  }
+
+  if (cameraDevice?.dataset) {
+    cameraDevice.dataset.selected = withCamera ? "true" : "false";
+  }
+  if (micDevice?.dataset) {
+    micDevice.dataset.selected = withMic ? "true" : "false";
+  }
+
+  if (cameraPanel) {
+    cameraPanel.hidden = !withCamera;
+  }
+
+  if (!hasSelected) {
+    allow.disabled = true;
+    allow.textContent = "No devices selected";
+    start.disabled = false;
+  } else if (allReady) {
+    allow.disabled = false;
+    allow.textContent = "Check devices again";
+    start.disabled = false;
+  } else {
+    allow.disabled = false;
+    allow.textContent = "Allow selected devices";
+    start.disabled = true;
+  }
+}
+
+function onCameraToggle(selected: boolean) {
+  options.withCamera = selected;
+  if (!selected) {
+    cameraDevice?.removeAttribute("data-ready");
+    if (camera) {
+      camera.stop();
+      camera = null;
+    }
+    video.srcObject = null;
+    video.hidden = true;
+    if (cameraPlaceholder) cameraPlaceholder.hidden = false;
+    stream?.getVideoTracks().forEach((track) => track.stop());
+  } else {
+    cameraDevice?.removeAttribute("data-ready");
+    if (cameraPlaceholder) cameraPlaceholder.hidden = false;
+    video.hidden = true;
+  }
+  updateControls();
+  void send("rec-setup-update", {
+    withMic: !!options.withMic,
+    withCamera: !!options.withCamera,
+  }).catch(() => {});
+}
+
+function onMicToggle(selected: boolean) {
+  options.withMic = selected;
+  if (!selected) {
+    micDevice?.removeAttribute("data-ready");
+    if (micPreview) micPreview.hidden = true;
+    cancelAnimationFrame(animation);
+    void audio?.close().catch(() => {});
+    audio = null;
+    stream?.getAudioTracks().forEach((track) => track.stop());
+  } else {
+    micDevice?.removeAttribute("data-ready");
+  }
+  updateControls();
+  void send("rec-setup-update", {
+    withMic: !!options.withMic,
+    withCamera: !!options.withCamera,
+  }).catch(() => {});
+}
+
+if (cameraCheck) {
+  cameraCheck.onchange = () => {
+    onCameraToggle(!!cameraCheck.checked);
+  };
+}
+if (micCheck) {
+  micCheck.onchange = () => {
+    onMicToggle(!!micCheck.checked);
+  };
+}
+
 allow.onclick = async () => {
+  if (!options.withMic && !options.withCamera) return;
   allow.disabled = true;
   start.disabled = true;
   error.hidden = true;
@@ -73,8 +197,7 @@ allow.onclick = async () => {
       };
       update();
     }
-    allow.textContent = "Check devices again";
-    start.disabled = false;
+    updateControls();
   } catch (value) {
     release();
     showError(value);
@@ -96,7 +219,10 @@ start.onclick = async () => {
     document.getElementById("mic-preview")!.hidden = true;
   } else release();
   try {
-    await send("rec-setup-start");
+    await send("rec-setup-start", {
+      withMic: !!options.withMic,
+      withCamera: !!options.withCamera,
+    });
     if (!options.withCamera) {
       window.close();
       return;
@@ -180,9 +306,9 @@ window.addEventListener("pagehide", release);
 void send("rec-setup-info")
   .then((result) => {
     options = result;
-    document.getElementById("mic-device")!.hidden = !options.withMic;
-    document.getElementById("camera-device")!.hidden = !options.withCamera;
-    document.getElementById("camera-panel")!.hidden = !options.withCamera;
+    if (cameraCheck) cameraCheck.checked = !!options.withCamera;
+    if (micCheck) micCheck.checked = !!options.withMic;
+    updateControls();
   })
   .catch((value) => {
     showError(value);

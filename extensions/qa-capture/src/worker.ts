@@ -412,17 +412,26 @@ async function handle(
     const request = await recordingSetup(sender, m.nonce);
     return { withMic: request.withMic, withCamera: request.withCamera };
   }
+  if (m.action === "rec-setup-update") {
+    const request = await recordingSetup(sender, m.nonce);
+    if (typeof m.withMic === "boolean") request.withMic = m.withMic;
+    if (typeof m.withCamera === "boolean") request.withCamera = m.withCamera;
+    await chrome.storage.session.set({ [REC_SETUP_KEY]: request });
+    return { ok: true, withMic: request.withMic, withCamera: request.withCamera };
+  }
   if (m.action === "rec-setup-start") {
     const request = await recordingSetup(sender, m.nonce);
+    const withMic = typeof m.withMic === "boolean" ? m.withMic : request.withMic;
+    const withCamera = typeof m.withCamera === "boolean" ? m.withCamera : request.withCamera;
     const result = await handle(
       {
         action: "rec-start",
         tabId: request.sourceTabId,
         origin: request.origin,
-        withMic: request.withMic,
-        withCamera: request.withCamera,
-        cameraTabId: request.withCamera ? request.tabId : undefined,
-        cameraNonce: request.withCamera ? request.nonce : undefined,
+        withMic,
+        withCamera,
+        cameraTabId: withCamera ? request.tabId : undefined,
+        cameraNonce: withCamera ? request.nonce : undefined,
       },
       sender
     );

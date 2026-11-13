@@ -161,6 +161,73 @@ h2 {
   border: 1px solid #e4e9e1;
   border-radius: 12px;
   color: #6b806e;
+  cursor: pointer;
+  user-select: none;
+  background: white;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s,
+    opacity 0.15s;
+}
+.device:hover {
+  border-color: #b8c7b3;
+  background: #f7f9f5;
+}
+.device:focus-within {
+  border-color: #103e3b;
+  box-shadow: 0 0 0 2px #103e3b20;
+}
+.device-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #c5d0bf;
+  background-color: #ffffff;
+  outline: none;
+  margin: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s,
+    background-color 0.15s;
+}
+.device-radio:hover {
+  border-color: #7b9676;
+}
+.device-radio:checked {
+  border-color: #103e3b;
+  background-color: #103e3b;
+  box-shadow: inset 0 0 0 3px #ffffff;
+}
+.device-radio:focus-visible {
+  outline: 2px solid #103e3b;
+  outline-offset: 2px;
+}
+.device[data-selected="false"],
+.device:not(:has(.device-radio:checked)) {
+  background: #fafbfa;
+  border-color: #ebeee8;
+  opacity: 0.65;
+}
+.device[data-selected="false"] strong,
+.device:not(:has(.device-radio:checked)) strong {
+  color: #718274;
+}
+.device[data-selected="true"],
+.device:has(.device-radio:checked) {
+  background: white;
+  border-color: #c5d3c0;
+  opacity: 1;
+}
+.device[data-selected="true"] strong,
+.device:has(.device-radio:checked) strong {
+  color: #27402f;
 }
 .device div {
   display: flex;
@@ -220,12 +287,20 @@ button {
     background 0.15s,
     border-color 0.15s;
 }
+#allow-devices,
+.primary {
+  background: #103e3b;
+  color: white;
+  border-color: #103e3b;
+  font-weight: 600;
+}
 #allow-devices {
   width: 100%;
 }
-#allow-devices:hover {
-  background: #f4f7f1;
-  border-color: #9eb495;
+#allow-devices:not(:disabled):hover,
+.primary:not(:disabled):hover {
+  background: #1f5549;
+  border-color: #1f5549;
 }
 .permission-note {
   text-align: center;

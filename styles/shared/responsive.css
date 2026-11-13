@@ -446,7 +446,11 @@
     align-items: flex-start;
     gap: 12px;
   }
+  .error-banner-actions,
   .error-jump-btn {
     margin-left: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 }

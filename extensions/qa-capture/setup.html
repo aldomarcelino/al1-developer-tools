@@ -44,7 +44,13 @@
           <h2>Your devices</h2>
           <p class="panel-description">Only the devices you selected will be used.</p>
           <div class="devices">
-            <div id="camera-device" class="device" hidden>
+            <label id="camera-device" class="device">
+              <input
+                type="checkbox"
+                id="camera-check"
+                class="device-radio"
+                aria-describedby="camera-state"
+              />
               <svg
                 viewBox="0 0 24 24"
                 width="20"
@@ -62,8 +68,14 @@
                 ><span id="camera-state" role="status">Waiting for access</span>
               </div>
               <span class="device-dot" aria-hidden="true"></span>
-            </div>
-            <div id="mic-device" class="device" hidden>
+            </label>
+            <label id="mic-device" class="device">
+              <input
+                type="checkbox"
+                id="mic-check"
+                class="device-radio"
+                aria-describedby="mic-state"
+              />
               <svg
                 viewBox="0 0 24 24"
                 width="20"
@@ -84,14 +96,14 @@
                 ><span id="mic-state" role="status">Waiting for access</span>
               </div>
               <span class="device-dot" aria-hidden="true"></span>
-            </div>
+            </label>
           </div>
           <div id="mic-preview" hidden>
             <label for="mic-level">INPUT LEVEL</label
             ><meter id="mic-level" min="0" max="100" value="0">0</meter>
             <p>Say a few words to check your microphone.</p>
           </div>
-          <button id="allow-devices">Allow selected devices</button>
+          <button id="allow-devices" class="primary">Allow selected devices</button>
           <p class="permission-note">Chrome may ask for permission.</p>
         </section>
       </div>
