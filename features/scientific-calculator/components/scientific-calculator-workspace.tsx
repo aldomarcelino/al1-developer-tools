@@ -8,6 +8,7 @@ import {
   RotateCcw,
   History,
   Delete,
+  Divide,
   Clock,
   X,
 } from "lucide-react";
@@ -716,7 +717,7 @@ export function ScientificCalculatorWorkspace() {
               onClick={() => insertText("/")}
               aria-label="Divide"
             >
-              ÷
+              <Divide size={20} strokeWidth={2.25} aria-hidden="true" />
             </button>
 
             {/* Row 3 */}
