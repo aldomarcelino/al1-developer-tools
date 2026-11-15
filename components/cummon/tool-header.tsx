@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ChevronRight, ShieldCheck } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export interface BreadcrumbItem {
   label: string;
@@ -18,7 +18,6 @@ export function ToolHeader({
   title,
   icon,
   breadcrumbs = [{ label: "All tools", href: "/" }],
-  privacyBadge = true,
 }: ToolHeaderProps) {
   // Ensure the current tool title is the last breadcrumb if not already provided
   const items = [...breadcrumbs];
@@ -52,16 +51,6 @@ export function ToolHeader({
             {title} {icon && <span className="tool-icon">{icon}</span>}
           </h1>
         </div>
-        {privacyBadge && (
-          <Link
-            href="/privacy"
-            className="privacy-badge"
-            title="Tool inputs are processed on your device. Read about browser storage and website hosting."
-          >
-            <ShieldCheck size={15} />
-            Processed in your browser
-          </Link>
-        )}
       </div>
     </>
   );

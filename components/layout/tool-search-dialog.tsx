@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, CornerDownLeft, Search, X } from "lucide-react";
-import { tools, matchesToolQuery, isPopularTool } from "@/config/tools";
+import { tools, searchTools, isPopularTool } from "@/config/tools";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { ToolIcon } from "@/components/cummon/tool-icon";
 
@@ -36,13 +36,9 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Filter tools based on query and selected category
+  // Filter and rank tools based on query and selected category
   const filteredTools = useMemo(() => {
-    return tools.filter((tool) => {
-      const matchesCategory =
-        selectedCategory === "All" || tool.category === selectedCategory;
-      return matchesCategory && matchesToolQuery(tool, debouncedQuery);
-    });
+    return searchTools(tools, debouncedQuery, selectedCategory);
   }, [debouncedQuery, selectedCategory]);
 
   // Reset index when search results change

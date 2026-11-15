@@ -282,7 +282,7 @@
   white-space: pre;
   overflow: auto;
   scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--primary) transparent;
 }
 
 .editor-body textarea:focus-visible {
@@ -303,7 +303,7 @@
   min-width: 0;
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--primary) transparent;
 }
 
 .editor-body textarea::-webkit-scrollbar,
@@ -319,13 +319,13 @@
 
 .editor-body textarea::-webkit-scrollbar-thumb,
 .editor-body pre::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--primary);
   border-radius: 4px;
 }
 
 .editor-body textarea::-webkit-scrollbar-thumb:hover,
 .editor-body pre::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
+  background: var(--accent);
 }
 
 .editor-body pre.wrap {

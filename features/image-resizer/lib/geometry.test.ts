@@ -6,6 +6,10 @@ import {
   pairedDimension,
   fitDimensions,
   ratioPresets,
+  shapePresets,
+  getShapeSvgPath,
+  clipCanvasShape,
+  type CropShape,
 } from "./geometry.ts";
 import { validateDimensions, imageFilename } from "../../../lib/browser/image-codec.ts";
 
@@ -78,4 +82,59 @@ test("raster upload signatures reject renamed SVG and corrupt images", async () 
     validateRasterFile(new File([new Uint8Array(30 * 1024 * 1024 + 1)], "large.png"))
   );
   await validateRasterFile(new File([new Uint8Array([255, 216, 255, 224])], "photo.jpg"));
+});
+
+test("all shape presets provide valid SVG paths", () => {
+  assert.equal(shapePresets.length, 7);
+  for (const preset of shapePresets) {
+    const path = getShapeSvgPath(preset.value);
+    assert.ok(typeof path === "string" && path.length > 5);
+    assert.ok(path.startsWith("M "));
+    assert.ok(path.endsWith("Z"));
+  }
+  const customRounded = getShapeSvgPath("rounded", 35);
+  assert.ok(customRounded.includes("35"));
+});
+
+test("clipCanvasShape traces and clips all geometric shapes on canvas", () => {
+  const shapes: CropShape[] = [
+    "rectangle",
+    "circle",
+    "rounded",
+    "heart",
+    "star",
+    "hexagon",
+    "diamond",
+  ];
+
+  for (const s of shapes) {
+    let clipped = false;
+    let closed = false;
+    let began = false;
+    const ops: string[] = [];
+
+    const mockCtx = {
+      beginPath: () => { began = true; ops.push("beginPath"); },
+      moveTo: (x: number, y: number) => { ops.push(`moveTo(${x},${y})`); },
+      lineTo: (x: number, y: number) => { ops.push(`lineTo(${x},${y})`); },
+      bezierCurveTo: () => { ops.push("bezierCurveTo"); },
+      ellipse: () => { ops.push("ellipse"); },
+      arcTo: () => { ops.push("arcTo"); },
+      roundRect: () => { ops.push("roundRect"); },
+      closePath: () => { closed = true; ops.push("closePath"); },
+      clip: () => { clipped = true; ops.push("clip"); },
+    };
+
+    clipCanvasShape(mockCtx, s, 400, 300, 25);
+
+    if (s === "rectangle") {
+      assert.equal(clipped, false);
+      assert.equal(ops.length, 0);
+    } else {
+      assert.equal(began, true, `shape ${s} should call beginPath`);
+      assert.equal(closed, true, `shape ${s} should call closePath`);
+      assert.equal(clipped, true, `shape ${s} should call clip`);
+      assert.ok(ops.length > 2, `shape ${s} should perform path operations`);
+    }
+  }
 });

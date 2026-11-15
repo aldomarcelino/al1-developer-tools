@@ -4,14 +4,23 @@ import {
   validateDimensions,
   type ImageMime,
 } from "@/lib/browser/image-codec";
-import { pixelArea, type PercentArea } from "./geometry";
+import {
+  pixelArea,
+  clipCanvasShape,
+  type PercentArea,
+  type CropShape,
+} from "./geometry";
+
 export async function exportCrop(
   url: string,
   crop: PercentArea,
   width: number,
   height: number,
   format: ImageMime,
-  quality: number
+  quality: number,
+  shape: CropShape = "rectangle",
+  cornerRadius = 20,
+  backgroundColor = "transparent"
 ) {
   validateDimensions(width, height);
   const image = await loadImage(url),
@@ -24,13 +33,29 @@ export async function exportCrop(
     canvas.height = height;
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Canvas is unavailable in this browser.");
-    if (format === "image/jpeg") {
-      ctx.fillStyle = "#fff";
+
+    // Fill background: JPEG cannot be transparent, default to white
+    const effectiveBg =
+      format === "image/jpeg"
+        ? backgroundColor === "transparent"
+          ? "#ffffff"
+          : backgroundColor
+        : backgroundColor;
+
+    if (effectiveBg && effectiveBg !== "transparent") {
+      ctx.fillStyle = effectiveBg;
       ctx.fillRect(0, 0, width, height);
+    }
+
+    ctx.save();
+    if (shape !== "rectangle") {
+      clipCanvasShape(ctx, shape, width, height, cornerRadius);
     }
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
     ctx.drawImage(image, area.x, area.y, area.width, area.height, 0, 0, width, height);
+    ctx.restore();
+
     return await encodeCanvas(canvas, format, quality);
   } finally {
     canvas.width = 0;

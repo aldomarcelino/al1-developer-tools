@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, Command, Search, X } from "lucide-react";
-import { categories, tools, matchesToolQuery } from "@/config/tools";
+import { categories, tools, searchTools } from "@/config/tools";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { ToolIcon } from "@/components/cummon/tool-icon";
 import { ToolCard } from "./tool-card";
@@ -24,12 +24,7 @@ export function ToolDiscovery() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
   const filtered = useMemo(
-    () =>
-      tools.filter(
-        (t) =>
-          (category === "All tools" || t.category === category) &&
-          matchesToolQuery(t, debouncedQuery)
-      ),
+    () => searchTools(tools, debouncedQuery, category),
     [category, debouncedQuery]
   );
   const activeToolCount = tools.filter((t) => t.status === "available").length;

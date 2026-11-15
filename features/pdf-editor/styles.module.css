@@ -1,0 +1,1349 @@
+.toolkit {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Master Layout: 2 Columns on Desktop, 1 Column on Mobile */
+.editorLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 264px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Left Column: Canvas Viewport & Navigation */
+.canvasColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+/* Top Canvas Header Bar */
+.canvasHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.fileMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.fileName {
+  font-size: 13px;
+  font-weight: 600;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileBadge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--soft, #f1f5f9);
+  color: var(--muted, #64748b);
+  border: 1px solid var(--border, #e2e8f0);
+}
+
+.canvasActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.historyGroup,
+.zoomGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #ffffff);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.iconBtn:hover:not(:disabled) {
+  background: var(--soft, #f1f5f9);
+}
+
+.iconBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.zoomIndicator {
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 44px;
+  text-align: center;
+  color: var(--muted, #64748b);
+}
+
+.mobileExportBtn {
+  display: none;
+}
+
+/* Canvas Viewport */
+.viewport {
+  position: relative;
+  overflow: auto;
+  flex: none;
+  min-height: 0;
+  background: #64748b12;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 12px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary, #0e363c) transparent;
+}
+
+.pageStage {
+  position: relative;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  user-select: none;
+  flex: none;
+  margin: 0 auto;
+}
+
+.pdfCanvas {
+  display: block;
+}
+
+.annotationOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+/* Canvas Bottom Footer Navigation */
+.canvasFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.pageNavControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pageIndicator {
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 90px;
+  text-align: center;
+}
+
+.pageActionControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionTextBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #ffffff);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.actionTextBtn:hover:not(:disabled) {
+  background: var(--soft, #f1f5f9);
+}
+
+.actionTextBtnDanger {
+  color: #dc2626;
+}
+
+.actionTextBtnDanger:hover:not(:disabled) {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+/* RIGHT COLUMN: Controls Sidebar (Desktop) */
+.controlsSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  position: sticky;
+  top: 88px;
+  align-self: start;
+}
+
+.sidebarCard {
+  flex: none;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted, #64748b);
+  margin: 0;
+}
+
+/* Sidebar Actions */
+.sidebarDesktopActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fullWidthAction {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Tool Grid in Sidebar */
+.toolGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+/* Contextual Properties Card */
+.propertyRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.propertyLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted, #64748b);
+}
+
+.propertyInputGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.colorPickerGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.colorSwatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.1s ease;
+}
+
+.colorSwatch:hover {
+  transform: scale(1.15);
+}
+
+.colorSwatchSelected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--surface, #ffffff);
+}
+
+.selectedElementBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+.selectedElementTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: capitalize;
+}
+
+/* Annotation Elements on Canvas */
+.annotationBox {
+  position: absolute;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+}
+
+.annotationBoxSelected {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.deleteBadge {
+  position: absolute;
+  top: -32px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: transform 0.1s ease;
+}
+
+.deleteBadge:hover {
+  transform: scale(1.15);
+}
+
+.textAnnotation {
+  padding-inline: 2px;
+  box-sizing: border-box;
+  white-space: pre;
+  overflow: hidden;
+  line-height: 1.25;
+  outline: none;
+  width: 100%;
+  height: 100%;
+}
+
+.textInputInline {
+  width: 100%;
+  height: 100%;
+  border: 1px dashed var(--accent);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0 2px;
+  box-sizing: border-box;
+  line-height: 1.25;
+  overflow: auto;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  resize: none;
+  outline: none;
+}
+
+.whiteoutAnnotation {
+  background: #ffffff;
+  width: 100%;
+  height: 100%;
+}
+
+.highlightAnnotation {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+}
+
+.shapeAnnotation {
+  width: 100%;
+  height: 100%;
+}
+
+.imageAnnotation {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Signature Modal & Backdrop */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 16px;
+}
+
+.modalContainer {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 540px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+.modalHeaderTitle h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+}
+
+.modalHeaderTitle p {
+  font-size: 13px;
+  color: var(--muted, #64748b);
+  margin: 0;
+}
+
+.modalCloseBtn {
+  background: transparent;
+  border: none;
+  color: var(--muted, #64748b);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalCloseBtn:hover {
+  color: var(--text);
+  background: var(--soft, #f1f5f9);
+}
+
+.modalBody {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.signatureToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.signatureOptionGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.optionLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted, #64748b);
+}
+
+.colorPills {
+  display: flex;
+  gap: 6px;
+}
+
+.colorPill {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.colorPillActive {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--surface, #ffffff);
+}
+
+.widthButtons {
+  display: flex;
+  gap: 4px;
+}
+
+.smallTabBtn {
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #ffffff);
+  cursor: pointer;
+}
+
+.tabBtnActive {
+  background: var(--foreground, #0f172a);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+.clearBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #ffffff);
+  cursor: pointer;
+  color: var(--text);
+}
+
+.clearBtn:hover {
+  background: var(--soft, #f1f5f9);
+}
+
+.canvasContainer {
+  position: relative;
+  background: #ffffff;
+  border: 2px dashed var(--border, #cbd5e1);
+  border-radius: 10px;
+  height: 190px;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.signatureCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+.signatureGuideLine {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  right: 20px;
+  border-bottom: 1px solid #cbd5e1;
+  pointer-events: none;
+  text-align: center;
+}
+
+.signatureGuideLine span {
+  font-size: 11px;
+  color: #94a3b8;
+  background: #ffffff;
+  padding: 0 8px;
+  position: relative;
+  top: 8px;
+}
+
+.modalError {
+  font-size: 12px;
+  color: #dc2626;
+  margin: 0;
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border, #e2e8f0);
+  background: var(--soft, #f8fafc);
+}
+
+/* ========================================================================= */
+/* Responsive Styles for Mobile and Tablet                                   */
+/* ========================================================================= */
+
+.canvasColumn .canvasHeader,
+.canvasColumn .canvasFooter {
+  flex: none;
+  border: 0;
+  border-radius: 0;
+}
+
+.canvasColumn .viewport {
+  border-inline: 0;
+  border-radius: 0;
+  overscroll-behavior-x: contain;
+}
+
+.panViewport,
+.panViewport .annotationOverlay {
+  touch-action: none;
+  cursor: grab;
+}
+
+.panViewport:active,
+.panViewport:active .annotationOverlay {
+  cursor: grabbing;
+}
+
+.expanded {
+  position: fixed;
+  inset: 12px;
+  z-index: 60;
+  height: auto;
+  align-items: stretch;
+  min-height: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--bg);
+  box-shadow: 0 16px 60px rgb(0 0 0 / 20%);
+}
+
+.expanded .viewport {
+  flex: 1;
+  overscroll-behavior: contain;
+}
+
+.expanded .controlsSidebar {
+  position: static;
+  overflow: auto;
+  overscroll-behavior: contain;
+  max-height: 100%;
+}
+
+.toolAction {
+  width: 100%;
+  min-height: 40px;
+  justify-content: center;
+}
+
+.toolHint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.resizeHandle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 2px solid var(--accent);
+  border-radius: 3px;
+  background: #fff;
+  touch-action: none;
+  z-index: 11;
+}
+.resizeHandle::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
+.resizeHandle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.resizeHandle[data-corner="nw"] {
+  left: -7px;
+  top: -7px;
+  cursor: nwse-resize;
+}
+.resizeHandle[data-corner="ne"] {
+  right: -7px;
+  top: -7px;
+  cursor: nesw-resize;
+}
+.resizeHandle[data-corner="sw"] {
+  left: -7px;
+  bottom: -7px;
+  cursor: nesw-resize;
+}
+.resizeHandle[data-corner="se"] {
+  right: -7px;
+  bottom: -7px;
+  cursor: nwse-resize;
+}
+
+.mobileDock,
+.mobilePanelHeader,
+.mobileDocumentActions,
+.mobileToolLabel,
+.mobileTextEditor {
+  display: none;
+}
+
+.iconBtn:focus-visible,
+.colorSwatch:focus-visible,
+.actionTextBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 960px) {
+  .editorLayout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    height: min(900px, calc(100dvh - 100px));
+    min-height: 460px;
+    gap: 10px;
+    background: var(--bg);
+    isolation: isolate;
+  }
+  .editorLayout.expanded {
+    inset: auto 0 auto;
+    top: var(--editor-top, 0px);
+    height: var(--editor-height, 100dvh);
+    min-height: 0;
+    width: 100%;
+    padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+      max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+    border: 0;
+    border-radius: 0;
+    gap: 8px;
+  }
+  .canvasColumn {
+    grid-row: 1;
+    height: 100%;
+    min-height: 0;
+    border-radius: 12px;
+  }
+  .canvasColumn .viewport {
+    flex: 1;
+    padding: 10px 16px 24px;
+    overscroll-behavior: contain;
+  }
+  .canvasColumn .canvasHeader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 10px;
+    padding: 8px;
+  }
+  .fileMeta {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  .fileName {
+    max-width: none;
+    font-size: 12px;
+  }
+  .fileBadge {
+    display: none;
+  }
+  .canvasActions {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+  .historyGroup,
+  .zoomGroup {
+    gap: 2px;
+  }
+  .iconBtn {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    border-color: transparent;
+    background: transparent;
+    border-radius: 10px;
+    touch-action: manipulation;
+  }
+  .zoomIndicator {
+    min-width: 36px;
+    font-variant-numeric: tabular-nums;
+  }
+  .fitWidthAction {
+    padding-inline: 8px;
+    min-height: 44px;
+    font-size: 11px;
+  }
+  .mobileExportBtn {
+    display: block;
+  }
+  .mobileExportBtn > button {
+    min-height: 44px;
+    padding-inline: 12px;
+  }
+  .canvasColumn .canvasFooter {
+    padding: 0 8px;
+    border-top: 1px solid var(--border);
+  }
+  .pageNavControls {
+    width: 100%;
+    justify-content: center;
+    gap: 12px;
+  }
+  .pageIndicator {
+    font-size: 12px;
+  }
+  .pageActionControls {
+    display: none;
+  }
+  .controlsSidebar,
+  .expanded .controlsSidebar {
+    position: relative;
+    top: auto;
+    grid-row: 2;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    gap: 0;
+    width: min(100%, 520px);
+    justify-self: center;
+    align-self: end;
+  }
+  .sidebarDesktopActions {
+    display: none;
+  }
+  .mobileDock {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .mobilePrimaryTools {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: 0 4px 18px rgb(0 0 0 / 7%);
+  }
+  .mobilePrimaryTools > button {
+    width: 100%;
+    min-height: 52px;
+    height: auto;
+    flex-direction: column;
+    gap: 3px;
+    border-color: transparent;
+    border-radius: 14px;
+    background: transparent;
+    padding: 6px 2px;
+    font-size: 10px;
+    font-weight: 600;
+    touch-action: manipulation;
+  }
+  .mobilePrimaryTools > button[data-active="true"] {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  .mobileHint {
+    text-align: center;
+    color: var(--muted);
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .mobileContextBar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+  }
+  .mobileContextBar > span {
+    flex: 1;
+    min-width: 0;
+    text-transform: capitalize;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .mobileContextBar > button {
+    min-height: 44px;
+    min-width: 44px;
+    border-color: transparent;
+    background: transparent;
+  }
+  .mobileToolPanel,
+  .mobileSettingsPanel {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    max-height: min(52dvh, 400px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 12px;
+    border-radius: 20px;
+    box-shadow: 0 -8px 32px rgb(0 0 0 / 12%);
+    z-index: 20;
+  }
+  .mobileToolPanel[data-open="true"] {
+    display: flex;
+  }
+  .mobileSettingsPanel[data-open="true"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(90px, 0.65fr);
+    gap: 12px;
+  }
+  .mobileSettingsPanel > .mobilePanelHeader,
+  .mobileSettingsPanel > .selectedElementBanner,
+  .mobileSettingsPanel > .cardHeader,
+  .mobileSettingsPanel > .propertyRow:last-child {
+    grid-column: 1 / -1;
+  }
+  .mobileSettingsPanel > .selectedElementBanner,
+  .mobileSettingsPanel > .cardHeader {
+    display: none;
+  }
+  .mobilePanelHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    grid-column: 1 / -1;
+  }
+  .mobilePanelHeader h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  .mobilePanelHeader > button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .mobileToolPanel > .cardHeader {
+    display: none;
+  }
+  .mobileToolPanel .toolGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    overflow: visible;
+  }
+  .toolAction {
+    width: 100%;
+    min-height: 64px;
+    height: auto;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+  }
+  .mobileToolLabel {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .mobileDocumentActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .mobileDocumentActions > button {
+    min-height: 44px;
+    flex: 1 1 auto;
+  }
+  .propertyRow {
+    min-width: 0;
+  }
+  .colorPickerGroup {
+    gap: 8px;
+  }
+  .colorSwatch {
+    width: 36px;
+    height: 36px;
+    position: relative;
+  }
+  .colorSwatch::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+  }
+  .mobileTextEditor {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 10px;
+  }
+  .mobileTextHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mobileTextHeader label {
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .mobileTextHeader > button {
+    min-height: 44px;
+  }
+  .mobileTextEditor textarea {
+    width: 100%;
+    min-height: 64px;
+    max-height: 120px;
+    font: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    resize: none;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .mobileTextEditor textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .editorLayout[data-editing-text="true"] .canvasActions {
+    display: none;
+  }
+  .deleteBadge {
+    display: none;
+  }
+  .annotationBoxSelected {
+    z-index: 12;
+  }
+  .resizeHandle {
+    width: 14px;
+    height: 14px;
+  }
+  .resizeHandle::before {
+    inset: -10px;
+  }
+  .modalContainer {
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+  }
+  .modalHeader,
+  .modalBody,
+  .modalFooter {
+    padding: 14px;
+  }
+  .modalCloseBtn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .signatureToolbar {
+    gap: 12px;
+  }
+  .canvasContainer {
+    height: clamp(140px, 28dvh, 220px);
+  }
+  .fileMeta {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .canvasHeader > .mobileExportBtn {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .canvasActions {
+    grid-row: 2;
+  }
+  .mobileToolPanel .toolGrid > .toolAction {
+    width: 100%;
+    min-width: 0;
+    min-height: 64px;
+  }
+  .mobileSnackbar {
+    bottom: calc(160px + env(safe-area-inset-bottom, 0px));
+  }
+  .colorPill {
+    width: 36px;
+    height: 36px;
+    position: relative;
+  }
+  .colorPill::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+  }
+  .smallTabBtn,
+  .clearBtn,
+  .modalFooter > button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 400px) {
+  .fitWidthLabel {
+    display: none;
+  }
+  .canvasActions > .fitWidthAction {
+    width: 44px;
+    min-width: 44px;
+    padding: 0;
+  }
+}
+
+@media (max-width: 359px) {
+  .iconBtn {
+    width: 40px;
+    min-width: 40px;
+  }
+  .fitWidthAction {
+    font-size: 10px;
+    padding-inline: 4px;
+  }
+  .mobileSettingsPanel {
+    padding: 10px;
+  }
+  .colorPickerGroup {
+    gap: 5px;
+  }
+  .iconBtn {
+    width: 44px;
+    min-width: 44px;
+  }
+  .zoomIndicator {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) and (max-height: 500px) {
+  .canvasColumn .canvasHeader {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+  .canvasActions {
+    grid-column: auto;
+    grid-row: 1;
+  }
+  .fileMeta {
+    max-width: 150px;
+  }
+  .zoomGroup {
+    display: none;
+  }
+  .mobileHint {
+    display: none;
+  }
+  .mobilePrimaryTools > button {
+    min-height: 44px;
+    flex-direction: row;
+    gap: 6px;
+  }
+  .mobilePrimaryTools {
+    padding: 4px;
+  }
+  .mobileContextBar {
+    padding-block: 0;
+  }
+  .mobileDock {
+    gap: 4px;
+  }
+  .mobileToolPanel,
+  .mobileSettingsPanel {
+    max-height: 55dvh;
+  }
+  .mobileTextEditor {
+    padding: 6px 10px;
+    gap: 4px;
+  }
+  .mobileTextEditor textarea {
+    min-height: 44px;
+    max-height: 64px;
+  }
+  .canvasHeader > .mobileExportBtn {
+    grid-column: 3;
+  }
+  .canvasActions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+@media (pointer: coarse) {
+  .resizeHandle::before {
+    inset: -15px;
+  }
+  .resizeHandle[data-corner="ne"],
+  .resizeHandle[data-corner="sw"] {
+    display: none;
+  }
+}
+@media (max-width: 960px) {
+  .canvasColumn .viewport {
+    padding-bottom: calc(24px + var(--mobile-panel-overlap, 0px));
+  }
+}
+
+.mobileHeaderActions,
+.mobileViewHeader,
+.mobileControlLabel {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .canvasColumn .canvasHeader {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 4px;
+    padding: 6px 8px;
+    overflow: visible;
+  }
+  .canvasHeader .fileMeta {
+    max-width: none;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .canvasHeader .fileName {
+    font-size: 12px;
+  }
+  .mobileHeaderActions {
+    display: flex;
+    gap: 0;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .mobileHeaderActions > button {
+    min-width: 44px;
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
+  .canvasHeader > .mobileExportBtn {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .canvasHeader > .canvasActions {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 8px;
+    width: min(310px, calc(100% - 16px));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgb(0 0 0 / 14%);
+    z-index: 30;
+  }
+  .canvasHeader > .canvasActions[data-open="true"] {
+    display: grid;
+  }
+  .mobileViewHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    grid-column: 1 / -1;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .mobileViewHeader > button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .canvasActions .historyGroup > button:first-child {
+    display: none;
+  }
+  .canvasActions .historyGroup > button {
+    width: 100%;
+    gap: 8px;
+  }
+  .canvasActions .zoomGroup {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+  }
+  .canvasActions .zoomIndicator {
+    display: block;
+    min-width: 34px;
+  }
+  .canvasActions .iconBtn {
+    width: 44px;
+    min-width: 44px;
+    gap: 8px;
+  }
+  .canvasActions > .iconBtn {
+    width: 100%;
+    padding-inline: 6px;
+  }
+  .canvasActions > .fitWidthAction {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 6px;
+    font-size: 12px;
+  }
+  .canvasActions .fitWidthLabel,
+  .canvasActions .mobileControlLabel {
+    display: inline;
+  }
+  .canvasActions .mobileControlLabel {
+    font-size: 11px;
+  }
+  .editorLayout[data-editing-text="true"] .mobileHeaderActions {
+    display: none;
+  }
+}

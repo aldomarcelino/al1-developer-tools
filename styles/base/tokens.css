@@ -3,6 +3,7 @@
    ========================================================================== */
 
 :root {
+  --primary: #0e363c;
   --bg: #f7f8fa;
   --surface: #fff;
   --text: #232527;
@@ -22,6 +23,7 @@
 }
 
 :root[data-theme="dark"] {
+  --primary: #d9f5c3;
   --bg: #0e191d;
   --surface: #14252a;
   --text: #f2f6f4;

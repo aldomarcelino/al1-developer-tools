@@ -8,6 +8,13 @@ import {
   LockKeyholeOpen,
   RotateCcw,
   Upload,
+  Square,
+  Circle,
+  Squircle,
+  Heart,
+  Star,
+  Hexagon,
+  Diamond,
 } from "lucide-react";
 import { DropArea } from "@/components/ui/drop-area";
 import { ToolHeader } from "@/components/cummon/tool-header";
@@ -29,6 +36,7 @@ import {
   pixelArea,
   ratioPresets,
   type PercentArea,
+  type CropShape,
 } from "../lib/geometry";
 import ui from "@/styles/shared/toolkit.module.css";
 import styles from "../styles.module.css";
@@ -36,6 +44,21 @@ const ImageEditor = dynamic(() => import("./image-editor"), {
   ssr: false,
   loading: () => <p className={ui.hint}>Loading crop editor…</p>,
 });
+
+const SHAPE_ITEMS: {
+  value: CropShape;
+  label: string;
+  icon: React.ComponentType<{ size?: number }>;
+  description: string;
+}[] = [
+  { value: "rectangle", label: "Rectangle", icon: Square, description: "Standard rectangle or square" },
+  { value: "circle", label: "Circle", icon: Circle, description: "Circle or oval avatar" },
+  { value: "rounded", label: "Rounded", icon: Squircle, description: "Squircle with rounded corners" },
+  { value: "heart", label: "Heart", icon: Heart, description: "Heart cutout for stickers and profiles" },
+  { value: "star", label: "Star", icon: Star, description: "5-point star cutout" },
+  { value: "hexagon", label: "Hexagon", icon: Hexagon, description: "Hexagonal polygon avatar" },
+  { value: "diamond", label: "Diamond", icon: Diamond, description: "Rhombus diamond cutout" },
+];
 type Source = { file: File; url: string; width: number; height: number };
 type Result = { blob: Blob; url: string; name: string; width: number; height: number };
 export function ResizerWorkspace() {
@@ -50,6 +73,9 @@ export function ResizerWorkspace() {
   const [zoom, setZoom] = useState(100),
     [format, setFormat] = useState<ImageMime>("image/jpeg"),
     [quality, setQuality] = useState(90);
+  const [shape, setShape] = useState<CropShape>("rectangle");
+  const [cornerRadius, setCornerRadius] = useState(20);
+  const [bgColor, setBgColor] = useState<string>("transparent");
   const [loading, setLoading] = useState(false),
     [busy, setBusy] = useState(false);
   const [error, setError] = useState(""),
@@ -89,6 +115,9 @@ export function ResizerWorkspace() {
     preset,
     customW,
     customH,
+    shape,
+    cornerRadius,
+    bgColor,
   ]);
   useEffect(() => {
     version.current++;
@@ -153,6 +182,9 @@ export function ResizerWorkspace() {
       setSource(next);
       setCrop(centeredArea(next.width, next.height));
       setPreset("free");
+      setShape("rectangle");
+      setCornerRadius(20);
+      setBgColor("transparent");
       setZoom(100);
       setLocked(true);
       setWidth(String(dims.width));
@@ -193,7 +225,10 @@ export function ResizerWorkspace() {
         Number(width),
         Number(height),
         format,
-        quality
+        quality,
+        shape,
+        cornerRadius,
+        bgColor
       );
       if (run !== version.current || !alive.current) return;
       setResult({
@@ -258,6 +293,9 @@ export function ResizerWorkspace() {
                 tooltip="Reset crop"
                 onClick={() => {
                   changePreset("free");
+                  setShape("rectangle");
+                  setCornerRadius(20);
+                  setBgColor("transparent");
                   setZoom(100);
                 }}
               >
@@ -275,6 +313,8 @@ export function ResizerWorkspace() {
               crop={{ ...crop, unit: "%" }}
               aspect={aspect}
               zoom={zoom}
+              shape={shape}
+              cornerRadius={cornerRadius}
               onChange={setArea}
             />
             <p className={ui.hint}>
@@ -303,6 +343,111 @@ export function ResizerWorkspace() {
             aria-label="Resize and export settings"
           >
             <h2>Size & output</h2>
+
+            {/* Shape selection */}
+            <div className={ui.field}>
+              <span>Crop shape</span>
+              <div className={styles.shapeGrid}>
+                {SHAPE_ITEMS.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.value}
+                      type="button"
+                      className={`${styles.shapeBtn} ${
+                        shape === item.value ? styles.shapeBtnActive : ""
+                      }`}
+                      onClick={() => setShape(item.value)}
+                      title={item.description}
+                      aria-label={item.label}
+                      aria-pressed={shape === item.value}
+                    >
+                      <Icon size={18} />
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {shape === "rounded" && (
+              <label className={ui.field}>
+                Corner roundness · {cornerRadius}%
+                <input
+                  type="range"
+                  min={5}
+                  max={50}
+                  step={1}
+                  value={cornerRadius}
+                  onChange={(e) => setCornerRadius(Number(e.target.value))}
+                />
+              </label>
+            )}
+
+            {shape !== "rectangle" && preset !== "square" && (
+              <div className={styles.aspectTip}>
+                <span>Symmetric shapes look best with 1:1 aspect ratio.</span>
+                <button
+                  type="button"
+                  className={styles.aspectTipBtn}
+                  onClick={() => changePreset("square", 1)}
+                >
+                  Set 1:1 Square
+                </button>
+              </div>
+            )}
+
+            {shape !== "rectangle" && (
+              <div className={ui.field}>
+                <span>Background fill</span>
+                <div className={styles.bgOptions}>
+                  {format !== "image/jpeg" && (
+                    <button
+                      type="button"
+                      className={`${styles.bgBtn} ${
+                        bgColor === "transparent" ? styles.bgBtnActive : ""
+                      }`}
+                      onClick={() => setBgColor("transparent")}
+                    >
+                      Transparent
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className={`${styles.bgBtn} ${
+                      bgColor === "#ffffff" ? styles.bgBtnActive : ""
+                    }`}
+                    onClick={() => setBgColor("#ffffff")}
+                  >
+                    White
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.bgBtn} ${
+                      bgColor === "#000000" ? styles.bgBtnActive : ""
+                    }`}
+                    onClick={() => setBgColor("#000000")}
+                  >
+                    Black
+                  </button>
+                  <label className={styles.customColorWrap} title="Custom background color">
+                    <input
+                      type="color"
+                      value={bgColor === "transparent" ? "#ffffff" : bgColor}
+                      onChange={(e) => setBgColor(e.target.value)}
+                      className={styles.colorPicker}
+                    />
+                    <span>Custom</span>
+                  </label>
+                </div>
+                <p className={ui.hint}>
+                  {format === "image/jpeg"
+                    ? "JPG fills areas outside the shape with this background color."
+                    : "Transparent is recommended for PNG and WebP shape cutouts."}
+                </p>
+              </div>
+            )}
+
             <CustomSelect
               label="Crop aspect ratio"
               value={preset}

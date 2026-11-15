@@ -252,5 +252,17 @@ export const toolSeo = {
       "Convert PDF documents to clean Markdown (.md) locally in your browser. Reconstruct headings, bold and italic text, lists, and links without server uploads.",
     note: "Select a text-based PDF up to 50 MB to convert it into Markdown. Headings, bullet and numbered lists, bold, italic, and web links are automatically detected and converted to GitHub Flavored Markdown. Scanned images or photocopy PDFs without digital text layers require OCR. All processing is performed entirely in your browser memory without uploading your documents to any server.",
   },
+  "pdf-editor": {
+    title: "PDF Editor - Edit, Annotate and Sign PDF Online",
+    description:
+      "Edit, annotate, and sign PDF documents directly in your browser. Add text, highlights, whiteout redactions, shapes, and draw signatures locally with zero server uploads.",
+    note: "Open any static PDF file up to 50 MB to add text, highlight passages, redact private information with whiteout boxes, draw geometric shapes, stamp transparent signatures, or insert images. Rotate or delete pages directly. All modifications are processed locally on your device with complete privacy.",
+  },
+  "scientific-calculator": {
+    title: "Scientific Calculator - Advanced Online Math & Trigonometry Tool",
+    description:
+      "Perform complex scientific calculations online with live formula preview, trigonometry, logarithms, powers, factorials, memory registers, and calculation history. Runs 100% locally in your browser.",
+    note: "Enter mathematical formulas using the responsive scientific keypad or direct keyboard input. Supports DEG and RAD angle modes, standard and inverse trigonometry, hyperbolic functions, natural and base-10 logarithms, exponents, square roots, factorials, and modulo. Store results in memory (MC, MR, M+, M-) and reuse past calculations from the history tape. All calculations run instantly and privately on your device.",
+  },
 } as const;
 export type ToolSlug = keyof typeof toolSeo;

@@ -58,7 +58,9 @@ export type ToolIcon =
   | "pdfimages"
   | "wordpdf"
   | "pdfword"
-  | "pdfmarkdown";
+  | "pdfmarkdown"
+  | "pdfeditor"
+  | "calculator";
 
 export type Tool = {
   slug: string;
@@ -73,23 +75,12 @@ export type Tool = {
 
 export const tools = toolsData as readonly Tool[];
 
-// Curated for everyday usefulness; this order does not imply measured traffic.
-export const headerToolSlugs = [
-  "screen-recorder",
-  "image-compressor",
-  "speech-to-text",
-  "pdf-merge-split",
-  "json-formatter",
-  "text-to-speech",
-  "qa-bug-report",
-  "qr-code-generator",
-  "svg-optimizer",
-] as const satisfies readonly Tool["slug"][];
-
-export const headerTools = headerToolSlugs.flatMap((slug) => {
-  const tool = tools.find((entry) => entry.slug === slug && entry.status === "available");
-  return tool ? [tool] : [];
-});
+// Catalog order is editorial: brand fit and everyday usefulness, not measured traffic.
+// Keep header shortcuts and popular badges aligned with the first nine available tools.
+export const headerTools = tools
+  .filter((tool) => tool.status === "available")
+  .slice(0, 9);
+export const headerToolSlugs = headerTools.map((tool) => tool.slug);
 
 const popularSlugs: ReadonlySet<string> = new Set(headerToolSlugs);
 export function isPopularTool(slug: string): boolean {
@@ -152,4 +143,101 @@ export function matchesToolQuery(tool: Tool, query: string): boolean {
   return terms.every(
     (term) => searchable.includes(term) || words.some((word) => matchesTypo(term, word))
   );
+}
+
+export function getToolSearchScore(tool: Tool, query: string): number {
+  const normalizedQuery = normalizeSearch(query).trim();
+  if (!normalizedQuery) return 0;
+
+  const terms = normalizedQuery.split(/\s+/).filter(Boolean);
+  if (terms.length === 0) return 0;
+
+  let score = 0;
+  const toolNameNorm = normalizeSearch(tool.name);
+  const toolSlugNorm = normalizeSearch(tool.slug);
+  const toolKeywordsNorm = tool.keywords.map(normalizeSearch);
+  const toolDescNorm = normalizeSearch(tool.description);
+
+  // 1. Direct Canonical Calculator Priority:
+  // When user searches for "calculator", "kalkulator", "calc", "math calculator",
+  // "Scientific Calculator" is the canonical math & computation tool and should be prioritized.
+  if (
+    tool.slug === "scientific-calculator" &&
+    /^(calculator|kalkulator|calc|kalkulator ilmiah|scientific calculator|hitung math|math)$/i.test(
+      normalizedQuery
+    )
+  ) {
+    score += 5000;
+  }
+
+  // 2. Exact match on slug or name
+  if (toolSlugNorm === normalizedQuery) {
+    score += 3000;
+  } else if (toolSlugNorm.startsWith(normalizedQuery)) {
+    score += 1500;
+  } else if (toolSlugNorm.includes(normalizedQuery)) {
+    score += 800;
+  }
+
+  if (toolNameNorm === normalizedQuery) {
+    score += 3000;
+  } else if (toolNameNorm.startsWith(normalizedQuery)) {
+    score += 2000;
+  } else if (toolNameNorm.includes(normalizedQuery)) {
+    score += 1000;
+  }
+
+  // 3. Exact match on keywords
+  if (toolKeywordsNorm.includes(normalizedQuery)) {
+    score += 1200;
+  } else if (toolKeywordsNorm.some((k) => k.startsWith(normalizedQuery))) {
+    score += 600;
+  } else if (toolKeywordsNorm.some((k) => k.includes(normalizedQuery))) {
+    score += 300;
+  }
+
+  // 4. Term matches in name vs description
+  for (const term of terms) {
+    const nameWords = toolNameNorm.split(/\s+/);
+    if (nameWords.includes(term)) {
+      score += 400;
+    } else if (toolNameNorm.includes(term)) {
+      score += 200;
+    }
+
+    if (toolDescNorm.includes(term)) {
+      score += 50;
+    }
+  }
+
+  // 5. Popular tool slight bump for tie-breaking
+  if (isPopularTool(tool.slug)) {
+    score += 10;
+  }
+
+  return score;
+}
+
+export function searchTools(
+  toolsList: readonly Tool[],
+  query: string,
+  category: string = "All"
+): Tool[] {
+  const q = query.trim();
+  const matched = toolsList.filter((tool) => {
+    const matchesCategory =
+      category === "All" || category === "All tools" || tool.category === category;
+    return matchesCategory && matchesToolQuery(tool, q);
+  });
+
+  if (!q) return matched;
+
+  return matched
+    .map((tool, index) => ({
+      tool,
+      score: getToolSearchScore(tool, q),
+      originalIndex: index,
+    }))
+    .sort((a, b) => b.score - a.score || a.originalIndex - b.originalIndex)
+    .map((item) => item.tool);
 }

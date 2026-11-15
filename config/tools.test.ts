@@ -1,6 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { tools, headerTools, matchesToolQuery, isPopularTool } from "./tools.ts";
+import {
+  tools,
+  headerTools,
+  matchesToolQuery,
+  isPopularTool,
+  searchTools,
+} from "./tools.ts";
 import { toolIcons } from "../components/cummon/tool-icons.ts";
 
 const matches = (query: string) =>
@@ -10,6 +16,13 @@ test("header and popular badges use the same nine ranked available tools", () =>
   assert.equal(headerTools.length, 9);
   assert.equal(new Set(headerTools.map((tool) => tool.slug)).size, 9);
   assert.equal(headerTools[0].slug, "screen-recorder");
+  assert.deepEqual(
+    headerTools.map((tool) => tool.slug),
+    tools
+      .filter((tool) => tool.status === "available")
+      .slice(0, 9)
+      .map((tool) => tool.slug)
+  );
   assert.deepEqual(
     tools
       .filter((tool) => isPopularTool(tool.slug))
@@ -53,6 +66,8 @@ test("search resolves supported capabilities and aliases", () => {
     ["pdf to markdown", "pdf-to-markdown"],
     ["pdf to md", "pdf-to-markdown"],
     ["pdf ke markdown", "pdf-to-markdown"],
+    ["edit dokumen pdf", "pdf-editor"],
+    ["edit file pdf", "pdf-editor"],
   ] as const)
     assert.ok(matches(query).includes(slug), query);
 });
@@ -88,4 +103,26 @@ test("search tolerates spelling errors and adjacent transpositions", () => {
   }
   assert.deepEqual(matches("zzzzzzz unknown xqz"), []);
   assert.ok(!matches("jst").includes("jwt-decoder"), "Short acronyms stay exact");
+});
+
+test("ranks Scientific Calculator as the top result for calculator and calculation queries", () => {
+  for (const q of [
+    "calculator",
+    "Calculator",
+    "kalkulator",
+    "calc",
+    "scientific calculator",
+    "Scientific Calculator",
+    "kalkulator ilmiah",
+  ]) {
+    for (const cat of ["All", "All tools", "Utilities"]) {
+      const results = searchTools(tools, q, cat);
+      assert.ok(results.length > 0, `Expected search results for query: ${q} in ${cat}`);
+      assert.equal(
+        results[0].slug,
+        "scientific-calculator",
+        `Expected scientific-calculator to be top result for "${q}" in "${cat}", but got "${results[0].slug}"`
+      );
+    }
+  }
 });

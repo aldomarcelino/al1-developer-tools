@@ -9,10 +9,11 @@ import styles from "./snackbar.module.css";
 type SnackbarProps = {
   snackbar: SnackbarMessage | null;
   onDismiss: () => void;
+  className?: string;
 };
 
 /** Render outside workspace containers so feedback remains visible while scrolling. */
-export function Snackbar({ snackbar, onDismiss }: SnackbarProps) {
+export function Snackbar({ snackbar, onDismiss, className = "" }: SnackbarProps) {
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
   // Keep the server output and the first client render identical. Portals can
@@ -31,7 +32,7 @@ export function Snackbar({ snackbar, onDismiss }: SnackbarProps) {
         : CircleCheck;
 
   return createPortal(
-    <div className={styles.region}>
+    <div className={`${styles.region} ${className}`}>
       <div role="status" aria-live="polite" aria-atomic="true">
         {snackbar ? (
           <div className={styles.snackbar} data-variant={snackbar.variant}>

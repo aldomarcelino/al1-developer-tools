@@ -403,3 +403,112 @@
   font-weight: 600;
   color: inherit;
 }
+
+/* ==========================================================================
+   Mobile Detail Page Header & Scroll Reveal
+   ========================================================================== */
+
+.header-mobile-tool-title {
+  display: none;
+}
+
+.header-actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+@media (max-width: 640px) {
+  /* Detail Page Header on Mobile: Transparent & Compact */
+  .site-header.header-detail-mobile {
+    background: transparent !important;
+    border-bottom: 1px solid transparent !important;
+    box-shadow: none !important;
+  }
+
+  .site-header.header-detail-mobile .header-inner {
+    height: 52px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  /* Shrink logo and hide wordmark on mobile detail page */
+  .header-detail-mobile .ramupod-logo-mark {
+    padding: 2px 4px;
+    transform: scale(0.78);
+    transform-origin: left center;
+  }
+
+  .header-detail-mobile .brand-wordmark {
+    display: none !important;
+  }
+
+  /* Center title in mobile header */
+  .header-detail-mobile .header-mobile-tool-title {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+  }
+
+  .header-detail-mobile .header-mobile-tool-title h1 {
+    font-size: 14px;
+    font-weight: 650;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  /* Right Action Wrapper on mobile detail page */
+  .header-detail-mobile .header-actions-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    padding: 2px 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(8px);
+  }
+
+  .header-detail-mobile .header-actions-wrapper .icon-button,
+  .header-detail-mobile .header-actions-wrapper .header-search-trigger,
+  .header-detail-mobile .header-actions-wrapper .theme-button,
+  .header-detail-mobile .header-actions-wrapper .mobile-menu {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 9999px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+  }
+
+  .header-detail-mobile .header-actions-wrapper .icon-button:hover,
+  .header-detail-mobile .header-actions-wrapper .icon-button:active {
+    background: var(--soft);
+    color: var(--text);
+  }
+
+  /* Scroll Hide Header Animation */
+  .site-header {
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  }
+
+  .site-header.header-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+}

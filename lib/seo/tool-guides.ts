@@ -47,8 +47,10 @@ export const toolGuides = {
       "Choose a compression level and select Compress PDF. If you have a size limit, open Check an Upload Limit first.",
       "Compare the sizes and download the compressed result when available.",
     ],
-    example: "Need to submit a PDF under 1 MB? Choose Balanced and enter 1 as the upload limit.",
-    result: "Compare the original and compressed sizes. If the result is still too large, try Strong and check that the images are clear enough.",
+    example:
+      "Need to submit a PDF under 1 MB? Choose Balanced and enter 1 as the upload limit.",
+    result:
+      "Compare the original and compressed sizes. If the result is still too large, try Strong and check that the images are clear enough.",
     related: ["pdf-merge-split", "image-to-pdf", "pdf-to-image"],
   },
   "pdf-merge-split": {
@@ -284,7 +286,8 @@ export const toolGuides = {
     ],
     example: "Generate three paragraphs to test the layout of an article preview.",
     related: ["character-counter", "text-cleaner", "markdown-editor"],
-    result: "Three blocks of sample text separated by blank lines, ready to paste into your mockup.",
+    result:
+      "Three blocks of sample text separated by blank lines, ready to paste into your mockup.",
   },
   "character-counter": {
     steps: [
@@ -432,8 +435,33 @@ export const toolGuides = {
       "Review the extracted Markdown and customize conversion options like page dividers or heading levels.",
       "Copy the formatted Markdown to your clipboard or download it as a .md file.",
     ],
-    example: "Convert an architectural whitepaper PDF into a clean Markdown README for your GitHub repository.",
+    example:
+      "Convert an architectural whitepaper PDF into a clean Markdown README for your GitHub repository.",
     result:
       "Structured Markdown text with headings (#, ##), bullet lists, bold and italic styling, ready for Obsidian, Notion, or LLM prompts.",
+  },
+  "pdf-editor": {
+    steps: [
+      "Select or drop a static PDF file up to 50 MB.",
+      "Use the toolbar to insert text, highlight, whiteout, draw shapes, or stamp your signature.",
+      "Review your edits, adjust page rotation or order, and click Export PDF to save.",
+    ],
+    example:
+      "Fill out a PDF consent form, redact sensitive ID numbers with whiteout, and apply a drawn signature.",
+    result:
+      "A finalized, professional PDF document with all vector text, highlights, shapes, and signature stamps embedded directly into the file.",
+    related: ["pdf-merge-split", "pdf-compressor", "pdf-to-image"],
+  },
+  "scientific-calculator": {
+    steps: [
+      "Type a math expression directly using your keyboard or click the interactive on-screen keypad.",
+      "Switch between DEG and RAD angle modes, or toggle 2nd for inverse trigonometry and powers.",
+      "Press Enter or = to calculate, view live preview results, and recall past expressions from the history tape.",
+    ],
+    example:
+      "Compute sin(45) * sqrt(100) + ln(e^2) in degree mode with real-time live preview.",
+    result:
+      "Instant numerical evaluation formatted with high precision, automatic parenthesis balancing, and one-click copy to clipboard.",
+    related: ["percentage-calculator", "unit-converter", "date-calculator"],
   },
 } as const satisfies Record<ToolSlug, ToolGuide>;
