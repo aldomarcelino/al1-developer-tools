@@ -6,7 +6,14 @@ import { ArrowUpRight, Command, Search, X } from "lucide-react";
 import { categories, tools, searchTools } from "@/config/tools";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { ToolIcon } from "@/components/cummon/tool-icon";
+import { CustomSelect } from "@/components/ui/custom-select";
 import { ToolCard } from "./tool-card";
+
+const availableTools = tools.filter((tool) => tool.status === "available");
+const categoryOptions = categories.map((category) => ({
+  value: category,
+  label: `${category} (${category === "All tools" ? availableTools.length : availableTools.filter((tool) => tool.category === category).length})`,
+}));
 
 export function ToolDiscovery() {
   const [query, setQuery] = useState("");
@@ -27,7 +34,8 @@ export function ToolDiscovery() {
     () => searchTools(tools, debouncedQuery, category),
     [category, debouncedQuery]
   );
-  const activeToolCount = tools.filter((t) => t.status === "available").length;
+  const activeToolCount = availableTools.length;
+  const visibleTools = filtered.filter((tool) => tool.status === "available");
   return (
     <section id="tools" className="tool-discovery">
       <div className="page-width">
@@ -68,7 +76,20 @@ export function ToolDiscovery() {
           </div>
           <span className="search-hint">A shortcut to your next task.</span>
         </div>
-        <div className="categories" aria-label="Tool categories">
+        <div className="mobile-category-filter">
+          <CustomSelect
+            className="mobile-category-field"
+            label="Category"
+            layout="stacked"
+            value={category}
+            onChange={setCategory}
+            options={categoryOptions}
+          />
+          <span className="filter-result-count" role="status">
+            {visibleTools.length} {visibleTools.length === 1 ? "tool" : "tools"}
+          </span>
+        </div>
+        <div className="categories" role="group" aria-label="Tool categories">
           {categories.map((c) => (
             <button
               key={c}
@@ -83,11 +104,9 @@ export function ToolDiscovery() {
         </div>
         <div className="tool-grid-wrapper">
           <div className="tool-grid">
-            {filtered
-              .filter((t) => t.status === "available")
-              .map((t) => (
-                <ToolCard key={t.slug} tool={t} />
-              ))}
+            {visibleTools.map((t) => (
+              <ToolCard key={t.slug} tool={t} />
+            ))}
           </div>
           {filtered.some((t) => t.slug === "webhook-inspector") && (
             <Link href="/tools/webhook-inspector" className="webhook-feature">

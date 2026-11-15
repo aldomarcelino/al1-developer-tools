@@ -225,7 +225,7 @@
   display: grid;
   grid-template-rows: var(--display-large-row) var(--display-small-row);
   height: calc(var(--display-large-row) + var(--display-small-row) + 12px);
-  gap: 4px;
+  gap: 0;
   transition: grid-template-rows 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -236,7 +236,8 @@
 /* Base Formula Input with Smooth Size & Color Transition */
 .expressionInput {
   width: 100%;
-  height: 100%;
+  height: 1.2em;
+  align-self: end;
   min-width: 0;
   min-height: 0;
   border: none !important;
@@ -247,7 +248,7 @@
   text-align: right;
   line-height: 1.2;
   letter-spacing: -0.5px;
-  padding: 2px 0;
+  padding: 0;
   margin: 0;
   transition:
     font-size 0.28s cubic-bezier(0.25, 0.8, 0.25, 1),
@@ -262,7 +263,7 @@
 
 /* Formula Primary (typing mode: Large & Text Color) */
 .formulaPrimary {
-  font-size: clamp(1.6rem, 4.2vw, 2.35rem);
+  font-size: calc(clamp(1.8rem, 4.6vw, 2.5rem) + 2px);
   font-weight: 600;
   color: var(--text);
   opacity: 1;
@@ -270,7 +271,7 @@
 
 /* Formula Secondary (evaluated mode: Small & Muted) */
 .formulaSecondary {
-  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  font-size: calc(clamp(1.05rem, 2.5vw, 1.25rem) + 2px);
   font-weight: 500;
   color: var(--muted);
   opacity: 0.8;
@@ -279,6 +280,7 @@
 /* Result Line Container */
 .resultLine {
   display: flex;
+  align-self: start;
   min-width: 0;
   min-height: 0;
   align-items: center;
@@ -986,7 +988,9 @@
     padding-block: 10px;
     gap: 4px;
   }
-  .formulaPrimary,
+  .formulaPrimary {
+    font-size: calc(2rem + 2px);
+  }
   .resultPrimary .previewLabel {
     font-size: 1.8rem;
   }

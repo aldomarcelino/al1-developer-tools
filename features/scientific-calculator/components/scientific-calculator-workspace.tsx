@@ -33,6 +33,16 @@ interface HistoryItem {
 
 const STORAGE_KEY = "ramupod_calc_history";
 
+function revealExpressionEnd(input: HTMLInputElement) {
+  if (input.selectionStart === input.value.length) {
+    // An unfocused input does not automatically scroll when setSelectionRange
+    // moves its caret. Reveal appended keypad input without opening the keyboard.
+    input.scrollLeft = input.scrollWidth;
+  } else if (input.selectionStart === 0) {
+    input.scrollLeft = 0;
+  }
+}
+
 export function ScientificCalculatorWorkspace() {
   const [expression, setExpression] = useState("");
   const [currentResult, setCurrentResult] = useState<string>("");
@@ -48,6 +58,7 @@ export function ScientificCalculatorWorkspace() {
   const [calcError, setCalcError] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const allowInputFocusRef = useRef<boolean | null>(null);
   const pressedButtonRef = useRef<HTMLButtonElement | null>(null);
   const pressStartedRef = useRef(0);
   const pressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -65,11 +76,15 @@ export function ScientificCalculatorWorkspace() {
   useEffect(() => clearButtonPress, [clearButtonPress]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    allowInputFocusRef.current = event.pointerType === "mouse";
     if (event.pointerType === "mouse") return;
     clearButtonPress();
     const button =
       event.target instanceof Element ? event.target.closest("button") : null;
     if (!button || button.disabled) return;
+    // Leave text-entry mode when the touch keypad is used, even on browsers
+    // that keep the input focused after tapping a button.
+    inputRef.current?.blur();
     pressedButtonRef.current = button;
     pressStartedRef.current = performance.now();
     button.setAttribute("data-pressed", "true");
@@ -153,6 +168,20 @@ export function ScientificCalculatorWorkspace() {
   // Live preview result calculation
   const livePreview = safeLivePreview(expression, { angleUnit, ans });
 
+  const updateInputSelection = useCallback((start: number, end = start) => {
+    requestAnimationFrame(() => {
+      const input = inputRef.current;
+      if (!input) return;
+      // Updating the caret does not require focus. Touch/pen input must not
+      // open the software keyboard; direct taps on the input still work.
+      const allowFocus =
+        allowInputFocusRef.current ?? window.matchMedia("(pointer: fine)").matches;
+      if (allowFocus) input.focus({ preventScroll: true });
+      input.setSelectionRange(start, end);
+      revealExpressionEnd(input);
+    });
+  }, []);
+
   // Insert text at current cursor position in input
   const insertText = useCallback(
     (textToInsert: string) => {
@@ -166,18 +195,12 @@ export function ScientificCalculatorWorkspace() {
         if (/^[+\-*/^%×÷]|^mod/.test(textToInsert.trim())) {
           const chained = (currentResult || ans.toString()) + textToInsert;
           setExpression(chained);
-          requestAnimationFrame(() => {
-            input?.focus();
-            input?.setSelectionRange(chained.length, chained.length);
-          });
+          updateInputSelection(chained.length);
           return;
         } else {
           // Fresh number or function starts fresh expression
           setExpression(textToInsert);
-          requestAnimationFrame(() => {
-            input?.focus();
-            input?.setSelectionRange(textToInsert.length, textToInsert.length);
-          });
+          updateInputSelection(textToInsert.length);
           return;
         }
       }
@@ -194,12 +217,9 @@ export function ScientificCalculatorWorkspace() {
 
       // Re-position cursor after insertion
       const nextPos = start + textToInsert.length;
-      requestAnimationFrame(() => {
-        input.focus();
-        input.setSelectionRange(nextPos, nextPos);
-      });
+      updateInputSelection(nextPos);
     },
-    [expression, isCalculated, ans, currentResult]
+    [expression, isCalculated, ans, currentResult, updateInputSelection]
   );
 
   // Backspace / Delete last character or selected text
@@ -220,20 +240,14 @@ export function ScientificCalculatorWorkspace() {
       // Delete 1 character backwards
       const next = expression.slice(0, start - 1) + expression.slice(end);
       setExpression(next);
-      requestAnimationFrame(() => {
-        input.focus();
-        input.setSelectionRange(start - 1, start - 1);
-      });
+      updateInputSelection(start - 1);
     } else {
       // Delete selection
       const next = expression.slice(0, start) + expression.slice(end);
       setExpression(next);
-      requestAnimationFrame(() => {
-        input.focus();
-        input.setSelectionRange(start, start);
-      });
+      updateInputSelection(start);
     }
-  }, [expression]);
+  }, [expression, updateInputSelection]);
 
   // Clear all (AC)
   const handleClear = useCallback(() => {
@@ -241,20 +255,15 @@ export function ScientificCalculatorWorkspace() {
     setCurrentResult("");
     setIsCalculated(false);
     setCalcError(null);
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
+    updateInputSelection(0);
+  }, [updateInputSelection]);
 
   const replaceExpression = (value: string) => {
     setExpression(value);
     setIsCalculated(false);
     setCurrentResult("");
     setCalcError(null);
-    requestAnimationFrame(() => {
-      inputRef.current?.focus({ preventScroll: true });
-      inputRef.current?.setSelectionRange(value.length, value.length);
-    });
+    updateInputSelection(value.length);
   };
 
   const handleToggleSign = () => {
@@ -364,8 +373,7 @@ export function ScientificCalculatorWorkspace() {
       if (/^[+\-*/^%×÷]/.test(e.key)) {
         e.preventDefault();
         setIsCalculated(false);
-        const op = e.key === "*" ? " * " : e.key === "/" ? " / " : ` ${e.key} `;
-        const chained = (currentResult || ans.toString()) + op;
+        const chained = (currentResult || ans.toString()) + e.key;
         setExpression(chained);
         return;
       } else if (e.key === "Backspace" || e.key === "Delete") {
@@ -426,6 +434,9 @@ export function ScientificCalculatorWorkspace() {
       onPointerDownCapture={handlePointerDown}
       onPointerUpCapture={handlePointerUp}
       onPointerCancelCapture={clearButtonPress}
+      onKeyDownCapture={() => {
+        allowInputFocusRef.current = true;
+      }}
     >
       <ToolHeader title="Scientific Calculator" icon={<Calculator size={24} />} />
 
@@ -518,6 +529,11 @@ export function ScientificCalculatorWorkspace() {
                 value={expression}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
+                onTransitionEnd={(event) => {
+                  if (event.propertyName === "font-size") {
+                    revealExpressionEnd(event.currentTarget);
+                  }
+                }}
                 placeholder="0"
                 aria-label="Math expression input"
                 aria-describedby="calculator-shortcuts"
@@ -697,7 +713,7 @@ export function ScientificCalculatorWorkspace() {
             <button
               type="button"
               className={`${styles.key} ${styles.keyOp}`}
-              onClick={() => insertText(" / ")}
+              onClick={() => insertText("/")}
               aria-label="Divide"
             >
               ÷
@@ -739,7 +755,7 @@ export function ScientificCalculatorWorkspace() {
             <button
               type="button"
               className={`${styles.key} ${styles.keyOp}`}
-              onClick={() => insertText(" * ")}
+              onClick={() => insertText("*")}
               aria-label="Multiply"
             >
               ×
@@ -778,7 +794,7 @@ export function ScientificCalculatorWorkspace() {
             <button
               type="button"
               className={`${styles.key} ${styles.keyOp}`}
-              onClick={() => insertText(" - ")}
+              onClick={() => insertText("-")}
               aria-label="Subtract"
             >
               −
@@ -817,7 +833,7 @@ export function ScientificCalculatorWorkspace() {
             <button
               type="button"
               className={`${styles.key} ${styles.keyOp}`}
-              onClick={() => insertText(" + ")}
+              onClick={() => insertText("+")}
               aria-label="Add"
             >
               +
@@ -827,7 +843,7 @@ export function ScientificCalculatorWorkspace() {
             <button
               type="button"
               className={`${styles.key} ${styles.keyFunc}`}
-              onClick={() => insertText(isSecond ? "1 / (" : "!")}
+              onClick={() => insertText(isSecond ? "1/(" : "!")}
               aria-label={isSecond ? "Reciprocal 1/x" : "Factorial"}
             >
               <span>{isSecond ? "1/x" : "x!"}</span>
@@ -1016,12 +1032,12 @@ export function ScientificCalculatorWorkspace() {
           type="button"
           onClick={() => {
             setAngleUnit("deg");
-            replaceExpression("sin(45) * sqrt(100)");
+            replaceExpression("sin(45)*sqrt(100)");
           }}
         >
           sin(45°) × √100
         </button>
-        <button type="button" onClick={() => replaceExpression("(12 + 8) * 5")}>
+        <button type="button" onClick={() => replaceExpression("(12+8)*5")}>
           (12 + 8) × 5
         </button>
         <button type="button" onClick={() => replaceExpression("ln(e^2)")}>
