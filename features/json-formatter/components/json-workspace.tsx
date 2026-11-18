@@ -260,7 +260,6 @@ export function JsonWorkspace() {
   const isStringified = Boolean(input && unwrapStringifiedJson(input));
   return (
     <div className={`workspace-page page-width json-formatter ${styles.workspace}`}>
-      {/* Reusable Tool Header (Breadcrumb & Heading) */}
       <ToolHeader title="JSON Formatter" icon={<FileJson size={24} />} />
       <div className="workspace-toolbar">
         <div className="toolbar-group">

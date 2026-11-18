@@ -1,0 +1,233 @@
+/* Shared workspace shell for tool detail pages. */
+.site-header.header-focus {
+  border-bottom: 0;
+  background: transparent;
+  isolation: isolate;
+}
+
+.site-header.header-focus::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 380ms ease;
+}
+
+.site-header.header-focus .header-inner {
+  width: min(100%, 1400px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(220px, 30vw, 360px) minmax(0, 1fr);
+  height: 56px;
+  gap: 20px;
+  border-radius: 0;
+  background: var(--bg);
+  transform: translateY(0);
+  box-shadow: 0 0 0 transparent;
+  transition:
+    width 440ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding-inline 440ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 440ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 380ms ease,
+    background-color 380ms ease,
+    box-shadow 380ms ease;
+}
+
+.site-header.header-focus[data-detached="true"] {
+  pointer-events: none;
+}
+
+.site-header.header-focus[data-detached="true"]::before {
+  opacity: 0;
+}
+
+.site-header.header-focus[data-detached="true"] .header-inner {
+  padding-inline: 24px;
+  width: min(calc(100% - 48px), 1120px);
+  border-radius: 999px;
+  transform: translateY(8px);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 28px #0e191d14;
+  pointer-events: auto;
+}
+
+.header-focus[data-detached="true"] .header-menu {
+  top: calc(100% + 12px);
+  pointer-events: auto;
+}
+
+.header-focus .workspace-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  grid-column: 1;
+  min-width: 0;
+}
+
+.header-focus .brand-wordmark {
+  font-size: 18px;
+  font-weight: 550;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.header-focus .header-actions,
+.header-focus .header-actions-wrapper {
+  display: contents;
+}
+
+.header-focus .header-search-trigger {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 38px;
+  height: 38px;
+  padding: 7px 12px;
+  font-size: 13px;
+}
+
+.header-focus .search-trigger-kbd {
+  margin-left: auto;
+}
+
+.header-focus .icon-button {
+  width: 34px;
+  height: 34px;
+}
+
+.header-focus .theme-button {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.header-focus .mobile-menu {
+  display: none;
+}
+
+.header-focus .mobile-nav-links {
+  display: flex;
+}
+
+.workspace-focused > .workspace-page {
+  padding-top: 12px;
+}
+
+.workspace-focused .workspace-page .workspace-heading {
+  display: flex;
+  margin: 0 0 24px;
+}
+
+.workspace-focused .workspace-page .workspace-heading h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.3;
+  letter-spacing: -0.6px;
+  gap: 10px;
+}
+
+.workspace-focused .utility-tool {
+  row-gap: 16px;
+}
+
+.workspace-focused .workspace-page.utility-tool > .workspace-heading {
+  margin-bottom: 8px;
+}
+
+.workspace-focused .json-formatter .editor-layout {
+  height: clamp(360px, calc(100dvh - 270px), 760px);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.workspace-focused .json-formatter .editor-header,
+.workspace-focused .json-formatter .editor-footer {
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .site-header.header-focus::before {
+    display: none;
+  }
+
+  .site-header.header-focus .header-inner {
+    display: flex;
+    height: 52px;
+    padding: 0 10px;
+    gap: 6px;
+    background: transparent;
+  }
+
+  .site-header.header-focus[data-detached="true"] .header-inner {
+    padding-inline: 10px;
+    width: 100%;
+    border-radius: 0;
+    transform: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    background: transparent;
+  }
+
+  .header-detail-mobile .ramupod-logo-mark {
+    transform: none;
+  }
+
+  .header-focus .header-actions {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .header-focus .header-actions-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .header-focus .mobile-menu {
+    display: inline-flex;
+  }
+
+  .header-focus .header-search-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    min-height: 34px;
+    height: 34px;
+    padding: 0;
+  }
+
+  .workspace-focused .workspace-page .workspace-heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .workspace-focused .json-formatter .editor-layout {
+    height: clamp(360px, calc(100dvh - 350px), 680px);
+  }
+
+  .workspace-focused .json-formatter .editor-pane.mobile-active {
+    display: flex;
+    min-height: 0;
+  }
+
+  .workspace-focused .json-formatter .editor-body {
+    height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header.header-focus::before,
+  .site-header.header-focus .header-inner {
+    transition: none;
+  }
+}

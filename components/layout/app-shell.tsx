@@ -19,14 +19,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [themeAnimation, setThemeAnimation] = useState<"idle" | "out" | "in">("idle");
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
-  // Mobile detail page states: title & scroll hide
-  const isDetailPage = Boolean(path && path.startsWith("/tools/"));
-  const toolSlug = isDetailPage ? path.replace(/^\/tools\//, "").split("/")[0] : "";
-  const currentTool = tools.find((t) => t.slug === toolSlug);
-  const toolTitle = currentTool?.name || (toolSlug ? toolSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "");
+  const isToolPage = Boolean(path && path.startsWith("/tools/"));
+  const toolSlug = isToolPage ? path.split("/")[2] : "";
+  const toolTitle =
+    tools.find((tool) => tool.slug === toolSlug)?.name ||
+    toolSlug.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 
+  const [headerDetached, setHeaderDetached] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
-  const lastScrollY = useRef(0);
 
   const header = useRef<HTMLElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -114,39 +114,53 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     clearCloseTimer();
     setOpen(false);
-    setHeaderVisible(true);
-    lastScrollY.current = 0;
   }, [path]);
 
-  // Scroll handler for mobile detail page: hide header on scroll down, show on scroll up
   useEffect(() => {
-    if (!isDetailPage) {
+    if (!isToolPage) {
+      setHeaderDetached(false);
       setHeaderVisible(true);
       return;
     }
 
+    const mobile = window.matchMedia("(max-width: 640px)");
+    let lastY = window.scrollY;
+    let detached = window.scrollY > 12;
+    setHeaderDetached(!mobile.matches && detached);
+    setHeaderVisible(true);
     const handleScroll = () => {
-      if (window.innerWidth > 640) {
-        setHeaderVisible(true);
-        return;
-      }
-
-      const currentY = window.scrollY;
-      if (currentY <= 25) {
-        setHeaderVisible(true);
-      } else if (currentY > 50 && currentY > lastScrollY.current + 8) {
-        if (!open) {
+      const y = Math.max(0, window.scrollY);
+      if (mobile.matches) {
+        setHeaderDetached(false);
+        if (y <= 25 || y < lastY - 12 || open) {
+          setHeaderVisible(true);
+        } else if (y > 50 && y > lastY + 8) {
           setHeaderVisible(false);
         }
-      } else if (currentY < lastScrollY.current - 12) {
-        setHeaderVisible(true);
+        lastY = y;
+        return;
       }
-      lastScrollY.current = currentY;
+      setHeaderVisible(true);
+      // Stay detached while scrolling back up; reconnect only at the very top.
+      const next = y === 0 ? false : y > 12 ? true : detached;
+      if (next !== detached) {
+        detached = next;
+        setHeaderDetached(next);
+      }
     };
-
+    const handleResize = () => {
+      detached = !mobile.matches && window.scrollY > 12;
+      setHeaderDetached(detached);
+      setHeaderVisible(true);
+      lastY = window.scrollY;
+    };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isDetailPage, open]);
+    mobile.addEventListener("change", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      mobile.removeEventListener("change", handleResize);
+    };
+  }, [isToolPage, path, open]);
 
   // Global shortcut to open tool search modal when not on the homepage ("/")
   useEffect(() => {
@@ -189,9 +203,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       if (event.key === "Escape") {
         clearCloseTimer();
         setOpen(false);
-        const activeButton = window.matchMedia("(max-width: 640px)").matches
-          ? mobileMenuButton
-          : menuButton;
+        const activeButton =
+          isToolPage || window.matchMedia("(max-width: 640px)").matches
+            ? mobileMenuButton
+            : menuButton;
         activeButton.current?.focus();
       }
     };
@@ -201,7 +216,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       document.removeEventListener("pointerdown", closeOutside);
       document.removeEventListener("keydown", closeEscape);
     };
-  }, [open]);
+  }, [open, isToolPage]);
 
   const theme = () => {
     const next = !dark;
@@ -223,54 +238,69 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <>
       <header
         ref={header}
-        className={`site-header ${isDetailPage ? "header-detail-mobile" : ""} ${!headerVisible && isDetailPage ? "header-hidden" : ""}`}
+        data-detached={isToolPage && headerDetached ? "true" : undefined}
+        className={`site-header ${isToolPage ? "header-focus header-detail-mobile" : ""} ${isToolPage && !headerVisible ? "header-hidden" : ""}`}
       >
         <div
           className={`header-inner ${
             path === "/" ? "header-inner-home" : ""
-          } ${isDetailPage ? "header-inner-detail" : ""}`}
+          } ${isToolPage ? "header-inner-detail" : ""}`}
         >
-          <div className="brand header-brand">
-            <RamupodLogo />
-            <Link href="/" className="brand-wordmark" aria-label="Ramupod home">
-              {brand.wordmark}
-            </Link>
-          </div>
-
-          {/* Page title for mobile detail page */}
-          {isDetailPage && (
-            <div className="header-mobile-tool-title" title={toolTitle}>
-              <h1>{toolTitle}</h1>
+          {isToolPage ? (
+            <div className="workspace-brand">
+              <RamupodLogo size={28} />
+              <Link href="/" className="brand-wordmark" aria-label="Ramupod home">
+                {brand.wordmark}
+              </Link>
+            </div>
+          ) : (
+            <div className="brand header-brand">
+              <RamupodLogo />
+              <Link href="/" className="brand-wordmark" aria-label="Ramupod home">
+                {brand.wordmark}
+              </Link>
             </div>
           )}
 
-          <nav className="header-nav" aria-label="Main navigation">
-            <Link
-              href="/"
-              aria-current={path === "/" ? "page" : undefined}
-              onMouseEnter={handleOtherNavHover}
+          {isToolPage && (
+            <div
+              className="header-mobile-tool-title"
+              title={toolTitle}
+              aria-hidden="true"
             >
-              Home
-            </Link>
-            <button
-              ref={menuButton}
-              className={open ? "nav-trigger is-open" : "nav-trigger"}
-              aria-expanded={open}
-              aria-controls="tool-navigation"
-              onClick={handleToolsClick}
-              onMouseEnter={handleToolsMouseEnter}
-              onMouseLeave={handleToolsMouseLeave}
-            >
-              Tools <ChevronDown size={15} />
-            </button>
-            <Link
-              href="/#principles"
-              onClick={closeMenu}
-              onMouseEnter={handleOtherNavHover}
-            >
-              Our approach
-            </Link>
-          </nav>
+              <span>{toolTitle}</span>
+            </div>
+          )}
+
+          {!isToolPage && (
+            <nav className="header-nav" aria-label="Main navigation">
+              <Link
+                href="/"
+                aria-current={path === "/" ? "page" : undefined}
+                onMouseEnter={handleOtherNavHover}
+              >
+                Home
+              </Link>
+              <button
+                ref={menuButton}
+                className={open ? "nav-trigger is-open" : "nav-trigger"}
+                aria-expanded={open}
+                aria-controls="tool-navigation"
+                onClick={handleToolsClick}
+                onMouseEnter={handleToolsMouseEnter}
+                onMouseLeave={handleToolsMouseLeave}
+              >
+                Tools <ChevronDown size={15} />
+              </button>
+              <Link
+                href="/#principles"
+                onClick={closeMenu}
+                onMouseEnter={handleOtherNavHover}
+              >
+                Our approach
+              </Link>
+            </nav>
+          )}
 
           <div className="header-actions">
             {/* Wrapper grouping search, switcher mode, and burger icon */}
@@ -325,7 +355,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <button
                 ref={mobileMenuButton}
                 className="icon-button mobile-menu"
-                aria-label={open ? "Close navigation" : "Open navigation"}
+                aria-label={
+                  open
+                    ? "Close navigation"
+                    : isToolPage
+                      ? "More tools"
+                      : "Open navigation"
+                }
                 aria-expanded={open}
                 aria-controls="tool-navigation"
                 onClick={() => setOpen(!open)}
@@ -334,9 +370,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </button>
             </div>
 
-            <Link href="/tools/json-formatter" className="button primary header-cta">
-              Open workspace <ArrowUpRight size={16} />
-            </Link>
+            {!isToolPage && (
+              <Link href="/tools/json-formatter" className="button primary header-cta">
+                Open workspace <ArrowUpRight size={16} />
+              </Link>
+            )}
           </div>
         </div>
 
@@ -403,7 +441,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
 
-      <main id="main">{children}</main>
+      <main id="main" className={isToolPage ? "workspace-focused" : undefined}>
+        {children}
+      </main>
       <SiteFooter />
 
       {/* Quick Tool Search Modal (Accessible anywhere outside homepage) */}

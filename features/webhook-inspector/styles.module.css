@@ -8,7 +8,7 @@
   grid-template-columns: 1.35fr 1fr;
   align-items: center;
   gap: 56px;
-  padding: 72px 0 76px;
+  padding: 24px 0 32px;
 }
 :global(.webhook-status):where(.scope, .scope *),
 :global(.webhook-eyebrow):where(.scope, .scope *) {

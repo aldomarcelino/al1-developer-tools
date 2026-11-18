@@ -342,37 +342,39 @@
 
 /* Match the flat mark palette in both themes, including the footer. */
 .brand-logo-svg {
-  color: var(--brand-ink, #0F3528);
-  --brand-ink: #0F3528;
-  --brand-lime: #B7F425;
+  color: var(--brand-ink, #0f3528);
+  --brand-ink: #0f3528;
+  --brand-lime: #b7f425;
 }
 :root[data-theme="dark"] .brand-logo-svg {
-  color: var(--brand-ink-dark, #FFFFFF);
-  --brand-ink: #FFFFFF;
-  --brand-lime: #B7F425;
+  color: var(--brand-ink-dark, #ffffff);
+  --brand-ink: #ffffff;
+  --brand-lime: #b7f425;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .brand-logo-svg {
-    color: var(--brand-ink-dark, #FFFFFF);
-    --brand-ink: #FFFFFF;
-    --brand-lime: #B7F425;
+    color: var(--brand-ink-dark, #ffffff);
+    --brand-ink: #ffffff;
+    --brand-lime: #b7f425;
   }
 }
 
 /* Header Logo: in Light Mode, wrapped in a forest capsule with white Cr like Image 2 */
 :root:not([data-theme="dark"]) .ramupod-logo-mark {
-  background: #0F3528;
+  background: #0f3528;
   border-radius: 9999px;
   padding: 4px 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 1px 3px rgba(15, 53, 40, 0.18);
-  transition: background-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
 }
 :root:not([data-theme="dark"]) .ramupod-logo-mark .brand-logo-svg {
-  --brand-ink: #FFFFFF;
-  color: #FFFFFF;
+  --brand-ink: #ffffff;
+  color: #ffffff;
   filter: none;
 }
 
@@ -453,7 +455,7 @@
     padding: 0 6px;
   }
 
-  .header-detail-mobile .header-mobile-tool-title h1 {
+  .header-detail-mobile .header-mobile-tool-title span {
     font-size: 14px;
     font-weight: 650;
     letter-spacing: -0.3px;
@@ -503,7 +505,9 @@
 
   /* Scroll Hide Header Animation */
   .site-header {
-    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    transition:
+      transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.2s ease;
   }
 
   .site-header.header-hidden {

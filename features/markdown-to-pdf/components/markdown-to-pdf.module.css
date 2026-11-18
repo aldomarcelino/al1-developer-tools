@@ -582,7 +582,7 @@
   background: var(--surface);
 }
 .paperViewport {
-  height: 560px;
+  height: clamp(680px, 80dvh, 960px);
   padding: 20px;
   overflow: auto;
   background: #e9edef;
@@ -757,7 +757,7 @@
     min-height: 460px;
   }
   .paperViewport {
-    height: 460px;
+    height: clamp(520px, 70dvh, 720px);
   }
   .sampleRow {
     align-items: flex-start;

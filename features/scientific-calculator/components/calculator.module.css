@@ -787,6 +787,7 @@
 /* Keep the workspace compact without shrinking touch targets. */
 .workspace :global(.workspace-heading) {
   margin: 4px 0 16px;
+  padding-bottom: 8px;
 }
 .workspace :global(.workspace-heading h1) {
   margin-block: 8px;

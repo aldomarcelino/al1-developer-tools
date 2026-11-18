@@ -231,10 +231,6 @@ export function MarkdownToPdfWorkspace() {
   return (
     <div className={`workspace-page page-width utility-tool ${styles.workspace}`}>
       <ToolHeader title="Markdown to PDF" icon={<FileOutput size={24} />} />
-      <p className={styles.intro}>
-        Turn Markdown into a document you can share. Edit, choose a layout, and export in
-        your browser.
-      </p>
       {!documentOpen ? (
         <div className={styles.intake}>
           <DropArea

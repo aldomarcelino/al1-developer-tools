@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "../styles.module.css";
+import { ToolHeader } from "@/components/cummon/tool-header";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -67,22 +68,13 @@ export function WebhookComingSoon() {
   const [selected, setSelected] = useState(0);
   const sample = samples[selected];
   return (
-    <div className={`webhook-page page-width ${styles.scope}`}>
-      <nav className="breadcrumbs" aria-label="Breadcrumb">
-        <Link href="/">All tools</Link>
-        <ChevronRight size={13} aria-hidden="true" />
-        <span aria-current="page">Webhook Inspector</span>
-      </nav>
-      <section className="webhook-intro" aria-labelledby="webhook-title">
+    <div className={`webhook-page workspace-page page-width ${styles.scope}`}>
+      <section className="webhook-intro" aria-label="Webhook Inspector preview">
         <div className="webhook-intro-copy">
           <span className="webhook-status">
             <span /> IN THE WORKS
           </span>
-          <h1 id="webhook-title">
-            Every request.
-            <br />
-            <span>A little clearer.</span>
-          </h1>
+          <ToolHeader title="Webhook Inspector" icon={<Webhook size={24} />} />
           <p>
             A calmer workspace for debugging webhooks. Capture the request, understand the
             payload, and retrace what happened.

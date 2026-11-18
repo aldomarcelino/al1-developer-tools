@@ -42,7 +42,7 @@ const pieces = [
 ] as const;
 const message = "Good things, brought together.";
 
-export function RamupodLogo() {
+export function RamupodLogo({ size = 36 }: { size?: number } = {}) {
   const [spark, setSpark] = useState<{ id: number; animate: boolean } | null>(null);
   const sequence = useRef(0);
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -85,7 +85,7 @@ export function RamupodLogo() {
             spark?.animate ? "ramupod-logo-mark is-ramuing" : "ramupod-logo-mark"
           }
         >
-          <BrandLogo size={36} filledDetails />
+          <BrandLogo size={size} filledDetails />
         </span>
       </Link>
       {spark?.animate && (
