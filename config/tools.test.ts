@@ -68,6 +68,8 @@ test("search resolves supported capabilities and aliases", () => {
     ["pdf ke markdown", "pdf-to-markdown"],
     ["edit dokumen pdf", "pdf-editor"],
     ["edit file pdf", "pdf-editor"],
+    ["markdown to pdf", "markdown-to-pdf"],
+    ["md to pdf", "markdown-to-pdf"],
   ] as const)
     assert.ok(matches(query).includes(slug), query);
 });

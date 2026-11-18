@@ -11,6 +11,29 @@ export interface MarkdownStats {
   readingTimeMinutes: number;
 }
 
+/**
+ * Sanitizes user-provided filename for safe filesystem export
+ * Strips dangerous characters and preexisting document extensions to prevent double extension.
+ */
+export function sanitizeMarkdownFilename(name: string, defaultName = "document"): string {
+  if (!name || typeof name !== "string") {
+    return defaultName;
+  }
+
+  let cleaned = name.trim();
+
+  // Strip common document extensions if user already entered them
+  cleaned = cleaned.replace(/\.(md|markdown|html|htm|pdf|txt)$/i, "");
+
+  // Remove dangerous filesystem characters and trim slashes
+  cleaned = cleaned
+    .replace(/[\\/:*?"<>|]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/^\.+/, "");
+
+  return cleaned || defaultName;
+}
+
 export const sampleMarkdown = `# Welcome to Markdown Editor & Preview
 
 A distraction-free writing environment with **real-time preview**, rich formatting tools, and instant export.

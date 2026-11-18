@@ -464,4 +464,16 @@ export const toolGuides = {
       "Instant numerical evaluation formatted with high precision, automatic parenthesis balancing, and one-click copy to clipboard.",
     related: ["percentage-calculator", "unit-converter", "date-calculator"],
   },
+  "markdown-to-pdf": {
+    steps: [
+      "Type or paste your Markdown in the editor, or upload an existing .md file.",
+      "Select your preferred document theme (Modern, GitHub, Academic, or Minimal), paper size (A4, Letter), and margins.",
+      "Review the live document sheet preview and click Download PDF or Print PDF to save your file.",
+    ],
+    example:
+      "Transform a GitHub README or technical project specification into a beautifully formatted A4 PDF report with custom tables, code blocks, and headers.",
+    result:
+      "A clean, professional PDF document ready for printing, sharing, or archiving with zero server uploads.",
+    related: ["pdf-to-markdown", "markdown-editor", "word-to-pdf", "pdf-editor"],
+  },
 } as const satisfies Record<ToolSlug, ToolGuide>;

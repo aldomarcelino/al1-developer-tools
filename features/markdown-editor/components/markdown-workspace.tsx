@@ -4,6 +4,8 @@ import { MarkdownFormatToolbar } from "./markdown-format-toolbar";
 import styles from "../styles.module.css";
 
 import { ActionButton } from "@/components/ui/action-button";
+import { downloadBlob } from "@/lib/browser/download";
+import { exportMarkdownToPdf } from "@/features/markdown-editor/lib/markdown-pdf";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -13,6 +15,7 @@ import {
   Clock,
   Copy,
   Download,
+  File,
   NotebookPen,
   FileDown,
   FileText,
@@ -26,11 +29,14 @@ import {
   calculateMarkdownStats,
   renderMarkdownToHtml,
   sampleMarkdown,
+  sanitizeMarkdownFilename,
 } from "@/features/markdown-editor/lib/markdown";
 import { ToolHeader } from "@/components/cummon/tool-header";
 
 export function MarkdownWorkspace() {
   const [input, setInput] = useState(sampleMarkdown);
+  const [filename, setFilename] = useState("document");
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [tab, setTab] = useState<"editor" | "preview">("editor");
   const [wrap, setWrap] = useState(true);
   const [viewMode, setViewMode] = useState<"split" | "editor" | "preview">("split");
@@ -131,23 +137,20 @@ export function MarkdownWorkspace() {
   };
 
   const handleDownloadMd = () => {
+    const cleanName = sanitizeMarkdownFilename(filename);
     const blob = new Blob([input], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "document.md";
-    a.click();
-    URL.revokeObjectURL(url);
-    setNoticeWithTimeout("Downloaded document.md");
+    downloadBlob(blob, `${cleanName}.md`);
+    setNoticeWithTimeout(`Downloaded ${cleanName}.md`);
   };
 
   const handleDownloadHtml = () => {
+    const cleanName = sanitizeMarkdownFilename(filename);
     const fullHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rendered Document · Ramupod</title>
+  <title>${cleanName} · Ramupod</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.7; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #232527; background: #fff; }
     h1, h2, h3 { border-bottom: 1px solid #e5e8e9; padding-bottom: 6px; }
@@ -164,13 +167,23 @@ ${html}
 </body>
 </html>`;
     const blob = new Blob([fullHtml], { type: "text/html;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "document.html";
-    a.click();
-    URL.revokeObjectURL(url);
-    setNoticeWithTimeout("Downloaded document.html");
+    downloadBlob(blob, `${cleanName}.html`);
+    setNoticeWithTimeout(`Downloaded ${cleanName}.html`);
+  };
+
+  const handleDownloadPdf = async () => {
+    try {
+      setIsExportingPdf(true);
+      setNoticeWithTimeout("Generating PDF document...");
+      await exportMarkdownToPdf(html, filename);
+      const cleanName = sanitizeMarkdownFilename(filename);
+      setNoticeWithTimeout(`Downloaded ${cleanName}.pdf`);
+    } catch (err) {
+      console.error("PDF generation failed:", err);
+      setNoticeWithTimeout("Failed to generate PDF. Please try again.");
+    } finally {
+      setIsExportingPdf(false);
+    }
   };
 
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,6 +197,10 @@ ${html}
     try {
       const text = await file.text();
       setInput(text);
+      const baseName = file.name.replace(/\.[^/.]+$/, "");
+      if (baseName) {
+        setFilename(baseName);
+      }
       setNoticeWithTimeout(`Loaded "${file.name}" (${file.size} bytes).`);
     } catch {
       setNoticeWithTimeout("Failed to read file.");
@@ -215,17 +232,45 @@ ${html}
 
       {/* Top Action Toolbar */}
       <div className="workspace-toolbar">
-        <div className="toolbar-group">
-          {/* Download Dropdown */}
+        {/* Stats bar on the left */}
+        <div className="markdown-stats-bar">
+          <span className="stat-item">
+            <strong>{stats.words.toLocaleString()}</strong> words
+          </span>
+          <span className="stat-item">
+            <strong>{stats.characters.toLocaleString()}</strong> chars
+          </span>
+          <span className="stat-item">
+            <Clock size={13} />
+            <strong>~{stats.readingTimeMinutes}</strong> min read
+          </span>
+        </div>
+
+        {/* Filename input & Download dropdown on the right */}
+        <div className="toolbar-group markdown-export-group">
+          <div className="markdown-filename-wrapper">
+            <input
+              type="text"
+              className="markdown-filename-input"
+              value={filename}
+              onChange={(e) => setFilename(e.target.value)}
+              placeholder="document"
+              title="Custom file name"
+              aria-label="Export file name"
+              spellCheck={false}
+            />
+          </div>
+
           <div className="action-dropdown-wrapper" ref={downloadMenuRef}>
             <ActionButton
               variant="primary"
               onClick={() => {
                 setDownloadMenuOpen(!downloadMenuOpen);
               }}
-              title="Download Markdown or HTML"
+              title="Download Markdown, HTML, or PDF"
               aria-expanded={downloadMenuOpen}
               aria-haspopup="menu"
+              loading={isExportingPdf}
             >
               <Download size={14} />
               Download
@@ -255,23 +300,21 @@ ${html}
                   <FileDown size={14} />
                   <span>Download HTML (.html)</span>
                 </button>
+                <button
+                  className="action-dropdown-item"
+                  onClick={() => {
+                    handleDownloadPdf();
+                    setDownloadMenuOpen(false);
+                  }}
+                  role="menuitem"
+                  disabled={isExportingPdf}
+                >
+                  <File size={14} />
+                  <span>Download PDF (.pdf)</span>
+                </button>
               </div>
             )}
           </div>
-        </div>
-
-        {/* View mode toggle (desktop) */}
-        <div className="markdown-stats-bar">
-          <span className="stat-item">
-            <strong>{stats.words.toLocaleString()}</strong> words
-          </span>
-          <span className="stat-item">
-            <strong>{stats.characters.toLocaleString()}</strong> chars
-          </span>
-          <span className="stat-item">
-            <Clock size={13} />
-            <strong>~{stats.readingTimeMinutes}</strong> min read
-          </span>
         </div>
       </div>
 

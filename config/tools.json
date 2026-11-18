@@ -1097,6 +1097,28 @@
     "status": "available"
   },
   {
+    "slug": "markdown-to-pdf",
+    "name": "Markdown to PDF",
+    "description": "Convert Markdown files and text to beautifully styled PDF documents locally with live preview, themes, and custom page layouts.",
+    "keywords": [
+      "markdown to pdf",
+      "md to pdf",
+      "convert md to pdf",
+      "markdown ke pdf",
+      "ubah md ke pdf",
+      "export markdown to pdf",
+      "markdown pdf generator",
+      "md to pdf converter",
+      "convert markdown to pdf online",
+      "markdown to pdf converter",
+      "gfm to pdf"
+    ],
+    "category": "Documents",
+    "icon": "markdownpdf",
+    "phase": 1,
+    "status": "available"
+  },
+  {
     "slug": "ip-inspector",
     "name": "What Is My IP & System Inspector",
     "description": "Inspect your public IP, network location, browser, device, and WebRTC candidates.",

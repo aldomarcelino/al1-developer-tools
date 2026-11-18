@@ -264,5 +264,11 @@ export const toolSeo = {
       "Perform complex scientific calculations online with live formula preview, trigonometry, logarithms, powers, factorials, memory registers, and calculation history. Runs 100% locally in your browser.",
     note: "Enter mathematical formulas using the responsive scientific keypad or direct keyboard input. Supports DEG and RAD angle modes, standard and inverse trigonometry, hyperbolic functions, natural and base-10 logarithms, exponents, square roots, factorials, and modulo. Store results in memory (MC, MR, M+, M-) and reuse past calculations from the history tape. All calculations run instantly and privately on your device.",
   },
+  "markdown-to-pdf": {
+    title: "Markdown to PDF Converter - Convert MD to PDF Online",
+    description:
+      "Convert Markdown documents to high-quality PDF files directly in your browser. Choose paper size, margins, and professional themes with instant live preview and zero server uploads.",
+    note: "Write or paste Markdown or upload a .md file to convert it into a formatted PDF document. Supports GitHub Flavored Markdown including tables, code blocks, checklists, and callout alerts. Customize paper sizes (A4, Letter, Legal), margins, and themes (Modern, GitHub, Academic, Minimal). All conversion runs 100% locally on your machine.",
+  },
 } as const;
 export type ToolSlug = keyof typeof toolSeo;

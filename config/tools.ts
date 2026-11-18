@@ -60,7 +60,8 @@ export type ToolIcon =
   | "pdfword"
   | "pdfmarkdown"
   | "pdfeditor"
-  | "calculator";
+  | "calculator"
+  | "markdownpdf";
 
 export type Tool = {
   slug: string;

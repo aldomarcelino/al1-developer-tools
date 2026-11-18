@@ -4,6 +4,7 @@ import {
   calculateMarkdownStats,
   parseInlineMarkdown,
   renderMarkdownToHtml,
+  sanitizeMarkdownFilename,
 } from "./markdown.ts";
 
 test("calculates markdown stats correctly", () => {
@@ -123,4 +124,18 @@ test("renders alert callouts", () => {
   assert.ok(html.includes('class="md-alert md-alert-tip"'));
   assert.ok(html.includes('class="md-alert-title">TIP</div>'));
   assert.ok(html.includes("This is a helpful tip."));
+});
+
+test("sanitizes custom filenames and prevents double extensions", () => {
+  assert.equal(sanitizeMarkdownFilename("my notes"), "my-notes");
+  assert.equal(sanitizeMarkdownFilename("report_2026"), "report_2026");
+  assert.equal(sanitizeMarkdownFilename("notes.md"), "notes");
+  assert.equal(sanitizeMarkdownFilename("document.markdown"), "document");
+  assert.equal(sanitizeMarkdownFilename("article.html"), "article");
+  assert.equal(sanitizeMarkdownFilename("specification.pdf"), "specification");
+  assert.equal(sanitizeMarkdownFilename("readme.txt"), "readme");
+  assert.equal(sanitizeMarkdownFilename("dangerous/..\\file:*?<>|"), "dangerous..file");
+  assert.equal(sanitizeMarkdownFilename(""), "document");
+  assert.equal(sanitizeMarkdownFilename("   "), "document");
+  assert.equal(sanitizeMarkdownFilename("...", "custom-fallback"), "custom-fallback");
 });
