@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import {
   AlertCircle,
   Download,
-  ArrowRight,
   Check,
   Copy,
   FileJson,
@@ -16,7 +15,7 @@ import {
   Minimize2,
   Play,
   ShieldCheck,
-  Sparkles,
+  Wrench,
   Trash2,
   Upload,
   WrapText,
@@ -33,6 +32,8 @@ import {
 } from "@/features/json-formatter/lib/json";
 import { CustomSelect } from "@/components/ui/custom-select";
 import { ToolHeader } from "@/components/cummon/tool-header";
+import styles from "@/features/json-formatter/styles.module.css";
+import { collectJsonErrors } from "@/features/json-formatter/lib/json-diagnostics";
 
 const indentOptions = [
   { value: "2", label: "2 spaces" },
@@ -45,7 +46,9 @@ export function JsonWorkspace() {
   const [output, setOutput] = useState(() => transformJson(sampleJson));
   const [indent, setIndent] = useState("2");
   const [error, setError] = useState("");
-  const [errorInfo, setErrorInfo] = useState<JsonErrorInfo | null>(null);
+  const [errors, setErrors] = useState<JsonErrorInfo[]>([]);
+  const errorInfo = errors[0] ?? null;
+  const errorLines = new Set(errors.flatMap((item) => (item.line ? [item.line] : [])));
   const [notice, setNotice] = useState("Sample JSON is ready to format.");
   const [valid, setValid] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -59,13 +62,23 @@ export function JsonWorkspace() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lineNumbersRef = useRef<HTMLDivElement>(null);
 
-  const jumpToLine = (lineNumber: number) => {
+  const jumpToLine = (lineNumber: number, columnNumber = 1) => {
     setTab("input");
-    if (textareaRef.current) {
-      const lineY = Math.max(0, (lineNumber - 3) * 23);
-      textareaRef.current.scrollTo({ top: lineY, behavior: "smooth" });
-      textareaRef.current.focus();
-    }
+    requestAnimationFrame(() => {
+      const textarea = textareaRef.current;
+      if (!textarea) return;
+      const lines = input.split("\n");
+      const lineStart = lines
+        .slice(0, lineNumber - 1)
+        .reduce((n, line) => n + line.length + 1, 0);
+      const column = Math.min(columnNumber - 1, lines[lineNumber - 1]?.length ?? 0);
+      textarea.focus({ preventScroll: true });
+      textarea.setSelectionRange(lineStart + column, lineStart + column);
+      const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
+      textarea.scrollTop = Math.max(0, (lineNumber - 3) * lineHeight);
+      if (lineNumbersRef.current) lineNumbersRef.current.scrollTop = textarea.scrollTop;
+      textarea.scrollIntoView({ block: "nearest" });
+    });
   };
 
   const handleScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
@@ -89,7 +102,7 @@ export function JsonWorkspace() {
       const result = transformJson(repaired, indentVal);
       setOutput(result);
       setValid(true);
-      setErrorInfo(null);
+      setErrors([]);
       setError("");
       setNotice("JSON errors repaired and formatted successfully.");
       setTab("output");
@@ -108,10 +121,16 @@ export function JsonWorkspace() {
         const result = transformJson(unwrapped, indentVal);
         setOutput(result);
         setValid(true);
-        setErrorInfo(null);
+        setErrors([]);
         setError("");
         setNotice("Unescaped stringified JSON to raw JSON.");
-      } catch {
+      } catch (failure) {
+        const diagnostics = collectJsonErrors(unwrapped);
+        setErrors(
+          diagnostics.length ? diagnostics : [parseJsonError(unwrapped, failure)]
+        );
+        setValid(false);
+        setError("");
         const formatted = formatTolerantJson(unwrapped, indentVal);
         setOutput(formatted);
         setNotice("Unescaped stringified JSON. Formatted with warnings.");
@@ -122,7 +141,7 @@ export function JsonWorkspace() {
   function run(mode: "format" | "minify" | "validate") {
     setBusy(true);
     setError("");
-    setErrorInfo(null);
+    setErrors([]);
     window.setTimeout(() => {
       const indentVal = mode === "minify" ? 0 : indent === "tab" ? "\t" : Number(indent);
       const wasStringified = Boolean(unwrapStringifiedJson(input));
@@ -130,7 +149,7 @@ export function JsonWorkspace() {
         const result = transformJson(input, indentVal);
         setOutput(result);
         setValid(true);
-        setErrorInfo(null);
+        setErrors([]);
         setNotice(
           mode === "validate"
             ? "Valid JSON. Everything looks good."
@@ -145,8 +164,11 @@ export function JsonWorkspace() {
         if (mode !== "validate") setTab("output");
       } catch (e) {
         setValid(false);
-        const parsed = parseJsonError(input, e);
-        setErrorInfo(parsed);
+        const source = unwrapStringifiedJson(input) ?? input;
+        if (source !== input) setInput(source);
+        const diagnostics = collectJsonErrors(source);
+        const parsed = diagnostics[0] ?? parseJsonError(source, e);
+        setErrors(diagnostics.length ? diagnostics : [parsed]);
         setError(parsed.message);
 
         if (mode === "validate") {
@@ -168,7 +190,8 @@ export function JsonWorkspace() {
         }
 
         if (parsed.line && textareaRef.current) {
-          const lineY = Math.max(0, (parsed.line - 3) * 23);
+          const lineHeight = parseFloat(getComputedStyle(textareaRef.current).lineHeight);
+          const lineY = Math.max(0, (parsed.line - 3) * lineHeight);
           textareaRef.current.scrollTo({ top: lineY, behavior: "smooth" });
         }
       } finally {
@@ -214,6 +237,7 @@ export function JsonWorkspace() {
     if (!file) return;
     if (file.size > 2 * 1024 * 1024) {
       setError("Please choose a JSON file smaller than 2 MB.");
+      setErrors([]);
       return;
     }
     try {
@@ -221,10 +245,12 @@ export function JsonWorkspace() {
       setOutput("");
       setValid(false);
       setError("");
+      setErrors([]);
       setNotice(`${file.name} loaded. Format to validate.`);
       setTab("input");
     } catch {
       setError("Could not read this file. Please try again.");
+      setErrors([]);
     } finally {
       if (upload.current) upload.current.value = "";
     }
@@ -233,7 +259,7 @@ export function JsonWorkspace() {
   const canRepair = Boolean(errorInfo && input && canRepairJson(input));
   const isStringified = Boolean(input && unwrapStringifiedJson(input));
   return (
-    <div className="workspace-page page-width json-formatter">
+    <div className={`workspace-page page-width json-formatter ${styles.workspace}`}>
       {/* Reusable Tool Header (Breadcrumb & Heading) */}
       <ToolHeader title="JSON Formatter" icon={<FileJson size={24} />} />
       <div className="workspace-toolbar">
@@ -272,10 +298,20 @@ export function JsonWorkspace() {
               <span className={`pane-dot ${errorInfo?.line ? "error-dot" : ""}`} />
               Input <small>JSON</small>
               {errorInfo?.line && (
-                <span className="pane-error-pill">
-                  Line {errorInfo.line}
-                  {errorInfo.column ? `:${errorInfo.column}` : ""}
-                </span>
+                <button
+                  type="button"
+                  className={styles.errorLocation}
+                  onClick={() => jumpToLine(errorInfo.line!, errorInfo.column ?? 1)}
+                  aria-label={
+                    errors.length > 1
+                      ? `${errors.length} errors. Go to first error at line ${errorInfo.line}`
+                      : `Go to error at line ${errorInfo.line}${errorInfo.column ? `, column ${errorInfo.column}` : ""}`
+                  }
+                >
+                  {errors.length > 1
+                    ? `${errors.length} errors`
+                    : `Ln ${errorInfo.line}${errorInfo.column ? `, Col ${errorInfo.column}` : ""}`}
+                </button>
               )}
             </span>
             <div>
@@ -318,7 +354,7 @@ export function JsonWorkspace() {
                   setInput("");
                   setOutput("");
                   setError("");
-                  setErrorInfo(null);
+                  setErrors([]);
                   setValid(false);
                   setNotice("Editor cleared. Paste JSON to begin.");
                 }}
@@ -330,7 +366,7 @@ export function JsonWorkspace() {
           <div className="editor-body">
             <div className="line-numbers" ref={lineNumbersRef} aria-hidden="true">
               {input.split("\n").map((_, i) => {
-                const isError = errorInfo?.line === i + 1;
+                const isError = errorLines.has(i + 1);
                 return (
                   <span
                     key={i}
@@ -345,6 +381,8 @@ export function JsonWorkspace() {
             <textarea
               ref={textareaRef}
               aria-label="JSON input"
+              aria-invalid={Boolean(errorInfo)}
+              aria-describedby={errorInfo ? "json-error-summary" : undefined}
               spellCheck={false}
               value={input}
               placeholder={'{\n  "hello": "world"\n}'}
@@ -352,7 +390,7 @@ export function JsonWorkspace() {
               onChange={(e) => {
                 setInput(e.target.value);
                 setError("");
-                setErrorInfo(null);
+                setErrors([]);
                 setValid(false);
                 setOutput("");
                 setNotice("Input changed. Format to validate.");
@@ -371,13 +409,15 @@ export function JsonWorkspace() {
         >
           <div className="editor-header">
             <span>
-              <span className={`pane-dot ${output ? (valid ? "green" : "amber") : ""}`} />
+              <span
+                className={`pane-dot ${output ? (valid ? "green" : "error-dot") : ""}`}
+              />
               Output{" "}
               {output &&
                 (valid ? (
                   <small className="valid-tag">Valid JSON</small>
                 ) : (
-                  <small className="warning-tag">Formatted with warnings</small>
+                  <small className={styles.outputWarning}>Syntax warning</small>
                 ))}
             </span>
             <div>
@@ -485,61 +525,62 @@ export function JsonWorkspace() {
         </section>
       </div>
       {errorInfo ? (
-        <div className="feedback-card error" role="alert" aria-live="assertive">
-          <div className="error-banner-main">
-            <span className="error-icon-chip">
-              <AlertCircle size={16} />
+        <div className={styles.errorSummary} id="json-error-summary" role="alert">
+          <AlertCircle className={styles.errorIcon} size={17} aria-hidden="true" />
+          <div className={styles.errorDetails}>
+            <span className={styles.errorLabel}>
+              {errors.length === 1 ? "1 syntax error" : `${errors.length} syntax errors`}
             </span>
-            <div className="error-banner-text">
-              <div className="error-banner-header">
-                <strong>{errorInfo.message}</strong>
-                {errorInfo.line && (
-                  <span className="error-pos-badge">
-                    Line {errorInfo.line}
-                    {errorInfo.column ? `:${errorInfo.column}` : ""}
-                  </span>
-                )}
-              </div>
-              {errorInfo.suggestion && (
-                <p className="error-tip-text">{errorInfo.suggestion}</p>
-              )}
-            </div>
+            <ul className={styles.errorList} aria-label="JSON syntax errors">
+              {errors.map((item, index) => (
+                <li key={`${item.line}:${item.column}:${index}`}>
+                  {item.line ? (
+                    <button
+                      type="button"
+                      className={styles.diagnosticLocation}
+                      onClick={() => jumpToLine(item.line!, item.column ?? 1)}
+                      aria-label={`Go to error at line ${item.line}, column ${item.column ?? 1}: ${item.message}`}
+                    >
+                      Ln {item.line}, Col {item.column ?? 1}
+                    </button>
+                  ) : null}
+                  <span>{item.message}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="error-banner-actions">
+          <div className={styles.errorActions}>
             {canRepair && (
               <button
                 type="button"
-                className="error-fix-btn"
+                className={styles.repairButton}
                 onClick={handleAutoFix}
                 aria-label="Auto-fix JSON errors"
                 title="Automatically fix common JSON formatting errors"
               >
-                <Sparkles size={13} />
-                <span>Auto-fix JSON</span>
-              </button>
-            )}
-            {errorInfo.line && (
-              <button
-                type="button"
-                className="error-jump-btn"
-                onClick={() => jumpToLine(errorInfo.line!)}
-                aria-label={`Jump to line ${errorInfo.line}`}
-              >
-                <span>Line {errorInfo.line}</span>
-                <ArrowRight size={13} />
+                <Wrench size={14} />
+                <span>Fix JSON</span>
               </button>
             )}
           </div>
         </div>
       ) : (
         <div
-          className={`feedback ${valid ? "success" : ""}`}
+          className={`feedback ${valid && !error ? "success" : ""}`}
           role={error ? "alert" : "status"}
           aria-live="polite"
         >
-          {valid ? <Check size={16} /> : <Info size={16} />}
-          <span>{notice || (valid ? "Valid JSON. Everything looks good." : "")}</span>
-          {valid && <span className="feedback-right">Ready when you are.</span>}
+          {error ? (
+            <AlertCircle size={16} />
+          ) : valid ? (
+            <Check size={16} />
+          ) : (
+            <Info size={16} />
+          )}
+          <span>
+            {error || notice || (valid ? "Valid JSON. Everything looks good." : "")}
+          </span>
+          {valid && !error && <span className="feedback-right">Ready when you are.</span>}
         </div>
       )}
       <section className="workspace-docs">

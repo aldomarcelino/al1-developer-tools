@@ -9,7 +9,7 @@ The app supports Aldo's international remote software-engineering applications. 
 
 ## Current implementation
 
-- Next.js 16.4.3 / React 19.3.1, TypeScript, Tailwind CSS. Cloudflare deployment uses vinext 1.3, Vite, `@vinext/cloudflare`, and Cloudflare's `cf` CLI. Read the actual pinned versions and AGENTS.md before edits.
+- Next.js 16.4.6 / React 19.3.1, TypeScript, Tailwind CSS. Cloudflare deployment uses vinext 1.3, Vite, `@vinext/cloudflare`, and Cloudflare's `cf` CLI. Read the actual pinned versions and AGENTS.md before edits.
 - Use Node 24.22.1 (`.nvmrc`). The system Node may differ; avoid validating Cloudflare tooling with unsupported Node 25.
 - Root directory is the repository root, NOT `app/`.
 - `vite.config.ts` + `cloudflare.config.ts` target a single Worker named `al1-developer-tools`. Frontend and future Route Handlers can remain in this repository.

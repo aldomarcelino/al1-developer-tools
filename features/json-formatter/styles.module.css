@@ -1,0 +1,186 @@
+.workspace {
+  --json-error: #d0443d;
+}
+
+:global([data-theme="dark"]) .workspace {
+  --json-error: #ff9f97;
+}
+
+.workspace :global(.pane-dot.error-dot) {
+  background: var(--json-error);
+  box-shadow: none;
+}
+
+.workspace :global(.line-numbers span.line-error) {
+  color: var(--json-error) !important;
+  background: color-mix(in srgb, var(--json-error) 9%, transparent);
+  font-weight: 600;
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.errorLocation {
+  margin-left: 6px;
+  padding: 4px 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--json-error);
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.errorLocation:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.workspace .outputWarning {
+  margin-left: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--json-error);
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.errorSummary {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 15px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--json-error);
+}
+
+.errorDetails {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.errorLabel {
+  color: var(--json-error);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.errorActions {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.errorList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+  scrollbar-width: thin;
+}
+
+.errorList li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.diagnosticLocation {
+  flex-shrink: 0;
+  padding: 2px 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--json-error);
+  font-family: var(--font-code);
+  font-size: 11px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.diagnosticLocation:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.repairButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.repairButton:hover {
+  background: var(--soft);
+  color: var(--text);
+}
+
+.errorLocation:focus-visible,
+.diagnosticLocation:focus-visible,
+.repairButton:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .errorSummary {
+    display: grid;
+    grid-template-columns: 17px minmax(0, 1fr);
+    padding: 12px;
+  }
+
+  .errorActions {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .errorLocation {
+    margin-left: 2px;
+    font-size: 10px;
+  }
+
+  .errorList li {
+    flex-direction: column;
+    gap: 0;
+  }
+}
