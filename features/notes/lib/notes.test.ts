@@ -1,4 +1,5 @@
 import {
+  isSafeImageSrc,
   plainTextToRichDocument,
   richTextToPlainText,
   validateRichDocument,
@@ -387,4 +388,146 @@ test("rich text limits reject deeply nested and oversized notes; plain blank lin
       richTextToPlainText(validateRichDocument(plainTextToRichDocument(text))),
       text
     );
+});
+
+test("notes support photo inclusion, serialization, plain-text summary, and reject unsafe image sources", () => {
+  const validDataUrl =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
+  const validHttpsUrl = "https://example.com/photo.png";
+
+  assert.equal(isSafeImageSrc(validDataUrl), true);
+  assert.equal(isSafeImageSrc(validHttpsUrl), true);
+  assert.equal(isSafeImageSrc("javascript:alert(1)"), false);
+  assert.equal(isSafeImageSrc("data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=="), false);
+  assert.equal(isSafeImageSrc(""), false);
+
+  const docWithPhoto = validateRichDocument({
+    type: "doc",
+    content: [
+      {
+        type: "paragraph",
+        content: [{ type: "text", text: "Meeting whiteboard:" }],
+      },
+      {
+        type: "image",
+        attrs: {
+          src: validDataUrl,
+          alt: "Architecture Diagram",
+          width: "50%",
+          alignment: "left",
+        },
+      },
+      {
+        type: "image",
+        attrs: {
+          src: validHttpsUrl,
+          width: "320px",
+          alignment: "center",
+        },
+      },
+    ],
+  });
+
+  const plainText = richTextToPlainText(docWithPhoto);
+  assert.equal(
+    plainText,
+    "Meeting whiteboard:\n[Photo: Architecture Diagram]\n[Photo]"
+  );
+
+  const noteWithPhoto = {
+    ...note(),
+    richText: docWithPhoto,
+    content: plainText,
+    title: "Whiteboard capture",
+  };
+
+  // Round trip through serialize / parse
+  const parsed = parseNotesDocument(serializeNotes([noteWithPhoto]));
+  assert.deepEqual(parsed.notes, [noteWithPhoto]);
+
+  // Duplicate note
+  const duplicated = duplicateNote([noteWithPhoto], noteWithPhoto.id, noteWithPhoto.updatedAt + 100, "dup-1");
+  assert.deepEqual(duplicated[0].richText, docWithPhoto);
+
+  // Search by photo alt text
+  assert.equal(searchNotes([noteWithPhoto], "architecture diagram").length, 1);
+
+  // Invalid image documents must throw
+  assert.throws(
+    () =>
+      validateRichDocument({
+        type: "doc",
+        content: [{ type: "image", attrs: { src: "javascript:alert(1)" } }],
+      }),
+    /unsafe image source/
+  );
+  assert.throws(
+    () =>
+      validateRichDocument({
+        type: "doc",
+        content: [{ type: "image", attrs: {} }],
+      }),
+    /Image source is required/
+  );
+  assert.throws(
+    () =>
+      validateRichDocument({
+        type: "doc",
+        content: [{ type: "image" }],
+      }),
+    /Image source is required/
+  );
+  assert.throws(
+    () =>
+      validateRichDocument({
+        type: "doc",
+        content: [
+          {
+            type: "image",
+            attrs: { src: validDataUrl, alt: "a".repeat(501) },
+          },
+        ],
+      }),
+    /description is too long/
+  );
+  assert.throws(
+    () =>
+      validateRichDocument({
+        type: "doc",
+        content: [
+          {
+            type: "image",
+            attrs: { src: validDataUrl, width: "invalid-width" },
+          },
+        ],
+      }),
+    /Invalid image width/
+  );
+  assert.throws(
+    () =>
+      validateRichDocument({
+        type: "doc",
+        content: [
+          {
+            type: "image",
+            attrs: { src: validDataUrl, alignment: "diagonal" },
+          },
+        ],
+      }),
+    /Invalid image alignment/
+  );
+  assert.throws(
+    () =>
+      validateRichDocument({
+        type: "doc",
+        content: [
+          {
+            type: "image",
+            attrs: { src: validDataUrl },
+            content: [{ type: "text", text: "not allowed" }],
+          },
+        ],
+      }),
+    /Invalid nested note content/
+  );
 });

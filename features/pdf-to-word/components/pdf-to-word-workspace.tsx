@@ -1,14 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  FileType,
-  Upload,
-  Download,
-  X,
-  AlertCircle,
-  CheckCircle2,
-} from "lucide-react";
+import { FileType, Upload, Download, X, AlertCircle, CheckCircle2 } from "lucide-react";
 import { DropArea } from "@/components/ui/drop-area";
 import { ToolHeader } from "@/components/cummon/tool-header";
 import { ActionButton } from "@/components/ui/action-button";
@@ -42,8 +35,11 @@ export function PdfToWordWorkspace() {
   const [options, setOptions] = useState<PdfToWordOptions>({
     format: PDF_WORD_LIMITS.defaultFormat,
     layout: PDF_WORD_LIMITS.defaultLayout,
+    includeImages: PDF_WORD_LIMITS.defaultIncludeImages,
   });
-  const [extractionResult, setExtractionResult] = useState<PdfExtractionResult | null>(null);
+  const [extractionResult, setExtractionResult] = useState<PdfExtractionResult | null>(
+    null
+  );
   const [progress, setProgress] = useState<ConversionProgress>({
     status: "idle",
     message: "",
@@ -73,10 +69,7 @@ export function PdfToWordWorkspace() {
     setIsProcessing(false);
   }
 
-  async function parsePdfDocument(
-    buffer: ArrayBuffer,
-    currentOptions: PdfToWordOptions
-  ) {
+  async function parsePdfDocument(buffer: ArrayBuffer, currentOptions: PdfToWordOptions) {
     setIsProcessing(true);
     setError("");
     setNotice("");
@@ -92,10 +85,8 @@ export function PdfToWordWorkspace() {
       const pdfjs = await getPdfJs();
       const pdfDoc = await pdfjs.getDocument({ data: buffer }).promise;
 
-      const extraction = await extractTextFromPdf(
-        pdfDoc,
-        currentOptions,
-        (p) => setProgress(p)
+      const extraction = await extractTextFromPdf(pdfDoc, currentOptions, (p) =>
+        setProgress(p)
       );
 
       setExtractionResult(extraction);
@@ -168,6 +159,18 @@ export function PdfToWordWorkspace() {
     }
   }
 
+  function handleToggleIncludeImages() {
+    const nextOptions = {
+      ...options,
+      includeImages: !options.includeImages,
+    };
+    setOptions(nextOptions);
+
+    if (arrayBuffer && !isProcessing) {
+      void parsePdfDocument(arrayBuffer, nextOptions);
+    }
+  }
+
   async function handleConvertAndDownload() {
     if (!file || !extractionResult) {
       setError("Document extraction is not ready yet.");
@@ -208,9 +211,7 @@ export function PdfToWordWorkspace() {
       showSnackbar(downloadedMsg, "success");
     } catch (cause) {
       const errorMsg =
-        cause instanceof Error
-          ? cause.message
-          : "Failed to generate Word document.";
+        cause instanceof Error ? cause.message : "Failed to generate Word document.";
       setError(errorMsg);
       showSnackbar(errorMsg, "error");
       setProgress({
@@ -227,10 +228,7 @@ export function PdfToWordWorkspace() {
 
   return (
     <div className={`workspace-page page-width ${styles.toolkit}`}>
-      <ToolHeader
-        title="PDF to Word"
-        icon={<FileType size={24} />}
-      />
+      <ToolHeader title="PDF to Word" icon={<FileType size={24} />} />
 
       <div className={local.workspace}>
         {/* Upload drop area */}
@@ -271,6 +269,12 @@ export function PdfToWordWorkspace() {
                         <span>{extractionResult.totalPages} page(s)</span>
                         <span>·</span>
                         <span>{extractionResult.totalWords} words</span>
+                        {(extractionResult.totalImages ?? 0) > 0 && (
+                          <>
+                            <span>·</span>
+                            <span>{extractionResult.totalImages} image(s)</span>
+                          </>
+                        )}
                       </>
                     )}
                   </div>
@@ -316,6 +320,16 @@ export function PdfToWordWorkspace() {
                   />
                 </div>
               </div>
+
+              <label className={local.optionToggle}>
+                <input
+                  type="checkbox"
+                  checked={options.includeImages !== false}
+                  onChange={handleToggleIncludeImages}
+                  disabled={isProcessing}
+                />
+                <span>Preserve Embedded Images, Photos & Scans</span>
+              </label>
 
               <div className={local.actionsRow}>
                 <div className={local.actionsGroup}>
@@ -364,9 +378,7 @@ export function PdfToWordWorkspace() {
         {/* Alerts */}
         {error && (
           <div className={local.errorAlert} role="alert">
-            <span
-              style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
-            >
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
               <AlertCircle size={16} />
               {error}
             </span>
@@ -375,9 +387,7 @@ export function PdfToWordWorkspace() {
 
         {notice && !error && (
           <div className={local.noticeAlert}>
-            <span
-              style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
-            >
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
               <CheckCircle2 size={16} color="var(--accent)" />
               {notice}
             </span>
@@ -393,58 +403,105 @@ export function PdfToWordWorkspace() {
                 <span>{extractionResult.totalPages} pages</span>
                 <span>·</span>
                 <span>{extractionResult.totalParagraphs} paragraphs</span>
+                {(extractionResult.totalImages ?? 0) > 0 && (
+                  <>
+                    <span>·</span>
+                    <span>{extractionResult.totalImages} images</span>
+                  </>
+                )}
                 <span>·</span>
                 <span>{extractionResult.totalCharacters} chars</span>
               </div>
             </div>
 
             <div className={local.previewBody}>
-              {extractionResult.pages.map((page) => (
-                <div key={page.pageNumber} className={local.pageSection}>
-                  <span className={local.pageBadge}>
-                    Page {page.pageNumber} of {extractionResult.totalPages}
-                  </span>
+              {extractionResult.pages.map((page) => {
+                const elements =
+                  page.elements && page.elements.length > 0
+                    ? page.elements
+                    : page.paragraphs.map((p) => ({
+                        type: "paragraph" as const,
+                        paragraph: p,
+                        y: p.y ?? 0,
+                      }));
 
-                  {page.paragraphs.length === 0 ? (
-                    <p className={local.previewEmpty}>
-                      No text found on this page.
-                    </p>
-                  ) : (
-                    page.paragraphs.map((para, pIdx) => {
-                      if (para.isHeading) {
-                        const headingClass =
-                          para.headingLevel === 1
-                            ? local.previewHeading1
-                            : para.headingLevel === 2
-                              ? local.previewHeading2
-                              : local.previewHeading3;
+                return (
+                  <div key={page.pageNumber} className={local.pageSection}>
+                    <span className={local.pageBadge}>
+                      Page {page.pageNumber} of {extractionResult.totalPages}
+                    </span>
 
-                        return (
-                          <div key={pIdx} className={headingClass}>
-                            {para.text}
-                          </div>
-                        );
-                      }
+                    {elements.length === 0 ? (
+                      <p className={local.previewEmpty}>
+                        No text or images found on this page.
+                      </p>
+                    ) : (
+                      elements.map((elem, eIdx) => {
+                        if (elem.type === "paragraph") {
+                          const para = elem.paragraph;
+                          if (para.isHeading) {
+                            const headingClass =
+                              para.headingLevel === 1
+                                ? local.previewHeading1
+                                : para.headingLevel === 2
+                                  ? local.previewHeading2
+                                  : local.previewHeading3;
 
-                      return (
-                        <p key={pIdx} className={local.previewParagraph}>
-                          {para.runs.map((run, rIdx) => (
-                            <span
-                              key={rIdx}
-                              style={{
-                                fontWeight: run.bold ? "bold" : "normal",
-                                fontStyle: run.italic ? "italic" : "normal",
-                              }}
+                            return (
+                              <div key={`p-${eIdx}`} className={headingClass}>
+                                {para.text}
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <p key={`p-${eIdx}`} className={local.previewParagraph}>
+                              {para.runs.map((run, rIdx) => (
+                                <span
+                                  key={rIdx}
+                                  style={{
+                                    fontWeight: run.bold ? "bold" : "normal",
+                                    fontStyle: run.italic ? "italic" : "normal",
+                                  }}
+                                >
+                                  {run.text}
+                                </span>
+                              ))}
+                            </p>
+                          );
+                        }
+
+                        if (elem.type === "image") {
+                          const img = elem.image;
+                          return (
+                            <div
+                              key={`img-${eIdx}`}
+                              className={local.previewImageContainer}
                             >
-                              {run.text}
-                            </span>
-                          ))}
-                        </p>
-                      );
-                    })
-                  )}
-                </div>
-              ))}
+                              {img.dataUrl && (
+                                <img
+                                  src={img.dataUrl}
+                                  alt={`Extracted graphic page ${page.pageNumber}`}
+                                  className={local.previewImage}
+                                />
+                              )}
+                              <div className={local.previewImageMeta}>
+                                <span>Image</span>
+                                <span>·</span>
+                                <span>
+                                  {Math.round(img.width)} × {Math.round(img.height)} pt
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        return null;
+                      })
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

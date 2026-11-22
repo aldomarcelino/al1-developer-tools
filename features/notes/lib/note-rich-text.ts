@@ -18,12 +18,38 @@ const blocks = new Set([
   "orderedList",
   "taskList",
   "horizontalRule",
+  "image",
 ]);
 const inline = new Set(["text", "hardBreak"]);
 const marks = new Set(["bold", "italic", "strike", "underline", "code"]);
+
+export function isSafeImageSrc(src: unknown): src is string {
+  if (typeof src !== "string") return false;
+  const trimmed = src.trim();
+  if (!trimmed || trimmed.length > 3_000_000) return false;
+  if (trimmed.startsWith("data:image/")) {
+    const commaIndex = trimmed.indexOf(",");
+    if (commaIndex === -1) return false;
+    const header = trimmed.slice(0, commaIndex);
+    const data = trimmed.slice(commaIndex + 1);
+    if (!/^data:image\/(?:png|jpe?g|webp|gif|svg\+xml|avif);base64$/i.test(header)) {
+      return false;
+    }
+    return /^[A-Za-z0-9+/=\r\n]+$/.test(data);
+  }
+  try {
+    const url = new URL(trimmed, "http://localhost");
+    return ["http:", "https:"].includes(url.protocol);
+  } catch {
+    return false;
+  }
+}
+
 export function richTextToPlainText(node: NoteRichNode): string {
   if (node.type === "text") return node.text || "";
   if (node.type === "hardBreak") return "\n";
+  if (node.type === "image")
+    return node.attrs?.alt ? `[Photo: ${node.attrs.alt}]` : "[Photo]";
   return (node.content || [])
     .map(richTextToPlainText)
     .join(["paragraph", "heading", "codeBlock"].includes(node.type) ? "" : "\n");
@@ -95,7 +121,9 @@ export function validateRichDocument(value: unknown): NoteRichDocument {
               ? ["checked"]
               : type === "codeBlock"
                 ? ["language"]
-                : [];
+                : type === "image"
+                  ? ["src", "alt", "title", "width", "alignment"]
+                  : [];
       if (Object.keys(attrs).some((key) => !allowedAttrs.includes(key)))
         throw new Error("Unsupported formatting attributes.");
       if (type === "heading") {
@@ -134,12 +162,60 @@ export function validateRichDocument(value: unknown): NoteRichDocument {
           language: typeof attrs.language === "string" ? attrs.language : null,
         };
       }
+      if (type === "image") {
+        if (!attrs.src)
+          throw new Error("Image source is required.");
+        if (!isSafeImageSrc(attrs.src))
+          throw new Error("Invalid or unsafe image source.");
+        if (
+          attrs.alt !== undefined &&
+          attrs.alt !== null &&
+          (typeof attrs.alt !== "string" || attrs.alt.length > 500)
+        )
+          throw new Error("Image description is too long.");
+        if (
+          attrs.title !== undefined &&
+          attrs.title !== null &&
+          (typeof attrs.title !== "string" || attrs.title.length > 500)
+        )
+          throw new Error("Image title is too long.");
+        if (
+          attrs.width !== undefined &&
+          attrs.width !== null &&
+          (typeof attrs.width !== "string" ||
+            !/^(?:[1-9][0-9]?|100)%$|^(?:[5-9][0-9]|[1-9][0-9]{2,3})px$/.test(attrs.width.trim()))
+        )
+          throw new Error("Invalid image width.");
+        if (
+          attrs.alignment !== undefined &&
+          attrs.alignment !== null &&
+          (typeof attrs.alignment !== "string" ||
+            !["left", "center", "right"].includes(attrs.alignment))
+        )
+          throw new Error("Invalid image alignment.");
+        node.attrs = {
+          src: (attrs.src as string).trim(),
+          ...(typeof attrs.alt === "string" && attrs.alt.trim()
+            ? { alt: attrs.alt.trim() }
+            : {}),
+          ...(typeof attrs.title === "string" && attrs.title.trim()
+            ? { title: attrs.title.trim() }
+            : {}),
+          ...(typeof attrs.width === "string" && attrs.width.trim()
+            ? { width: attrs.width.trim() }
+            : {}),
+          ...(typeof attrs.alignment === "string" && ["left", "center", "right"].includes(attrs.alignment)
+            ? { alignment: attrs.alignment }
+            : {}),
+        };
+      }
     }
     if (type === "heading" && !node.attrs) throw new Error("Heading level is required.");
     if (type === "taskItem" && !node.attrs) node.attrs = { checked: false };
+    if (type === "image" && !node.attrs?.src) throw new Error("Image source is required.");
     if (n.content !== undefined) {
       if (
-        ["text", "hardBreak", "horizontalRule"].includes(type) ||
+        ["text", "hardBreak", "horizontalRule", "image"].includes(type) ||
         !Array.isArray(n.content)
       )
         throw new Error("Invalid nested note content.");
@@ -161,10 +237,10 @@ export function validateRichDocument(value: unknown): NoteRichDocument {
   if (!document.content?.length) document.content = [{ type: "paragraph" }];
   if (
     richTextToPlainText(document).length > 100_000 ||
-    JSON.stringify(document).length > 1_000_000
+    JSON.stringify(document).length > 3_000_000
   )
     throw new Error(
-      "This note is too large. Keep text under 100,000 characters and formatting under 1 MB."
+      "This note is too large. Keep text under 100,000 characters and formatting under 3 MB."
     );
   return document;
 }
@@ -188,4 +264,83 @@ export function plainTextToRichDocument(content: string): NoteRichDocument {
       ...(line ? { content: [{ type: "text", text: line }] } : {}),
     })),
   };
+}
+
+export function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") resolve(reader.result);
+      else reject(new Error("Failed to read image."));
+    };
+    reader.onerror = () => reject(new Error("Failed to read image file."));
+    reader.readAsDataURL(file);
+  });
+}
+
+export async function processImageFile(
+  file: File,
+  maxDimension = 1200,
+  quality = 0.85
+): Promise<{ src: string; alt: string }> {
+  if (!file || !file.type.startsWith("image/")) {
+    throw new Error("Please select a valid image file.");
+  }
+  if (file.size > 15 * 1024 * 1024) {
+    throw new Error("Image is too large. Please select an image under 15 MB.");
+  }
+
+  const alt = file.name ? file.name.replace(/\.[^/.]+$/, "").trim() : "Photo";
+
+  if (file.type === "image/svg+xml") {
+    const dataUrl = await readFileAsDataUrl(file);
+    return { src: dataUrl, alt };
+  }
+
+  if (typeof window !== "undefined" && typeof document !== "undefined") {
+    try {
+      const src = await new Promise<string>((resolve, reject) => {
+        const objectUrl = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(objectUrl);
+          let { width, height } = img;
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            reject(new Error("Canvas context unavailable."));
+            return;
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+          const outputType =
+            file.type === "image/jpeg" || file.type === "image/jpg"
+              ? "image/jpeg"
+              : "image/webp";
+          resolve(canvas.toDataURL(outputType, quality));
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          reject(new Error("Failed to load image."));
+        };
+        img.src = objectUrl;
+      });
+      return { src, alt };
+    } catch {
+      // Fall through to readFileAsDataUrl
+    }
+  }
+
+  const dataUrl = await readFileAsDataUrl(file);
+  return { src: dataUrl, alt };
 }

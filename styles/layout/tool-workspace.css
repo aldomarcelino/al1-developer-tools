@@ -88,6 +88,53 @@
   height: 38px;
   padding: 7px 12px;
   font-size: 13px;
+  transition:
+    background-color 380ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+/* In light mode on tool detail pages: do not use white background when unscrolled */
+:root:not([data-theme="dark"])
+  .header-focus:not([data-detached="true"])
+  .header-search-trigger {
+  background: var(--soft);
+  border-color: var(--border);
+}
+
+:root:not([data-theme="dark"])
+  .header-focus:not([data-detached="true"])
+  .header-search-trigger:hover {
+  background: color-mix(in srgb, var(--soft) 70%, var(--surface));
+  border-color: var(--green);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(14, 54, 60, 0.05);
+}
+
+:root:not([data-theme="dark"])
+  .header-focus:not([data-detached="true"])
+  .search-trigger-kbd
+  kbd {
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+/* When scrolled (detached), transition background back to surface (current white background in light mode) */
+:root:not([data-theme="dark"])
+  .header-focus[data-detached="true"]
+  .header-search-trigger {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+:root:not([data-theme="dark"])
+  .header-focus[data-detached="true"]
+  .header-search-trigger:hover {
+  background: var(--bg);
+  border-color: var(--green);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .header-focus .search-trigger-kbd {
@@ -115,6 +162,12 @@
 
 .workspace-focused > .workspace-page {
   padding-top: 12px;
+}
+
+@media (min-width: 1024px) {
+  .workspace-focused > .workspace-page {
+    padding-top: 21px;
+  }
 }
 
 .workspace-focused .workspace-page .workspace-heading {

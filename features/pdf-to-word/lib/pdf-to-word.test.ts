@@ -9,8 +9,13 @@ import {
   processPageTextItems,
   generateDocxBlob,
   generateDocBlob,
+  encodeRgbaToPng,
+  bytesToDataUrl,
+  extractTextFromPdf,
   type PdfExtractionResult,
 } from "./pdf-to-word.ts";
+import { PDFDocument } from "pdf-lib";
+import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import toolsData from "../../../config/tools.json" with { type: "json" };
 import { toolIcons } from "../../../components/cummon/tool-icons.ts";
 import { toolSeo } from "../../../lib/seo/tool-metadata.ts";
@@ -231,18 +236,165 @@ test("pdf-to-word is registered with unique icon and SEO without em-dash", () =>
   assert.equal(tool.icon, "pdfword");
 
   // Ensure unique icon in toolIcons
-  assert.ok(
-    tool.icon in toolIcons,
-    `Icon ${tool.icon} must be registered in toolIcons`
-  );
+  assert.ok(tool.icon in toolIcons, `Icon ${tool.icon} must be registered in toolIcons`);
 
   // SEO metadata check
   const seo = toolSeo["pdf-to-word"];
   assert.ok(seo, "SEO metadata must exist for pdf-to-word");
   assert.ok(!seo.title.includes("—"), "SEO title must not contain em-dash");
-  assert.ok(
-    !seo.description.includes("—"),
-    "SEO description must not contain em-dash"
-  );
+  assert.ok(!seo.description.includes("—"), "SEO description must not contain em-dash");
   assert.ok(!seo.note.includes("—"), "SEO note must not contain em-dash");
+});
+
+test("encodeRgbaToPng produces valid PNG bytes with correct signature and chunks", () => {
+  const rawRgba = new Uint8Array([
+    255, 0, 0, 255, 0, 255, 0, 255, 0, 0, 255, 255, 255, 255, 255, 255,
+  ]); // 2x2 pixels
+  const png = encodeRgbaToPng(2, 2, rawRgba);
+  assert.ok(png.length > 50);
+  // PNG signature
+  assert.deepEqual(Array.from(png.slice(0, 8)), [137, 80, 78, 71, 13, 10, 26, 10]);
+
+  const dataUrl = bytesToDataUrl(png);
+  assert.ok(dataUrl.startsWith("data:image/png;base64,"));
+});
+
+test("generateDocxBlob and generateDocBlob correctly embed extracted images", async () => {
+  const rawRgba = new Uint8Array([
+    255, 0, 0, 255, 0, 255, 0, 255, 0, 0, 255, 255, 255, 255, 0, 255,
+  ]);
+  const samplePng = encodeRgbaToPng(2, 2, rawRgba);
+
+  const mockExtraction: PdfExtractionResult = {
+    pages: [
+      {
+        pageNumber: 1,
+        paragraphs: [
+          {
+            runs: [{ text: "Before Image", bold: true, italic: false, fontSize: 14 }],
+            isHeading: false,
+            text: "Before Image",
+            pageNumber: 1,
+            y: 700,
+          },
+          {
+            runs: [{ text: "After Image", bold: false, italic: false, fontSize: 11 }],
+            isHeading: false,
+            text: "After Image",
+            pageNumber: 1,
+            y: 400,
+          },
+        ],
+        images: [
+          {
+            id: "p1_img1",
+            pageNumber: 1,
+            x: 50,
+            y: 500,
+            topY: 600,
+            width: 200,
+            height: 100,
+            naturalWidth: 2,
+            naturalHeight: 2,
+            data: samplePng,
+            format: "png",
+          },
+        ],
+        elements: [
+          {
+            type: "paragraph",
+            paragraph: {
+              runs: [{ text: "Before Image", bold: true, italic: false, fontSize: 14 }],
+              isHeading: false,
+              text: "Before Image",
+              pageNumber: 1,
+              y: 700,
+            },
+            y: 700,
+          },
+          {
+            type: "image",
+            image: {
+              id: "p1_img1",
+              pageNumber: 1,
+              x: 50,
+              y: 500,
+              topY: 600,
+              width: 200,
+              height: 100,
+              naturalWidth: 2,
+              naturalHeight: 2,
+              data: samplePng,
+              format: "png",
+            },
+            y: 600,
+          },
+          {
+            type: "paragraph",
+            paragraph: {
+              runs: [{ text: "After Image", bold: false, italic: false, fontSize: 11 }],
+              isHeading: false,
+              text: "After Image",
+              pageNumber: 1,
+              y: 400,
+            },
+            y: 400,
+          },
+        ],
+        text: "Before Image\n\nAfter Image",
+      },
+    ],
+    totalPages: 1,
+    totalParagraphs: 2,
+    totalWords: 4,
+    totalCharacters: 23,
+    totalImages: 1,
+  };
+
+  // DOCX includes image run
+  const docxBlob = await generateDocxBlob(mockExtraction, {
+    format: "docx",
+    layout: "flow",
+    includeImages: true,
+  });
+  assert.ok(docxBlob.size > 1000);
+
+  // DOC (RTF) includes pict pngblip hex data
+  const docBlob = generateDocBlob(mockExtraction, {
+    format: "doc",
+    layout: "flow",
+    includeImages: true,
+  });
+  const docText = await docBlob.text();
+  assert.ok(docText.includes("\\pict\\pngblip"));
+});
+
+test("extractTextFromPdf extracts both text and embedded images from PDF", async () => {
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage([600, 800]);
+  page.drawText("Quarterly Report", { x: 50, y: 720, size: 16 });
+
+  // 2x2 PNG
+  const pngBase64 =
+    "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
+  const embeddedPng = await pdfDoc.embedPng(Buffer.from(pngBase64, "base64"));
+  page.drawImage(embeddedPng, { x: 50, y: 500, width: 250, height: 120 });
+  page.drawText("Summary paragraph below figure", { x: 50, y: 350, size: 11 });
+
+  const pdfBytes = await pdfDoc.save();
+  const loadedPdf = await pdfjs.getDocument({ data: pdfBytes }).promise;
+
+  const result = await extractTextFromPdf(loadedPdf as any, {
+    format: "docx",
+    layout: "flow",
+    includeImages: true,
+  });
+
+  assert.equal(result.totalPages, 1);
+  assert.equal(result.totalImages, 1);
+  assert.ok(result.pages[0].images && result.pages[0].images.length === 1);
+  assert.equal(result.pages[0].elements?.length, 3);
+  assert.equal(result.pages[0].elements?.[0].type, "paragraph");
+  assert.equal(result.pages[0].elements?.[1].type, "image");
+  assert.equal(result.pages[0].elements?.[2].type, "paragraph");
 });

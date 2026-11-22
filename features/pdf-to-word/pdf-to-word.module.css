@@ -73,6 +73,28 @@
   gap: 16px;
 }
 
+.optionToggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  color: var(--text);
+  padding: 4px 0;
+}
+
+.optionToggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.optionToggle span {
+  font-weight: 500;
+}
+
 .optionItem {
   display: grid;
   gap: 8px;
@@ -235,6 +257,32 @@
   color: var(--text);
   margin-bottom: 10px;
   word-break: break-word;
+}
+
+.previewImageContainer {
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background: var(--surface);
+}
+
+.previewImageMeta {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .previewEmpty {

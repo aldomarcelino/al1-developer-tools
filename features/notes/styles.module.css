@@ -1010,10 +1010,178 @@
   border-radius: 0;
   font-size: inherit;
 }
+:global(.notes-rich-content .tiptap):where(.scope, .scope *)::after {
+  content: "";
+  display: table;
+  clear: both;
+}
 :global(.notes-rich-content .tiptap hr):where(.scope, .scope *) {
   border: 0;
   border-top: 1px solid var(--border);
   margin: 26px 0;
+  clear: both;
+}
+:global(.notes-rich-content .tiptap h1):where(.scope, .scope *),
+:global(.notes-rich-content .tiptap h2):where(.scope, .scope *),
+:global(.notes-rich-content .tiptap h3):where(.scope, .scope *) {
+  clear: both;
+}
+:global(.notes-rich-content .node-image),
+:global(.notes-rich-content .note-image-block):where(.scope, .scope *) {
+  position: relative;
+  max-width: 100%;
+  box-sizing: border-box;
+  user-select: none;
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+:global(.notes-rich-content .node-image.note-image-align-left),
+:global(.notes-rich-content .note-image-align-left):where(.scope, .scope *) {
+  float: left;
+  margin: 8px 22px 14px 0;
+  clear: left;
+}
+:global(.notes-rich-content .node-image.note-image-align-right),
+:global(.notes-rich-content .note-image-align-right):where(.scope, .scope *) {
+  float: right;
+  margin: 8px 0 14px 22px;
+  clear: right;
+}
+:global(.notes-rich-content .node-image.note-image-align-center),
+:global(.notes-rich-content .note-image-align-center):where(.scope, .scope *) {
+  float: none;
+  margin: 18px auto;
+  display: block;
+  clear: both;
+}
+:global(.notes-rich-content .note-image-inner):where(.scope, .scope *) {
+  position: relative;
+  display: block;
+  width: 100%;
+  line-height: 0;
+  border-radius: 12px;
+}
+:global(.notes-rich-content .note-image-element):where(.scope, .scope *) {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.08);
+  transition: outline 0.15s ease, box-shadow 0.15s ease;
+  pointer-events: auto;
+  cursor: pointer;
+}
+:global(.notes-rich-content .note-image-block.is-selected .note-image-element):where(.scope, .scope *),
+:global(.notes-rich-content .note-image-block:focus-within .note-image-element):where(.scope, .scope *) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.14);
+}
+:global(.notes-rich-content .note-image-toolbar):where(.scope, .scope *) {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 6px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.18);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  max-width: calc(100% - 16px);
+  white-space: nowrap;
+}
+:global(.notes-rich-content .note-image-block:hover .note-image-toolbar):where(.scope, .scope *),
+:global(.notes-rich-content .note-image-block.is-selected .note-image-toolbar):where(.scope, .scope *),
+:global(.notes-rich-content .note-image-block:focus-within .note-image-toolbar):where(.scope, .scope *) {
+  opacity: 1;
+  pointer-events: auto;
+}
+:global(.notes-rich-content .note-image-size-group):where(.scope, .scope *),
+:global(.notes-rich-content .note-image-align-group):where(.scope, .scope *) {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+:global(.notes-rich-content .note-image-btn):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+:global(.notes-rich-content .note-image-btn:hover):where(.scope, .scope *) {
+  background: var(--soft);
+  color: var(--text);
+}
+:global(.notes-rich-content .note-image-btn.is-active):where(.scope, .scope *) {
+  background: color-mix(in srgb, var(--accent) 15%, var(--surface));
+  color: var(--accent);
+  font-weight: 600;
+}
+:global(.notes-rich-content .note-image-icon-btn):where(.scope, .scope *) {
+  padding: 0 5px;
+}
+:global(.notes-rich-content .note-image-divider):where(.scope, .scope *) {
+  width: 1px;
+  height: 14px;
+  background: var(--border);
+  margin: 0 3px;
+  flex-shrink: 0;
+}
+:global(.notes-rich-content .note-image-delete-btn):where(.scope, .scope *) {
+  color: var(--muted);
+}
+:global(.notes-rich-content .note-image-delete-btn:hover):where(.scope, .scope *) {
+  background: color-mix(in srgb, var(--error) 15%, var(--surface));
+  color: var(--error);
+}
+:global(.notes-rich-content .note-image-resize-handle):where(.scope, .scope *) {
+  position: absolute;
+  bottom: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: ew-resize;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 10;
+}
+:global(.notes-rich-content .note-image-resize-handle.is-right):where(.scope, .scope *) {
+  right: 6px;
+  cursor: se-resize;
+}
+:global(.notes-rich-content .note-image-resize-handle.is-left):where(.scope, .scope *) {
+  left: 6px;
+  cursor: sw-resize;
+}
+:global(.notes-rich-content .note-image-block:hover .note-image-resize-handle):where(.scope, .scope *),
+:global(.notes-rich-content .note-image-block.is-selected .note-image-resize-handle):where(.scope, .scope *),
+:global(.notes-rich-content .note-image-block:focus-within .note-image-resize-handle):where(.scope, .scope *) {
+  opacity: 1;
+}
+:global(.notes-rich-content .note-image-resize-handle:hover):where(.scope, .scope *) {
+  transform: scale(1.2);
 }
 :global(.notes-rich-content .tiptap p.is-editor-empty:first-child):where(
     .scope,

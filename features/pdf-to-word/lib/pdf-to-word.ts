@@ -1,5 +1,14 @@
-import { Document, Paragraph, TextRun, HeadingLevel, Packer } from "docx";
-import type { PDFDocumentProxy } from "pdfjs-dist";
+import {
+  Document,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  Packer,
+  ImageRun,
+  AlignmentType,
+} from "docx";
+import type { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
+import { deflateSync } from "fflate";
 
 export type WordOutputFormat = "docx" | "doc";
 export type LayoutMode = "flow" | "exact";
@@ -7,6 +16,7 @@ export type LayoutMode = "flow" | "exact";
 export interface PdfToWordOptions {
   format: WordOutputFormat;
   layout: LayoutMode;
+  includeImages?: boolean;
 }
 
 export interface ExtractedTextRun {
@@ -23,11 +33,33 @@ export interface ExtractedParagraph {
   headingLevel?: 1 | 2 | 3;
   text: string;
   pageNumber: number;
+  y?: number;
 }
+
+export interface ExtractedImage {
+  id: string;
+  pageNumber: number;
+  x: number;
+  y: number;
+  topY: number;
+  width: number;
+  height: number;
+  naturalWidth: number;
+  naturalHeight: number;
+  data: Uint8Array;
+  dataUrl?: string;
+  format: "png" | "jpeg";
+}
+
+export type PageElement =
+  | { type: "paragraph"; paragraph: ExtractedParagraph; y: number }
+  | { type: "image"; image: ExtractedImage; y: number };
 
 export interface ExtractedPage {
   pageNumber: number;
   paragraphs: ExtractedParagraph[];
+  images?: ExtractedImage[];
+  elements?: PageElement[];
   text: string;
 }
 
@@ -37,6 +69,7 @@ export interface PdfExtractionResult {
   totalParagraphs: number;
   totalWords: number;
   totalCharacters: number;
+  totalImages?: number;
 }
 
 export interface ConversionProgress {
@@ -52,6 +85,7 @@ export const PDF_WORD_LIMITS = {
   maxPages: 100,
   defaultFormat: "docx" as WordOutputFormat,
   defaultLayout: "flow" as LayoutMode,
+  defaultIncludeImages: true,
 };
 
 export const FORMAT_OPTIONS = [
@@ -72,7 +106,10 @@ export async function getPdfJs() {
 
   if (typeof window !== "undefined" && !pdfjs.GlobalWorkerOptions.workerSrc) {
     const origin = window.location.origin;
-    pdfjs.GlobalWorkerOptions.workerSrc = new URL("/pdf.worker.min.mjs", origin).toString();
+    pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+      "/pdf.worker.min.mjs",
+      origin
+    ).toString();
   }
 
   return pdfjs;
@@ -123,10 +160,105 @@ export function formatFileSize(bytes: number): string {
 /**
  * Cleans the base name and appends the selected Word extension (.docx or .doc).
  */
-export function sanitizeWordFilename(originalName: string, format: WordOutputFormat): string {
+export function sanitizeWordFilename(
+  originalName: string,
+  format: WordOutputFormat
+): string {
   const stripped = originalName.replace(/\.pdf$/i, "").trim();
   const safeName = stripped.replace(/[^a-zA-Z0-9_\-. ]/g, "_") || "converted_document";
   return `${safeName}.${format}`;
+}
+
+const CRC_TABLE = Uint32Array.from({ length: 256 }, (_, value) => {
+  let crc = value;
+  for (let bit = 0; bit < 8; bit++) crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
+  return crc >>> 0;
+});
+
+function calculateCrc32(buf: Uint8Array, offset: number, length: number): number {
+  let crc = 0xffffffff;
+  const end = offset + length;
+  for (let i = offset; i < end; i++) {
+    crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ buf[i]) & 0xff];
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function makePngChunk(type: string, data: Uint8Array): Uint8Array {
+  const len = data.length;
+  const chunk = new Uint8Array(12 + len);
+  const view = new DataView(chunk.buffer);
+  view.setUint32(0, len, false);
+  for (let i = 0; i < 4; i++) chunk[4 + i] = type.charCodeAt(i);
+  chunk.set(data, 8);
+  const crc = calculateCrc32(chunk, 4, 4 + len);
+  view.setUint32(8 + len, crc, false);
+  return chunk;
+}
+
+/**
+ * Encodes raw RGBA pixel bytes into a valid PNG Uint8Array.
+ * Zero external canvas dependencies: works seamlessly in Node and browser.
+ */
+export function encodeRgbaToPng(
+  width: number,
+  height: number,
+  rgba: Uint8Array | Uint8ClampedArray
+): Uint8Array {
+  const sig = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
+  const ihdr = new Uint8Array(13);
+  const ihdrView = new DataView(ihdr.buffer);
+  ihdrView.setUint32(0, width, false);
+  ihdrView.setUint32(4, height, false);
+  ihdr[8] = 8; // 8 bits per channel
+  ihdr[9] = 6; // Color type 6: RGBA
+  ihdr[10] = 0; // Deflate
+  ihdr[11] = 0; // Filter 0
+  ihdr[12] = 0; // No interlace
+
+  const stride = width * 4;
+  const raw = new Uint8Array((stride + 1) * height);
+  for (let y = 0; y < height; y++) {
+    raw[y * (stride + 1)] = 0;
+    raw.set(rgba.subarray(y * stride, (y + 1) * stride), y * (stride + 1) + 1);
+  }
+
+  const compressed = deflateSync(raw);
+  const ihdrChunk = makePngChunk("IHDR", ihdr);
+  const idatChunk = makePngChunk("IDAT", compressed);
+  const iendChunk = makePngChunk("IEND", new Uint8Array(0));
+
+  const totalLen = sig.length + ihdrChunk.length + idatChunk.length + iendChunk.length;
+  const png = new Uint8Array(totalLen);
+  let pos = 0;
+  png.set(sig, pos);
+  pos += sig.length;
+  png.set(ihdrChunk, pos);
+  pos += ihdrChunk.length;
+  png.set(idatChunk, pos);
+  pos += idatChunk.length;
+  png.set(iendChunk, pos);
+  pos += iendChunk.length;
+  return png;
+}
+
+/**
+ * Converts image bytes into a data URL for UI rendering.
+ */
+export function bytesToDataUrl(bytes: Uint8Array, mimeType = "image/png"): string {
+  if (typeof Buffer !== "undefined") {
+    return `data:${mimeType};base64,${Buffer.from(bytes).toString("base64")}`;
+  }
+  let binary = "";
+  const len = bytes.byteLength;
+  const chunkSize = 8192;
+  for (let i = 0; i < len; i += chunkSize) {
+    const chunk = bytes.subarray(i, Math.min(i + chunkSize, len));
+    for (let j = 0; j < chunk.length; j++) {
+      binary += String.fromCharCode(chunk[j]);
+    }
+  }
+  return `data:${mimeType};base64,${btoa(binary)}`;
 }
 
 interface RawTextItem {
@@ -279,13 +411,11 @@ export function processPageTextItems(
     const trimmedText = fullText.trim();
     if (trimmedText) {
       const avgSize =
-        accumulatedLines.reduce((s, l) => s + l.avgFontSize, 0) /
-        accumulatedLines.length;
+        accumulatedLines.reduce((s, l) => s + l.avgFontSize, 0) / accumulatedLines.length;
 
       // Heading detection: font size notably higher than body font
       const isHeadingCandidate =
-        trimmedText.length < 150 &&
-        (avgSize >= medianFontSize * 1.3 || avgSize >= 15);
+        trimmedText.length < 150 && (avgSize >= medianFontSize * 1.3 || avgSize >= 15);
 
       let headingLevel: 1 | 2 | 3 | undefined;
       if (isHeadingCandidate) {
@@ -304,6 +434,7 @@ export function processPageTextItems(
         headingLevel,
         text: trimmedText,
         pageNumber,
+        y: accumulatedLines[0]?.y ?? 0,
       });
     }
 
@@ -344,8 +475,225 @@ export function processPageTextItems(
   return paragraphs;
 }
 
+function multiplyMatrices(m1: number[], m2: number[]): number[] {
+  return [
+    m1[0] * m2[0] + m1[2] * m2[1],
+    m1[1] * m2[0] + m1[3] * m2[1],
+    m1[0] * m2[2] + m1[2] * m2[3],
+    m1[1] * m2[2] + m1[3] * m2[3],
+    m1[0] * m2[4] + m1[2] * m2[5] + m1[4],
+    m1[1] * m2[4] + m1[3] * m2[5] + m1[5],
+  ];
+}
+
+function computeImageBounds(matrix: number[]) {
+  const [a, b, c, d, e, f] = matrix;
+  const p0x = e,
+    p0y = f;
+  const p1x = a + e,
+    p1y = b + f;
+  const p2x = c + e,
+    p2y = d + f;
+  const p3x = a + c + e,
+    p3y = b + d + f;
+  const minX = Math.min(p0x, p1x, p2x, p3x);
+  const maxX = Math.max(p0x, p1x, p2x, p3x);
+  const minY = Math.min(p0y, p1y, p2y, p3y);
+  const maxY = Math.max(p0y, p1y, p2y, p3y);
+  return {
+    x: minX,
+    y: minY,
+    topY: maxY,
+    width: Math.max(0, maxX - minX),
+    height: Math.max(0, maxY - minY),
+  };
+}
+
 /**
- * Extracts all text and structure from a loaded PDFDocumentProxy.
+ * Extracts embedded images and their page layout coordinates from a PDFPageProxy.
+ */
+export async function extractImagesFromPage(
+  page: PDFPageProxy,
+  pageNumber: number
+): Promise<ExtractedImage[]> {
+  const images: ExtractedImage[] = [];
+  const seenBounds = new Set<string>();
+
+  try {
+    const opList = await page.getOperatorList();
+    const pdfjs = await getPdfJs();
+    const OPS = pdfjs.OPS;
+
+    let ctm = [1, 0, 0, 1, 0, 0];
+    const ctmStack: number[][] = [];
+
+    for (let i = 0; i < opList.fnArray.length; i++) {
+      const fn = opList.fnArray[i];
+      const args = opList.argsArray[i];
+
+      if (fn === OPS.save) {
+        ctmStack.push([...ctm]);
+      } else if (fn === OPS.restore) {
+        if (ctmStack.length) ctm = ctmStack.pop()!;
+      } else if (fn === OPS.transform) {
+        if (Array.isArray(args) && args.length >= 6) {
+          ctm = multiplyMatrices(ctm, args as number[]);
+        }
+      } else if (
+        fn === OPS.paintImageXObject ||
+        fn === OPS.paintImageMaskXObject ||
+        fn === OPS.paintInlineImageXObject
+      ) {
+        const bounds = computeImageBounds(ctm);
+
+        // Filter out zero-sized or invisible frames
+        if (bounds.width <= 1 || bounds.height <= 1) {
+          continue;
+        }
+
+        const boundKey = `${Math.round(bounds.x)}_${Math.round(bounds.y)}_${Math.round(bounds.width)}_${Math.round(bounds.height)}`;
+        if (seenBounds.has(boundKey)) {
+          continue;
+        }
+        seenBounds.add(boundKey);
+
+        let imgObj: any = null;
+        try {
+          if (fn === OPS.paintInlineImageXObject) {
+            imgObj = args[0];
+          } else {
+            const imgName = String(args[0]);
+            const container = imgName.startsWith("g_") ? page.commonObjs : page.objs;
+            imgObj = await new Promise((resolve) => {
+              container.get(imgName, (res: any) => resolve(res));
+            });
+          }
+        } catch {
+          imgObj = null;
+        }
+
+        if (!imgObj) continue;
+
+        let width = imgObj.width || 0;
+        let height = imgObj.height || 0;
+        let pngBytes: Uint8Array | null = null;
+        let dataUrl: string | undefined;
+
+        // In browser: check if bitmap or canvas can be used
+        const hasBitmap =
+          imgObj.bitmap ||
+          (typeof ImageBitmap !== "undefined" && imgObj instanceof ImageBitmap);
+        if (hasBitmap && typeof document !== "undefined") {
+          try {
+            const bitmap = imgObj.bitmap || imgObj;
+            width = bitmap.width;
+            height = bitmap.height;
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+              ctx.drawImage(bitmap, 0, 0);
+              dataUrl = canvas.toDataURL("image/png");
+              const base64 = dataUrl.split(",")[1];
+              if (base64) {
+                const binary = atob(base64);
+                pngBytes = new Uint8Array(binary.length);
+                for (let k = 0; k < binary.length; k++)
+                  pngBytes[k] = binary.charCodeAt(k);
+              }
+            }
+          } catch {
+            pngBytes = null;
+          }
+        }
+
+        // If raw pixel data is provided
+        if (!pngBytes && imgObj.data && width > 0 && height > 0) {
+          try {
+            const src = imgObj.data;
+            const kind = imgObj.kind;
+            let rgba: Uint8Array | null = null;
+
+            if (kind === 3 || src.length === width * height * 4) {
+              rgba = src instanceof Uint8Array ? src : new Uint8Array(src);
+            } else if (kind === 2 || src.length === width * height * 3) {
+              rgba = new Uint8Array(width * height * 4);
+              for (let s = 0, d = 0; s < src.length; s += 3, d += 4) {
+                rgba[d] = src[s];
+                rgba[d + 1] = src[s + 1];
+                rgba[d + 2] = src[s + 2];
+                rgba[d + 3] = 255;
+              }
+            } else if (kind === 1) {
+              // 1-bit monochrome
+              rgba = new Uint8Array(width * height * 4);
+              let srcIdx = 0;
+              let destIdx = 0;
+              for (let y = 0; y < height; y++) {
+                let mask = 0;
+                let byteVal = 0;
+                for (let x = 0; x < width; x++) {
+                  if (mask === 0) {
+                    byteVal = src[srcIdx++];
+                    mask = 128;
+                  }
+                  const val = byteVal & mask ? 255 : 0;
+                  rgba[destIdx++] = val;
+                  rgba[destIdx++] = val;
+                  rgba[destIdx++] = val;
+                  rgba[destIdx++] = 255;
+                  mask >>= 1;
+                }
+              }
+            } else if (src.length === width * height) {
+              // 8-bit grayscale
+              rgba = new Uint8Array(width * height * 4);
+              for (let s = 0, d = 0; s < src.length; s++, d += 4) {
+                const val = src[s];
+                rgba[d] = val;
+                rgba[d + 1] = val;
+                rgba[d + 2] = val;
+                rgba[d + 3] = 255;
+              }
+            }
+
+            if (rgba) {
+              pngBytes = encodeRgbaToPng(width, height, rgba);
+              dataUrl = bytesToDataUrl(pngBytes);
+            }
+          } catch {
+            pngBytes = null;
+          }
+        }
+
+        if (pngBytes && width >= 1 && height >= 1) {
+          images.push({
+            id: `p${pageNumber}_img${images.length + 1}`,
+            pageNumber,
+            x: bounds.x,
+            y: bounds.y,
+            topY: bounds.topY,
+            width: bounds.width,
+            height: bounds.height,
+            naturalWidth: width,
+            naturalHeight: height,
+            data: pngBytes,
+            dataUrl,
+            format: "png",
+          });
+        }
+      }
+    }
+  } catch {
+    // If operator list traversal fails on an encrypted or non-standard page, continue gracefully
+  }
+
+  return images;
+}
+
+/**
+ * Extracts all text, images, and layout structure from a loaded PDFDocumentProxy.
  */
 export async function extractTextFromPdf(
   pdfDoc: PDFDocumentProxy,
@@ -358,12 +706,15 @@ export async function extractTextFromPdf(
   let totalParagraphs = 0;
   let totalWords = 0;
   let totalCharacters = 0;
+  let totalImages = 0;
+
+  const includeImages = options.includeImages !== false;
 
   for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
     const percent = Math.round((pageNum / totalPages) * 70);
     onProgress?.({
       status: "parsing",
-      message: `Extracting page ${pageNum} of ${totalPages}...`,
+      message: `Extracting page ${pageNum} of ${totalPages} (text & images)...`,
       percent,
       current: pageNum,
       total: totalPages,
@@ -377,7 +728,8 @@ export async function extractTextFromPdf(
       if ("str" in item && typeof item.str === "string" && item.str.trim().length > 0) {
         const tx = item.transform[4] || 0;
         const ty = item.transform[5] || 0;
-        const fontSize = Math.hypot(item.transform[0], item.transform[1]) || item.height || 11;
+        const fontSize =
+          Math.hypot(item.transform[0], item.transform[1]) || item.height || 11;
 
         rawItems.push({
           str: item.str,
@@ -394,15 +746,80 @@ export async function extractTextFromPdf(
     const paragraphs = processPageTextItems(rawItems, pageNum, options.layout);
     const pageText = paragraphs.map((p) => p.text).join("\n\n");
 
+    let images: ExtractedImage[] = [];
+    if (includeImages) {
+      images = await extractImagesFromPage(page, pageNum);
+
+      // Scanned page fallback: if page has 0 text items and 0 images, render page to canvas
+      if (
+        paragraphs.length === 0 &&
+        images.length === 0 &&
+        typeof document !== "undefined"
+      ) {
+        try {
+          const viewport = page.getViewport({ scale: 1.5 });
+          const canvas = document.createElement("canvas");
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            await page.render({ canvasContext: ctx, viewport, canvas }).promise;
+            const dataUrl = canvas.toDataURL("image/png");
+            const base64 = dataUrl.split(",")[1];
+            if (base64) {
+              const binary = atob(base64);
+              const bytes = new Uint8Array(binary.length);
+              for (let k = 0; k < binary.length; k++) bytes[k] = binary.charCodeAt(k);
+
+              images.push({
+                id: `p${pageNum}_scanned`,
+                pageNumber: pageNum,
+                x: 0,
+                y: 0,
+                topY: viewport.height,
+                width: viewport.width / 1.5,
+                height: viewport.height / 1.5,
+                naturalWidth: viewport.width,
+                naturalHeight: viewport.height,
+                data: bytes,
+                dataUrl,
+                format: "png",
+              });
+            }
+          }
+        } catch {
+          // Ignore render fallback failure
+        }
+      }
+    }
+
+    // Build unified elements sorted by Y descending (top to bottom of page)
+    const elements: PageElement[] = [
+      ...paragraphs.map((p) => ({
+        type: "paragraph" as const,
+        paragraph: p,
+        y: p.y ?? 0,
+      })),
+      ...images.map((img) => ({
+        type: "image" as const,
+        image: img,
+        y: img.topY,
+      })),
+    ];
+    elements.sort((a, b) => b.y - a.y);
+
     for (const p of paragraphs) {
       totalParagraphs += 1;
       totalCharacters += p.text.length;
       totalWords += p.text.split(/\s+/).filter(Boolean).length;
     }
+    totalImages += images.length;
 
     pages.push({
       pageNumber: pageNum,
       paragraphs,
+      images,
+      elements,
       text: pageText,
     });
   }
@@ -413,22 +830,24 @@ export async function extractTextFromPdf(
     totalParagraphs,
     totalWords,
     totalCharacters,
+    totalImages,
   };
 }
 
 /**
- * Compiles extracted PDF text and headings into a modern OpenXML .docx Blob.
+ * Compiles extracted PDF text, headings, and images into a modern OpenXML .docx Blob.
  */
 export async function generateDocxBlob(
   extraction: PdfExtractionResult,
-  _options: PdfToWordOptions
+  options: PdfToWordOptions
 ): Promise<Blob> {
   const docChildren: Paragraph[] = [];
+  const includeImages = options.includeImages !== false;
 
   for (let pageIdx = 0; pageIdx < extraction.pages.length; pageIdx++) {
     const page = extraction.pages[pageIdx];
 
-    // Optional page indicator or page break before subsequent pages
+    // Page break before subsequent pages
     if (pageIdx > 0) {
       docChildren.push(
         new Paragraph({
@@ -438,43 +857,89 @@ export async function generateDocxBlob(
       );
     }
 
-    for (const p of page.paragraphs) {
-      if (p.isHeading && p.headingLevel) {
-        let docHeading: (typeof HeadingLevel)[keyof typeof HeadingLevel] =
-          HeadingLevel.HEADING_1;
-        if (p.headingLevel === 2) docHeading = HeadingLevel.HEADING_2;
-        if (p.headingLevel === 3) docHeading = HeadingLevel.HEADING_3;
+    const elements =
+      page.elements && page.elements.length > 0
+        ? page.elements
+        : page.paragraphs.map((p) => ({
+            type: "paragraph" as const,
+            paragraph: p,
+            y: p.y ?? 0,
+          }));
 
-        docChildren.push(
-          new Paragraph({
-            text: p.text,
-            heading: docHeading,
-            spacing: {
-              before: 200,
-              after: 100,
-            },
-          })
-        );
-      } else {
-        const textRuns = p.runs.map(
-          (run) =>
-            new TextRun({
-              text: run.text,
-              bold: run.bold || undefined,
-              italics: run.italic || undefined,
-              size: Math.max(16, Math.min(48, Math.round(run.fontSize * 2))), // half-points in docx
+    for (const elem of elements) {
+      if (elem.type === "paragraph") {
+        const p = elem.paragraph;
+        if (p.isHeading && p.headingLevel) {
+          let docHeading: (typeof HeadingLevel)[keyof typeof HeadingLevel] =
+            HeadingLevel.HEADING_1;
+          if (p.headingLevel === 2) docHeading = HeadingLevel.HEADING_2;
+          if (p.headingLevel === 3) docHeading = HeadingLevel.HEADING_3;
+
+          docChildren.push(
+            new Paragraph({
+              text: p.text,
+              heading: docHeading,
+              spacing: {
+                before: 200,
+                after: 100,
+              },
             })
-        );
+          );
+        } else {
+          const textRuns = p.runs.map(
+            (run) =>
+              new TextRun({
+                text: run.text,
+                bold: run.bold || undefined,
+                italics: run.italic || undefined,
+                size: Math.max(16, Math.min(48, Math.round(run.fontSize * 2))), // half-points in docx
+              })
+          );
 
-        docChildren.push(
-          new Paragraph({
-            children: textRuns.length ? textRuns : [new TextRun(p.text)],
-            spacing: {
-              after: 120,
-              line: 276, // 1.15 line spacing
-            },
-          })
-        );
+          docChildren.push(
+            new Paragraph({
+              children: textRuns.length ? textRuns : [new TextRun(p.text)],
+              spacing: {
+                after: 120,
+                line: 276, // 1.15 line spacing
+              },
+            })
+          );
+        }
+      } else if (elem.type === "image" && includeImages) {
+        const img = elem.image;
+        if (img.data && img.data.length > 0) {
+          const maxPtWidth = 520;
+          const displayWidth = img.width > 0 ? img.width : 400;
+          const displayHeight = img.height > 0 ? img.height : 300;
+          const scale = displayWidth > maxPtWidth ? maxPtWidth / displayWidth : 1;
+          const targetPtWidth = displayWidth * scale;
+          const targetPtHeight = displayHeight * scale;
+
+          // Convert PDF points (1/72 in) to docx pixel units (1/96 in)
+          const pxWidth = Math.max(32, Math.round(targetPtWidth * (96 / 72)));
+          const pxHeight = Math.max(32, Math.round(targetPtHeight * (96 / 72)));
+
+          docChildren.push(
+            new Paragraph({
+              children: [
+                new ImageRun({
+                  data: img.data,
+                  transformation: {
+                    width: pxWidth,
+                    height: pxHeight,
+                  },
+                  type: "png",
+                }),
+              ],
+              alignment: AlignmentType.CENTER,
+              spacing: {
+                before: 140,
+                after: 140,
+              },
+            })
+          );
+        }
       }
     }
   }
@@ -483,7 +948,7 @@ export async function generateDocxBlob(
   if (!docChildren.length) {
     docChildren.push(
       new Paragraph({
-        children: [new TextRun("No extractable text found in the source PDF.")],
+        children: [new TextRun("No extractable text or images found in the source PDF.")],
       })
     );
   }
@@ -505,7 +970,7 @@ export async function generateDocxBlob(
  */
 export function generateDocBlob(
   extraction: PdfExtractionResult,
-  _options: PdfToWordOptions
+  options: PdfToWordOptions
 ): Blob {
   function escapeRtf(text: string): string {
     return text
@@ -517,6 +982,8 @@ export function generateDocBlob(
         return `\\u${code}?`;
       });
   }
+
+  const includeImages = options.includeImages !== false;
 
   const rtfParts: string[] = [
     "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033",
@@ -532,31 +999,65 @@ export function generateDocBlob(
       rtfParts.push("\\page ");
     }
 
-    for (const p of page.paragraphs) {
-      if (p.isHeading) {
-        const size = p.headingLevel === 1 ? 32 : p.headingLevel === 2 ? 26 : 24;
-        rtfParts.push(
-          `\\pard\\b\\fs${size} ${escapeRtf(p.text)}\\b0\\fs22\\par\\sa120\\sl276\\slmult1 `
-        );
-      } else {
-        rtfParts.push("\\pard\\sa120\\sl276\\slmult1 ");
-        for (const run of p.runs) {
-          const runSize = Math.max(16, Math.min(36, Math.round(run.fontSize * 2)));
-          let runPrefix = "";
-          let runSuffix = "";
+    const elements =
+      page.elements && page.elements.length > 0
+        ? page.elements
+        : page.paragraphs.map((p) => ({
+            type: "paragraph" as const,
+            paragraph: p,
+            y: p.y ?? 0,
+          }));
 
-          if (run.bold) {
-            runPrefix += "\\b ";
-            runSuffix = "\\b0 " + runSuffix;
-          }
-          if (run.italic) {
-            runPrefix += "\\i ";
-            runSuffix = "\\i0 " + runSuffix;
-          }
+    for (const elem of elements) {
+      if (elem.type === "paragraph") {
+        const p = elem.paragraph;
+        if (p.isHeading) {
+          const size = p.headingLevel === 1 ? 32 : p.headingLevel === 2 ? 26 : 24;
+          rtfParts.push(
+            `\\pard\\b\\fs${size} ${escapeRtf(p.text)}\\b0\\fs22\\par\\sa120\\sl276\\slmult1 `
+          );
+        } else {
+          rtfParts.push("\\pard\\sa120\\sl276\\slmult1 ");
+          for (const run of p.runs) {
+            const runSize = Math.max(16, Math.min(36, Math.round(run.fontSize * 2)));
+            let runPrefix = "";
+            let runSuffix = "";
 
-          rtfParts.push(`\\fs${runSize} ${runPrefix}${escapeRtf(run.text)}${runSuffix}`);
+            if (run.bold) {
+              runPrefix += "\\b ";
+              runSuffix = "\\b0 " + runSuffix;
+            }
+            if (run.italic) {
+              runPrefix += "\\i ";
+              runSuffix = "\\i0 " + runSuffix;
+            }
+
+            rtfParts.push(
+              `\\fs${runSize} ${runPrefix}${escapeRtf(run.text)}${runSuffix}`
+            );
+          }
+          rtfParts.push("\\par ");
         }
-        rtfParts.push("\\par ");
+      } else if (elem.type === "image" && includeImages) {
+        const img = elem.image;
+        if (img.data && img.data.length > 0) {
+          const maxPtWidth = 520;
+          const displayWidth = img.width > 0 ? img.width : 400;
+          const displayHeight = img.height > 0 ? img.height : 300;
+          const scale = displayWidth > maxPtWidth ? maxPtWidth / displayWidth : 1;
+          const targetPtWidth = displayWidth * scale;
+          const targetPtHeight = displayHeight * scale;
+          const twipsWidth = Math.round(targetPtWidth * 20);
+          const twipsHeight = Math.round(targetPtHeight * 20);
+
+          let hex = "";
+          for (let i = 0; i < img.data.length; i++) {
+            hex += img.data[i].toString(16).padStart(2, "0");
+          }
+          rtfParts.push(
+            `\\pard\\qc\\sa140 {\\pict\\pngblip\\picw${img.naturalWidth || Math.round(displayWidth)}\\pich${img.naturalHeight || Math.round(displayHeight)}\\picwgoal${twipsWidth}\\pichgoal${twipsHeight}\n${hex}\n}\\par\\pard\\sa120 `
+          );
+        }
       }
     }
   }
@@ -598,7 +1099,7 @@ export async function convertPdfToWord(
 
   onProgress?.({
     status: "converting",
-    message: `Generating Word ${options.format.toUpperCase()} document...`,
+    message: `Generating Word ${options.format.toUpperCase()} document with text and images...`,
     percent: 85,
     current: extraction.totalPages,
     total: extraction.totalPages,

@@ -1,8 +1,15 @@
 "use client";
 import { useShortcutModifier } from "@/hooks/use-shortcut-modifier";
-import { useEffect, useMemo } from "react";
-import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
-import { Extension, type Editor } from "@tiptap/core";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  EditorContent,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+  useEditor,
+  useEditorState,
+  type NodeViewProps,
+} from "@tiptap/react";
+import { Extension, Node, mergeAttributes, type Editor } from "@tiptap/core";
 import { Plugin } from "@tiptap/pm/state";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -19,6 +26,11 @@ import {
   ListOrdered,
   ListChecks,
   Quote,
+  Image as ImageIcon,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Trash2,
   Undo2,
   Redo2,
   RemoveFormatting,
@@ -28,11 +40,307 @@ import { CustomSelect } from "@/components/ui/custom-select";
 import { NotesIconButton } from "./notes-icon-button";
 import {
   plainTextToRichDocument,
+  processImageFile,
   richTextToPlainText,
   validateRichDocument,
   type NoteRichDocument,
 } from "@/features/notes/lib/note-rich-text";
 import type { Note } from "@/features/notes/lib/notes";
+
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    image: {
+      setImage: (options: {
+        src: string;
+        alt?: string;
+        title?: string;
+        width?: string;
+        alignment?: "left" | "center" | "right";
+      }) => ReturnType;
+    };
+  }
+}
+
+export function NoteImageView({
+  node,
+  updateAttributes,
+  deleteNode,
+  selected,
+}: NodeViewProps) {
+  const {
+    src,
+    alt,
+    title,
+    width = "100%",
+    alignment = "center",
+  } = (node.attrs || {}) as {
+    src: string;
+    alt?: string | null;
+    title?: string | null;
+    width?: string | null;
+    alignment?: string | null;
+  };
+  const [isResizing, setIsResizing] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const startXRef = useRef(0);
+  const startWidthRef = useRef(0);
+
+  const presets = [
+    { label: "25%", value: "25%" },
+    { label: "50%", value: "50%" },
+    { label: "75%", value: "75%" },
+    { label: "100%", value: "100%" },
+  ];
+
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsResizing(true);
+      startXRef.current = e.clientX;
+      const parentEl =
+        containerRef.current?.parentElement ||
+        (containerRef.current?.closest(".tiptap") as HTMLElement | null);
+      const parentWidth = parentEl?.clientWidth || 600;
+      const currentWidthPx = containerRef.current?.offsetWidth || parentWidth;
+      startWidthRef.current = currentWidthPx;
+
+      const handlePointerMove = (moveEvent: PointerEvent) => {
+        const deltaX =
+          alignment === "right"
+            ? startXRef.current - moveEvent.clientX
+            : moveEvent.clientX - startXRef.current;
+        const newWidthPx = Math.max(120, Math.min(parentWidth, startWidthRef.current + deltaX));
+        const percentage = Math.round((newWidthPx / parentWidth) * 100);
+        const clamped = Math.max(20, Math.min(100, percentage));
+        updateAttributes({ width: `${clamped}%` });
+      };
+
+      const handlePointerUp = () => {
+        setIsResizing(false);
+        window.removeEventListener("pointermove", handlePointerMove);
+        window.removeEventListener("pointerup", handlePointerUp);
+      };
+
+      window.addEventListener("pointermove", handlePointerMove);
+      window.addEventListener("pointerup", handlePointerUp);
+    },
+    [alignment, updateAttributes]
+  );
+
+  const currentAlign = alignment || "center";
+  const currentWidth = width || "100%";
+
+  return (
+    <NodeViewWrapper
+      as="div"
+      className={`note-image-block note-image-align-${currentAlign} ${
+        selected || isResizing ? "is-selected" : ""
+      }`}
+      style={{
+        width: "100%",
+      }}
+      ref={containerRef}
+      data-alignment={currentAlign}
+      data-width={currentWidth}
+    >
+      <div className="note-image-inner">
+        <img
+          src={src}
+          alt={alt || ""}
+          title={title || ""}
+          className="note-image-element"
+          loading="lazy"
+          draggable={false}
+        />
+
+        <div
+          className="note-image-toolbar"
+          role="toolbar"
+          aria-label="Image formatting"
+          contentEditable={false}
+        >
+          <div className="note-image-size-group">
+            {presets.map((p) => (
+              <button
+                key={p.value}
+                type="button"
+                className={`note-image-btn ${
+                  currentWidth === p.value ? "is-active" : ""
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  updateAttributes({ width: p.value });
+                }}
+                title={`Set width to ${p.label}`}
+                aria-label={`Width ${p.label}`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="note-image-divider" />
+
+          <div className="note-image-align-group">
+            <button
+              type="button"
+              className={`note-image-btn note-image-icon-btn ${
+                currentAlign === "left" ? "is-active" : ""
+              }`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                updateAttributes({ alignment: "left" });
+              }}
+              title="Align Left (text wraps on right)"
+              aria-label="Align Left"
+            >
+              <AlignLeft size={14} />
+            </button>
+            <button
+              type="button"
+              className={`note-image-btn note-image-icon-btn ${
+                currentAlign === "center" ? "is-active" : ""
+              }`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                updateAttributes({ alignment: "center" });
+              }}
+              title="Align Center (break text)"
+              aria-label="Align Center"
+            >
+              <AlignCenter size={14} />
+            </button>
+            <button
+              type="button"
+              className={`note-image-btn note-image-icon-btn ${
+                currentAlign === "right" ? "is-active" : ""
+              }`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                updateAttributes({ alignment: "right" });
+              }}
+              title="Align Right (text wraps on left)"
+              aria-label="Align Right"
+            >
+              <AlignRight size={14} />
+            </button>
+          </div>
+
+          <div className="note-image-divider" />
+
+          <button
+            type="button"
+            className="note-image-btn note-image-delete-btn"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              deleteNode();
+            }}
+            title="Delete photo"
+            aria-label="Delete photo"
+          >
+            <Trash2 size={14} />
+          </button>
+        </div>
+
+        <div
+          className={`note-image-resize-handle ${
+            currentAlign === "right" ? "is-left" : "is-right"
+          }`}
+          onPointerDown={handlePointerDown}
+          title="Drag to resize photo"
+          aria-label="Drag to resize photo"
+          contentEditable={false}
+        />
+      </div>
+    </NodeViewWrapper>
+  );
+}
+
+export const NoteImage = Node.create({
+  name: "image",
+  group: "block",
+  atom: true,
+  draggable: true,
+  selectable: true,
+  inline: false,
+
+  addAttributes() {
+    return {
+      src: {
+        default: null,
+      },
+      alt: {
+        default: null,
+      },
+      title: {
+        default: null,
+      },
+      width: {
+        default: "100%",
+      },
+      alignment: {
+        default: "center",
+      },
+    };
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: "img[src]",
+        getAttrs: (element) => {
+          if (typeof element === "string") return {};
+          return {
+            src: element.getAttribute("src"),
+            alt: element.getAttribute("alt"),
+            title: element.getAttribute("title"),
+            width: element.getAttribute("data-width") || element.style.width || "100%",
+            alignment: element.getAttribute("data-alignment") || "center",
+          };
+        },
+      },
+    ];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ["img", mergeAttributes(HTMLAttributes)];
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(NoteImageView, {
+      attrs: ({ node }) => {
+        const alignment = (node.attrs.alignment as string) || "center";
+        const width = (node.attrs.width as string) || "100%";
+        return {
+          class: `node-image note-image-wrapper note-image-align-${alignment}`,
+          style: `width: ${width};`,
+          "data-alignment": alignment,
+          "data-width": width,
+        };
+      },
+    });
+  },
+
+  addCommands() {
+    return {
+      setImage:
+        (options) =>
+        ({ commands }) => {
+          return commands.insertContent({
+            type: this.name,
+            attrs: options,
+          });
+        },
+    };
+  },
+});
+
 const DocumentLimit = Extension.create<{ onLimit: (message: string) => void }>({
   name: "notesDocumentLimit",
   addOptions() {
@@ -83,6 +391,7 @@ export function NotesRichEditor({
       }),
       TaskList,
       TaskItem.configure({ nested: true }),
+      NoteImage,
       DocumentLimit.configure({ onLimit: onError }),
     ],
     content,
@@ -92,6 +401,55 @@ export function NotesRichEditor({
         "aria-label": "Note content",
         "aria-multiline": "true",
         spellcheck: "true",
+      },
+      handlePaste: (_view, event) => {
+        const items = event.clipboardData?.items;
+        if (!items || items.length === 0) return false;
+        const imageFiles: File[] = [];
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          if (item.type.startsWith("image/")) {
+            const file = item.getAsFile();
+            if (file) imageFiles.push(file);
+          }
+        }
+        if (imageFiles.length === 0) return false;
+        event.preventDefault();
+        (async () => {
+          for (const file of imageFiles) {
+            try {
+              const { src, alt } = await processImageFile(file);
+              editor?.chain().focus().setImage({ src, alt }).run();
+            } catch (err) {
+              onError(err instanceof Error ? err.message : "Failed to paste photo.");
+            }
+          }
+        })();
+        return true;
+      },
+      handleDrop: (view, event, _slice, moved) => {
+        if (moved) return false;
+        const files = event.dataTransfer?.files;
+        if (!files || files.length === 0) return false;
+        const imageFiles = Array.from(files).filter((file) => file.type.startsWith("image/"));
+        if (imageFiles.length === 0) return false;
+        event.preventDefault();
+        const coords = view.posAtCoords({ left: event.clientX, top: event.clientY });
+        (async () => {
+          for (const file of imageFiles) {
+            try {
+              const { src, alt } = await processImageFile(file);
+              if (coords) {
+                editor?.chain().setTextSelection(coords.pos).setImage({ src, alt }).run();
+              } else {
+                editor?.chain().focus().setImage({ src, alt }).run();
+              }
+            } catch (err) {
+              onError(err instanceof Error ? err.message : "Failed to insert dropped photo.");
+            }
+          }
+        })();
+        return true;
       },
     },
     onUpdate: ({ editor: instance }) => {
@@ -115,16 +473,23 @@ export function NotesRichEditor({
     );
   return (
     <div className="notes-rich-editor">
-      <NotesFormattingToolbar editor={editor} />
+      <NotesFormattingToolbar editor={editor} onError={onError} />
       <EditorContent editor={editor} className="notes-rich-content" />
       <p className="notes-format-hint">
-        Tip: select text to format it, or start a list with <kbd>-</kbd> and a space.
+        Tip: select text to format it, insert photos, or start a list with <kbd>-</kbd> and a space.
       </p>
     </div>
   );
 }
 
-function NotesFormattingToolbar({ editor }: { editor: Editor }) {
+function NotesFormattingToolbar({
+  editor,
+  onError,
+}: {
+  editor: Editor;
+  onError: (message: string) => void;
+}) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const modifier = useShortcutModifier();
   const state = useEditorState({
     editor,
@@ -225,6 +590,34 @@ function NotesFormattingToolbar({ editor }: { editor: Editor }) {
       >
         <Quote size={16} />
       </NotesIconButton>
+      <NotesIconButton
+        label="Insert photo"
+        onClick={() => fileInputRef.current?.click()}
+      >
+        <ImageIcon size={16} />
+      </NotesIconButton>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        style={{ display: "none" }}
+        aria-hidden="true"
+        tabIndex={-1}
+        onChange={async (event) => {
+          const files = event.target.files;
+          if (!files || files.length === 0) return;
+          for (const file of Array.from(files)) {
+            try {
+              const { src, alt } = await processImageFile(file);
+              editor.chain().focus().setImage({ src, alt }).run();
+            } catch (err) {
+              onError(err instanceof Error ? err.message : "Failed to insert photo.");
+            }
+          }
+          event.target.value = "";
+        }}
+      />
       <span className="notes-format-divider" />
       <NotesIconButton
         label="Inline code"
