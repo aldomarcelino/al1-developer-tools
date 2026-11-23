@@ -583,7 +583,7 @@ export function CodeToImageWorkspace() {
 
           {/* Sub-toolbar row: Background Swatches & Templates */}
           <div className={styles.templatesBar}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginRight: 8 }}>
+            <div className={styles.backgroundSection}>
               <Palette size={14} />
               <span>Background:</span>
               <div className={styles.swatchesRow} role="radiogroup" aria-label="Background preset">
@@ -658,7 +658,7 @@ export function CodeToImageWorkspace() {
               </div>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: "auto", flexWrap: "wrap" }}>
+            <div className={styles.templatesGroup}>
               <span>Templates:</span>
               {Object.entries(CODE_TEMPLATES).map(([key, tmpl]) => (
                 <button
@@ -850,7 +850,7 @@ export function CodeToImageWorkspace() {
             </kbd>{" "}
             for indentation. Auto new line breaks long lines smoothly.
           </span>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div className={styles.footerControlsGroup}>
             <span>
               Resolution:
               {([1, 2, 3] as const).map((s) => (

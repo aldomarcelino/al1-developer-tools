@@ -232,11 +232,27 @@
 .templatesBar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   padding-top: 10px;
   border-top: 1px solid var(--border);
   font-size: 12px;
   color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.backgroundSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.templatesGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
   flex-wrap: wrap;
 }
 
@@ -472,7 +488,7 @@
 .windowCard {
   position: relative;
   width: 100%;
-  min-width: 380px;
+  min-width: 260px;
   max-width: 860px;
   display: flex;
   flex-direction: column;
@@ -694,4 +710,269 @@
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.footerControlsGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints (Tablet & Mobile Optimization)
+   ========================================================================== */
+
+/* Tablet & Smaller Laptops (<= 1024px) */
+@media (max-width: 1024px) {
+  .canvasWorkspace {
+    padding: 20px 16px;
+    min-height: 460px;
+  }
+}
+
+/* Tablet Portrait & Small Tablets (<= 850px) */
+@media (max-width: 850px) {
+  .container {
+    gap: 16px;
+  }
+
+  .toolbarContainer {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .toolbarRow {
+    gap: 10px;
+  }
+
+  .controlsGroup {
+    width: 100%;
+  }
+
+  .controlsGroupRight {
+    width: 100%;
+  }
+
+  .templatesGroup {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .canvasWorkspace {
+    padding: 16px 12px;
+    min-height: 400px;
+  }
+
+  .windowCard {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+/* Mobile Devices (<= 640px) */
+@media (max-width: 640px) {
+  .container {
+    gap: 12px;
+  }
+
+  .toolbarContainer {
+    padding: 12px 10px;
+    border-radius: 14px;
+    gap: 10px;
+  }
+
+  .toolbarRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .controlsGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .controlsGroup .controlItem {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 130px;
+  }
+
+  .controlsGroup .controlItem:nth-child(3),
+  .controlsGroup .controlItem:nth-child(4) {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+
+  .controlsGroupRight {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .controlsGroupRight .iconToggleBtn {
+    flex: 1 1 calc(50% - 6px);
+    justify-content: center;
+    height: 32px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  .controlsGroupRight .controlItem {
+    flex: 1 1 100%;
+  }
+
+  .controlsGroupRight .controlItem > div {
+    width: 100%;
+  }
+
+  .actionsRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .actionsRow > .controlItem {
+    flex: 1 1 120px;
+    min-width: 110px;
+  }
+
+  .actionButtonsCluster {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+  }
+
+  .downloadDropdownWrapper {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .downloadMenu {
+    width: min(280px, calc(100vw - 24px));
+    right: 0;
+  }
+
+  .backgroundSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .swatchesRow {
+    gap: 6px;
+    width: 100%;
+  }
+
+  .swatchButton {
+    width: 26px;
+    height: 26px;
+  }
+
+  .templatesGroup {
+    margin-left: 0;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    gap: 5px;
+  }
+
+  .templatePill {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .canvasWorkspace {
+    padding: 12px 6px;
+    border-radius: 14px;
+    min-height: 320px;
+  }
+
+  .windowCard {
+    min-width: 0 !important;
+    width: 100% !important;
+    border-radius: 10px !important;
+  }
+
+  .windowHeader {
+    height: 34px;
+    padding: 0 10px;
+  }
+
+  .windowTitleInput {
+    max-width: 130px;
+    font-size: 11px;
+  }
+
+  .syntaxPre,
+  .interactiveTextarea {
+    padding: 12px 14px;
+  }
+
+  .canvasFooterHelp {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    font-size: 11px;
+    padding: 4px;
+  }
+
+  .footerControlsGroup {
+    justify-content: center;
+    width: 100%;
+    gap: 8px;
+  }
+}
+
+/* Small Mobile Screens (<= 420px) */
+@media (max-width: 420px) {
+  .controlsGroup .controlItem {
+    flex: 1 1 100%;
+  }
+
+  .actionsRow > .controlItem {
+    flex: 1 1 100%;
+  }
+
+  .actionsRow > .controlItem > div {
+    width: 100%;
+  }
+
+  .actionButtonsCluster {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .actionButtonsCluster > button:nth-child(2) {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .downloadDropdownWrapper {
+    flex: 1 1 auto;
+  }
+
+  .downloadDropdownWrapper button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .windowTitleInput {
+    max-width: 100px;
+  }
 }
