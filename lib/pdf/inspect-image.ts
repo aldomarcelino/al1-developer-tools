@@ -12,7 +12,7 @@ export function inspectImage(bytes: Uint8Array): {
   if (
     bytes.length >= 24 &&
     [137, 80, 78, 71, 13, 10, 26, 10].every((n, i) => bytes[i] === n) &&
-    String.fromCharCode(...bytes.slice(12, 16)) === "IHDR"
+    new TextDecoder().decode(bytes.subarray(12, 16)) === "IHDR"
   ) {
     format = "png";
     width = view.getUint32(16);

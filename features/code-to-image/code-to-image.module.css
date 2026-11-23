@@ -1,0 +1,697 @@
+/* features/code-to-image/code-to-image.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   Toolbar (Ray.so style floating / sticky control bar)
+   ========================================================================== */
+.toolbarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.toolbarRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+
+.controlsGroup {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.controlsGroupRight {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.controlItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.controlItem label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.selectInput {
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.selectInput:focus,
+.selectInput:hover {
+  border-color: var(--green);
+}
+
+.segmentedGroup {
+  display: inline-flex;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.segmentedBtn {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.segmentedBtn:hover {
+  color: var(--text);
+}
+
+.segmentedBtnActive {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.iconToggleBtn {
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.iconToggleBtn:hover {
+  border-color: var(--green);
+  color: var(--text);
+}
+
+.iconToggleBtnActive {
+  background: color-mix(in srgb, var(--green) 12%, var(--surface));
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* Background Color Swatches */
+.swatchesRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.swatchButton {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  padding: 0;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swatchButton:hover {
+  transform: scale(1.18);
+}
+
+.swatchButtonActive {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--green) !important;
+  transform: scale(1.14);
+}
+
+/* Transparent / No-BG Swatch */
+.swatchTransparent {
+  background:
+    linear-gradient(45deg, #cbd5e1 25%, transparent 25%),
+    linear-gradient(-45deg, #cbd5e1 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #cbd5e1 75%),
+    linear-gradient(-45deg, transparent 75%, #cbd5e1 75%),
+    #ffffff !important;
+  background-size: 8px 8px !important;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0px !important;
+  border: 1px solid var(--border) !important;
+}
+
+.swatchTransparentIcon {
+  color: #ef4444;
+  opacity: 0.85;
+}
+
+/* Custom Color Swatch */
+.swatchCustom {
+  position: relative;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.swatchCustomIcon {
+  color: #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.65));
+  pointer-events: none;
+}
+
+.swatchCheck {
+  color: #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.75));
+  pointer-events: none;
+}
+
+.swatchCheckDark {
+  color: #0e363c;
+  filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.9));
+  pointer-events: none;
+}
+
+.customColorInput {
+  position: absolute;
+  inset: -6px;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+}
+
+/* Template buttons bar */
+.templatesBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.templatePill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.templatePill:hover {
+  background: color-mix(in srgb, var(--green) 14%, var(--soft));
+  border-color: var(--green);
+}
+
+/* Action Buttons & Shadow Toolbar Row */
+.actionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.actionButtonsCluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.actionButtonGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+/* Download Dropdown */
+.downloadDropdownWrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.downloadMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 260px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+  padding: 6px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.downloadMenuItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s ease;
+  width: 100%;
+}
+
+.downloadMenuItem:hover {
+  background: var(--soft);
+}
+
+.downloadMenuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.downloadMenuTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.downloadMenuDesc {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.resolutionRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.resPill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.resPill:hover {
+  color: var(--text);
+  border-color: var(--green);
+}
+
+.resPillActive {
+  background: var(--green) !important;
+  color: #ffffff !important;
+  border-color: var(--green) !important;
+}
+
+.primaryCopyBtn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--green);
+  color: #ffffff;
+  border: 1px solid var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--green) 30%, transparent);
+}
+
+.primaryCopyBtn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.primaryCopyBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.secondaryBtn {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.secondaryBtn:hover:not(:disabled) {
+  background: var(--soft);
+  border-color: var(--green);
+}
+
+.secondaryBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Centerpiece Canvas Area (Ray.so style)
+   ========================================================================== */
+.canvasWorkspace {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--border) 60%, transparent) 1px, transparent 1px) 0 0 / 20px 20px,
+    var(--bg);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  min-height: 520px;
+  overflow-x: auto;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+/* The outer exportable background card */
+.exportCardWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  transition: padding 0.2s ease, background 0.25s ease;
+  box-sizing: border-box;
+}
+
+.exportCardTransparent {
+  background:
+    linear-gradient(45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.05) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.05) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+/* The Window Card inside the background */
+.windowCard {
+  position: relative;
+  width: 100%;
+  min-width: 380px;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease, border-radius 0.2s ease;
+}
+
+/* Window Shadows */
+.shadowNone {
+  box-shadow: none;
+}
+
+.shadowSoft {
+  box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.25);
+}
+
+.shadowMedium {
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.shadowDramatic {
+  box-shadow: 0 35px 80px -15px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.shadowGlow {
+  box-shadow: 0 0 45px rgba(99, 102, 241, 0.4), 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Window Header */
+.windowHeader {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid transparent;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* macOS Traffic Lights */
+.macosButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.macDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.macClose {
+  background: #ff5f56;
+}
+
+.macMin {
+  background: #ffbd2e;
+}
+
+.macMax {
+  background: #27c93f;
+}
+
+/* Windows Controls */
+.windowsButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* Minimal Dots */
+.minimalButtons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.minimalDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+/* Editable Title Input directly in Window Header */
+.windowTitleInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  max-width: 260px;
+  width: auto;
+  transition: background 0.15s ease;
+  font-family: var(--font-code), "JetBrains Mono", monospace;
+}
+
+.windowTitleInput:hover,
+.windowTitleInput:focus {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Window Body: Line Numbers + Code Editor */
+.windowBody {
+  display: flex;
+  position: relative;
+  min-height: 120px;
+  box-sizing: border-box;
+}
+
+/* The Overlay Code Editor Area */
+.codeEditorWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Syntax highlighted layer */
+.syntaxPre {
+  position: relative;
+  margin: 0;
+  padding: 16px 20px;
+  pointer-events: none;
+  font-family: var(--font-code), "JetBrains Mono", monospace;
+  line-height: 1.6;
+  tab-size: 2;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+/* Wrapping vs non-wrapping modifiers */
+.preWrapped {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.preNoWrap {
+  white-space: pre;
+  word-wrap: normal;
+  overflow-x: auto;
+}
+
+/* Each line row */
+.codeLine {
+  display: flex;
+  align-items: flex-start;
+  min-height: 1.6em;
+}
+
+/* Line number gutter inside line row */
+.lineNumGutter {
+  width: 38px;
+  flex-shrink: 0;
+  text-align: right;
+  padding-right: 16px;
+  user-select: none;
+  opacity: 0.45;
+  line-height: 1.6;
+  font-family: var(--font-code), "JetBrains Mono", monospace;
+}
+
+/* Code content inside line row */
+.lineContent {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.6;
+  font-family: var(--font-code), "JetBrains Mono", monospace;
+}
+
+/* Transparent interactive textarea aligned exactly over the highlighted layer */
+.interactiveTextarea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 16px 20px;
+  color: transparent;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: var(--font-code), "JetBrains Mono", monospace;
+  line-height: 1.6;
+  tab-size: 2;
+  box-sizing: border-box;
+  cursor: text;
+}
+
+.interactiveTextarea::selection {
+  background: rgba(140, 180, 255, 0.3);
+}
+
+/* Footer / Help note */
+.canvasFooterHelp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 4px 6px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.canvasFooterHelp span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

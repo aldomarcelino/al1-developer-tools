@@ -61,7 +61,8 @@ export type ToolIcon =
   | "pdfmarkdown"
   | "pdfeditor"
   | "calculator"
-  | "markdownpdf";
+  | "markdownpdf"
+  | "codeimage";
 
 export type Tool = {
   slug: string;

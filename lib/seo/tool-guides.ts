@@ -476,4 +476,16 @@ export const toolGuides = {
       "A clean, professional PDF document ready for printing, sharing, or archiving with zero server uploads.",
     related: ["pdf-to-markdown", "markdown-editor", "word-to-pdf", "pdf-editor"],
   },
+  "code-to-image": {
+    steps: [
+      "Paste your code snippet or type directly into the editor and choose a programming language.",
+      "Customize the theme, gradient background, padding, window frame, and line numbers.",
+      "Copy the image directly to your clipboard or download high-resolution PNG, WebP, or SVG.",
+    ],
+    example:
+      "Turn a TypeScript function or React component into an eye-catching card ready for Twitter, LinkedIn, or documentation.",
+    result:
+      "A high-resolution, pixel-perfect code snapshot image with beautiful syntax highlighting, elegant drop shadows, and window borders.",
+    related: ["diff-viewer", "curl-to-code", "json-to-typescript"],
+  },
 } as const satisfies Record<ToolSlug, ToolGuide>;

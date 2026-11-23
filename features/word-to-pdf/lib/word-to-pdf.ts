@@ -308,7 +308,7 @@ export async function renderWordDocumentToElement(
   container: HTMLElement
 ): Promise<void> {
   const bytes = new Uint8Array(buffer);
-  container.innerHTML = "";
+  container.replaceChildren();
 
   // If file is a ZIP archive (DOCX format)
   if (isZipDocument(bytes)) {

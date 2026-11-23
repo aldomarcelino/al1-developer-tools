@@ -15,11 +15,16 @@ const categoryOptions = categories.map((category) => ({
   label: `${category} (${category === "All tools" ? availableTools.length : availableTools.filter((tool) => tool.category === category).length})`,
 }));
 
+const PAGE_SIZE = 12;
+
 export function ToolDiscovery() {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebouncedValue(query);
   const [category, setCategory] = useState("All tools");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const input = useRef<HTMLInputElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -30,12 +35,40 @@ export function ToolDiscovery() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
+
+  // Reset pagination whenever category or query changes
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [category, debouncedQuery]);
+
   const filtered = useMemo(
     () => searchTools(tools, debouncedQuery, category),
     [category, debouncedQuery]
   );
   const activeToolCount = availableTools.length;
   const visibleTools = filtered.filter((tool) => tool.status === "available");
+  const displayedTools = visibleTools.slice(0, visibleCount);
+
+  // Infinite scroll observer: smoothly loads next 12 items as user nears bottom
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+    if (visibleCount >= visibleTools.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, visibleTools.length));
+        }
+      },
+      { rootMargin: "250px" }
+    );
+
+    const target = sentinelRef.current;
+    if (target) observer.observe(target);
+    return () => {
+      if (target) observer.unobserve(target);
+    };
+  }, [visibleCount, visibleTools.length]);
   return (
     <section id="tools" className="tool-discovery">
       <div className="page-width">
@@ -104,10 +137,25 @@ export function ToolDiscovery() {
         </div>
         <div className="tool-grid-wrapper">
           <div className="tool-grid">
-            {visibleTools.map((t) => (
+            {displayedTools.map((t) => (
               <ToolCard key={t.slug} tool={t} />
             ))}
           </div>
+          {visibleCount < visibleTools.length && (
+            <div ref={sentinelRef} className="infinite-scroll-sentinel">
+              <button
+                type="button"
+                className="load-more-btn"
+                onClick={() => setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, visibleTools.length))}
+                aria-label="Load more tools"
+              >
+                <span>Load more tools</span>
+                <span className="load-more-count">
+                  ({visibleTools.length - visibleCount} more)
+                </span>
+              </button>
+            </div>
+          )}
           {filtered.some((t) => t.slug === "webhook-inspector") && (
             <Link href="/tools/webhook-inspector" className="webhook-feature">
               <div className="feature-icon">
@@ -163,7 +211,9 @@ export function ToolDiscovery() {
           )}
         </div>
         <p className="phase-note">
-          {activeToolCount} tools are ready to use. Webhook Inspector is in the works.
+          {displayedTools.length < visibleTools.length
+            ? `Showing ${displayedTools.length} of ${visibleTools.length} tools. Scroll down for more.`
+            : `${activeToolCount} tools are ready to use. Webhook Inspector is in the works.`}
         </p>
       </div>
     </section>

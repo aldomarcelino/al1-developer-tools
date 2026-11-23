@@ -107,8 +107,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     } catch {
       /* Storage may be disabled. */
     }
-    setDark(stored === "dark");
-    document.documentElement.dataset.theme = stored === "dark" ? "dark" : "light";
+    const isDark = stored === "dark";
+    setDark(isDark);
+    const mode = isDark ? "dark" : "light";
+    document.documentElement.dataset.theme = mode;
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+    if (meta) {
+      meta.content = mode;
+    } else {
+      const newMeta = document.createElement("meta");
+      newMeta.name = "color-scheme";
+      newMeta.content = mode;
+      document.head.appendChild(newMeta);
+    }
   }, []);
 
   useEffect(() => {
@@ -221,9 +232,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const theme = () => {
     const next = !dark;
     setDark(next);
-    document.documentElement.dataset.theme = next ? "dark" : "light";
+    const mode = next ? "dark" : "light";
+    document.documentElement.dataset.theme = mode;
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+    if (meta) {
+      meta.content = mode;
+    } else {
+      const newMeta = document.createElement("meta");
+      newMeta.name = "color-scheme";
+      newMeta.content = mode;
+      document.head.appendChild(newMeta);
+    }
     try {
-      localStorage.setItem("al1-theme", next ? "dark" : "light");
+      localStorage.setItem("al1-theme", mode);
     } catch {
       /* Storage may be disabled. */
     }

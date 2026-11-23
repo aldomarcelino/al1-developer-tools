@@ -28,11 +28,11 @@ export function startCameraSource(
     lastSent = 0,
     pendingSince = 0,
     delivery = 0;
-  let resolveReady: () => void, rejectReady: (error: Error) => void;
-  const ready = new Promise<void>((resolve, reject) => {
-    resolveReady = resolve;
-    rejectReady = reject;
-  });
+  const {
+    promise: ready,
+    resolve: resolveReady,
+    reject: rejectReady,
+  } = Promise.withResolvers<void>();
   const fail = (message: string) => {
     if (stopped) return;
     stopped = true;

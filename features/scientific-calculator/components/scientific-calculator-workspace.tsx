@@ -9,8 +9,11 @@ import {
   History,
   Delete,
   Divide,
-  Clock,
   X,
+  Minus,
+  Plus,
+  Equal,
+  Clock,
 } from "lucide-react";
 import { ToolHeader } from "@/components/cummon/tool-header";
 import { useSnackbar } from "@/hooks/use-snackbar";
@@ -354,6 +357,7 @@ export function ScientificCalculatorWorkspace() {
   // Keyboard navigation & math typing guard
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === "=") {
+      if (e.nativeEvent.isComposing || e.keyCode === 229) return;
       e.preventDefault();
       handleCalculate();
       return;
@@ -759,7 +763,7 @@ export function ScientificCalculatorWorkspace() {
               onClick={() => insertText("*")}
               aria-label="Multiply"
             >
-              ×
+              <X size={20} strokeWidth={2.25} aria-hidden="true" />
             </button>
 
             {/* Row 4 */}
@@ -798,7 +802,7 @@ export function ScientificCalculatorWorkspace() {
               onClick={() => insertText("-")}
               aria-label="Subtract"
             >
-              −
+              <Minus size={20} strokeWidth={2.25} aria-hidden="true" />
             </button>
 
             {/* Row 5 */}
@@ -837,7 +841,7 @@ export function ScientificCalculatorWorkspace() {
               onClick={() => insertText("+")}
               aria-label="Add"
             >
-              +
+              <Plus size={20} strokeWidth={2.25} aria-hidden="true" />
             </button>
 
             {/* Row 6 */}
@@ -919,7 +923,7 @@ export function ScientificCalculatorWorkspace() {
               onClick={handleCalculate}
               aria-label="Equals calculate"
             >
-              =
+              <Equal size={20} strokeWidth={2.25} aria-hidden="true" />
             </button>
           </div>
           <div className={styles.shortcutBar} id="calculator-shortcuts">

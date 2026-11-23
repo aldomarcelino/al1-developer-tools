@@ -62,6 +62,10 @@ test("batch outputs are unique even when inputs have identical stems or case", (
     outputFileName("animation.gif", "image/gif", used),
     "animation-compressed.gif"
   );
+  assert.equal(
+    outputFileName("visual.png", "image/jxl", used),
+    "visual-compressed.jxl"
+  );
 });
 
 test("defaultFormatForFilename defaults to webp, but gif when extension or mime is gif", () => {

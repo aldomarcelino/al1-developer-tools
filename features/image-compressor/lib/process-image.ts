@@ -33,7 +33,7 @@ async function decodeImage(
 export async function readImage(file: File): Promise<ImageSource> {
   if (
     !file.type.startsWith("image/") &&
-    !/\.(jpe?g|png|webp|avif|bmp|gif|svg)$/i.test(file.name)
+    !/\.(jpe?g|png|webp|avif|bmp|gif|svg|jxl)$/i.test(file.name)
   )
     throw new Error("Unsupported file. Choose an image.");
   if (!file.size) throw new Error("This file is empty.");
@@ -62,6 +62,31 @@ export async function convertImage(
   width: number,
   height: number
 ): Promise<Omit<ImageResult, "name" | "url">> {
+  if (format === "image/jxl") {
+    const decoded = await decodeImage(source.file, source.url);
+    const canvas = document.createElement("canvas");
+    try {
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Canvas could not be initialized.");
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = "high";
+      context.drawImage(decoded, 0, 0, width, height);
+      const imageData = context.getImageData(0, 0, width, height);
+      const { encodeImageToJxlAsync } = await import("./jxl.ts");
+      const blob = await encodeImageToJxlAsync(imageData, {
+        quality,
+        lossless: quality >= 100,
+      });
+      return { blob, width, height, format: "image/jxl" };
+    } finally {
+      if ("close" in decoded) decoded.close();
+      canvas.width = 0;
+      canvas.height = 0;
+    }
+  }
+
   if (format === "image/gif") {
     const isSourceGif =
       source.file.type === "image/gif" || /\.gif$/i.test(source.file.name);

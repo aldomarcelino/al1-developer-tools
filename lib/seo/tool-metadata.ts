@@ -270,5 +270,11 @@ export const toolSeo = {
       "Convert Markdown documents to high-quality PDF files directly in your browser. Choose paper size, margins, and professional themes with instant live preview and zero server uploads.",
     note: "Write or paste Markdown or upload a .md file to convert it into a formatted PDF document. Supports GitHub Flavored Markdown including tables, code blocks, checklists, and callout alerts. Customize paper sizes (A4, Letter, Legal), margins, and themes (Modern, GitHub, Academic, Minimal). All conversion runs 100% locally on your machine.",
   },
+  "code-to-image": {
+    title: "Code to Image - Create Beautiful Code Screenshots Online",
+    description:
+      "Convert code snippets into beautiful images for social media, blogs, and presentations. Choose themes, syntax highlighting, gradients, window frames, and export high-res PNG or SVG locally.",
+    note: "Paste or write code in JavaScript, TypeScript, Python, HTML, CSS, SQL, Rust, Go, and more. Choose themes like One Dark, Dracula, Night Owl, or GitHub Light. Adjust gradient backgrounds, padding, window controls, and aspect ratios (Twitter, LinkedIn, Instagram). Export crisp 2x PNG, WebP, or SVG directly without uploading your code.",
+  },
 } as const;
 export type ToolSlug = keyof typeof toolSeo;

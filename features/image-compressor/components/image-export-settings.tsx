@@ -84,11 +84,13 @@ export function ImageExportSettings({
               <span style={{ fontSize: "11px", color: "var(--muted)" }}>
                 {format === "image/webp"
                   ? "Recommended"
-                  : format === "image/png"
-                    ? "Lossless"
-                    : format === "image/gif"
-                      ? "Animated / Indexed"
-                      : "Photo"}
+                  : format === "image/jxl"
+                    ? "Next-Gen"
+                    : format === "image/png"
+                      ? "Lossless"
+                      : format === "image/gif"
+                        ? "Animated / Indexed"
+                        : "Photo"}
               </span>
             </div>
 
@@ -114,6 +116,11 @@ export function ImageExportSettings({
                   title: "Lossless with transparency",
                 },
                 {
+                  value: "image/jxl",
+                  label: "JXL",
+                  title: "Next-gen JPEG XL with superior compression",
+                },
+                {
                   value: "image/gif",
                   label: "GIF",
                   title: "Animated or static GIF",
@@ -123,11 +130,13 @@ export function ImageExportSettings({
             <p className="compressor-control-help">
               {format === "image/webp"
                 ? "Small files, with transparency support."
-                : format === "image/png"
-                  ? "Preserves detail and transparency. May be larger."
-                  : format === "image/gif"
-                    ? "Preserves animation and transparency with indexed color palette."
-                    : "Great for photos. Transparency becomes white."}
+                : format === "image/jxl"
+                  ? "Next-gen JPEG XL. Ultra-efficient compression with high visual fidelity."
+                  : format === "image/png"
+                    ? "Preserves detail and transparency. May be larger."
+                    : format === "image/gif"
+                      ? "Preserves animation and transparency with indexed color palette."
+                      : "Great for photos. Transparency becomes white."}
             </p>
           </div>
 

@@ -35,6 +35,10 @@ import {
   Redo2,
   RemoveFormatting,
   Minus,
+  Maximize2,
+  Download,
+  RefreshCw,
+  X,
 } from "lucide-react";
 import { CustomSelect } from "@/components/ui/custom-select";
 import { NotesIconButton } from "./notes-icon-button";
@@ -81,7 +85,10 @@ export function NoteImageView({
     alignment?: string | null;
   };
   const [isResizing, setIsResizing] = useState(false);
+  const [showLightbox, setShowLightbox] = useState(false);
+  const [caption, setCaption] = useState(alt || "");
   const containerRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const startXRef = useRef(0);
   const startWidthRef = useRef(0);
 
@@ -93,7 +100,7 @@ export function NoteImageView({
   ];
 
   const handlePointerDown = useCallback(
-    (e: React.PointerEvent) => {
+    (direction: "left" | "right") => (e: React.PointerEvent) => {
       e.preventDefault();
       e.stopPropagation();
       setIsResizing(true);
@@ -107,12 +114,12 @@ export function NoteImageView({
 
       const handlePointerMove = (moveEvent: PointerEvent) => {
         const deltaX =
-          alignment === "right"
+          direction === "left"
             ? startXRef.current - moveEvent.clientX
             : moveEvent.clientX - startXRef.current;
-        const newWidthPx = Math.max(120, Math.min(parentWidth, startWidthRef.current + deltaX));
+        const newWidthPx = Math.max(100, Math.min(parentWidth, startWidthRef.current + deltaX));
         const percentage = Math.round((newWidthPx / parentWidth) * 100);
-        const clamped = Math.max(20, Math.min(100, percentage));
+        const clamped = Math.max(15, Math.min(100, percentage));
         updateAttributes({ width: `${clamped}%` });
       };
 
@@ -125,8 +132,34 @@ export function NoteImageView({
       window.addEventListener("pointermove", handlePointerMove);
       window.addEventListener("pointerup", handlePointerUp);
     },
-    [alignment, updateAttributes]
+    [updateAttributes]
   );
+
+  const handleDownload = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const a = document.createElement("a");
+    a.href = src;
+    const extMatch = src.match(/data:image\/([a-zA-Z0-9+]+);/);
+    const ext = extMatch ? (extMatch[1] === "jpeg" ? "jpg" : extMatch[1]) : "png";
+    a.download = `${alt ? alt.replace(/[^\w-]/g, "_") : "note-image"}.${ext}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const handleReplace = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const { src: newSrc } = await processImageFile(file);
+      updateAttributes({ src: newSrc });
+    } catch (err) {
+      console.error("Failed to replace image:", err);
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
 
   const currentAlign = alignment || "center";
   const currentWidth = width || "100%";
@@ -138,7 +171,8 @@ export function NoteImageView({
         selected || isResizing ? "is-selected" : ""
       }`}
       style={{
-        width: "100%",
+        width: currentWidth,
+        maxWidth: "100%",
       }}
       ref={containerRef}
       data-alignment={currentAlign}
@@ -152,7 +186,14 @@ export function NoteImageView({
           className="note-image-element"
           loading="lazy"
           draggable={false}
+          onDoubleClick={() => setShowLightbox(true)}
         />
+
+        {isResizing && (
+          <div className="note-image-size-badge" aria-live="polite">
+            {currentWidth}
+          </div>
+        )}
 
         <div
           className="note-image-toolbar"
@@ -235,7 +276,47 @@ export function NoteImageView({
 
           <button
             type="button"
-            className="note-image-btn note-image-delete-btn"
+            className="note-image-btn note-image-icon-btn"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowLightbox(true);
+            }}
+            title="View full size"
+            aria-label="View full size"
+          >
+            <Maximize2 size={13} />
+          </button>
+
+          <button
+            type="button"
+            className="note-image-btn note-image-icon-btn"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              fileInputRef.current?.click();
+            }}
+            title="Replace photo"
+            aria-label="Replace photo"
+          >
+            <RefreshCw size={13} />
+          </button>
+
+          <button
+            type="button"
+            className="note-image-btn note-image-icon-btn"
+            onClick={handleDownload}
+            title="Download photo"
+            aria-label="Download photo"
+          >
+            <Download size={13} />
+          </button>
+
+          <div className="note-image-divider" />
+
+          <button
+            type="button"
+            className="note-image-btn note-image-delete-btn note-image-icon-btn"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -249,15 +330,83 @@ export function NoteImageView({
         </div>
 
         <div
-          className={`note-image-resize-handle ${
-            currentAlign === "right" ? "is-left" : "is-right"
-          }`}
-          onPointerDown={handlePointerDown}
+          className="note-image-resize-handle is-left"
+          onPointerDown={handlePointerDown("left")}
           title="Drag to resize photo"
-          aria-label="Drag to resize photo"
+          aria-label="Drag left to resize photo"
           contentEditable={false}
         />
+
+        <div
+          className="note-image-resize-handle is-right"
+          onPointerDown={handlePointerDown("right")}
+          title="Drag to resize photo"
+          aria-label="Drag right to resize photo"
+          contentEditable={false}
+        />
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={handleReplace}
+        />
       </div>
+
+      <div className="note-image-caption-box" contentEditable={false}>
+        <input
+          type="text"
+          className="note-image-caption-input"
+          placeholder="Write a caption..."
+          value={caption}
+          onChange={(e) => {
+            const next = e.target.value;
+            setCaption(next);
+            updateAttributes({ alt: next || null, title: next || null });
+          }}
+          onClick={(e) => e.stopPropagation()}
+        />
+      </div>
+
+      {showLightbox && (
+        <div
+          className="note-image-lightbox"
+          onClick={() => setShowLightbox(false)}
+          contentEditable={false}
+        >
+          <div
+            className="note-image-lightbox-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img src={src} alt={alt || ""} className="note-image-lightbox-img" />
+            <div className="note-image-lightbox-bar">
+              <span className="note-image-lightbox-caption">
+                {caption || "Photo Preview"}
+              </span>
+              <div className="note-image-lightbox-actions">
+                <button
+                  type="button"
+                  className="note-image-lightbox-btn"
+                  onClick={handleDownload}
+                  title="Download image"
+                >
+                  <Download size={15} />
+                  <span>Download</span>
+                </button>
+                <button
+                  type="button"
+                  className="note-image-lightbox-btn note-image-lightbox-close"
+                  onClick={() => setShowLightbox(false)}
+                  title="Close preview"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </NodeViewWrapper>
   );
 }

@@ -131,7 +131,10 @@ export function DatePickerCalendar({
               setFocused(bounded);
             }}
             onKeyDown={(event) => {
-              if (event.key === "Enter") event.currentTarget.blur();
+              if (event.key === "Enter") {
+                if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+                event.currentTarget.blur();
+              }
             }}
           />
         </div>

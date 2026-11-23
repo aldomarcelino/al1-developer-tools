@@ -302,7 +302,7 @@ export function processPageTextItems(
   if (!items.length) return [];
 
   // Group items into lines based on Y coordinate proximity (tolerance: 3.5pt)
-  const sortedItems = [...items].sort((a, b) => {
+  const sortedItems = items.toSorted((a, b) => {
     const yDiff = b.y - a.y; // Y descending (PDF coordinates origin is bottom-left)
     if (Math.abs(yDiff) > 3.5) return yDiff;
     return a.x - b.x; // X ascending

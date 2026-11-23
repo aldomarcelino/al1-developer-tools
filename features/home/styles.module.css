@@ -802,6 +802,43 @@
     opacity: 0;
   }
 }
+:global(.infinite-scroll-sentinel):where(.scope, .scope *) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 0 8px;
+  width: 100%;
+}
+
+:global(.load-more-btn):where(.scope, .scope *) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid #22454b;
+  border-radius: 999px;
+  padding: 10px 24px;
+  color: #a4d881;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+:global(.load-more-btn:hover):where(.scope, .scope *) {
+  background: #1d464d;
+  border-color: #a4d881;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+:global(.load-more-count):where(.scope, .scope *) {
+  font-size: 11px;
+  color: #8da4a6;
+}
+
 :global(.phase-note):where(.scope, .scope *) {
   color: #a2bfc0;
   text-align: center;

@@ -80,7 +80,7 @@
   {
     "slug": "image-compressor",
     "name": "Image Compressor & Converter",
-    "description": "Compress, resize, and convert JPG, PNG, WebP, and GIF on your device.",
+    "description": "Compress, resize, and convert JPG, PNG, WebP, GIF, and JXL on your device.",
     "keywords": [
       "bulk images",
       "batch compression",
@@ -92,6 +92,11 @@
       "jpeg",
       "png",
       "webp",
+      "jxl",
+      "jpeg xl",
+      "convert to jxl",
+      "jxl converter",
+      "compress jxl",
       "gambar",
       "foto",
       "convert image",
@@ -1542,6 +1547,31 @@
     "category": "Text",
     "icon": "lorem",
     "phase": 1,
+    "status": "available"
+  },
+  {
+    "slug": "code-to-image",
+    "name": "Code to Image",
+    "description": "Create beautiful code screenshots for social media, blogs, and presentations with themes, gradients, and custom frames.",
+    "keywords": [
+      "code to image",
+      "code screenshot",
+      "code to png",
+      "code to svg",
+      "carbon alternative",
+      "ray so alternative",
+      "convert code to image",
+      "code snippet image",
+      "code image generator",
+      "share code snippet",
+      "syntax highlight image",
+      "ubah kode jadi gambar",
+      "screenshot code",
+      "code snapshot"
+    ],
+    "category": "Design",
+    "icon": "codeimage",
+    "phase": 2,
     "status": "available"
   },
   {

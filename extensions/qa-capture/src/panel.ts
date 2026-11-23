@@ -34,7 +34,7 @@ function render(session: Session | null) {
     session?.notices.slice(-2).join(" ") ??
     "Open an HTTP(S) application tab, start capture, then reproduce the issue. Start creates a new session; export the previous session first.";
   list.replaceChildren();
-  for (const request of [...(session?.requests ?? [])].reverse().slice(0, 25)) {
+  for (const request of (session?.requests ?? []).toReversed().slice(0, 25)) {
     const row = document.createElement("li");
     row.textContent = `${request.startedAt.slice(11, 23)}  ${request.method}  ${request.response.status || "Failed"}  ${request.response.body.status}  ${request.url}`;
     list.appendChild(row);

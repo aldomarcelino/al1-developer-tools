@@ -37,10 +37,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        <meta name="color-scheme" content="light dark" />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{document.documentElement.dataset.theme=localStorage.getItem('al1-theme')==='dark'?'dark':'light'}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('al1-theme')==='dark'?'dark':'light';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="color-scheme"]');if(m)m.content=t;}catch(e){}})()`,
           }}
         />
       </head>

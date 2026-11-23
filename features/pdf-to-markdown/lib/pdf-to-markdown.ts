@@ -170,7 +170,7 @@ export function convertPdfPageToMarkdown(
   if (!items.length) return "";
 
   // Sort items by Y descending (PDF origin bottom-left), then X ascending
-  const sortedItems = [...items].sort((a, b) => {
+  const sortedItems = items.toSorted((a, b) => {
     const yDiff = b.y - a.y;
     if (Math.abs(yDiff) > 3.5) return yDiff;
     return a.x - b.x;

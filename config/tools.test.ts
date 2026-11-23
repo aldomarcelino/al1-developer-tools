@@ -60,6 +60,8 @@ test("search resolves supported capabilities and aliases", () => {
     ["code diff", "diff-viewer"],
     ["compress gif", "image-compressor"],
     ["gif compressor", "image-compressor"],
+    ["convert to jxl", "image-compressor"],
+    ["jxl converter", "image-compressor"],
     ["excel to json", "csv-json-converter"],
     ["cron job", "cron-builder"],
     ["days between dates", "date-calculator"],
